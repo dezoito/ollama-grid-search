@@ -12,7 +12,7 @@ It is not a polished tool by any means but beats the heck out running experiment
 
 ## Grid Search (or something similar...)
 
-Technically, the term "grid search" refers to iterating over a series of different model hyperparams to optimize **training**.
+Technically, the term "grid search" refers to iterating over a series of different model hyperparams to optimize model performance, but that usually means parameters like `batch_size`, `learning_rate`, or `number_of_epochs`, more commonly used in training.
 
 But the concept here is similar:
 
