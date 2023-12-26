@@ -1,5 +1,0 @@
-- Explain the project in README
-- Document how to modify main.rs
-- Document the response
-- Link repo to article
-- Document how to save experiments
