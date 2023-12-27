@@ -10,6 +10,8 @@ It assumes the user has [Ollama](https://www.ollama.ai) installed and serving en
 
 It is not a polished tool by any means but beats the heck out running experiments manually!
 
+(For a more in-depth look at an evaluation process assisted by this tool, please check https://dezoito.github.io/2023/12/27/rust-ollama-grid-search.html).
+
 ## Grid Search (or something similar...)
 
 Technically, the term "grid search" refers to iterating over a series of different model hyperparams to optimize model performance, but that usually means parameters like `batch_size`, `learning_rate`, or `number_of_epochs`, more commonly used in training.
