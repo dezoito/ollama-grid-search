@@ -123,14 +123,9 @@ fn process_response(json_string: &str) -> (u64, u64) {
 }
 
 fn main() {
-    // --------------------------------------------------------------
-
     // Script settings
     let test_timeout: u64 = 60 * 3;
     let ollama_url: &str = "http://localhost:11434/api/generate";
-
-    let mut total_eval_count = 0;
-    let mut total_processing_time = 0;
 
     // Model options:
     // You can use any model that has been pulled into your Ollama server
@@ -180,6 +175,8 @@ Feynman's legacy extends beyond the academic realm. Known for his playful approa
     println!("---------------------------------------------------------------------");
 
     // iterate over params and build request objects
+    let mut total_eval_count = 0;
+    let mut total_processing_time = 0;
     let mut iter = 0;
     for temperature in &temperature_list {
         for repeat_penalty in &repeat_penalty_list {
