@@ -124,4 +124,4 @@ This software supports the following parameters at the moment:
 
 ## Desktop App version:
 
-Is there any interest in seeing this as a fully functional desktop app?
+I'm interested in building a fully functional desktop application with aditional features. Comments and suggestions are welcome.
