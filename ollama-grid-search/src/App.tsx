@@ -25,13 +25,17 @@ function App() {
           onChange={(e) => setName(e.currentTarget.value)}
           placeholder="Enter a name..."
         />
-        <button type="submit">Greet</button>
+        <Button
+          variant="destructive"
+          className="px-2 py-1 text-xs font-semibold leading-tight "
+          type="submit"
+        >
+          Click me
+        </Button>
       </form>
 
       <p>{greetMsg}</p>
-      <div>
-        <Button variant="secondary">Click me</Button>
-      </div>
+      <div></div>
     </div>
   );
 }
