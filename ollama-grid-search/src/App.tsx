@@ -1,3 +1,4 @@
+import { Button } from "@/components/ui/button";
 import { invoke } from "@tauri-apps/api/tauri";
 import { useState } from "react";
 
@@ -28,6 +29,9 @@ function App() {
       </form>
 
       <p>{greetMsg}</p>
+      <div>
+        <Button variant="secondary">Click me</Button>
+      </div>
     </div>
   );
 }
