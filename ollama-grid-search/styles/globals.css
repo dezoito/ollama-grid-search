@@ -74,6 +74,6 @@
     @apply bg-background text-foreground;
   }
   html {
-    font-family: Geist, system-ui, sans-serif;
+    font-family: "GeistSans", system-ui, sans-serif;
   }
 }

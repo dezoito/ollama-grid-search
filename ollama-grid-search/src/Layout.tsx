@@ -1,5 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { invoke } from "@tauri-apps/api/tauri";
+
 import { useState } from "react";
 import { ModeToggle } from "./components/mode-toggle";
 import { Input } from "./components/ui/input";
@@ -18,7 +19,9 @@ function Layout() {
       {/* nav */}
       <header className="flex h-16 items-center justify-between px-4 md:px-6 bg-slate-950">
         <span className="flex items-center gap-2">
-          <div className=" text-slate-100">Ollama Grid Search</div>
+          <h2 className="text-2xl font-semibold text-slate-400">
+            Ollama Grid Search
+          </h2>
         </span>
         <nav className="hidden md:flex gap-6">
           <ModeToggle />
