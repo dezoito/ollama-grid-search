@@ -1,4 +1,3 @@
-// import { Moon, Sun } from "lucide-react";
 import { MoonIcon, SunIcon } from "@radix-ui/react-icons";
 
 import { useTheme } from "@/components/theme-provider";

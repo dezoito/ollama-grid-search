@@ -20,6 +20,7 @@
     "autoprefixer": "^10.4.17",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.0",
+    "geist": "^1.2.1",
     "install": "^0.13.0",
     "lucide-react": "^0.312.0",
     "postcss": "^8.4.33",
