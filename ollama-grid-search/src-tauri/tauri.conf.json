@@ -37,8 +37,8 @@
         "fullscreen": false,
         "resizable": true,
         "title": "ollama-grid-search",
-        "width": 1200,
-        "height": 900
+        "width": 900,
+        "height": 720
       }
     ]
   }
