@@ -19,7 +19,7 @@ function Layout() {
       {/* nav */}
       <header className="flex h-16 items-center justify-between px-4 md:px-6 bg-zinc-950">
         <span className="flex items-center gap-2">
-          <h2 className="text-2xl font-semibold text-slate-400">
+          <h2 className="text-2xl font-semibold text-slate-400 font-sans">
             Ollama Grid Search
           </h2>
         </span>
