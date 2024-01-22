@@ -1,6 +1,13 @@
+/* @font-face {
+  font-family: "Montserrat";
+  src: url("/fonts/Montserrat/Montserrat-VariableFont_wght.ttf")
+    format("truetype");
+  font-weight: normal;
+  font-style: normal;
+} */
 @font-face {
-  font-family: 'Montserrat';
-  src: url('/fonts/Montserrat/Montserrat-VariableFont_wght.ttf') format('truetype');
+  font-family: "Geist";
+  src: url("/fonts/Geist/GeistVariableVF.ttf") format("truetype");
   font-weight: normal;
   font-style: normal;
 }
@@ -8,8 +15,6 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-
-
 
 @layer base {
   :root {
@@ -67,7 +72,7 @@
     @apply bg-background text-foreground;
   }
 
-  html {
+  /* html {
     font-family: "GeistSans", system-ui, sans-serif;
-  }
+  } */
 }

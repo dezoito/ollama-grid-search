@@ -20,8 +20,11 @@ module.exports = {
       },
     },
     extend: {
+      // fontFamily: {
+      //   sans: ["Montserrat", ...defaultTheme.fontFamily.sans],
+      // },
       fontFamily: {
-        sans: ["Montserrat", ...defaultTheme.fontFamily.sans],
+        sans: ["Geist", ...defaultTheme.fontFamily.sans],
       },
       colors: {
         border: "hsl(var(--border))",
