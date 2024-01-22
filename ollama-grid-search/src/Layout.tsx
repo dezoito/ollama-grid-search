@@ -1,12 +1,10 @@
 import { invoke } from "@tauri-apps/api/tauri";
 
 import { useQuery } from "@tanstack/react-query";
-import { useState } from "react";
 import { ModeToggle } from "./components/mode-toggle";
 
 function Layout() {
-  const [greetMsg, setGreetMsg] = useState("");
-  const [name, setName] = useState("");
+  // const [name, setName] = useState("");
   // const [models, setModels] = useState<string[]>([]);
 
 
