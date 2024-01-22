@@ -25,6 +25,7 @@ module.exports = {
       // },
       fontFamily: {
         sans: ["Geist", ...defaultTheme.fontFamily.sans],
+        lcd: ["ds-digital", ...defaultTheme.fontFamily.sans],
       },
       colors: {
         border: "hsl(var(--border))",
