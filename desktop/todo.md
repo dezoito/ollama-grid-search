@@ -4,3 +4,4 @@ Extensions and configs for using tailwind with vscode
 
 - Test error handling when server fails
 - Test a multiplatform release
+- Create settings control (modal or drawer?)
