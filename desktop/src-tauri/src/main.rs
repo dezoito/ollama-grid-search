@@ -33,6 +33,7 @@ async fn get_models() -> Result<Vec<String>, String> {
         Ok(models) => models,
         Err(err) => {
             // Return a descriptive error message if listing fails
+            println!("Error: {}", err);
             return Err(format!("Failed to list local models: {}", err));
         }
     };

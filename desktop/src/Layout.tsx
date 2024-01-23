@@ -20,7 +20,7 @@ function Layout() {
       {/* nav */}
       <header className="flex h-16 items-center justify-between px-4 md:px-6 bg-zinc-950">
         <span className="flex items-center gap-2">
-          <h2 className="text-2xl font-semibold text-teal-500 font-lcd">
+          <h2 className="text-2xl font-semibold text-teal-600 font-lcd">
             Ollama Grid Search
           </h2>
         </span>
@@ -32,6 +32,7 @@ function Layout() {
         {/* sidebar */}
         <div className="w-96 border-r border-gray-200 dark:border-gray-800">
           <nav className="flex flex-col gap-6 p-4">
+            {query.error && <>{query.error}</>}
             {query.isFetched && (
               <div className="bg-red-400">
                 {(query.data as string[]).map((model: string) => (
