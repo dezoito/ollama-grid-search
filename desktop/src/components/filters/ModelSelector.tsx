@@ -1,5 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import { invoke } from "@tauri-apps/api/tauri";
+import { CheckboxGroup } from "../checkbox-group";
 import AlertError from "../ui/AlertError";
 
 export default function ModelSelector() {
@@ -27,13 +28,8 @@ export default function ModelSelector() {
 
   return (
     <div>
-      {query.isFetched && (
-        <div className="bg-red-400">
-          {(query.data as string[]).map((model: string) => (
-            <div>{model}</div>
-          ))}
-        </div>
-      )}
+      <div className="font-bold">Models:</div>
+      <CheckboxGroup options={query.data as string[]} />
     </div>
   );
 }
