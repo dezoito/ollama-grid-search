@@ -63,7 +63,7 @@ async fn get_models() -> Result<Vec<String>, Error> {
 
 fn main() {
     tauri::Builder::default()
-        .invoke_handler(tauri::generate_handler![greet, get_models])
+        .invoke_handler(tauri::generate_handler![get_models])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");
 }
