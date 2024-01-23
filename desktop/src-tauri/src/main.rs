@@ -14,10 +14,33 @@ Here's the relevant section in our wip docs:
 https://jonaskruckenberg.github.io/tauri-docs-wip/development/inter-process-communication.html#error-handling
 
 
-(The simpler option was used here)
+The Error enum, therefore, has to implement a variant for "OllamaError"
 */
 
-use ollama_rs::Ollama;
+use ollama_rs::{error::OllamaError, Ollama};
+use thiserror::Error;
+
+// Use thiserror::Error to implement serializable errors
+// that are returned by commands
+#[derive(Debug, Error)]
+enum Error {
+    #[error(transparent)]
+    Io(#[from] std::io::Error),
+
+    #[error(transparent)]
+    // #[error("Error from Ollama")]
+    Ollama(#[from] OllamaError),
+}
+
+// we must manually implement serde::Serialize
+impl serde::Serialize for Error {
+    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
+    where
+        S: serde::ser::Serializer,
+    {
+        serializer.serialize_str(self.to_string().as_ref())
+    }
+}
 
 // Learn more about Tauri commands at https://tauri.app/v1/guides/features/command
 #[tauri::command]
@@ -25,18 +48,20 @@ fn greet(name: &str) -> String {
     format!("Hello, {}! You've been greeted from Rust!...", name)
 }
 
-#[tauri::command(async)]
-async fn get_models() -> Result<Vec<String>, String> {
+#[tauri::command]
+async fn get_models() -> Result<Vec<String>, Error> {
     let ollama = Ollama::default();
 
-    let models = match ollama.list_local_models().await {
-        Ok(models) => models,
-        Err(err) => {
-            // Return a descriptive error message if listing fails
-            println!("Error: {}", err);
-            return Err(format!("Failed to list local models: {}", err));
-        }
-    };
+    // let models = match ollama.list_local_models().await {
+    //     Ok(models) => models,
+    //     Err(err) => {
+    //         // Return a descriptive error message if listing fails
+    //         println!("Error: {}", err);
+    //         return Error::Ollama(format!("Failed to list local models: {}", err));
+    //     }
+    // };
+
+    let models = ollama.list_local_models().await?;
 
     let model_list: Vec<String> = models.into_iter().map(|model| model.name).collect();
     Ok(model_list)
