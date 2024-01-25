@@ -1,5 +1,6 @@
 import ModelSelector from "./components/filters/ModelSelector";
 import { ModeToggle } from "./components/mode-toggle";
+import { SettingsDialog } from "./components/settings-dialog";
 
 function Layout() {
   // const [name, setName] = useState("");
@@ -14,8 +15,9 @@ function Layout() {
             Ollama Grid Search
           </h2>
         </span>
-        <nav className="hidden md:flex gap-6">
+        <nav className="hidden md:flex gap-4">
           <ModeToggle />
+          <SettingsDialog />
         </nav>
       </header>
       <div className="flex flex-1 overflow-hidden">
