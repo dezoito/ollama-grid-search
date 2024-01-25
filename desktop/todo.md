@@ -5,6 +5,7 @@ Extensions and configs for using tailwind with vscode
 [ok] - Test error handling when server fails
 [ok] - Create settings control (modal)
 
+- Edit README
 - Use state values in settings form
 - Test a multiplatform release
 - Create form
