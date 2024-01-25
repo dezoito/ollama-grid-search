@@ -71,10 +71,7 @@ export const configAtom = atomWithLocalStorage("configs", {
 
 // // Stores search query and credentials (in session)
 // export const searchInputAtom = atom<ISearchFormInput>({
-//   pessoas: "",
-//   actions: [],
-//   userName: "",
-//   pwd: "",
+
 // });
 
 // //Creates a global instance of a semaphore that we can use to control call
