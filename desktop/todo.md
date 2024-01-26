@@ -1,7 +1,6 @@
 https://byby.dev/at-rule-tailwind
 
-Extensions and configs for using tailwind with vscode
-
+Extensions and configs for using tailwind with vscod
 [ok] - Test error handling when server fails
 [ok] - Create settings control (modal)
 [ok] - Edit README
