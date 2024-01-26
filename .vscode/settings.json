@@ -4,9 +4,12 @@
     },
     "rust-analyzer.linkedProjects": [
         "./Cargo.toml",
+        "./desktop/src-tauri/Cargo.toml"
     ],
     "[rust]": {
         "editor.formatOnPaste": true,
         "editor.formatOnSave": true,
     },
+    // Ignore @tailwind warnings
+    "css.lint.unknownAtRules": "ignore",
 }
