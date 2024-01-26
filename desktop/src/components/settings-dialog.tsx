@@ -12,36 +12,14 @@ import {
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipProvider,
-  TooltipTrigger,
-} from "@/components/ui/tooltip";
 import { Textarea } from "./ui/textarea";
 
-export function SettingsButton() {
-  return (
-    <TooltipProvider>
-      <Tooltip>
-        <TooltipTrigger>
-          <Button variant="transparentDark" size="icon" onClick={() => {}}>
-            <GearIcon className="h-5 w-5 text-cyan-50" />
-          </Button>
-        </TooltipTrigger>
-        <TooltipContent>
-          <p>Settings</p>
-        </TooltipContent>
-      </Tooltip>
-    </TooltipProvider>
-  );
-}
 export function SettingsDialog() {
   return (
     <Dialog>
       <DialogTrigger asChild>
         <Button variant="transparentDark" size="icon">
-          <SettingsButton />
+          <GearIcon className="h-5 w-5 text-cyan-50" />
         </Button>
       </DialogTrigger>
       <DialogContent className="sm:max-w-[425px]">
