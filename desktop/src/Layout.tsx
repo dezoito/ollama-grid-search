@@ -1,6 +1,6 @@
-import ModelSelector from "./components/filters/ModelSelector";
-import { ModeToggle } from "./components/mode-toggle";
-import { SettingsDialog } from "./components/settings-dialog";
+import ModelSelector from "@/components/filters/ModelSelector";
+import { ModeToggle } from "@/components/mode-toggle";
+import { SettingsDialog } from "@/components/settings-dialog";
 
 function Layout() {
   // const [name, setName] = useState("");

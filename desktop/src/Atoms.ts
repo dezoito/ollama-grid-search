@@ -32,8 +32,8 @@ const atomWithLocalStorage = (key: string, initialValue: unknown) => {
 // I've kept only the documented ones at default values
 export const configAtom = atomWithLocalStorage("configs", {
   serverURL: "http://localhost:11434/",
-  systemPromp: "",
-  options: {
+  systemPrompt: "",
+  defaultOptions: {
     mirostat: 0,
     mirostat_tau: 5.0,
     mirostat_eta: 0.1,

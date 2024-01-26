@@ -25,7 +25,7 @@ export function CheckboxGroup(props: IProps) {
         <CommandEmpty>No items found.</CommandEmpty>
         <CommandGroup className="overflow-y-auto max-h-40">
           {options.map((option: string, idx: number) => (
-            <CommandItem>
+            <CommandItem key={idx.toString()}>
               <Checkbox id={idx.toString()} name="items" />
               <Label
                 className="text-sm font-normal px-2"
