@@ -15,3 +15,7 @@ Cargo.lock
 
 # Experiments should not be commited
 experiment*.txt
+
+# The usual suspects
+node_modules/
+**/node_modules/
