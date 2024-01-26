@@ -3,7 +3,7 @@
 A Rust based tool to evaluate LLM models and model params, when using Ollama for inference.
 
 > **Desktop App version**<br>
-> We are currently building a desktop app! Check out the [tauri](https://github.com/dezoito/ollama-grid-search.git) branch!
+> We are currently building a desktop app! Check out the `tauri/` folder at the [tauri](https://github.com/dezoito/ollama-grid-search/tree/main/desktop) branch!
 
 ## Purpose
 
