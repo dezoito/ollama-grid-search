@@ -2,6 +2,9 @@
 
 A Rust based tool to evaluate LLM models and model params, when using Ollama for inference.
 
+> **Desktop App version**<br>
+> We are currently building a desktop app! Check out the [tauri](https://github.com/dezoito/ollama-grid-search.git) branch!
+
 ## Purpose
 
 This project aims to automate the process of selecting the best model parameters, given an LLM model and a prompt, iterating over the possible combinations and letting the user visually inspect the results.
@@ -121,7 +124,3 @@ This software supports the following parameters at the moment:
 - Repeat Penalty (range 0:2)
 - Top K (range 0:100)
 - Top P (range 0:1)
-
-## Desktop App version:
-
-I'm interested in building a fully functional desktop application with aditional features. Comments and suggestions are welcome.
