@@ -104,6 +104,7 @@ export function SettingsDialog() {
             {/* 
             form here
              */}
+
             <div className="grid gap-6 py-4">
               <div className="flex flex-col gap-4">
                 <FormField
@@ -131,7 +132,7 @@ export function SettingsDialog() {
                     <FormItem>
                       <FormLabel>System Prompt</FormLabel>
                       <FormControl>
-                        <Textarea {...field} />
+                        <Textarea {...field} rows={2} />
                       </FormControl>
                       <FormDescription>
                         Optional: Override your models' default system prompt.
@@ -157,7 +158,7 @@ export function SettingsDialog() {
                           target="_blank"
                           href="https://github.com/ollama/ollama/blob/main/docs/modelfile.md#valid-parameters-and-values"
                         >
-                          Docs
+                          <u>Docs</u>
                         </a>
                         )
                       </FormDescription>
