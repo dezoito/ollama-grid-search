@@ -10,14 +10,14 @@ This project is still in very early development.
 
 If you wish to try it or contribute, here's what you should do:
 
-1. Install rust:
+1. Install Rust:
    https://www.rust-lang.org/tools/install
 
 2. Clone the project and checkout the "tauri" branch.
 
    ```sh
    git clone https://github.com/dezoito/ollama-grid-search.git
-   mv ollama-grid-search
+   cd ollama-grid-search
    git checkout tauri
 
    ```
