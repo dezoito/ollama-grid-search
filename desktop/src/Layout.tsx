@@ -1,6 +1,6 @@
-import ModelSelector from "@/components/filters/ModelSelector";
 import { ModeToggle } from "@/components/mode-toggle";
 import { SettingsDialog } from "@/components/settings-dialog";
+import FormGridParams from "@/components/ui/form-grid-params";
 
 function Layout() {
   // const [name, setName] = useState("");
@@ -23,7 +23,7 @@ function Layout() {
       <div className="flex flex-1 overflow-hidden">
         {/* sidebar */}
         <div className="w-96 border-r border-gray-200 dark:border-gray-800 gap-6 p-4">
-          <ModelSelector />
+          <FormGridParams />
         </div>
 
         {/* main div */}
