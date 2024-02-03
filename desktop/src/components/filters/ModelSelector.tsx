@@ -1,6 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
 import { invoke } from "@tauri-apps/api/tauri";
-import { forwardRef } from "react";
 import { CheckboxGroup } from "../checkbox-group";
 import AlertError from "../ui/AlertError";
 import {
@@ -40,23 +39,20 @@ function ModelSelector(props: IProps) {
   }
 
   return (
-    <div>
-      <FormField
-        control={form.control}
-        name="models"
-        render={({ field }) => (
-          <FormItem>
-            <FormLabel className="font-bold">Models</FormLabel>
-            <FormControl>
-              {/* <Input {...field} /> */}
-              <CheckboxGroup {...field} options={query.data as string[]} />
-            </FormControl>
-            <FormMessage />
-          </FormItem>
-        )}
-      />
-    </div>
+    <FormField
+      control={form.control}
+      name="models"
+      render={({ field }) => (
+        <FormItem>
+          <FormLabel className="font-bold">Models</FormLabel>
+          <FormControl>
+            <CheckboxGroup {...field} options={query.data as string[]} />
+          </FormControl>
+          <FormMessage />
+        </FormItem>
+      )}
+    />
   );
 }
 
-export default forwardRef(ModelSelector);
+export default ModelSelector;

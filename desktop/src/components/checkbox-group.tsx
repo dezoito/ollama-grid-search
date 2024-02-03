@@ -23,10 +23,15 @@ export function CheckboxGroup(props: IProps) {
       <Command>
         <CommandInput className="h-9" placeholder="Filter Options" />
         <CommandEmpty>No items found.</CommandEmpty>
-        <CommandGroup className="overflow-y-auto max-h-40">
+        <CommandGroup className="overflow-y-auto max-h-32">
           {options.map((option: string, idx: number) => (
             <CommandItem key={idx.toString()}>
-              <Checkbox id={idx.toString()} name="items" />
+              {idx === 0 ? (
+                <Checkbox id={idx.toString()} name="items" checked />
+              ) : (
+                <Checkbox id={idx.toString()} name="items" />
+              )}
+
               <Label
                 className="text-sm font-normal px-2"
                 htmlFor={idx.toString()}

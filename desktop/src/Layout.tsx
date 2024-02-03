@@ -22,7 +22,7 @@ function Layout() {
       </header>
       <div className="flex flex-1 overflow-hidden">
         {/* sidebar */}
-        <div className="w-3/5 border-r border-gray-200 dark:border-gray-800 gap-6 p-4">
+        <div className="w-[480px] border-r border-gray-200 dark:border-gray-800 gap-6 p-4 overflow-y-auto">
           <FormGridParams />
         </div>
 
