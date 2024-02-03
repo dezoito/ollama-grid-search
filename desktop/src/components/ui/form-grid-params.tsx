@@ -1,35 +1,54 @@
+import { configAtom } from "@/Atoms";
+import { Input } from "@/components/ui/input";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useAtom } from "jotai";
 import { useForm } from "react-hook-form";
 import z from "zod";
 import ModelSelector from "../filters/ModelSelector";
-import { Form } from "./form";
+import {
+  Form,
+  FormControl,
+  FormDescription,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "./form";
+import { Textarea } from "./textarea";
 import { useToast } from "./use-toast";
 
 export default function FormGridParams() {
   const { toast } = useToast();
+  const [config, _] = useAtom(configAtom);
 
   const FormSchema = z.object({
-    serverURL: z.string().min(1),
-    systemPrompt: z.string(),
-    defaultOptions: z.string().refine(
-      (data) => {
-        try {
-          JSON.parse(data);
-          return true;
-        } catch (error) {
-          return false;
-        }
+    models: z.string().array().nonempty({
+      message: "Select at least 1 model.",
+    }),
+    prompt: z.string().min(1),
+    temperatureArray: z.string().refine(
+      (value) => {
+        // Split the input string by commas
+        const values = value.split(",");
+
+        // Check if at least one value is a valid float number
+        return values.some((val) => {
+          const floatValue = parseFloat(val.trim());
+          return !isNaN(floatValue);
+        });
       },
       {
-        message: "defaultOptions must be a valid JSON string",
+        message:
+          "Invalid temperature array format. Please enter at least one valid float number.",
       },
     ),
   });
-
-  // * format defaultOptions to display in form
+  // Starts with value set in Settings > default options
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
-    defaultValues: {},
+    defaultValues: {
+      temperatureArray: config.defaultOptions.temperature,
+    },
   });
 
   function onSubmit(data: z.infer<typeof FormSchema>) {
@@ -38,8 +57,9 @@ export default function FormGridParams() {
     // }
 
     console.log(data);
+
     toast({
-      title: "SStarting Experiment.",
+      title: "Running experiment.",
       duration: 2500,
     });
   }
@@ -47,7 +67,43 @@ export default function FormGridParams() {
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
-        <ModelSelector />;
+        <div>
+          <ModelSelector form={form} />
+        </div>
+        {/* prompt */}
+        <div className="flex flex-col gap-2">
+          <FormField
+            control={form.control}
+            name="prompt"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel className="font-bold">Prompt</FormLabel>
+                <FormControl>
+                  <Textarea {...field} rows={4} />
+                </FormControl>
+                <FormDescription>The prompt you want to test</FormDescription>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+        </div>
+        {/* temperature */}
+        <div className="flex flex-col gap-2">
+          <FormField
+            control={form.control}
+            name="temperatureArray"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel className="font-bold">Temperature Array</FormLabel>
+                <FormControl>
+                  <Input {...field} />
+                </FormControl>
+                <FormDescription>The prompt you want to test</FormDescription>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+        </div>
       </form>
     </Form>
   );
