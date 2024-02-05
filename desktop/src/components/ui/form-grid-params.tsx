@@ -85,6 +85,7 @@ export default function FormGridParams() {
       repeatPenaltyArray: config.defaultOptions.repeat_penalty,
       topKArray: config.defaultOptions.top_k,
       topPArray: config.defaultOptions.top_p,
+      models: [],
     },
   });
 

@@ -1,9 +1,10 @@
 import { useQuery } from "@tanstack/react-query";
 import { invoke } from "@tauri-apps/api/tauri";
-import { CheckboxGroup } from "../checkbox-group";
 import AlertError from "../ui/AlertError";
+import { Checkbox } from "../ui/checkbox";
 import {
   FormControl,
+  FormDescription,
   FormField,
   FormItem,
   FormLabel,
@@ -14,6 +15,7 @@ interface IProps {
   form: any;
 }
 
+// todo: see https://ui.shadcn.com/docs/components/checkbox#form
 function ModelSelector(props: IProps) {
   const { form } = props;
   // const [name, setName] = useState("");
@@ -42,12 +44,49 @@ function ModelSelector(props: IProps) {
     <FormField
       control={form.control}
       name="models"
-      render={({ field }) => (
+      render={() => (
         <FormItem>
-          <FormLabel className="font-bold">Models</FormLabel>
-          <FormControl>
-            <CheckboxGroup {...field} options={query.data as string[]} />
-          </FormControl>
+          <div className="mb-4">
+            <FormLabel className="text-base">Models</FormLabel>
+            <FormDescription>
+              Select the models you want to test.
+            </FormDescription>
+          </div>
+
+          {(query.data as string[]).map((option: string, idx: number) => (
+            <FormField
+              key={idx.toString()}
+              control={form.control}
+              name="models"
+              render={({ field }) => {
+                return (
+                  <FormItem
+                    key={idx.toString()}
+                    className="flex flex-row items-start space-x-3 space-y-0"
+                  >
+                    <FormControl>
+                      <Checkbox
+                        checked={field.value?.includes(option)}
+                        onCheckedChange={(checked: boolean) => {
+                          return checked
+                            ? field.onChange([...field.value, option])
+                            : field.onChange(
+                                field.value?.filter(
+                                  (value: string) => value !== option,
+                                ),
+                              );
+                        }}
+                      />
+                    </FormControl>
+                    <FormLabel className="text-sm font-normal">
+                      {option}
+                    </FormLabel>
+                  </FormItem>
+                );
+              }}
+            />
+          ))}
+
           <FormMessage />
         </FormItem>
       )}
