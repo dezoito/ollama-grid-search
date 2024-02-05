@@ -3,10 +3,10 @@ import { atom } from "jotai";
 export interface IGridParams {
   models: string[];
   prompt: string;
-  temperatureList: number | number[];
-  repeatPenaltyList: number | number[];
-  topKList: number | number[];
-  topPList: number | number[];
+  temperatureList: number[];
+  repeatPenaltyList: number[];
+  topKList: number[];
+  topPList: number[];
 }
 
 // Refs https://jotai.org/docs/guides/persistence
@@ -82,18 +82,12 @@ export const configAtom = atomWithLocalStorage("configs", defaultConfigs);
 
 // Initializes grid parameters
 export const gridParamsAtom = atom<IGridParams>({
-  // temperatureList: defaultConfigs.defaultOptions.temperature,
-  // repeatPenaltyList: defaultConfigs.defaultOptions.repeat_penalty,
-  // topKList: defaultConfigs.defaultOptions.top_k,
-  // topPList: defaultConfigs.defaultOptions.top_p,
-  // models: [],
-  // promtp: "",
   models: [],
-  prompt: "string",
-  temperatureList: defaultConfigs.defaultOptions.temperature,
-  repeatPenaltyList: defaultConfigs.defaultOptions.repeat_penalty,
-  topKList: defaultConfigs.defaultOptions.top_k,
-  topPList: defaultConfigs.defaultOptions.top_p,
+  prompt: "",
+  temperatureList: [defaultConfigs.defaultOptions.temperature],
+  repeatPenaltyList: [defaultConfigs.defaultOptions.repeat_penalty],
+  topKList: [defaultConfigs.defaultOptions.top_k],
+  topPList: [defaultConfigs.defaultOptions.top_p],
 });
 
 // //Creates a global instance of a semaphore that we can use to control call

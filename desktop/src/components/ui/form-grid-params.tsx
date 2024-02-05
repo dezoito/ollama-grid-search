@@ -1,4 +1,4 @@
-import { configAtom } from "@/Atoms";
+import { configAtom, gridParamsAtom } from "@/Atoms";
 import { Input } from "@/components/ui/input";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useAtom } from "jotai";
@@ -73,9 +73,28 @@ export const ParamsFormSchema = z.object({
   ),
 });
 
+function paramsToArray(list: string): number[] {
+  // If it's a scalar value, create an array with that value
+  if (typeof list === "number") {
+    const parsedValue = parseFloat(list);
+    if (!isNaN(parsedValue)) {
+      return [parsedValue];
+    } else {
+      throw new Error("Invalid input: not a number or list of numbers");
+    }
+  }
+
+  // Otherwise, split the string and parse values as a list
+  const values = list.split(",").map((value) => parseFloat(value));
+
+  // Ensure all values are numbers
+  return values.filter((value) => !isNaN(value));
+}
+
 export default function FormGridParams() {
   const { toast } = useToast();
   const [config, _] = useAtom(configAtom);
+  const [__, setGridParams] = useAtom(gridParamsAtom);
 
   // Starts with value set in Settings > default options
   const form = useForm<z.infer<typeof ParamsFormSchema>>({
@@ -91,13 +110,13 @@ export default function FormGridParams() {
   });
 
   function onSubmit(data: z.infer<typeof ParamsFormSchema>) {
-    if (Object.keys(form.formState.errors).length > 0) {
-      console.log("FORM ERRORS", form.formState.errors);
-    }
-
-    //TODO: Convert list values to arrays
-    // before setting in global state
-    console.log(data);
+    setGridParams({
+      ...data,
+      temperatureList: paramsToArray(data.temperatureList),
+      repeatPenaltyList: paramsToArray(data.repeatPenaltyList),
+      topKList: paramsToArray(data.topKList),
+      topPList: paramsToArray(data.topPList),
+    });
 
     toast({
       title: "Running experiment.",

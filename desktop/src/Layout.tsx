@@ -1,6 +1,7 @@
 import { ModeToggle } from "@/components/mode-toggle";
 import { SettingsDialog } from "@/components/settings-dialog";
 import FormGridParams from "@/components/ui/form-grid-params";
+import GridResultsPane from "@/components/results/grid-results-pane";
 
 function Layout() {
   // const [name, setName] = useState("");
@@ -31,6 +32,7 @@ function Layout() {
           <div className="p-2 m-1">
             <p className="text-gray-500 dark:text-gray-400">
               Instructions and Experiment results
+              <GridResultsPane />
             </p>
           </div>
         </main>
