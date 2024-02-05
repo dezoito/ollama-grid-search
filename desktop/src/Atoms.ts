@@ -1,5 +1,14 @@
 import { atom } from "jotai";
 
+export interface IGridParams {
+  models: string[];
+  prompt: string;
+  temperatureList: number | number[];
+  repeatPenaltyList: number | number[];
+  topKList: number | number[];
+  topPList: number | number[];
+}
+
 // Refs https://jotai.org/docs/guides/persistence
 
 // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
@@ -26,11 +35,7 @@ const atomWithLocalStorage = (key: string, initialValue: unknown) => {
   return derivedAtom;
 };
 
-// Store configs in LocalStorage
-// "Options" reference:
-// https://github.com/ollama/ollama/blob/main/docs/modelfile.md#valid-parameters-and-values
-// I've kept only the documented ones at default values
-export const configAtom = atomWithLocalStorage("configs", {
+const defaultConfigs = {
   serverURL: "http://localhost:11434/",
   systemPrompt: "",
   defaultOptions: {
@@ -67,12 +72,29 @@ export const configAtom = atomWithLocalStorage("configs", {
     // rope_frequency_base: 1.1,
     // rope_frequency_scale: 0.8,
   },
+};
+
+// Store configs in LocalStorage
+// "Options" reference:
+// https://github.com/ollama/ollama/blob/main/docs/modelfile.md#valid-parameters-and-values
+// I've kept only the documented ones at default values
+export const configAtom = atomWithLocalStorage("configs", defaultConfigs);
+
+// Initializes grid parameters
+export const gridParamsAtom = atom<IGridParams>({
+  // temperatureList: defaultConfigs.defaultOptions.temperature,
+  // repeatPenaltyList: defaultConfigs.defaultOptions.repeat_penalty,
+  // topKList: defaultConfigs.defaultOptions.top_k,
+  // topPList: defaultConfigs.defaultOptions.top_p,
+  // models: [],
+  // promtp: "",
+  models: [],
+  prompt: "string",
+  temperatureList: defaultConfigs.defaultOptions.temperature,
+  repeatPenaltyList: defaultConfigs.defaultOptions.repeat_penalty,
+  topKList: defaultConfigs.defaultOptions.top_k,
+  topPList: defaultConfigs.defaultOptions.top_p,
 });
-
-// // Stores search query and credentials (in session)
-// export const searchInputAtom = atom<ISearchFormInput>({
-
-// });
 
 // //Creates a global instance of a semaphore that we can use to control call
 // // concurrency

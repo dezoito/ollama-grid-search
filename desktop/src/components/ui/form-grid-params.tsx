@@ -42,58 +42,61 @@ const validateNumberOrArray =
     }
   };
 
+export const ParamsFormSchema = z.object({
+  models: z.string().array().nonempty({
+    message: "Select at least 1 model.",
+  }),
+  prompt: z.string().min(1),
+  temperatureList: z.custom(
+    (value) => validateNumberOrArray("float")(value as string | number),
+    {
+      message: `Invalid float array format. Please enter at least one valid float number.`,
+    },
+  ),
+  repeatPenaltyList: z.custom(
+    (value) => validateNumberOrArray("float")(value as string | number),
+    {
+      message: `Invalid float array format. Please enter at least one valid float number.`,
+    },
+  ),
+  topKList: z.custom(
+    (value) => validateNumberOrArray("int")(value as string | number),
+    {
+      message: `Invalid int array format. Please enter at least one valid integer number.`,
+    },
+  ),
+  topPList: z.custom(
+    (value) => validateNumberOrArray("float")(value as string | number),
+    {
+      message: `Invalid float array format. Please enter at least one valid float number.`,
+    },
+  ),
+});
+
 export default function FormGridParams() {
   const { toast } = useToast();
   const [config, _] = useAtom(configAtom);
 
-  const FormSchema = z.object({
-    models: z.string().array().nonempty({
-      message: "Select at least 1 model.",
-    }),
-    prompt: z.string().min(1),
-    temperatureArray: z.custom(
-      (value) => validateNumberOrArray("float")(value as string | number),
-      {
-        message: `Invalid float array format. Please enter at least one valid float number.`,
-      },
-    ),
-    repeatPenaltyArray: z.custom(
-      (value) => validateNumberOrArray("float")(value as string | number),
-      {
-        message: `Invalid float array format. Please enter at least one valid float number.`,
-      },
-    ),
-    topKArray: z.custom(
-      (value) => validateNumberOrArray("int")(value as string | number),
-      {
-        message: `Invalid int array format. Please enter at least one valid integer number.`,
-      },
-    ),
-    topPArray: z.custom(
-      (value) => validateNumberOrArray("float")(value as string | number),
-      {
-        message: `Invalid float array format. Please enter at least one valid float number.`,
-      },
-    ),
-  });
-
   // Starts with value set in Settings > default options
-  const form = useForm<z.infer<typeof FormSchema>>({
-    resolver: zodResolver(FormSchema),
+  const form = useForm<z.infer<typeof ParamsFormSchema>>({
+    resolver: zodResolver(ParamsFormSchema),
     defaultValues: {
-      temperatureArray: config.defaultOptions.temperature,
-      repeatPenaltyArray: config.defaultOptions.repeat_penalty,
-      topKArray: config.defaultOptions.top_k,
-      topPArray: config.defaultOptions.top_p,
+      temperatureList: config.defaultOptions.temperature,
+      repeatPenaltyList: config.defaultOptions.repeat_penalty,
+      topKList: config.defaultOptions.top_k,
+      topPList: config.defaultOptions.top_p,
       models: [],
+      prompt: "",
     },
   });
 
-  function onSubmit(data: z.infer<typeof FormSchema>) {
+  function onSubmit(data: z.infer<typeof ParamsFormSchema>) {
     if (Object.keys(form.formState.errors).length > 0) {
       console.log("FORM ERRORS", form.formState.errors);
     }
 
+    //TODO: Convert list values to arrays
+    // before setting in global state
     console.log(data);
 
     toast({
@@ -130,10 +133,10 @@ export default function FormGridParams() {
           <div className="flex flex-col gap-2">
             <FormField
               control={form.control}
-              name="temperatureArray"
+              name="temperatureList"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel className="font-bold">Temperature Array</FormLabel>
+                  <FormLabel className="font-bold">Temperature List</FormLabel>
                   <FormControl>
                     <Input {...field} />
                   </FormControl>
@@ -149,11 +152,11 @@ export default function FormGridParams() {
           <div className="flex flex-col gap-2">
             <FormField
               control={form.control}
-              name="repeatPenaltyArray"
+              name="repeatPenaltyList"
               render={({ field }) => (
                 <FormItem>
                   <FormLabel className="font-bold">
-                    Repeat Penalty Array
+                    Repeat Penalty List
                   </FormLabel>
                   <FormControl>
                     <Input {...field} />
@@ -170,10 +173,10 @@ export default function FormGridParams() {
           <div className="flex flex-col gap-2">
             <FormField
               control={form.control}
-              name="topKArray"
+              name="topKList"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel className="font-bold">Top_K Array</FormLabel>
+                  <FormLabel className="font-bold">Top_K List</FormLabel>
                   <FormControl>
                     <Input {...field} />
                   </FormControl>
@@ -189,10 +192,10 @@ export default function FormGridParams() {
           <div className="flex flex-col gap-2">
             <FormField
               control={form.control}
-              name="topPArray"
+              name="topPList"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel className="font-bold">Top_P Array</FormLabel>
+                  <FormLabel className="font-bold">Top_P List</FormLabel>
                   <FormControl>
                     <Input {...field} />
                   </FormControl>
