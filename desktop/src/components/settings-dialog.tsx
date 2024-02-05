@@ -94,7 +94,7 @@ export function SettingsDialog() {
           </Button>
         </DialogTrigger>
         <DialogContent className="sm:max-w-[425px]">
-          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
             <DialogHeader>
               <DialogTitle>Settings</DialogTitle>
               <DialogDescription>
