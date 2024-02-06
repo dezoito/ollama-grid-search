@@ -125,9 +125,12 @@ export default function FormGridParams() {
   }
 
   return (
-    <div>
+    <div className="relative flex flex-col min-h-screen overflow-y-auto">
       <Form {...form}>
-        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+        <form
+          onSubmit={form.handleSubmit(onSubmit)}
+          className="space-y-6 flex-grow"
+        >
           <div>
             <ModelSelector form={form} />
           </div>
@@ -226,8 +229,14 @@ export default function FormGridParams() {
               )}
             />
           </div>
-          <div>
-            <Button type="submit">Start Experiment</Button>
+          <div
+            id="button-area"
+            className="w-[479px] fixed bottom-0 left-0 right-0 p-4 shadow-md bg-white dark:bg-zinc-950"
+          >
+            <div className="w-1/5">
+              {/* Ensure the button-area stays within the column */}
+              <Button type="submit">Start Experiment</Button>
+            </div>
           </div>
         </form>
       </Form>
