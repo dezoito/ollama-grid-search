@@ -73,7 +73,7 @@ Top_P: 0.75
 
 Notice that some useful stats are displayed with the generated response.
 
-One all combinations are completed, the script will display some global statistics:
+Once all combinations are completed, the script will display some global statistics:
 
 ```sh
 ----------------------------------------------------------
