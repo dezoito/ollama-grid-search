@@ -1,8 +1,9 @@
 import { gridParamsAtom } from "@/Atoms";
 import { useAtom } from "jotai";
 import { useEffect, useState } from "react";
+import IterationResult from "./iteration-result";
 
-type TIteration = {
+export type TIteration = {
   model: string;
   temperature: number;
   repeatPenalty: number;
@@ -22,10 +23,7 @@ export default function GridResultsPane() {
     gridParams.topKList.length *
     gridParams.topPList.length;
 
-  if (gridParams.models.length === 0 || gridParams.prompt.trim().length === 0) {
-    return <>Tutorial</>;
-  }
-
+  // creates a linear array with param combinations
   useEffect(() => {
     const localIterations = [];
     for (const model of gridParams.models) {
@@ -46,7 +44,12 @@ export default function GridResultsPane() {
       }
     }
     setIterations(localIterations);
-  }, [gridParams]);
+  }, [gridParams.prompt, gridParams.models]);
+
+  if (gridParams.models.length === 0 || gridParams.prompt.trim().length === 0) {
+    return <>Tutorial</>;
+  }
+
   return (
     <div>
       {/* <pre>{JSON.stringify(gridParams, null, 2)}</pre>; */}
@@ -54,7 +57,13 @@ export default function GridResultsPane() {
       <div> Experiment started on {now.toUTCString()}</div>
       <div> Number of iterations: {iterationsCount}</div>
       <div id="results-list" className="overflow-y-auto">
-        <pre>{JSON.stringify(iterations, null, 2)}</pre>
+        <pre>
+          {iterations.map((iteration: TIteration, idx: number) => (
+            <div key={idx}>
+              <IterationResult params={iteration} prompt={gridParams.prompt} />
+            </div>
+          ))}
+        </pre>
       </div>
     </div>
   );
