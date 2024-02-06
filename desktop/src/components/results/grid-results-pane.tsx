@@ -23,6 +23,10 @@ export default function GridResultsPane() {
     gridParams.topKList.length *
     gridParams.topPList.length;
 
+  //TODO https://stackoverflow.com/questions/74488619/react-query-how-to-process-a-queue-one-item-at-a-time-and-remove-the-original
+  //https://stackoverflow.com/questions/76933229/can-react-query-make-sequential-network-calls-and-wait-for-previous-one-to-finis
+  // https://stackoverflow.com/questions/74304516/react-query-dynamic-incremental-queries
+
   // creates a linear array with param combinations
   useEffect(() => {
     const localIterations = [];
