@@ -5,9 +5,10 @@ https://byby.dev/at-rule-tailwind -> Extensions and configs for using tailwind w
 [ok] - Use form and state values in settings form
 [ok] - Check how to share state between backend and frontend
 [ok] - Make parameter selection form
-
 [ok] - Verify if Atom values for grid params can be scalar or always converted to lists
+(always convert to lists)
 
+- If form is reset, display instructions
 - Disable submit when queries are running.
 - Test a multiplatform release
 - Implement single instance check https://github.com/tauri-apps/plugins-workspace/tree/v1/plugins/single-instance

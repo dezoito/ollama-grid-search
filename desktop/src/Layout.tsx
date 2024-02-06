@@ -31,7 +31,6 @@ function Layout() {
         <main className="flex-1 p-4 overflow-y-auto">
           <div className="p-2 m-1">
             <p className="text-gray-500 dark:text-gray-400">
-              Instructions and Experiment results
               <GridResultsPane />
             </p>
           </div>
