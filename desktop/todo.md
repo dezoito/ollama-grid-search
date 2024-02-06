@@ -6,7 +6,9 @@ https://byby.dev/at-rule-tailwind -> Extensions and configs for using tailwind w
 [ok] - Check how to share state between backend and frontend
 [ok] - Make parameter selection form
 
-- Verify if Atom values for grid params can be scalar or always converted to lists
+[ok] - Verify if Atom values for grid params can be scalar or always converted to lists
+
+- Disable submit when queries are running.
 - Test a multiplatform release
 - Implement single instance check https://github.com/tauri-apps/plugins-workspace/tree/v1/plugins/single-instance
 - Plan on saving results to SQLite
