@@ -80,9 +80,10 @@ export default function GridResultsPane() {
       {/* <pre>{JSON.stringify(gridParams, null, 2)}</pre>; */}
       {/* Quick stats on experiment */}
       <div> Experiment started on {start}</div>
-      <div> Number of iterations: {iterations.length}</div>
       <div id="results-list" className="overflow-y-auto">
-        <pre>No completed: {noCompleted}</pre>
+        <pre>
+          Iterations: {noCompleted}/{iterations.length}
+        </pre>
         {/* <pre>First Loading: {JSON.stringify(firstLoading, null, 2)}</pre> */}
         <pre>
           {JSON.stringify(results, null, 2)}
