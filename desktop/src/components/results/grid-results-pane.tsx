@@ -1,7 +1,9 @@
 import { gridParamsAtom } from "@/Atoms";
+import { asyncSleep } from "@/lib/utils";
+import { useQueries } from "@tanstack/react-query";
+import { invoke } from "@tauri-apps/api/tauri";
 import { useAtom } from "jotai";
 import { useEffect, useState } from "react";
-import IterationResult from "./iteration-result";
 
 export type TIteration = {
   model: string;
@@ -15,6 +17,8 @@ export default function GridResultsPane() {
   const [gridParams, _] = useAtom(gridParamsAtom);
   const now = new Date();
   const [iterations, setIterations] = useState<TIteration[]>([]);
+  const [selection, setSelection] = useState([]);
+  const [noCompleted, setNoCompleted] = useState(0);
 
   const iterationsCount =
     gridParams.models.length *
@@ -26,9 +30,8 @@ export default function GridResultsPane() {
   //TODO https://stackoverflow.com/questions/74488619/react-query-how-to-process-a-queue-one-item-at-a-time-and-remove-the-original
   //https://stackoverflow.com/questions/76933229/can-react-query-make-sequential-network-calls-and-wait-for-previous-one-to-finis
 
-  /* 
-  const [selection, setSelection] = React.useState([])
-  const [noCompleted, setNoCompleted] = React.useState(0)
+  /*
+
 
   const results = useQueries(
     selection.map((item, i) => ({
@@ -48,6 +51,37 @@ export default function GridResultsPane() {
  */
 
   // https://stackoverflow.com/questions/74304516/react-query-dynamic-incremental-queries
+  async function get_models() {
+    const models = await invoke("get_models");
+    return models;
+  }
+
+  // Define type for query options
+  // type ModelQueryOptions = UseQueryOptions<
+  //   unknown,
+  //   Error,
+  //   unknown,
+  //   string[] | TIteration[]
+  // >;
+
+  // Create an array of queries
+  // const queries: ModelQueryOptions[] = iterations.map(
+  const queries = iterations.map((params: TIteration, i: number) => ({
+    queryKey: [`get_inference${i}`], // Use 'i' for dynamic queryKey
+    queryFn: async () => {
+      const p = params;
+      await asyncSleep(2500);
+      return p;
+    },
+  }));
+
+  const results = useQueries({ queries: queries });
+
+  const firstLoading = results.findIndex((r) => r.isLoading);
+
+  useEffect(() => {
+    setNoCompleted(firstLoading);
+  }, [firstLoading]);
 
   // creates a linear array with param combinations
   useEffect(() => {
@@ -84,11 +118,12 @@ export default function GridResultsPane() {
       <div> Number of iterations: {iterationsCount}</div>
       <div id="results-list" className="overflow-y-auto">
         <pre>
-          {iterations.map((iteration: TIteration, idx: number) => (
+          {JSON.stringify(results, null, 2)}
+          {/* {results?.map((iteration: TIteration, idx: number) => (
             <div key={idx}>
               <IterationResult params={iteration} prompt={gridParams.prompt} />
             </div>
-          ))}
+          ))} */}
         </pre>
       </div>
     </div>
