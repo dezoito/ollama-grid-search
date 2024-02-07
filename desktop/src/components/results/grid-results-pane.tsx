@@ -25,6 +25,28 @@ export default function GridResultsPane() {
 
   //TODO https://stackoverflow.com/questions/74488619/react-query-how-to-process-a-queue-one-item-at-a-time-and-remove-the-original
   //https://stackoverflow.com/questions/76933229/can-react-query-make-sequential-network-calls-and-wait-for-previous-one-to-finis
+
+  /* 
+  const [selection, setSelection] = React.useState([])
+  const [noCompleted, setNoCompleted] = React.useState(0)
+
+  const results = useQueries(
+    selection.map((item, i) => ({
+      queryKey: ['something', item]
+      queryFn: () => fetchItem(item)
+      enabled: i <= noCompleted
+      staleTime: Infinity
+      cacheTime: Infinity
+    })
+  )
+
+  const firstLoading = results.findIndex((r) => r.isLoading)
+
+  React.useEffect(() => {
+    setNoCompleted(firstLoading)
+  }, [firstLoading])
+ */
+
   // https://stackoverflow.com/questions/74304516/react-query-dynamic-incremental-queries
 
   // creates a linear array with param combinations

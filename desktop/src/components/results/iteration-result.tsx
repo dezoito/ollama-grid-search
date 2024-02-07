@@ -11,8 +11,11 @@ export default function IterationResult(props: IProps) {
   const { prompt, params } = props;
 
   const query = useQuery({
-    queryKey: ["get_stuff", params],
-    queryFn: () => asyncSleep(3000),
+    queryKey: ["get_inference", params, prompt],
+    queryFn: async () => {
+      await asyncSleep(2500);
+      return 1;
+    },
   });
 
   if (query.isLoading) {
