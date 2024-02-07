@@ -17,17 +17,17 @@ export default function IterationResult(props: IProps) {
     queryFn: get_inference(params),
     enabled: false,
     staleTime: Infinity,
-    // cacheTime: Infinity,
+    cacheTime: Infinity,
   });
 
   if (query.isLoading) {
     return <>loading....</>;
   }
   return (
-    <div>
-      <div>{prompt}</div>
-      <div>{JSON.stringify(params)}</div>
-      <div>{JSON.stringify(query.data)}</div>;
+    <div className="bg-slate-500 m-3">
+      {/* <div>{prompt}</div> */}
+      {/* <div>{JSON.stringify(params)}</div> */}
+      <div className="bg-slate-300 m-3">{JSON.stringify(query, null, 2)}</div>
     </div>
   );
 }

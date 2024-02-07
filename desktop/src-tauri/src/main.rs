@@ -16,7 +16,8 @@ https://jonaskruckenberg.github.io/tauri-docs-wip/development/inter-process-comm
 
 The Error enum, therefore, has to implement a variant for "OllamaError"
 */
-use ollama_rs::{error::OllamaError, Ollama};
+use ollama_rs::generation::completion::GenerationResponse;
+use ollama_rs::{error::OllamaError, generation::completion::request::GenerationRequest, Ollama};
 use serde::{Deserialize, Serialize};
 use thiserror::Error;
 
@@ -74,8 +75,29 @@ async fn get_models() -> Result<Vec<String>, Error> {
 #[tauri::command]
 async fn get_inference(params: TParamIteration) -> Result<String, Error> {
     // let ollama = Ollama::default();
+    // let res = match ollama
+    //     .generate(GenerationRequest::new(params.model, params.prompt))
+    //     .await
+    // {
+    //     Ok(res) => {
+    //         println!("it works");
+    //     }
+    //     Err(err) => {
+    //         // Return a descriptive error message if listing fails
+    //         println!("Error: {}", err);
+    //         return Err(Error::Ollama(
+    //             format!("Failed to list local models: {}", err).into(),
+    //         ));
+    //     }
+    // };
+    let ollama = Ollama::default();
 
-    Ok(format!("{:?}", params))
+    let res = ollama
+        .generate(GenerationRequest::new(params.model, params.prompt))
+        .await
+        .unwrap();
+
+    Ok(res.response)
 }
 
 fn main() {
