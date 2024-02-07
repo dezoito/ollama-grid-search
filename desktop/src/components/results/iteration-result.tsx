@@ -1,6 +1,7 @@
-import { asyncSleep } from "@/lib/utils";
 import { useQuery } from "@tanstack/react-query";
-import { TParamIteration } from "./grid-results-pane";
+// import { invoke } from "@tauri-apps/api/tauri";
+import { TParamIteration } from "@/Interfaces";
+import { get_inference } from "../queries";
 
 interface IProps {
   prompt: string;
@@ -10,12 +11,13 @@ interface IProps {
 export default function IterationResult(props: IProps) {
   const { prompt, params } = props;
 
+  // Use only the cached queries from the parent component
   const query = useQuery({
-    queryKey: ["get_inference", params, prompt],
-    queryFn: async () => {
-      await asyncSleep(2500);
-      return 1;
-    },
+    queryKey: ["get_inference", params],
+    queryFn: get_inference(params),
+    enabled: false,
+    staleTime: Infinity,
+    // cacheTime: Infinity,
   });
 
   if (query.isLoading) {

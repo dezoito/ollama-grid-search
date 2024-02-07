@@ -16,9 +16,19 @@ https://jonaskruckenberg.github.io/tauri-docs-wip/development/inter-process-comm
 
 The Error enum, therefore, has to implement a variant for "OllamaError"
 */
-
 use ollama_rs::{error::OllamaError, Ollama};
+use serde::{Deserialize, Serialize};
 use thiserror::Error;
+
+#[derive(Debug, Serialize, Deserialize)]
+struct TParamIteration {
+    model: String,
+    prompt: String,
+    temperature: f32,
+    repeat_penalty: f32,
+    top_k: i32,
+    top_p: f32,
+}
 
 // Use thiserror::Error to implement serializable errors
 // that are returned by commands
@@ -61,9 +71,16 @@ async fn get_models() -> Result<Vec<String>, Error> {
     Ok(model_list)
 }
 
+#[tauri::command]
+async fn get_inference(params: TParamIteration) -> Result<String, Error> {
+    // let ollama = Ollama::default();
+
+    Ok(format!("{:?}", params))
+}
+
 fn main() {
     tauri::Builder::default()
-        .invoke_handler(tauri::generate_handler![get_models])
+        .invoke_handler(tauri::generate_handler![get_models, get_inference])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");
 }

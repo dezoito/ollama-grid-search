@@ -1,13 +1,5 @@
+import { IGridParams } from "@/Interfaces/index";
 import { atom } from "jotai";
-
-export interface IGridParams {
-  models: string[];
-  prompt: string;
-  temperatureList: number[];
-  repeatPenaltyList: number[];
-  topKList: number[];
-  topPList: number[];
-}
 
 // Refs https://jotai.org/docs/guides/persistence
 

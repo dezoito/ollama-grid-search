@@ -1,51 +1,36 @@
 import { gridParamsAtom } from "@/Atoms";
-import { asyncSleep } from "@/lib/utils";
+import { TParamIteration } from "@/Interfaces";
 import { useQueries } from "@tanstack/react-query";
-import { invoke } from "@tauri-apps/api/tauri";
 import { useAtom } from "jotai";
 import { useEffect, useState } from "react";
-
-export type TParamIteration = {
-  model: string;
-  temperature: number;
-  repeatPenalty: number;
-  topK: number;
-  topP: number;
-};
+import { get_inference } from "../queries";
+import IterationResult from "./iteration-result";
 
 const now = new Date();
 const start = now.toUTCString();
 
 export default function GridResultsPane() {
   const [gridParams, _] = useAtom(gridParamsAtom);
-
   const [iterations, setIterations] = useState<TParamIteration[]>([]);
   const [noCompleted, setNoCompleted] = useState(0);
 
   //https://stackoverflow.com/questions/76933229/can-react-query-make-sequential-network-calls-and-wait-for-previous-one-to-finis
-
-  async function get_models() {
-    const randomNumber = Math.floor(Math.random() * (12000 - 1000 + 1)) + 1000;
-    console.log(randomNumber);
-    await asyncSleep(randomNumber);
-    const models = await invoke("get_models");
-    return models;
-  }
 
   // creates a linear array with param combinations
   useEffect(() => {
     const localIterations = [];
     for (const model of gridParams.models) {
       for (const temperature of gridParams.temperatureList) {
-        for (const repeatPenalty of gridParams.repeatPenaltyList) {
-          for (const topK of gridParams.topKList) {
-            for (const topP of gridParams.topPList) {
+        for (const repeat_penalty of gridParams.repeatPenaltyList) {
+          for (const top_k of gridParams.topKList) {
+            for (const top_p of gridParams.topPList) {
               localIterations.push({
                 model,
+                prompt: gridParams.prompt,
                 temperature,
-                repeatPenalty,
-                topK,
-                topP,
+                repeat_penalty,
+                top_k,
+                top_p,
               });
             }
           }
@@ -57,7 +42,7 @@ export default function GridResultsPane() {
 
   const queries = iterations.map((params: TParamIteration, i: number) => ({
     queryKey: ["get_inference", params],
-    queryFn: get_models,
+    queryFn: get_inference(params),
     enabled: i === 0 || i <= noCompleted,
     staleTime: Infinity,
     cacheTime: Infinity,
@@ -84,14 +69,13 @@ export default function GridResultsPane() {
         <pre>
           Iterations: {noCompleted}/{iterations.length}
         </pre>
-        {/* <pre>First Loading: {JSON.stringify(firstLoading, null, 2)}</pre> */}
         <pre>
-          {JSON.stringify(results, null, 2)}
-          {/* {results?.map((iteration: TIteration, idx: number) => (
+          {/* map iterations, not results.. get cached query in component */}
+          {iterations.map((iteration: TParamIteration, idx: number) => (
             <div key={idx}>
               <IterationResult params={iteration} prompt={gridParams.prompt} />
             </div>
-          ))} */}
+          ))}
         </pre>
       </div>
     </div>
