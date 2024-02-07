@@ -27,7 +27,7 @@ export default function IterationResult(props: IProps) {
     <div className="bg-slate-500 m-3">
       {/* <div>{prompt}</div> */}
       {/* <div>{JSON.stringify(params)}</div> */}
-      <div className="bg-slate-300 m-3">{JSON.stringify(query, null, 2)}</div>
+      <div className="bg-slate-700 m-3">{JSON.stringify(query, null, 2)}</div>
     </div>
   );
 }
