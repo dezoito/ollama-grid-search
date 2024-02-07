@@ -1,10 +1,10 @@
 import { asyncSleep } from "@/lib/utils";
 import { useQuery } from "@tanstack/react-query";
-import { TIteration } from "./grid-results-pane";
+import { TParamIteration } from "./grid-results-pane";
 
 interface IProps {
   prompt: string;
-  params: TIteration;
+  params: TParamIteration;
 }
 
 export default function IterationResult(props: IProps) {

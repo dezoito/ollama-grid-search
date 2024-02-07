@@ -5,7 +5,7 @@ import { invoke } from "@tauri-apps/api/tauri";
 import { useAtom } from "jotai";
 import { useEffect, useState } from "react";
 
-export type TIteration = {
+export type TParamIteration = {
   model: string;
   temperature: number;
   repeatPenalty: number;
@@ -13,75 +13,24 @@ export type TIteration = {
   topP: number;
 };
 
+const now = new Date();
+const start = now.toUTCString();
+
 export default function GridResultsPane() {
   const [gridParams, _] = useAtom(gridParamsAtom);
-  const now = new Date();
-  const [iterations, setIterations] = useState<TIteration[]>([]);
-  const [selection, setSelection] = useState([]);
+
+  const [iterations, setIterations] = useState<TParamIteration[]>([]);
   const [noCompleted, setNoCompleted] = useState(0);
 
-  const iterationsCount =
-    gridParams.models.length *
-    gridParams.temperatureList.length *
-    gridParams.repeatPenaltyList.length *
-    gridParams.topKList.length *
-    gridParams.topPList.length;
-
-  //TODO https://stackoverflow.com/questions/74488619/react-query-how-to-process-a-queue-one-item-at-a-time-and-remove-the-original
   //https://stackoverflow.com/questions/76933229/can-react-query-make-sequential-network-calls-and-wait-for-previous-one-to-finis
 
-  /*
-
-
-  const results = useQueries(
-    selection.map((item, i) => ({
-      queryKey: ['something', item]
-      queryFn: () => fetchItem(item)
-      enabled: i <= noCompleted
-      staleTime: Infinity
-      cacheTime: Infinity
-    })
-  )
-
-  const firstLoading = results.findIndex((r) => r.isLoading)
-
-  React.useEffect(() => {
-    setNoCompleted(firstLoading)
-  }, [firstLoading])
- */
-
-  // https://stackoverflow.com/questions/74304516/react-query-dynamic-incremental-queries
   async function get_models() {
+    const randomNumber = Math.floor(Math.random() * (12000 - 1000 + 1)) + 1000;
+    console.log(randomNumber);
+    await asyncSleep(randomNumber);
     const models = await invoke("get_models");
     return models;
   }
-
-  // Define type for query options
-  // type ModelQueryOptions = UseQueryOptions<
-  //   unknown,
-  //   Error,
-  //   unknown,
-  //   string[] | TIteration[]
-  // >;
-
-  // Create an array of queries
-  // const queries: ModelQueryOptions[] = iterations.map(
-  const queries = iterations.map((params: TIteration, i: number) => ({
-    queryKey: [`get_inference${i}`], // Use 'i' for dynamic queryKey
-    queryFn: async () => {
-      const p = params;
-      await asyncSleep(2500);
-      return p;
-    },
-  }));
-
-  const results = useQueries({ queries: queries });
-
-  const firstLoading = results.findIndex((r) => r.isLoading);
-
-  useEffect(() => {
-    setNoCompleted(firstLoading);
-  }, [firstLoading]);
 
   // creates a linear array with param combinations
   useEffect(() => {
@@ -106,6 +55,22 @@ export default function GridResultsPane() {
     setIterations(localIterations);
   }, [gridParams.prompt, gridParams.models]);
 
+  const queries = iterations.map((params: TParamIteration, i: number) => ({
+    queryKey: ["get_inference", params],
+    queryFn: get_models,
+    enabled: i === 0 || i <= noCompleted,
+    staleTime: Infinity,
+    cacheTime: Infinity,
+  }));
+
+  const results = useQueries({ queries: queries });
+
+  const lastFetched = results.filter((r) => r.isFetched);
+
+  useEffect(() => {
+    setNoCompleted(lastFetched.length);
+  }, [lastFetched]);
+
   if (gridParams.models.length === 0 || gridParams.prompt.trim().length === 0) {
     return <>Tutorial</>;
   }
@@ -114,9 +79,11 @@ export default function GridResultsPane() {
     <div>
       {/* <pre>{JSON.stringify(gridParams, null, 2)}</pre>; */}
       {/* Quick stats on experiment */}
-      <div> Experiment started on {now.toUTCString()}</div>
-      <div> Number of iterations: {iterationsCount}</div>
+      <div> Experiment started on {start}</div>
+      <div> Number of iterations: {iterations.length}</div>
       <div id="results-list" className="overflow-y-auto">
+        <pre>No completed: {noCompleted}</pre>
+        {/* <pre>First Loading: {JSON.stringify(firstLoading, null, 2)}</pre> */}
         <pre>
           {JSON.stringify(results, null, 2)}
           {/* {results?.map((iteration: TIteration, idx: number) => (
