@@ -94,6 +94,7 @@ async fn get_inference(params: TParamIteration) -> Result<String, Error> {
         }
     };
     // dbg!(res);
+    println!("Inference complete.");
     Ok(res.response)
 }
 

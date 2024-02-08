@@ -102,7 +102,7 @@ export default function FormGridParams() {
   const form = useForm<z.infer<typeof ParamsFormSchema>>({
     resolver: zodResolver(ParamsFormSchema),
     defaultValues: {
-      prompt: "Return the value of 2+2",
+      prompt: "Write a short sentence!",
       models: ["dolphin-mistral:v2.6"],
       temperatureList: config.defaultOptions.temperature,
       repeatPenaltyList: config.defaultOptions.repeat_penalty,
@@ -123,7 +123,6 @@ export default function FormGridParams() {
     // clear previous results
     queryClient.removeQueries({
       queryKey: ["get_inference"],
-      refetchType: "all",
     });
 
     toast({
