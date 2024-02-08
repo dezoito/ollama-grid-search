@@ -12,7 +12,7 @@ https://byby.dev/at-rule-tailwind -> Extensions and configs for using tailwind w
 - Use Ollama server from settings in get_models and get inference
 - Use system prompt + other defaults
 - If form is reset, display instructions
-- Disable submit when queries are running.
+- Disable submit when queries are running (maybe add spinning icon).
 - Test a multiplatform release
 - Improve collapsible that displays params, and other metadata
 - Implement single instance check https://github.com/tauri-apps/plugins-workspace/tree/v1/plugins/single-instance
