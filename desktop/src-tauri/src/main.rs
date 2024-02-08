@@ -41,9 +41,10 @@ enum Error {
     #[error(transparent)]
     // #[error("Error from Ollama")]
     Ollama(#[from] OllamaError),
-    // // New variant for string-related errors
-    // #[error("String error: {0}")]
-    // StringError(String), // Include a String to represent the error message
+
+    // New variant for string-related errors
+    #[error("String error: {0}")]
+    StringError(String), // Include a String to represent the error message
 }
 
 // we must manually implement serde::Serialize
