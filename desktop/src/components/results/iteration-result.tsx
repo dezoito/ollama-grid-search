@@ -9,7 +9,7 @@ interface IProps {
 }
 
 export default function IterationResult(props: IProps) {
-  const { prompt, params } = props;
+  const { params } = props;
 
   // Use only the cached queries from the parent component
   const query = useQuery({
@@ -24,10 +24,10 @@ export default function IterationResult(props: IProps) {
     return <>loading....</>;
   }
   return (
-    <div className="bg-slate-500 m-3">
+    <>
       {/* <div>{prompt}</div> */}
       {/* <div>{JSON.stringify(params)}</div> */}
       <div className="bg-slate-700 m-3">{JSON.stringify(query, null, 2)}</div>
-    </div>
+    </>
   );
 }

@@ -100,8 +100,8 @@ export default function FormGridParams() {
   const form = useForm<z.infer<typeof ParamsFormSchema>>({
     resolver: zodResolver(ParamsFormSchema),
     defaultValues: {
-      prompt: "Hello from form-grid-params.tsx",
-      models: [],
+      prompt: "Hello!",
+      models: ["codellama:7b-code"],
       temperatureList: config.defaultOptions.temperature,
       repeatPenaltyList: config.defaultOptions.repeat_penalty,
       topKList: config.defaultOptions.top_k,

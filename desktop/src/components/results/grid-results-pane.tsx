@@ -4,7 +4,6 @@ import { useQueries } from "@tanstack/react-query";
 import { useAtom } from "jotai";
 import { useEffect, useState } from "react";
 import { get_inference } from "../queries";
-import IterationResult from "./iteration-result";
 
 const now = new Date();
 const start = now.toUTCString();
@@ -66,17 +65,17 @@ export default function GridResultsPane() {
       {/* Quick stats on experiment */}
       <div> Experiment started on {start}</div>
       <div id="results-list" className="overflow-y-auto">
-        <pre>
-          Iterations: {noCompleted}/{iterations.length}
-        </pre>
-        <pre>
-          {/* map iterations, not results.. get cached query in component */}
-          {iterations.map((iteration: TParamIteration, idx: number) => (
-            <div key={idx}>
-              <IterationResult params={iteration} prompt={gridParams.prompt} />
-            </div>
-          ))}
-        </pre>
+        Iterations: {noCompleted}/{iterations.length}
+        {/* {JSON.stringify(results, null, 2)} */}
+        {/* map iterations, not results.. get cached query in component */}
+        {/* {iterations.map((iteration: TParamIteration, idx: number) => (
+          <div key={idx}>
+            <IterationResult params={iteration} prompt={gridParams.prompt} />
+          </div>
+        ))} */}
+        {results.map((result: any, i: number) => (
+          <pre>{JSON.stringify(result, null, 2)}</pre>
+        ))}
       </div>
     </div>
   );
