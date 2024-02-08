@@ -1,0 +1,117 @@
+#[tauri::command]
+async fn get_inference(params: TParamIteration) -> Result<String, Error> {
+    // println!("{:?}", params);
+    println!("model {}", params.model);
+    println!("prompt {}", params.prompt);
+
+    let ollama = Ollama::default();
+    let res = ollama
+        .generate(GenerationRequest::new(params.model, params.prompt))
+        .await?;
+
+    println!(">>> {:?}", res.to_owned());
+
+    // if let Ok(res) = res {
+    //     println!(">>> {:?}", res.to_owned());
+    // }
+
+    // if let Err(res) = res {
+    //     println!(">>> {:?}", res.to_owned());
+    // }
+
+    Ok("done".to_string())
+
+    // let ollama = Ollama::default();
+    // let gen_req = GenerationRequest::new(params.model, params.prompt);
+
+    // let res = ollama.generate(gen_req).await.unwrap();
+
+    // println!("res is");
+    // println!("{:?}", res);
+    // if res. {
+    //     println!("Error: {:?}", res);
+    // } else {
+    //     println!("Success: {:?}", res)
+    // }
+
+    // match ollama.generate(gen_req).await? {
+    //     Genera(res) => {
+    //         println!("it works");
+    //         return Ok(res.response.to_string());
+    //     }
+    //     Err(err) => {
+    //         // Return a descriptive error message if listing fails
+    //         println!("Error: {}", err);
+    //         return Err(Error::Ollama(
+    //             format!("Failed to generate completion: {}", err).into(),
+    //         ));
+    //     }
+    // };
+
+    //     .generate(GenerationRequest::new(params.model, params.prompt))
+    //     .await
+    // {
+    //     Ok(res) => {
+    //         println!("it works");
+    //     }
+    //     Err(err) => {
+    //         // Return a descriptive error message if listing fails
+    //         println!("Error: {}", err);
+    //         return Err(Error::Ollama(
+    //             format!("Failed to list local models: {}", err).into(),
+    //         ));
+    //     }
+    // };
+
+    // let ollama = Ollama::default();
+    // let res = ollama
+    //     .generate(GenerationRequest::new(params.model, params.prompt).stream(false))
+    //     .await
+    //     .unwrap();
+}
+
+
+
+#[tauri::command]
+async fn get_models() -> Result<Vec<String>, Error> {
+    let ollama = Ollama::default();
+
+    // let models = match ollama.list_local_models().await {
+    //     Ok(models) => models,
+    //     Err(err) => {
+    //         // Return a descriptive error message if listing fails
+    //         println!("Error: {}", err);
+    //         return Error::Ollama(format!("Failed to list local models: {}", err));
+    //     }
+    // };
+
+    let models = ollama.list_local_models().await?;
+
+    let model_list: Vec<String> = models.into_iter().map(|model| model.name).collect();
+    Ok(model_list)
+}
+
+
+
+Error when Ollama is down
+Error: String error: error sending request for url (http://127.0.0.1:11434/api/generate): error trying to connect: tcp connect error: Connection refused (os error 111)
+
+
+
+#[tauri::command]
+async fn get_inference(params: TParamIteration) -> Result<String, Error> {
+    let ollama = Ollama::default();
+    println!("get_inference was invoked..");
+    let res = match ollama
+        .generate(GenerationRequest::new(params.model, params.prompt))
+        .await
+    {
+        Ok(value) => value,
+        Err(err) => {
+            println!("Error: {}", err.to_string());
+            return Err(Error::StringError(err.to_string()));
+        }
+    };
+    dbg!(res);
+    Ok("done".to_string())
+}
