@@ -14,6 +14,7 @@ https://byby.dev/at-rule-tailwind -> Extensions and configs for using tailwind w
 - If form is reset, display instructions
 - Disable submit when queries are running.
 - Test a multiplatform release
+- Improve collapsible that displays params, and other metadata
 - Implement single instance check https://github.com/tauri-apps/plugins-workspace/tree/v1/plugins/single-instance
 - Plan on saving results to SQLite
 - Add movable divider component
