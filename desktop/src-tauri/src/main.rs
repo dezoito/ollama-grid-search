@@ -16,7 +16,7 @@ https://jonaskruckenberg.github.io/tauri-docs-wip/development/inter-process-comm
 
 The Error enum, therefore, has to implement a variant for "OllamaError"
 */
-use ollama_rs::generation::completion::GenerationFinalResponseData;
+// use ollama_rs::generation::completion::GenerationFinalResponseData;
 use ollama_rs::{error::OllamaError, generation::completion::request::GenerationRequest, Ollama};
 use serde::{Deserialize, Serialize};
 use thiserror::Error;
@@ -41,6 +41,9 @@ enum Error {
     #[error(transparent)]
     // #[error("Error from Ollama")]
     Ollama(#[from] OllamaError),
+    // // New variant for string-related errors
+    // #[error("String error: {0}")]
+    // StringError(String), // Include a String to represent the error message
 }
 
 // we must manually implement serde::Serialize
@@ -56,16 +59,6 @@ impl serde::Serialize for Error {
 #[tauri::command]
 async fn get_models() -> Result<Vec<String>, Error> {
     let ollama = Ollama::default();
-
-    // let models = match ollama.list_local_models().await {
-    //     Ok(models) => models,
-    //     Err(err) => {
-    //         // Return a descriptive error message if listing fails
-    //         println!("Error: {}", err);
-    //         return Error::Ollama(format!("Failed to list local models: {}", err));
-    //     }
-    // };
-
     let models = ollama.list_local_models().await?;
 
     let model_list: Vec<String> = models.into_iter().map(|model| model.name).collect();
@@ -74,32 +67,20 @@ async fn get_models() -> Result<Vec<String>, Error> {
 
 #[tauri::command]
 async fn get_inference(params: TParamIteration) -> Result<String, Error> {
-    println!("{:?}", params);
-
-    // let ollama = Ollama::default();
-    // let res = match ollama
-    //     .generate(GenerationRequest::new(params.model, params.prompt))
-    //     .await
-    // {
-    //     Ok(res) => {
-    //         println!("it works");
-    //     }
-    //     Err(err) => {
-    //         // Return a descriptive error message if listing fails
-    //         println!("Error: {}", err);
-    //         return Err(Error::Ollama(
-    //             format!("Failed to list local models: {}", err).into(),
-    //         ));
-    //     }
-    // };
-    // let ollama = Ollama::default();
-
-    // let res = ollama
-    //     .generate(GenerationRequest::new(params.model, params.prompt).stream(false))
-    //     .await
-    //     .unwrap();
-
-    todo!()
+    let ollama = Ollama::default();
+    println!("get_inference was invoked..");
+    let res = match ollama
+        .generate(GenerationRequest::new(params.model, params.prompt))
+        .await
+    {
+        Ok(value) => value,
+        Err(err) => {
+            println!("Error: {}", err.to_string());
+            return Err(Error::StringError(err.to_string()));
+        }
+    };
+    dbg!(res);
+    Ok("done".to_string())
 }
 
 fn main() {
