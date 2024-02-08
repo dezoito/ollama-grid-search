@@ -6,7 +6,7 @@ import {
   CommandItem,
 } from "@/components/ui/command";
 import { useQuery } from "@tanstack/react-query";
-import { invoke } from "@tauri-apps/api/tauri";
+import { get_models } from "../queries";
 import AlertError from "../ui/AlertError";
 import { Checkbox } from "../ui/checkbox";
 import {
@@ -16,7 +16,6 @@ import {
   FormLabel,
   FormMessage,
 } from "../ui/form";
-import { get_models } from "../queries";
 
 interface IProps {
   form: any;

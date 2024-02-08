@@ -1,9 +1,10 @@
 import { gridParamsAtom } from "@/Atoms";
 import { TParamIteration } from "@/Interfaces";
-import { useQuery } from "@tanstack/react-query";
+import { useQueries } from "@tanstack/react-query";
 import { useAtom } from "jotai";
 import { useEffect, useState } from "react";
 import { get_inference } from "../queries";
+import IterationResult from "./iteration-result";
 
 const now = new Date();
 const start = now.toUTCString();
@@ -47,35 +48,35 @@ export default function GridResultsPane() {
   //   string[] | TParamIteration[]
   // >;
 
-  // const queries: any = iterations.map((params: TParamIteration, i: number) => ({
-  //   queryKey: ["get_inference", params],
-  //   queryFn: get_inference(params),
-  //   enabled: i === 0 || i <= noCompleted,
-  //   staleTime: Infinity,
-  //   cacheTime: Infinity,
-  // }));
+  const queries: any = iterations.map((params: TParamIteration, i: number) => ({
+    queryKey: ["get_inference", params],
+    queryFn: () => get_inference(params),
+    enabled: i === 0 || i <= noCompleted,
+    staleTime: Infinity,
+    cacheTime: Infinity,
+  }));
 
-  // const results = useQueries({ queries: queries });
+  const results = useQueries({ queries: queries });
 
-  // const lastFetched = results.filter((r) => r.isFetched);
+  const lastFetched = results.filter((r) => r.isFetched);
 
-  // useEffect(() => {
-  //   setNoCompleted(lastFetched.length);
-  // }, [lastFetched]);
+  useEffect(() => {
+    setNoCompleted(lastFetched.length);
+  }, [lastFetched]);
 
-  // fire just one query
-  const results = useQuery({
-    queryKey: ["get_inference"],
-    queryFn: () =>
-      get_inference({
-        model: "dolphin-mistral:v2.6",
-        prompt: "Oi",
-        temperature: 0.5,
-        repeat_penalty: 1.5,
-        top_k: 50,
-        top_p: 0.25,
-      }),
-  });
+  // // fire just one query
+  // const results = useQuery({
+  //   queryKey: ["get_inference"],
+  //   queryFn: () =>
+  //     get_inference({
+  //       model: "dolphin-mistral:v2.6",
+  //       prompt: "Oi",
+  //       temperature: 0.5,
+  //       repeat_penalty: 1.5,
+  //       top_k: 50,
+  //       top_p: 0.25,
+  //     }),
+  // });
 
   if (gridParams.models.length === 0 || gridParams.prompt.trim().length === 0) {
     return <>Tutorial</>;
@@ -88,13 +89,13 @@ export default function GridResultsPane() {
       <div> Experiment started on {start}</div>
       <div id="results-list" className="overflow-y-auto">
         Iterations: {noCompleted}/{iterations.length}
-        <pre>{JSON.stringify(results, null, 2)}</pre>
+        {/* <pre>{JSON.stringify(results, null, 2)}</pre> */}
         {/* map iterations, not results.. get cached query in component */}
-        {/* {iterations.map((iteration: TParamIteration, idx: number) => (
+        {iterations.map((iteration: TParamIteration, idx: number) => (
           <div key={idx}>
             <IterationResult params={iteration} prompt={gridParams.prompt} />
           </div>
-        ))} */}
+        ))}
         {/* {results.map((result: any, i: number) => (
           <pre>{JSON.stringify(result, null, 2)}</pre>
         ))} */}

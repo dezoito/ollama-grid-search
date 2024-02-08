@@ -1,6 +1,7 @@
 import { configAtom, gridParamsAtom } from "@/Atoms";
 import { Input } from "@/components/ui/input";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useQueryClient } from "@tanstack/react-query";
 import { useAtom } from "jotai";
 import { useForm } from "react-hook-form";
 import z from "zod";
@@ -92,6 +93,7 @@ function paramsToArray(list: string): number[] {
 }
 
 export default function FormGridParams() {
+  const queryClient = useQueryClient();
   const { toast } = useToast();
   const [config, _] = useAtom(configAtom);
   const [__, setGridParams] = useAtom(gridParamsAtom);
@@ -100,8 +102,8 @@ export default function FormGridParams() {
   const form = useForm<z.infer<typeof ParamsFormSchema>>({
     resolver: zodResolver(ParamsFormSchema),
     defaultValues: {
-      prompt: "Hello!",
-      models: ["codellama:7b-code"],
+      prompt: "Return the value of 2+2",
+      models: ["dolphin-mistral:v2.6"],
       temperatureList: config.defaultOptions.temperature,
       repeatPenaltyList: config.defaultOptions.repeat_penalty,
       topKList: config.defaultOptions.top_k,
@@ -116,6 +118,12 @@ export default function FormGridParams() {
       repeatPenaltyList: paramsToArray(data.repeatPenaltyList),
       topKList: paramsToArray(data.topKList),
       topPList: paramsToArray(data.topPList),
+    });
+
+    // clear previous results
+    queryClient.removeQueries({
+      queryKey: ["get_inference"],
+      refetchType: "all",
     });
 
     toast({

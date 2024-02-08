@@ -8,8 +8,9 @@ https://byby.dev/at-rule-tailwind -> Extensions and configs for using tailwind w
 [ok] - Verify if Atom values for grid params can be scalar or always converted to lists
 (always convert to lists)
 
+- Return full response from inference
 - Use Ollama server from settings in get_models and get inference
-
+- Use system prompt + other defaults
 - If form is reset, display instructions
 - Disable submit when queries are running.
 - Test a multiplatform release

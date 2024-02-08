@@ -14,7 +14,7 @@ export default function IterationResult(props: IProps) {
   // Use only the cached queries from the parent component
   const query = useQuery({
     queryKey: ["get_inference", params],
-    queryFn: get_inference(params),
+    queryFn: () => get_inference(params),
     enabled: false,
     staleTime: Infinity,
     cacheTime: Infinity,
@@ -27,7 +27,10 @@ export default function IterationResult(props: IProps) {
     <>
       {/* <div>{prompt}</div> */}
       {/* <div>{JSON.stringify(params)}</div> */}
-      <div className="bg-slate-700 m-3">{JSON.stringify(query, null, 2)}</div>
+      <div className="bg-slate-700 m-3">
+        <pre>{JSON.stringify(query, null, 2)}</pre>
+        {/* <div>{query.data.tos}</div> */}
+      </div>
     </>
   );
 }

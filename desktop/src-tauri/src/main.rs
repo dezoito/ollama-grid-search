@@ -80,8 +80,8 @@ async fn get_models() -> Result<Vec<String>, Error> {
 
 #[tauri::command]
 async fn get_inference(params: TParamIteration) -> Result<String, Error> {
+    //TODO, simplify and retrun entire response
     let ollama = Ollama::default();
-    println!("get_inference was invoked..");
     dbg!(&params);
     let res = match ollama
         .generate(GenerationRequest::new(params.model, params.prompt))
