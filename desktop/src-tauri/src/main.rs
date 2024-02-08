@@ -20,6 +20,7 @@ The Error enum, therefore, has to implement a variant for "OllamaError"
 use ollama_rs::{error::OllamaError, generation::completion::request::GenerationRequest, Ollama};
 use serde::{Deserialize, Serialize};
 use thiserror::Error;
+use tokio::time::{sleep, Duration};
 
 #[derive(Debug, Serialize, Deserialize)]
 struct TParamIteration {
@@ -29,6 +30,17 @@ struct TParamIteration {
     repeat_penalty: f32,
     top_k: i32,
     top_p: f32,
+}
+
+async fn wait_and_return(duration_seconds: u64) -> String {
+    // Convert seconds to Duration
+    let duration = Duration::from_secs(duration_seconds);
+
+    // Sleep for the specified duration
+    sleep(duration).await;
+
+    // Return a message indicating that the wait is over
+    format!("Waited for {} seconds.", duration_seconds)
 }
 
 // Use thiserror::Error to implement serializable errors
@@ -70,6 +82,7 @@ async fn get_models() -> Result<Vec<String>, Error> {
 async fn get_inference(params: TParamIteration) -> Result<String, Error> {
     let ollama = Ollama::default();
     println!("get_inference was invoked..");
+    dbg!(&params);
     let res = match ollama
         .generate(GenerationRequest::new(params.model, params.prompt))
         .await
@@ -80,9 +93,15 @@ async fn get_inference(params: TParamIteration) -> Result<String, Error> {
             return Err(Error::StringError(err.to_string()));
         }
     };
-    dbg!(res);
-    Ok("done".to_string())
+    // dbg!(res);
+    Ok(res.response)
 }
+
+// async fn get_inference(params: TParamIteration) -> Result<String, Error> {
+//     wait_and_return(5).await;
+//     dbg!(params);
+//     Ok("I'm returning from get_inference".to_string())
+// }
 
 fn main() {
     tauri::Builder::default()

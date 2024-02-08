@@ -1,6 +1,6 @@
 import { gridParamsAtom } from "@/Atoms";
 import { TParamIteration } from "@/Interfaces";
-import { useQueries } from "@tanstack/react-query";
+import { useQuery } from "@tanstack/react-query";
 import { useAtom } from "jotai";
 import { useEffect, useState } from "react";
 import { get_inference } from "../queries";
@@ -39,21 +39,43 @@ export default function GridResultsPane() {
     setIterations(localIterations);
   }, [gridParams.prompt, gridParams.models]);
 
-  const queries = iterations.map((params: TParamIteration, i: number) => ({
-    queryKey: ["get_inference", params],
-    queryFn: get_inference(params),
-    enabled: i === 0 || i <= noCompleted,
-    staleTime: Infinity,
-    cacheTime: Infinity,
-  }));
+  // // Define type for query options
+  // type ModelQueryOptions = UseQueryOptions<
+  //   unknown,
+  //   Error,
+  //   unknown,
+  //   string[] | TParamIteration[]
+  // >;
 
-  const results = useQueries({ queries: queries });
+  // const queries: any = iterations.map((params: TParamIteration, i: number) => ({
+  //   queryKey: ["get_inference", params],
+  //   queryFn: get_inference(params),
+  //   enabled: i === 0 || i <= noCompleted,
+  //   staleTime: Infinity,
+  //   cacheTime: Infinity,
+  // }));
 
-  const lastFetched = results.filter((r) => r.isFetched);
+  // const results = useQueries({ queries: queries });
 
-  useEffect(() => {
-    setNoCompleted(lastFetched.length);
-  }, [lastFetched]);
+  // const lastFetched = results.filter((r) => r.isFetched);
+
+  // useEffect(() => {
+  //   setNoCompleted(lastFetched.length);
+  // }, [lastFetched]);
+
+  // fire just one query
+  const results = useQuery({
+    queryKey: ["get_inference"],
+    queryFn: () =>
+      get_inference({
+        model: "dolphin-mistral:v2.6",
+        prompt: "Oi",
+        temperature: 0.5,
+        repeat_penalty: 1.5,
+        top_k: 50,
+        top_p: 0.25,
+      }),
+  });
 
   if (gridParams.models.length === 0 || gridParams.prompt.trim().length === 0) {
     return <>Tutorial</>;
@@ -66,16 +88,16 @@ export default function GridResultsPane() {
       <div> Experiment started on {start}</div>
       <div id="results-list" className="overflow-y-auto">
         Iterations: {noCompleted}/{iterations.length}
-        {/* {JSON.stringify(results, null, 2)} */}
+        <pre>{JSON.stringify(results, null, 2)}</pre>
         {/* map iterations, not results.. get cached query in component */}
         {/* {iterations.map((iteration: TParamIteration, idx: number) => (
           <div key={idx}>
             <IterationResult params={iteration} prompt={gridParams.prompt} />
           </div>
         ))} */}
-        {results.map((result: any, i: number) => (
+        {/* {results.map((result: any, i: number) => (
           <pre>{JSON.stringify(result, null, 2)}</pre>
-        ))}
+        ))} */}
       </div>
     </div>
   );

@@ -115,3 +115,64 @@ async fn get_inference(params: TParamIteration) -> Result<String, Error> {
     dbg!(res);
     Ok("done".to_string())
 }
+
+
+// Shape of response
+
+[src/main.rs:96] res = GenerationResponse {
+    model: "dolphin-mistral:v2.6",
+    created_at: "2024-02-08T19:54:00.324376786Z",
+    response: "Ola! How can I help you today?",
+    done: true,
+    final_data: Some(
+        GenerationFinalResponseData {
+            context: GenerationContext(
+                [
+                    32000,
+                    6574,
+                    13,
+                    1976,
+                    460,
+                    15052,
+                    721,
+                    262,
+                    28725,
+                    264,
+                    10865,
+                    16107,
+                    13892,
+                    28723,
+                    13,
+                    2,
+                    13,
+                    32000,
+                    1838,
+                    13,
+                    28762,
+                    28710,
+                    2,
+                    13,
+                    32000,
+                    489,
+                    11143,
+                    13,
+                    28762,
+                    2220,
+                    28808,
+                    1602,
+                    541,
+                    315,
+                    1316,
+                    368,
+                    3154,
+                    28804,
+                ],
+            ),
+            total_duration: 4287291844,
+            prompt_eval_count: 29,
+            prompt_eval_duration: 2117403000,
+            eval_count: 11,
+            eval_duration: 1180868000,
+        },
+    ),
+}
