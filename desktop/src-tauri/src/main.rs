@@ -32,6 +32,7 @@ struct TParamIteration {
     top_p: f32,
 }
 
+#[allow(unused)]
 async fn wait_and_return(duration_seconds: u64) -> String {
     // Convert seconds to Duration
     let duration = Duration::from_secs(duration_seconds);
@@ -80,7 +81,7 @@ async fn get_models() -> Result<Vec<String>, Error> {
 
 #[tauri::command]
 async fn get_inference(params: TParamIteration) -> Result<String, Error> {
-    //TODO, simplify and retrun entire response
+    //TODO, simplify and return the entire response
     let ollama = Ollama::default();
     dbg!(&params);
     let res = match ollama

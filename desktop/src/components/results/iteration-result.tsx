@@ -17,7 +17,7 @@ interface IProps {
 
 export default function IterationResult(props: IProps) {
   const { params } = props;
-  const { prompt, model, temperature, repeat_penalty, top_k, top_p } = params;
+  const { model, temperature, repeat_penalty, top_k, top_p } = params;
   const queryClient = useQueryClient();
 
   // Use only the cached queries from the parent component
@@ -33,11 +33,12 @@ export default function IterationResult(props: IProps) {
     return <div className="my-3 p-4 ">Generating...</div>;
   }
   return (
-    <div className="flex flex-row">
+    <div className="flex flex-row gap-1">
       {/* <div>{prompt}</div> */}
       {/* <div>{JSON.stringify(params)}</div> */}
       <div className="bg-cyan-400/20 dark:bg-slate-700/50 my-3 p-4 rounded">
         {/* <pre>{JSON.stringify(query, null, 2)}</pre> */}
+        <div className="text-sm font-semibold">{model}:</div>
 
         <div className="text-cyan-600 dark:text-cyan-600 ">
           {query.data as string}

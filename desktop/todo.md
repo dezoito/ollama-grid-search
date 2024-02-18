@@ -7,14 +7,18 @@ https://byby.dev/at-rule-tailwind -> Extensions and configs for using tailwind w
 [ok] - Make parameter selection form
 [ok] - Verify if Atom values for grid params can be scalar or always converted to lists
 (always convert to lists)
+[ok] - Disable submit when queries are running (maybe add spinning icon).
 
+- Add keyboard shortcuts
+- Improve collapsible that displays params, and other metadata
+- Segregate spinner into own component
+- Add loader/spinner inside each result component
+- Add button to cancel/stop experiment
 - Return full response from inference
 - Use Ollama server from settings in get_models and get inference
 - Use system prompt + other defaults
 - If form is reset, display instructions
-- Disable submit when queries are running (maybe add spinning icon).
 - Test a multiplatform release
-- Improve collapsible that displays params, and other metadata
 - Implement single instance check https://github.com/tauri-apps/plugins-workspace/tree/v1/plugins/single-instance
 - Plan on saving results to SQLite
 - Add movable divider component
