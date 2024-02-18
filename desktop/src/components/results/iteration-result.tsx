@@ -38,8 +38,11 @@ export default function IterationResult(props: IProps) {
       {/* <div>{JSON.stringify(params)}</div> */}
       <div className="bg-cyan-400/20 dark:bg-slate-700/50 my-3 p-4 rounded">
         {/* <pre>{JSON.stringify(query, null, 2)}</pre> */}
+
+        {/* model + inference params */}
         <div className="text-sm font-semibold">{model}:</div>
 
+        {/* inferred text */}
         <div className="text-cyan-600 dark:text-cyan-600 ">
           {query.data as string}
         </div>

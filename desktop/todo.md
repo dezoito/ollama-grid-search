@@ -9,16 +9,16 @@ https://byby.dev/at-rule-tailwind -> Extensions and configs for using tailwind w
 (always convert to lists)
 [ok] - Disable submit when queries are running (maybe add spinning icon).
 
-- Add keyboard shortcuts
 - Improve collapsible that displays params, and other metadata
 - Segregate spinner into own component
 - Add loader/spinner inside each result component
-- Add button to cancel/stop experiment
-- Return full response from inference
 - Use Ollama server from settings in get_models and get inference
 - Use system prompt + other defaults
+- Add button to cancel/stop experiment
+- Return full response from inference
 - If form is reset, display instructions
 - Test a multiplatform release
 - Implement single instance check https://github.com/tauri-apps/plugins-workspace/tree/v1/plugins/single-instance
 - Plan on saving results to SQLite
 - Add movable divider component
+- Add keyboard shortcuts
