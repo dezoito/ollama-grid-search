@@ -13,7 +13,7 @@ export default function Spinner({ className }: IProps) {
       <svg
         aria-hidden="true"
         className={cn(
-          "w-8 h-8 text-black animate-spin dark:text-white  fill-blue-600",
+          "w-8 h-8 text-black animate-spin dark:text-gray  fill-blue-600",
           className,
         )}
         viewBox="0 0 100 101"

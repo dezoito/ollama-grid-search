@@ -1,4 +1,4 @@
-https://byby.dev/at-rule-tailwind -> Extensions and configs for using tailwind with vscod
+https://byby.dev/at-rule-tailwind -> Extensions and configs for using tailwind with vscode
 [ok] - Test error handling when server fails
 [ok] - Create settings control (modal)
 [ok] - Edit README
@@ -10,8 +10,9 @@ https://byby.dev/at-rule-tailwind -> Extensions and configs for using tailwind w
 [ok] - Disable submit when queries are running (maybe add spinning icon)
 [ok] - Improve collapsible that displays params, and other metadata
 [ok] - Segregate spinner into its own component
+[ok] - Add loader/spinner inside each result component
 
-- Add loader/spinner inside each result component
+- Add fixed header to results pannel with controls to expand/collapse metadata in all inferences
 - Use Ollama server from settings in get_models and get inference
 - Use system prompt + other defaults
 - Add button to cancel/stop experiment
