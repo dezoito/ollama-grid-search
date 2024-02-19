@@ -242,7 +242,7 @@ export default function FormGridParams() {
             id="button-area"
             className="w-[479px] fixed bottom-0 left-0 right-0 p-4 shadow-md bg-white dark:bg-zinc-950"
           >
-            <div className="w-1/5">
+            <div className="flex gap-4 w-1/5">
               {/* Ensure the button-area stays within the column */}
               <Button type="submit" disabled={!!isFetching}>
                 {!!isFetching ? (
@@ -252,6 +252,17 @@ export default function FormGridParams() {
                 ) : (
                   "Start Experiment"
                 )}
+              </Button>
+
+              <Button
+                type="button"
+                variant="destructive"
+                disabled={!isFetching}
+                onClick={() =>
+                  queryClient.cancelQueries({ queryKey: ["get_inference"] })
+                }
+              >
+                Stop Experiment
               </Button>
             </div>
           </div>
