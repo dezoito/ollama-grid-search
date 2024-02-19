@@ -8,7 +8,7 @@ function Layout() {
   // const [models, setModels] = useState<string[]>([]);
 
   return (
-    <div className="flex flex-col h-screen">
+    <div className="flex flex-col h-screen fixed w-full">
       {/* nav */}
       <header className="flex h-16 items-center justify-between px-4 md:px-6 bg-zinc-950">
         <span className="flex items-center gap-2">
@@ -28,11 +28,9 @@ function Layout() {
         </div>
 
         {/* main div */}
-        <main className="flex-1 p-4 overflow-y-auto">
-          <div className="p-2 m-1">
-            <div className="text-gray-500 dark:text-gray-400">
-              <GridResultsPane />
-            </div>
+        <main className="flex-1 py-0 m-4 overflow-y-auto">
+          <div className="text-gray-500 dark:text-gray-400">
+            <GridResultsPane />
           </div>
         </main>
       </div>

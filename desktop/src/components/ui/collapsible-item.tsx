@@ -11,7 +11,7 @@ import {
 } from "@/components/ui/collapsible";
 
 interface IProps {
-  title: string;
+  title?: string;
   triggerText: string;
   children: React.ReactNode;
   defaultOpen: boolean;
@@ -20,6 +20,11 @@ interface IProps {
 export function CollapsibleItem(props: IProps) {
   const { title, triggerText, children, defaultOpen } = props;
   const [isOpen, setIsOpen] = React.useState(defaultOpen);
+
+  React.useEffect(() => {
+    setIsOpen(defaultOpen);
+  }, [defaultOpen]);
+
   return (
     <Collapsible
       open={isOpen}
@@ -27,10 +32,11 @@ export function CollapsibleItem(props: IProps) {
       className="space-y-2" //w-[350px]
     >
       <div className="flex items-center justify-stretch  my-1">
-        <div className="text-sm font-semibold">{title}</div>
+        {title && <div className="text-sm font-semibold">{title}</div>}
+
         <CollapsibleTrigger asChild>
           <Button variant="ghost" size="sm">
-            <DotsVerticalIcon className="h-4 w-4 mx-1" />
+            <DotsVerticalIcon className="h-4 w-4 mr-1" />
             {triggerText}
             <span className="sr-only">Toggle Open</span>
           </Button>

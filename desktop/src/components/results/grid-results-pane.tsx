@@ -1,9 +1,12 @@
 import { gridParamsAtom } from "@/Atoms";
 import { TParamIteration } from "@/Interfaces";
+import { ChevronDownIcon, ChevronUpIcon } from "@radix-ui/react-icons";
 import { useQueries } from "@tanstack/react-query";
 import { useAtom } from "jotai";
 import { useEffect, useState } from "react";
 import { get_inference } from "../queries";
+import { Button } from "../ui/button";
+import { Separator } from "../ui/separator";
 import IterationResult from "./iteration-result";
 
 const now = new Date();
@@ -13,6 +16,8 @@ export default function GridResultsPane() {
   const [gridParams, _] = useAtom(gridParamsAtom);
   const [iterations, setIterations] = useState<TParamIteration[]>([]);
   const [noCompleted, setNoCompleted] = useState(0);
+  const [expandParams, setExpandParams] = useState(false);
+  const [expandMetadata, setExpandMetadata] = useState(false);
 
   //https://stackoverflow.com/questions/76933229/can-react-query-make-sequential-network-calls-and-wait-for-previous-one-to-finis
 
@@ -64,36 +69,72 @@ export default function GridResultsPane() {
     setNoCompleted(lastFetched.length);
   }, [lastFetched]);
 
-  // // fire just one query
-  // const results = useQuery({
-  //   queryKey: ["get_inference"],
-  //   queryFn: () =>
-  //     get_inference({
-  //       model: "dolphin-mistral:v2.6",
-  //       prompt: "Oi",
-  //       temperature: 0.5,
-  //       repeat_penalty: 1.5,
-  //       top_k: 50,
-  //       top_p: 0.25,
-  //     }),
-  // });
-
   if (gridParams.models.length === 0 || gridParams.prompt.trim().length === 0) {
     return <>Tutorial</>;
   }
 
   return (
     <div>
-      {/* <pre>{JSON.stringify(gridParams, null, 2)}</pre>; */}
-      {/* Quick stats on experiment */}
-      <div> Experiment started on {start}</div>
-      <div id="results-list" className="overflow-y-auto">
-        Iterations: {noCompleted}/{iterations.length}
+      <div className="sticky top-0 bg-white dark:bg-zinc-950 z-50 pb-4">
+        <div className="flex gap-2 my-4">
+          <Button
+            variant="ghost"
+            size="tight"
+            onClick={() => setExpandParams(!expandParams)}
+          >
+            {expandParams ? (
+              <>
+                <ChevronUpIcon className="h-5 w-5 m-1 text-black dark:text-gray-600" />
+                Hide Inference parameters
+              </>
+            ) : (
+              <>
+                <ChevronDownIcon className="h-5 w-5 m-1 text-black dark:text-gray-600" />
+                Expand Inference parameters
+              </>
+            )}
+          </Button>
+          <Button
+            variant="ghost"
+            size="tight"
+            onClick={() => setExpandMetadata(!expandMetadata)}
+          >
+            {expandMetadata ? (
+              <>
+                <ChevronUpIcon className="h-5 w-5 m-1 text-black dark:text-gray-600" />
+                Hide Inference metadata
+              </>
+            ) : (
+              <>
+                <ChevronDownIcon className="h-5 w-5 m-1 text-black dark:text-gray-600" />
+                Expand Inference metadata
+              </>
+            )}
+          </Button>
+        </div>
+
+        <Separator className="my-4" />
+        <div>
+          <div> Experiment started on {start}</div>
+          <div>
+            Iterations: {noCompleted}/{iterations.length}
+          </div>
+        </div>
+      </div>
+
+      <div id="results-list" className="py-2 my-4 overflow-y-auto">
         {/* <pre>{JSON.stringify(results, null, 2)}</pre> */}
-        {/* map iterations, not results.. get cached query in component */}
+        {/* map iterations, not results.. use cached query inside component */}
         {iterations.map((iteration: TParamIteration, idx: number) => (
           <div key={idx}>
-            <IterationResult params={iteration} prompt={gridParams.prompt} />
+            <IterationResult
+              iterationIndex={idx}
+              totalIterations={iterations.length}
+              params={iteration}
+              prompt={gridParams.prompt}
+              expandParams={expandParams}
+              expandMetadata={expandMetadata}
+            />
           </div>
         ))}
         {/* {results.map((result: any, i: number) => (
