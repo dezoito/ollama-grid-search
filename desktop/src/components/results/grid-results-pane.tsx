@@ -1,7 +1,7 @@
 import { gridParamsAtom } from "@/Atoms";
 import { TParamIteration } from "@/Interfaces";
 import { ChevronDownIcon, ChevronUpIcon } from "@radix-ui/react-icons";
-import { useQueries } from "@tanstack/react-query";
+import { useQueries, useQueryClient } from "@tanstack/react-query";
 import { useAtom } from "jotai";
 import { useEffect, useState } from "react";
 import { get_inference } from "../queries";
@@ -18,11 +18,14 @@ export default function GridResultsPane() {
   const [noCompleted, setNoCompleted] = useState(0);
   const [expandParams, setExpandParams] = useState(false);
   const [expandMetadata, setExpandMetadata] = useState(false);
+  const queryClient = useQueryClient();
 
   //https://stackoverflow.com/questions/76933229/can-react-query-make-sequential-network-calls-and-wait-for-previous-one-to-finis
 
   // creates a linear array with param combinations
   useEffect(() => {
+    queryClient.removeQueries({ queryKey: ["get_inference"] });
+
     const localIterations = [];
     for (const model of gridParams.models) {
       for (const temperature of gridParams.temperatureList) {
@@ -43,7 +46,7 @@ export default function GridResultsPane() {
       }
     }
     setIterations(localIterations);
-  }, [gridParams.prompt, gridParams.models]);
+  }, [gridParams.uuid]);
 
   // // Define type for query options
   // type ModelQueryOptions = UseQueryOptions<
@@ -115,7 +118,9 @@ export default function GridResultsPane() {
 
         <Separator className="my-4" />
         <div>
-          <div> Experiment started on {start}</div>
+          <div>
+            Experiment {gridParams.uuid} started on {start}.
+          </div>
           <div>
             Iterations: {noCompleted}/{iterations.length}
           </div>
