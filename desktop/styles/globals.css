@@ -75,7 +75,3 @@
     font-family: "GeistSans", system-ui, sans-serif;
   } */
 }
-
-.inherit-theme-bg {
-  background-color: var(--background);
-}
