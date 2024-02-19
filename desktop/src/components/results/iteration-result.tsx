@@ -9,10 +9,12 @@ import Spinner from "../ui/spinner";
 interface IProps {
   prompt: string;
   params: TParamIteration;
+  iterationIndex: number;
+  totalIterations: number;
 }
 
 export default function IterationResult(props: IProps) {
-  const { params } = props;
+  const { params, iterationIndex, totalIterations } = props;
   const { model, temperature, repeat_penalty, top_k, top_p } = params;
   const queryClient = useQueryClient();
 
@@ -25,15 +27,12 @@ export default function IterationResult(props: IProps) {
     // cacheTime: Infinity,
   });
 
-  // if (query.isFetching) {
-  //   return <div className="my-3 p-4 ">Generating...</div>;
-  // }
   return (
     <div className="flex flex-row gap-1">
       <div className="w-11/12 bg-cyan-400/20 dark:bg-slate-700/50 my-3 p-4 rounded">
         {/* model + inference params */}
         <CollapsibleItem
-          title={model}
+          title={`${iterationIndex + 1}/${totalIterations} - ${model}`}
           triggerText="Inference Parameters"
           defaultOpen={false}
         >

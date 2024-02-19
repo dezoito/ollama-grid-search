@@ -79,7 +79,12 @@ export default function GridResultsPane() {
         {/* map iterations, not results.. get cached query in component */}
         {iterations.map((iteration: TParamIteration, idx: number) => (
           <div key={idx}>
-            <IterationResult params={iteration} prompt={gridParams.prompt} />
+            <IterationResult
+              iterationIndex={idx}
+              totalIterations={iterations.length}
+              params={iteration}
+              prompt={gridParams.prompt}
+            />
           </div>
         ))}
         {/* {results.map((result: any, i: number) => (
