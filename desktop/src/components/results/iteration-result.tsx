@@ -1,6 +1,7 @@
 import { TParamIteration } from "@/Interfaces";
 import { ReloadIcon } from "@radix-ui/react-icons";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
+import { useEffect, useState } from "react";
 import { get_inference } from "../queries";
 import { Button } from "../ui/button";
 import { CollapsibleItem } from "../ui/collapsible-item";
@@ -25,15 +26,21 @@ export default function IterationResult(props: IProps) {
   } = props;
   const { model, temperature, repeat_penalty, top_k, top_p } = params;
   const queryClient = useQueryClient();
+  const [enabled, setEnabled] = useState(false);
 
   // Use only the cached queries from the parent component
+  // Keep "enabled: false" to run queries in sequence and not concurrently
   const query = useQuery({
     queryKey: ["get_inference", params],
     queryFn: () => get_inference(params),
-    enabled: true,
+    enabled: enabled,
     staleTime: Infinity,
     // cacheTime: Infinity,
   });
+
+  useEffect(() => {
+    setEnabled(false);
+  }, [query.isFetched]);
 
   return (
     <div className="flex flex-row gap-1">
@@ -52,7 +59,7 @@ export default function IterationResult(props: IProps) {
           </div>
         </CollapsibleItem>
 
-        {query.isFetching ? (
+        {!query.isFetched ? (
           <div className="flex text-center my-3 gap-2 items-center">
             <Spinner className="inline w-8 h-8 text-gray-200 animate-spin dark:text-gray-600 fill-blue-600 dark:fill-cyan-500" />
             <span className="text-sm ">Running inference...</span>
@@ -60,9 +67,16 @@ export default function IterationResult(props: IProps) {
         ) : (
           // inference result
           <div id="inference-result" className="my-2">
+            {query.error && (
+              <div className="text-red-600 dark:text-red-600 ">
+                {query.error.toString()}
+              </div>
+            )}
+
             <div className="text-cyan-600 dark:text-cyan-600 ">
               {query.data as string}
             </div>
+
             {/* results metadata */}
             <div className="my-3">
               <CollapsibleItem

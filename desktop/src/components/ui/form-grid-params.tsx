@@ -4,6 +4,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useIsFetching, useQueryClient } from "@tanstack/react-query";
 import { useAtom } from "jotai";
 import { useForm } from "react-hook-form";
+import { v4 as uuidv4 } from "uuid";
 import z from "zod";
 import ModelSelector from "../filters/ModelSelector";
 import { Button } from "./button";
@@ -45,6 +46,7 @@ const validateNumberOrArray =
   };
 
 export const ParamsFormSchema = z.object({
+  uuid: z.string().optional(),
   models: z.string().array().nonempty({
     message: "Select at least 1 model.",
   }),
@@ -104,6 +106,7 @@ export default function FormGridParams() {
   const form = useForm<z.infer<typeof ParamsFormSchema>>({
     resolver: zodResolver(ParamsFormSchema),
     defaultValues: {
+      uuid: uuidv4(),
       prompt: "Write a short sentence!",
       models: ["dolphin-mistral:v2.6"],
       temperatureList: config.defaultOptions.temperature,
@@ -114,17 +117,17 @@ export default function FormGridParams() {
   });
 
   function onSubmit(data: z.infer<typeof ParamsFormSchema>) {
+    // ! clear previous results (keep queries sequential)
+    queryClient.removeQueries({ queryKey: ["get_inference"] });
+
+    // regenerate uuid for this experiment so all results are refreshed
     setGridParams({
       ...data,
+      uuid: uuidv4(),
       temperatureList: paramsToArray(data.temperatureList),
       repeatPenaltyList: paramsToArray(data.repeatPenaltyList),
       topKList: paramsToArray(data.topKList),
       topPList: paramsToArray(data.topPList),
-    });
-
-    // clear previous results
-    queryClient.removeQueries({
-      queryKey: ["get_inference"],
     });
 
     toast({
@@ -253,6 +256,15 @@ export default function FormGridParams() {
                   "Start Experiment"
                 )}
               </Button>
+
+              {/* <Button
+                type="button"
+                onClick={() =>
+                  queryClient.removeQueries({ queryKey: ["get_inference"] })
+                }
+              >
+                Clear Cache
+              </Button> */}
 
               <Button
                 type="button"

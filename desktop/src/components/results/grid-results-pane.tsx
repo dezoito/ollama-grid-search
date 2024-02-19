@@ -18,11 +18,13 @@ export default function GridResultsPane() {
   const [noCompleted, setNoCompleted] = useState(0);
   const [expandParams, setExpandParams] = useState(false);
   const [expandMetadata, setExpandMetadata] = useState(false);
+  // const queryClient = useQueryClient();
 
   //https://stackoverflow.com/questions/76933229/can-react-query-make-sequential-network-calls-and-wait-for-previous-one-to-finis
 
   // creates a linear array with param combinations
   useEffect(() => {
+    // queryClient.invalidateQueries();
     const localIterations = [];
     for (const model of gridParams.models) {
       for (const temperature of gridParams.temperatureList) {
@@ -43,7 +45,7 @@ export default function GridResultsPane() {
       }
     }
     setIterations(localIterations);
-  }, [gridParams.prompt, gridParams.models]);
+  }, [gridParams.uuid]);
 
   // // Define type for query options
   // type ModelQueryOptions = UseQueryOptions<
@@ -57,8 +59,8 @@ export default function GridResultsPane() {
     queryKey: ["get_inference", params],
     queryFn: () => get_inference(params),
     enabled: i === 0 || i <= noCompleted,
-    staleTime: Infinity,
-    cacheTime: Infinity,
+    staleTime: 0,
+    cacheTime: 0,
   }));
 
   const results = useQueries({ queries: queries });
@@ -115,7 +117,9 @@ export default function GridResultsPane() {
 
         <Separator className="my-4" />
         <div>
-          <div> Experiment started on {start}</div>
+          <div>
+            Experiment {gridParams.uuid} started on {start}.
+          </div>
           <div>
             Iterations: {noCompleted}/{iterations.length}
           </div>
@@ -123,7 +127,7 @@ export default function GridResultsPane() {
       </div>
 
       <div id="results-list" className="py-2 my-4 overflow-y-auto">
-        {/* <pre>{JSON.stringify(results, null, 2)}</pre> */}
+        {/* <pre>{JSON.stringify(iterations, null, 2)}</pre> */}
         {/* map iterations, not results.. use cached query inside component */}
         {iterations.map((iteration: TParamIteration, idx: number) => (
           <div key={idx}>
@@ -138,7 +142,7 @@ export default function GridResultsPane() {
           </div>
         ))}
         {/* {results.map((result: any, i: number) => (
-          <pre>{JSON.stringify(result, null, 2)}</pre>
+          <pre key={i}>{JSON.stringify(result, null, 2)}</pre>
         ))} */}
       </div>
     </div>

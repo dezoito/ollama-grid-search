@@ -40,6 +40,7 @@
     "tailwind-merge": "^2.2.0",
     "tailwindcss": "^3.4.1",
     "tailwindcss-animate": "^1.0.7",
+    "uuid": "^9.0.1",
     "zod": "^3.22.4"
   },
   "devDependencies": {
@@ -48,6 +49,7 @@
     "@tauri-apps/cli": "^1.5.8",
     "@types/react": "^18.2.15",
     "@types/react-dom": "^18.2.7",
+    "@types/uuid": "^9.0.8",
     "@vitejs/plugin-react": "^4.2.1",
     "typescript": "^5.0.2",
     "vite": "^5.0.0"
