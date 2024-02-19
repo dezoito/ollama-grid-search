@@ -11,10 +11,18 @@ interface IProps {
   params: TParamIteration;
   iterationIndex: number;
   totalIterations: number;
+  expandParams: boolean;
+  expandMetadata: boolean;
 }
 
 export default function IterationResult(props: IProps) {
-  const { params, iterationIndex, totalIterations } = props;
+  const {
+    params,
+    iterationIndex,
+    totalIterations,
+    expandParams,
+    expandMetadata,
+  } = props;
   const { model, temperature, repeat_penalty, top_k, top_p } = params;
   const queryClient = useQueryClient();
 
@@ -34,7 +42,7 @@ export default function IterationResult(props: IProps) {
         <CollapsibleItem
           title={`${iterationIndex + 1}/${totalIterations} - ${model}`}
           triggerText="Inference Parameters"
-          defaultOpen={false}
+          defaultOpen={expandParams}
         >
           <div className="text-sm font-mono">
             <div>temperature: {temperature}</div>
@@ -59,7 +67,7 @@ export default function IterationResult(props: IProps) {
             <div className="my-3">
               <CollapsibleItem
                 triggerText="Results metadata"
-                defaultOpen={false}
+                defaultOpen={expandMetadata}
               >
                 <div className="text-sm font-mono">
                   <div>inference metadata here</div>

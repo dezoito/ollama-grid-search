@@ -11,8 +11,8 @@ https://byby.dev/at-rule-tailwind -> Extensions and configs for using tailwind w
 [ok] - Improve collapsible that displays params, and other metadata
 [ok] - Segregate spinner into its own component
 [ok] - Add loader/spinner inside each result component
+[ok] - Add fixed header to results pannel with controls to expand/collapse metadata in all inferences
 
-- Add fixed header to results pannel with controls to expand/collapse metadata in all inferences
 - Use Ollama server from settings in get_models and get inference
 - Use system prompt + other defaults
 - Add button to cancel/stop experiment

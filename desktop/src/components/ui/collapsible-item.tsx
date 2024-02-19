@@ -20,6 +20,11 @@ interface IProps {
 export function CollapsibleItem(props: IProps) {
   const { title, triggerText, children, defaultOpen } = props;
   const [isOpen, setIsOpen] = React.useState(defaultOpen);
+
+  React.useEffect(() => {
+    setIsOpen(defaultOpen);
+  }, [defaultOpen]);
+
   return (
     <Collapsible
       open={isOpen}

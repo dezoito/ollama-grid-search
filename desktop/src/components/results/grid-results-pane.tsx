@@ -1,9 +1,11 @@
 import { gridParamsAtom } from "@/Atoms";
 import { TParamIteration } from "@/Interfaces";
+import { ChevronDownIcon, ChevronUpIcon } from "@radix-ui/react-icons";
 import { useQueries } from "@tanstack/react-query";
 import { useAtom } from "jotai";
 import { useEffect, useState } from "react";
 import { get_inference } from "../queries";
+import { Button } from "../ui/button";
 import IterationResult from "./iteration-result";
 
 const now = new Date();
@@ -13,6 +15,8 @@ export default function GridResultsPane() {
   const [gridParams, _] = useAtom(gridParamsAtom);
   const [iterations, setIterations] = useState<TParamIteration[]>([]);
   const [noCompleted, setNoCompleted] = useState(0);
+  const [expandParams, setExpandParams] = useState(false);
+  const [expandMetadata, setExpandMetadata] = useState(false);
 
   //https://stackoverflow.com/questions/76933229/can-react-query-make-sequential-network-calls-and-wait-for-previous-one-to-finis
 
@@ -70,14 +74,52 @@ export default function GridResultsPane() {
 
   return (
     <div>
-      {/* <pre>{JSON.stringify(gridParams, null, 2)}</pre>; */}
-      {/* Quick stats on experiment */}
+      {/* Experiment header */}
       <div className="sticky top-0 bg-white dark:bg-zinc-950 z-50 pb-4">
-        <div> Experiment started on {start}</div>
         <div>
-          Iterations: {noCompleted}/{iterations.length}
+          <div> Experiment started on {start}</div>
+          <div>
+            Iterations: {noCompleted}/{iterations.length}
+          </div>
+        </div>
+        <div className="flex">
+          <Button
+            variant="link"
+            size="lg"
+            onClick={() => setExpandParams(!expandParams)}
+          >
+            {expandParams ? (
+              <>
+                <ChevronUpIcon className="h-5 w-5 m-1 text-black dark:text-gray-600" />
+                Hide Inference parameters
+              </>
+            ) : (
+              <>
+                <ChevronDownIcon className="h-5 w-5 m-1 text-black dark:text-gray-600" />
+                Expand Inference parameters
+              </>
+            )}
+          </Button>
+          <Button
+            variant="link"
+            size="lg"
+            onClick={() => setExpandMetadata(!expandMetadata)}
+          >
+            {expandMetadata ? (
+              <>
+                <ChevronUpIcon className="h-5 w-5 m-1 text-black dark:text-gray-600" />
+                Hide Inference metadata
+              </>
+            ) : (
+              <>
+                <ChevronDownIcon className="h-5 w-5 m-1 text-black dark:text-gray-600" />
+                Expand Inference metadata
+              </>
+            )}
+          </Button>
         </div>
       </div>
+
       <div id="results-list" className="py-2 my-4 overflow-y-auto">
         {/* <pre>{JSON.stringify(results, null, 2)}</pre> */}
         {/* map iterations, not results.. get cached query in component */}
@@ -88,6 +130,8 @@ export default function GridResultsPane() {
               totalIterations={iterations.length}
               params={iteration}
               prompt={gridParams.prompt}
+              expandParams={expandParams}
+              expandMetadata={expandMetadata}
             />
           </div>
         ))}
