@@ -128,7 +128,8 @@ export default function FormGridParams() {
     });
 
     // ! clear previous results (keep queries sequential)
-    queryClient.removeQueries({ queryKey: ["get_inference"] });
+    // queryClient.invalidateQueries({ queryKey: ["get_inference"] });
+    // queryClient.removeQueries({ queryKey: ["get_inference"] });
 
     toast({
       title: "Running experiment.",

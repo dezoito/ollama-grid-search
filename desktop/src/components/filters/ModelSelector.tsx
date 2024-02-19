@@ -25,7 +25,11 @@ interface IProps {
 function ModelSelector(props: IProps) {
   const { form } = props;
 
-  const query = useQuery({ queryKey: ["get_models"], queryFn: get_models });
+  const query = useQuery({
+    queryKey: ["get_models"],
+    queryFn: get_models,
+    staleTime: 0,
+  });
 
   if (query.isError) {
     return (

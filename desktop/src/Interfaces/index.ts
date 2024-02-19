@@ -13,7 +13,6 @@ export interface IGridParams {
 // be used in inference
 // * we should create a matching struct in the Rust code
 export type TParamIteration = {
-  uuid: string;
   model: string;
   prompt: string;
   temperature: number;

@@ -1,7 +1,7 @@
 import { gridParamsAtom } from "@/Atoms";
 import { TParamIteration } from "@/Interfaces";
 import { ChevronDownIcon, ChevronUpIcon } from "@radix-ui/react-icons";
-import { useQueries } from "@tanstack/react-query";
+import { useQueries, useQueryClient } from "@tanstack/react-query";
 import { useAtom } from "jotai";
 import { useEffect, useState } from "react";
 import { get_inference } from "../queries";
@@ -18,11 +18,13 @@ export default function GridResultsPane() {
   const [noCompleted, setNoCompleted] = useState(0);
   const [expandParams, setExpandParams] = useState(false);
   const [expandMetadata, setExpandMetadata] = useState(false);
+  const queryClient = useQueryClient();
 
   //https://stackoverflow.com/questions/76933229/can-react-query-make-sequential-network-calls-and-wait-for-previous-one-to-finis
 
   // creates a linear array with param combinations
   useEffect(() => {
+    // queryClient.invalidateQueries();
     const localIterations = [];
     for (const model of gridParams.models) {
       for (const temperature of gridParams.temperatureList) {
@@ -30,7 +32,6 @@ export default function GridResultsPane() {
           for (const top_k of gridParams.topKList) {
             for (const top_p of gridParams.topPList) {
               localIterations.push({
-                uuid: gridParams.uuid,
                 model,
                 prompt: gridParams.prompt,
                 temperature,
@@ -58,8 +59,8 @@ export default function GridResultsPane() {
     queryKey: ["get_inference", params],
     queryFn: () => get_inference(params),
     enabled: i === 0 || i <= noCompleted,
-    staleTime: Infinity,
-    cacheTime: Infinity,
+    staleTime: 0,
+    cacheTime: 0,
   }));
 
   const results = useQueries({ queries: queries });
@@ -126,7 +127,7 @@ export default function GridResultsPane() {
       </div>
 
       <div id="results-list" className="py-2 my-4 overflow-y-auto">
-        {/* <pre>{JSON.stringify(results, null, 2)}</pre> */}
+        {/* <pre>{JSON.stringify(iterations, null, 2)}</pre> */}
         {/* map iterations, not results.. use cached query inside component */}
         {iterations.map((iteration: TParamIteration, idx: number) => (
           <div key={idx}>
@@ -141,7 +142,7 @@ export default function GridResultsPane() {
           </div>
         ))}
         {/* {results.map((result: any, i: number) => (
-          <pre>{JSON.stringify(result, null, 2)}</pre>
+          <pre key={i}>{JSON.stringify(result, null, 2)}</pre>
         ))} */}
       </div>
     </div>
