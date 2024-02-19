@@ -27,10 +27,11 @@ export default function IterationResult(props: IProps) {
   const queryClient = useQueryClient();
 
   // Use only the cached queries from the parent component
+  // Keep "enabled: false" to run queries in sequence and not concurrently
   const query = useQuery({
     queryKey: ["get_inference", params],
     queryFn: () => get_inference(params),
-    enabled: true,
+    enabled: false,
     staleTime: Infinity,
     // cacheTime: Infinity,
   });
