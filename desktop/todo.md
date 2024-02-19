@@ -9,8 +9,8 @@ https://byby.dev/at-rule-tailwind -> Extensions and configs for using tailwind w
 (always convert to lists)
 [ok] - Disable submit when queries are running (maybe add spinning icon)
 [ok] - Improve collapsible that displays params, and other metadata
+[ok] - Segregate spinner into its own component
 
-- Segregate spinner into own component
 - Add loader/spinner inside each result component
 - Use Ollama server from settings in get_models and get inference
 - Use system prompt + other defaults

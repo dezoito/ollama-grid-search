@@ -64,20 +64,6 @@ export default function GridResultsPane() {
     setNoCompleted(lastFetched.length);
   }, [lastFetched]);
 
-  // // fire just one query
-  // const results = useQuery({
-  //   queryKey: ["get_inference"],
-  //   queryFn: () =>
-  //     get_inference({
-  //       model: "dolphin-mistral:v2.6",
-  //       prompt: "Oi",
-  //       temperature: 0.5,
-  //       repeat_penalty: 1.5,
-  //       top_k: 50,
-  //       top_p: 0.25,
-  //     }),
-  // });
-
   if (gridParams.models.length === 0 || gridParams.prompt.trim().length === 0) {
     return <>Tutorial</>;
   }
