@@ -64,6 +64,13 @@ export default function IterationResult(props: IProps) {
             <div className="text-cyan-600 dark:text-cyan-600 ">
               {query.data as string}
             </div>
+
+            {query.error && (
+              <div className="text-red-600 dark:text-red-600 ">
+                {query.error.toString()}
+              </div>
+            )}
+
             {/* results metadata */}
             <div className="my-3">
               <CollapsibleItem
