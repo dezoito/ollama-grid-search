@@ -6,7 +6,7 @@ import {
   CommandItem,
 } from "@/components/ui/command";
 import { useQuery } from "@tanstack/react-query";
-import { invoke } from "@tauri-apps/api/tauri";
+import { get_models } from "../queries";
 import AlertError from "../ui/AlertError";
 import { Checkbox } from "../ui/checkbox";
 import {
@@ -16,6 +16,7 @@ import {
   FormLabel,
   FormMessage,
 } from "../ui/form";
+
 interface IProps {
   form: any;
 }
@@ -23,11 +24,6 @@ interface IProps {
 // todo: see https://ui.shadcn.com/docs/components/checkbox#form
 function ModelSelector(props: IProps) {
   const { form } = props;
-
-  async function get_models() {
-    const models = await invoke("get_models");
-    return models;
-  }
 
   const query = useQuery({ queryKey: ["get_models"], queryFn: get_models });
 

@@ -1,7 +1,7 @@
 import { ModeToggle } from "@/components/mode-toggle";
+import GridResultsPane from "@/components/results/grid-results-pane";
 import { SettingsDialog } from "@/components/settings-dialog";
 import FormGridParams from "@/components/ui/form-grid-params";
-import GridResultsPane from "@/components/results/grid-results-pane";
 
 function Layout() {
   // const [name, setName] = useState("");
@@ -30,10 +30,9 @@ function Layout() {
         {/* main div */}
         <main className="flex-1 p-4 overflow-y-auto">
           <div className="p-2 m-1">
-            <p className="text-gray-500 dark:text-gray-400">
-              Instructions and Experiment results
+            <div className="text-gray-500 dark:text-gray-400">
               <GridResultsPane />
-            </p>
+            </div>
           </div>
         </main>
       </div>
