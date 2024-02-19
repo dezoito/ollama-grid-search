@@ -28,7 +28,6 @@ function ModelSelector(props: IProps) {
   const query = useQuery({
     queryKey: ["get_models"],
     queryFn: get_models,
-    staleTime: 0,
   });
 
   if (query.isError) {
