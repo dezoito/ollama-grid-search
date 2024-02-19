@@ -28,11 +28,9 @@ function Layout() {
         </div>
 
         {/* main div */}
-        <main className="flex-1 p-4 overflow-y-auto">
-          <div className="p-2 m-1">
-            <div className="text-gray-500 dark:text-gray-400">
-              <GridResultsPane />
-            </div>
+        <main className="flex-1 py-0 m-4 overflow-y-auto">
+          <div className="text-gray-500 dark:text-gray-400">
+            <GridResultsPane />
           </div>
         </main>
       </div>
