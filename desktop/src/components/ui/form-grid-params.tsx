@@ -127,8 +127,7 @@ export default function FormGridParams() {
       topPList: paramsToArray(data.topPList),
     });
 
-    // clear previous results
-    queryClient.cancelQueries({ queryKey: ["get_inference"] });
+    // ! clear previous results (keep queries sequential)
     queryClient.removeQueries({ queryKey: ["get_inference"] });
 
     toast({
