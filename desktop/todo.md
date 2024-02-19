@@ -7,9 +7,9 @@ https://byby.dev/at-rule-tailwind -> Extensions and configs for using tailwind w
 [ok] - Make parameter selection form
 [ok] - Verify if Atom values for grid params can be scalar or always converted to lists
 (always convert to lists)
-[ok] - Disable submit when queries are running (maybe add spinning icon).
+[ok] - Disable submit when queries are running (maybe add spinning icon)
+[ok] - Improve collapsible that displays params, and other metadata
 
-- Improve collapsible that displays params, and other metadata
 - Segregate spinner into own component
 - Add loader/spinner inside each result component
 - Use Ollama server from settings in get_models and get inference
