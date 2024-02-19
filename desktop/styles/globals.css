@@ -1,10 +1,3 @@
-/* @font-face {
-  font-family: "Montserrat";
-  src: url("/fonts/Montserrat/Montserrat-VariableFont_wght.ttf")
-    format("truetype");
-  font-weight: normal;
-  font-style: normal;
-} */
 @font-face {
   font-family: "Geist";
   src: url("/fonts/Geist/GeistVariableVF.ttf") format("truetype");
@@ -81,4 +74,8 @@
   /* html {
     font-family: "GeistSans", system-ui, sans-serif;
   } */
+}
+
+.inherit-theme-bg {
+  background-color: var(--background);
 }

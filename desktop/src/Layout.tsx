@@ -8,7 +8,7 @@ function Layout() {
   // const [models, setModels] = useState<string[]>([]);
 
   return (
-    <div className="flex flex-col h-screen fixed">
+    <div className="flex flex-col h-screen fixed w-full">
       {/* nav */}
       <header className="flex h-16 items-center justify-between px-4 md:px-6 bg-zinc-950">
         <span className="flex items-center gap-2">

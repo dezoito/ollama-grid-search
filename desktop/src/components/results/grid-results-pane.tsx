@@ -72,9 +72,13 @@ export default function GridResultsPane() {
     <div>
       {/* <pre>{JSON.stringify(gridParams, null, 2)}</pre>; */}
       {/* Quick stats on experiment */}
-      <div> Experiment started on {start}</div>
+      <div className="sticky top-1 inherit-theme-bg">
+        <div> Experiment started on {start}</div>
+        <div>
+          Iterations: {noCompleted}/{iterations.length}
+        </div>
+      </div>
       <div id="results-list" className="overflow-y-auto">
-        Iterations: {noCompleted}/{iterations.length}
         {/* <pre>{JSON.stringify(results, null, 2)}</pre> */}
         {/* map iterations, not results.. get cached query in component */}
         {iterations.map((iteration: TParamIteration, idx: number) => (
