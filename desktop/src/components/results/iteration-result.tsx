@@ -39,11 +39,9 @@ export default function IterationResult(props: IProps) {
     // cacheTime: Infinity,
   });
 
-  // Once data is fetched, re-enable the query at the component level
-  // useEffect(() => {
-  //   setEnabled(!!query.data);
-  // }, [query.isFetching]);
-
+  // Temporarily re-enables the current query
+  // so we can refetch it, then disables it again
+  // so new experiments can run sequentially.
   const refetchCurrentQuery = async () => {
     setEnabled(true);
     await asyncSleep(100);
@@ -72,11 +70,7 @@ export default function IterationResult(props: IProps) {
           </div>
         </CollapsibleItem>
 
-<<<<<<< HEAD
         {query.isFetching ? (
-=======
-        {query.isLoading ? (
->>>>>>> 5435f5bb2f1411ca067ff26a77b5197a803ecdec
           <div className="flex text-center my-3 gap-2 items-center">
             <Spinner className="inline w-8 h-8 text-gray-200 animate-spin dark:text-gray-600 fill-blue-600 dark:fill-cyan-500" />
             <span className="text-sm ">Running inference...</span>
