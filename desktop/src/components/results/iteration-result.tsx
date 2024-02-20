@@ -59,7 +59,7 @@ export default function IterationResult(props: IProps) {
           </div>
         </CollapsibleItem>
 
-        {!query.isFetched ? (
+        {query.isLoading ? (
           <div className="flex text-center my-3 gap-2 items-center">
             <Spinner className="inline w-8 h-8 text-gray-200 animate-spin dark:text-gray-600 fill-blue-600 dark:fill-cyan-500" />
             <span className="text-sm ">Running inference...</span>

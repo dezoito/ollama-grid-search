@@ -118,7 +118,7 @@ export default function FormGridParams() {
 
   function onSubmit(data: z.infer<typeof ParamsFormSchema>) {
     // ! clear previous results (keep queries sequential)
-    queryClient.removeQueries({ queryKey: ["get_inference"] });
+    // queryClient.removeQueries({ queryKey: ["get_inference"] });
 
     // regenerate uuid for this experiment so all results are refreshed
     setGridParams({
