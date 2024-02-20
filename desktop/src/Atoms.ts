@@ -74,6 +74,7 @@ export const configAtom = atomWithLocalStorage("configs", defaultConfigs);
 
 // Initializes grid parameters
 export const gridParamsAtom = atom<IGridParams>({
+  uuid: "",
   models: [],
   prompt: "",
   temperatureList: [defaultConfigs.defaultOptions.temperature],
