@@ -49,7 +49,12 @@ function ModelSelector(props: IProps) {
       render={() => (
         <FormItem>
           <div className="mb-4">
-            <FormLabel className="text-base">Models</FormLabel>
+            <FormLabel className="text-base">
+              Models{" "}
+              <span className="text-sm text-gray-500">
+                ({(query.data as string[]).length} available)
+              </span>
+            </FormLabel>
             {/* <FormDescription>
               Select the models you want to test.
             </FormDescription> */}

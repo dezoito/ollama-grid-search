@@ -1,7 +1,8 @@
 import { TParamIteration } from "@/Interfaces";
+import { asyncSleep } from "@/lib/utils";
 import { ReloadIcon } from "@radix-ui/react-icons";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { get_inference } from "../queries";
 import { Button } from "../ui/button";
 import { CollapsibleItem } from "../ui/collapsible-item";
@@ -38,14 +39,24 @@ export default function IterationResult(props: IProps) {
     // cacheTime: Infinity,
   });
 
-  useEffect(() => {
+  // Temporarily re-enables the current query
+  // so we can refetch it, then disables it again
+  // so new experiments can run sequentially.
+  const refetchCurrentQuery = async () => {
+    setEnabled(true);
+    await asyncSleep(100);
+    queryClient.refetchQueries({
+      queryKey: ["get_inference", params],
+    });
+    await asyncSleep(100);
     setEnabled(false);
-  }, [query.isFetched]);
+  };
 
   return (
     <div className="flex flex-row gap-1">
       <div className="w-11/12 bg-cyan-400/20 dark:bg-slate-700/50 my-3 p-4 rounded">
         {/* model + inference params */}
+
         <CollapsibleItem
           title={`${iterationIndex + 1}/${totalIterations} - ${model}`}
           triggerText="Inference Parameters"
@@ -59,7 +70,7 @@ export default function IterationResult(props: IProps) {
           </div>
         </CollapsibleItem>
 
-        {!query.isFetched ? (
+        {query.isFetching ? (
           <div className="flex text-center my-3 gap-2 items-center">
             <Spinner className="inline w-8 h-8 text-gray-200 animate-spin dark:text-gray-600 fill-blue-600 dark:fill-cyan-500" />
             <span className="text-sm ">Running inference...</span>
@@ -95,16 +106,7 @@ export default function IterationResult(props: IProps) {
       {/* Allow reloading after inference is done */}
       {query.isFetched && (
         <div className=" my-3">
-          <Button
-            variant="ghost"
-            size="sm"
-            onClick={() =>
-              queryClient.invalidateQueries({
-                queryKey: ["get_inference", params],
-                refetchType: "all",
-              })
-            }
-          >
+          <Button variant="ghost" size="sm" onClick={refetchCurrentQuery}>
             <ReloadIcon className="h-4 w-4 text-cyan-600 dark:text-cyan-600 " />
           </Button>
         </div>

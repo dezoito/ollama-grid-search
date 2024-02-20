@@ -108,7 +108,7 @@ export default function FormGridParams() {
     defaultValues: {
       uuid: uuidv4(),
       prompt: "Write a short sentence!",
-      models: ["dolphin-mistral:v2.6"],
+      models: ["tinydolphin:v2.8", "tinyllama:1.1b-chat-v0.6-q4_0"],
       temperatureList: config.defaultOptions.temperature,
       repeatPenaltyList: config.defaultOptions.repeat_penalty,
       topKList: config.defaultOptions.top_k,

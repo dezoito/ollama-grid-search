@@ -24,3 +24,7 @@ https://byby.dev/at-rule-tailwind -> Extensions and configs for using tailwind w
 - Add movable divider component
 - Add keyboard shortcuts
 - Add a "default prompt" setting to settings?
+
+- Cancel async commands:
+  https://github.com/tauri-apps/tauri/discussions/5894
+  https://github.com/tauri-apps/tauri/issues/8351
