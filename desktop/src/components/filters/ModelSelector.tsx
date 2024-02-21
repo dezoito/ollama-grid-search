@@ -46,6 +46,7 @@ function ModelSelector(props: IProps) {
   const query = useQuery({
     queryKey: ["get_models", config],
     queryFn: () => get_models(config),
+    refetchOnWindowFocus: true,
     staleTime: 0,
     // cacheTime: 0,
   });
