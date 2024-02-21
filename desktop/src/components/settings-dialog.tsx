@@ -12,7 +12,7 @@ import {
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 
-import { configAtom } from "@/Atoms";
+import { configAtom, defaultGridParams } from "@/Atoms";
 import {
   Form,
   FormControl,
@@ -30,11 +30,13 @@ import { useAtom } from "jotai";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import z from "zod";
+import { gridParamsAtom } from "../Atoms";
 
 export function SettingsDialog() {
   const { toast } = useToast();
   const [open, setOpen] = useState(false);
   const [config, setConfig] = useAtom(configAtom);
+  const [_, setGridParams] = useAtom(gridParamsAtom);
   const queryClient = useQueryClient();
 
   // * default_options has to be valid JSON
@@ -80,7 +82,13 @@ export function SettingsDialog() {
       default_options: JSON.parse(data.default_options),
     });
 
+    // Update models in form (requires resetting fields)
     queryClient.refetchQueries({ queryKey: ["get_models"] });
+
+    //todo
+    //! is this really needed? we lose query results
+    //! with this update
+    setGridParams(defaultGridParams);
 
     setOpen(false);
   }

@@ -14,8 +14,10 @@ https://byby.dev/at-rule-tailwind -> Extensions and configs for using tailwind w
 [ok] - Add fixed header to results pannel with controls to expand/collapse metadata in all inferences
 [ok] - Add button to cancel/stop experiment
 [ok] - Add confirmation dialog when stopping experiment
+[ok] - Use Ollama server from settings in get_models and get inference
 
-- Use Ollama server from settings in get_models and get inference
+- Consider what to do when updating settings (reset everything? just reset the form? see settings-dialog.tsx)
+
 - Use system prompt + other defaults
 - Return full response from inference
 - Test a multiplatform release

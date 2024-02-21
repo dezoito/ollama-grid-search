@@ -17,10 +17,24 @@ import {
 } from "@/components/ui/form";
 import { useQuery } from "@tanstack/react-query";
 import { useAtom } from "jotai";
+import { useEffect } from "react";
+import { UseFormReturn } from "react-hook-form";
 import { get_models } from "../queries";
 
 interface IProps {
-  form: any;
+  form: UseFormReturn<
+    {
+      models: [string, ...string[]];
+      prompt: string;
+      uuid?: string | undefined;
+      temperatureList?: any;
+      repeatPenaltyList?: any;
+      topKList?: any;
+      topPList?: any;
+    },
+    any,
+    undefined
+  >;
 }
 
 function ModelSelector(props: IProps) {
@@ -35,6 +49,12 @@ function ModelSelector(props: IProps) {
     staleTime: 0,
     // cacheTime: 0,
   });
+
+  // changing the source for the models should
+  // force the form to be reset
+  useEffect(() => {
+    form.reset();
+  }, [config]);
 
   if (query.isError) {
     return (

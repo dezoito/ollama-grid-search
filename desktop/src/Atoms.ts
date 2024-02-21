@@ -73,7 +73,7 @@ const defaultConfigs: IDefaultConfigs = {
 export const configAtom = atomWithLocalStorage("configs", defaultConfigs);
 
 // Initializes grid parameters
-export const gridParamsAtom = atom<IGridParams>({
+export const defaultGridParams = {
   uuid: "",
   models: [],
   prompt: "",
@@ -81,9 +81,6 @@ export const gridParamsAtom = atom<IGridParams>({
   repeatPenaltyList: [defaultConfigs.default_options.repeat_penalty],
   topKList: [defaultConfigs.default_options.top_k],
   topPList: [defaultConfigs.default_options.top_p],
-});
+};
 
-// //Creates a global instance of a semaphore that we can use to control call
-// // concurrency
-// const semaphore = new Semaphore(1);
-// export const semaphoreAtom = atom(semaphore);
+export const gridParamsAtom = atom<IGridParams>(defaultGridParams);
