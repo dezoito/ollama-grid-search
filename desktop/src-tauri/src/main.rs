@@ -96,6 +96,7 @@ fn split_host_port(url: &str) -> Result<(String, u16), ParseError> {
 #[tauri::command(rename_all = "snake_case")]
 async fn get_models(config: IDefaultConfigs) -> Result<Vec<String>, Error> {
     let (host_url, port) = split_host_port(&config.server_url).unwrap();
+    println!("Fetching models from {}", &host_url);
     let ollama = Ollama::new(host_url, port);
     let models = ollama.list_local_models().await?;
 
