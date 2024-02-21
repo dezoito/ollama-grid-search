@@ -1,3 +1,6 @@
+import { configAtom } from "@/Atoms";
+import AlertError from "@/components/ui/AlertError";
+import { Checkbox } from "@/components/ui/checkbox";
 import {
   Command,
   CommandEmpty,
@@ -5,30 +8,53 @@ import {
   CommandInput,
   CommandItem,
 } from "@/components/ui/command";
-import { useQuery } from "@tanstack/react-query";
-import { get_models } from "../queries";
-import AlertError from "../ui/AlertError";
-import { Checkbox } from "../ui/checkbox";
 import {
   FormControl,
   FormField,
   FormItem,
   FormLabel,
   FormMessage,
-} from "../ui/form";
+} from "@/components/ui/form";
+import { useQuery } from "@tanstack/react-query";
+import { useAtom } from "jotai";
+import { useEffect } from "react";
+import { UseFormReturn } from "react-hook-form";
+import { get_models } from "../queries";
 
 interface IProps {
-  form: any;
+  form: UseFormReturn<
+    {
+      models: [string, ...string[]];
+      prompt: string;
+      uuid?: string | undefined;
+      temperatureList?: any;
+      repeatPenaltyList?: any;
+      topKList?: any;
+      topPList?: any;
+    },
+    any,
+    undefined
+  >;
 }
 
-// todo: see https://ui.shadcn.com/docs/components/checkbox#form
 function ModelSelector(props: IProps) {
   const { form } = props;
+  const [config, __] = useAtom(configAtom);
 
+  // Use config in query key, so we can refetch using
+  // a new config when it is changed in settings
   const query = useQuery({
-    queryKey: ["get_models"],
-    queryFn: get_models,
+    queryKey: ["get_models", config],
+    queryFn: () => get_models(config),
+    staleTime: 0,
+    // cacheTime: 0,
   });
+
+  // changing the source for the models should
+  // force the form to be reset
+  useEffect(() => {
+    form.reset();
+  }, [config]);
 
   if (query.isError) {
     return (
@@ -52,7 +78,8 @@ function ModelSelector(props: IProps) {
             <FormLabel className="text-base">
               Models{" "}
               <span className="text-sm text-gray-500">
-                ({(query.data as string[]).length} available)
+                ({(query.data as string[]).length} available on{" "}
+                {config.server_url})
               </span>
             </FormLabel>
             {/* <FormDescription>

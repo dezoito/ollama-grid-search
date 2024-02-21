@@ -12,7 +12,7 @@ import {
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 
-import { configAtom } from "@/Atoms";
+import { configAtom, defaultGridParams } from "@/Atoms";
 import {
   Form,
   FormControl,
@@ -25,21 +25,25 @@ import {
 import { Textarea } from "@/components/ui/textarea";
 import { useToast } from "@/components/ui/use-toast";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useQueryClient } from "@tanstack/react-query";
 import { useAtom } from "jotai";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import z from "zod";
+import { gridParamsAtom } from "../Atoms";
 
 export function SettingsDialog() {
   const { toast } = useToast();
   const [open, setOpen] = useState(false);
   const [config, setConfig] = useAtom(configAtom);
+  const [_, setGridParams] = useAtom(gridParamsAtom);
+  const queryClient = useQueryClient();
 
-  // * defaultOptions has to be valid JSON
+  // * default_options has to be valid JSON
   const FormSchema = z.object({
-    serverURL: z.string().min(1),
-    systemPrompt: z.string(),
-    defaultOptions: z.string().refine(
+    server_url: z.string().url(),
+    system_prompt: z.string(),
+    default_options: z.string().refine(
       (data) => {
         try {
           JSON.parse(data);
@@ -49,17 +53,17 @@ export function SettingsDialog() {
         }
       },
       {
-        message: "defaultOptions must be a valid JSON string",
+        message: "default_options must be a valid JSON string",
       },
     ),
   });
 
-  // * format defaultOptions to display in form
+  // * format default_options to display in form
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
     defaultValues: {
       ...config,
-      defaultOptions: JSON.stringify(config.defaultOptions, null, 2),
+      default_options: JSON.stringify(config.default_options, null, 2),
     },
   });
 
@@ -72,11 +76,20 @@ export function SettingsDialog() {
       duration: 2500,
     });
 
-    // * convert defaultOptions to object and save changes
+    // * convert default_options to object and save changes
     setConfig({
       ...data,
-      defaultOptions: JSON.parse(data.defaultOptions),
+      default_options: JSON.parse(data.default_options),
     });
+
+    // Update models in form (requires resetting fields)
+    queryClient.refetchQueries({ queryKey: ["get_models"] });
+
+    //todo
+    //! is this really needed? we lose query results
+    //! with this update
+    setGridParams(defaultGridParams);
+
     setOpen(false);
   }
 
@@ -109,7 +122,7 @@ export function SettingsDialog() {
               <div className="flex flex-col gap-4">
                 <FormField
                   control={form.control}
-                  name="serverURL"
+                  name="server_url"
                   render={({ field }) => (
                     <FormItem>
                       <FormLabel>Ollama Server URL</FormLabel>
@@ -127,7 +140,7 @@ export function SettingsDialog() {
               <div className="flex flex-col gap-4">
                 <FormField
                   control={form.control}
-                  name="systemPrompt"
+                  name="system_prompt"
                   render={({ field }) => (
                     <FormItem>
                       <FormLabel>System Prompt</FormLabel>
@@ -145,7 +158,7 @@ export function SettingsDialog() {
               <div className="flex flex-col gap-4">
                 <FormField
                   control={form.control}
-                  name="defaultOptions"
+                  name="default_options"
                   render={({ field }) => (
                     <FormItem>
                       <FormLabel>Default Options</FormLabel>

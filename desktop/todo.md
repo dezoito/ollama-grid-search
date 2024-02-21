@@ -13,11 +13,14 @@ https://byby.dev/at-rule-tailwind -> Extensions and configs for using tailwind w
 [ok] - Add loader/spinner inside each result component
 [ok] - Add fixed header to results pannel with controls to expand/collapse metadata in all inferences
 [ok] - Add button to cancel/stop experiment
+[ok] - Add confirmation dialog when stopping experiment
+[ok] - Use Ollama server from settings in get_models and get inference
 
-- Use Ollama server from settings in get_models and get inference
+- Consider what to do when updating settings (reset everything? just reset the form? see settings-dialog.tsx)
+- refetch get_models periodically or add icon to refetch
+
 - Use system prompt + other defaults
 - Return full response from inference
-- If form is reset, display instructions
 - Test a multiplatform release
 - Implement single instance check https://github.com/tauri-apps/plugins-workspace/tree/v1/plugins/single-instance
 - Plan on saving results to SQLite

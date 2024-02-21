@@ -5,9 +5,10 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import ErrorBoundary from "@/components/ErrorBoundary";
 import { Toaster } from "@/components/ui/toaster";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
+import { AlertDialogProvider } from "./components/ui/alert-dialog-provider";
 
 const queryClient = new QueryClient({
-  defaultOptions: {
+  default_options: {
     queries: {
       refetchOnWindowFocus: false,
       refetchOnMount: false,
@@ -23,7 +24,9 @@ function App() {
     <QueryClientProvider client={queryClient}>
       <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
         <ErrorBoundary>
-          <Layout />
+          <AlertDialogProvider>
+            <Layout />
+          </AlertDialogProvider>
           <Toaster />
         </ErrorBoundary>
       </ThemeProvider>

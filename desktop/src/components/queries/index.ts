@@ -1,4 +1,4 @@
-import { TParamIteration } from "@/Interfaces";
+import { IDefaultConfigs, TParamIteration } from "@/Interfaces";
 import { invoke } from "@tauri-apps/api/tauri";
 
 export async function get_inference(params: TParamIteration) {
@@ -14,7 +14,8 @@ export async function get_inference(params: TParamIteration) {
 //   return inference;
 // };
 
-export async function get_models() {
-  const models = await invoke("get_models");
+export async function get_models(config: IDefaultConfigs) {
+  console.dir(config);
+  const models = await invoke("get_models", { config: config });
   return models;
 }

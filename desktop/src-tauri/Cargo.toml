@@ -20,6 +20,7 @@ ollama-rs = "0.1.6"
 anyhow = "1.0.79"
 thiserror = "1.0.56"
 tokio = "1.36.0"
+url = "2.5.0"
 
 [features]
 # this feature is used for production builds or when `devPath` points to the filesystem

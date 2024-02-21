@@ -1,4 +1,5 @@
 import { configAtom, gridParamsAtom } from "@/Atoms";
+import { useConfirm } from "@/components/ui/alert-dialog-provider";
 import { Input } from "@/components/ui/input";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useIsFetching, useQueryClient } from "@tanstack/react-query";
@@ -101,6 +102,7 @@ export default function FormGridParams() {
   const { toast } = useToast();
   const [config, _] = useAtom(configAtom);
   const [__, setGridParams] = useAtom(gridParamsAtom);
+  const confirm = useConfirm();
 
   // Starts with value set in Settings > default options
   const form = useForm<z.infer<typeof ParamsFormSchema>>({
@@ -108,11 +110,11 @@ export default function FormGridParams() {
     defaultValues: {
       uuid: uuidv4(),
       prompt: "Write a short sentence!",
-      models: ["tinydolphin:v2.8", "tinyllama:1.1b-chat-v0.6-q4_0"],
-      temperatureList: config.defaultOptions.temperature,
-      repeatPenaltyList: config.defaultOptions.repeat_penalty,
-      topKList: config.defaultOptions.top_k,
-      topPList: config.defaultOptions.top_p,
+      models: [],
+      temperatureList: config.default_options.temperature,
+      repeatPenaltyList: config.default_options.repeat_penalty,
+      topKList: config.default_options.top_k,
+      topPList: config.default_options.top_p,
     },
   });
 
@@ -257,22 +259,24 @@ export default function FormGridParams() {
                 )}
               </Button>
 
-              {/* <Button
-                type="button"
-                onClick={() =>
-                  queryClient.removeQueries({ queryKey: ["get_inference"] })
-                }
-              >
-                Clear Cache
-              </Button> */}
-
               <Button
                 type="button"
                 variant="destructive"
                 disabled={!isFetching}
-                onClick={() =>
-                  queryClient.cancelQueries({ queryKey: ["get_inference"] })
-                }
+                onClick={async () => {
+                  if (
+                    await confirm({
+                      title: "Sanity Check",
+                      body: "Are you sure you want to do that? Fired queries may still run in the background.",
+                      cancelButton: "Cancel",
+                      actionButton: "Stop!",
+                    })
+                  ) {
+                    queryClient.cancelQueries({
+                      queryKey: ["get_inference"],
+                    });
+                  }
+                }}
               >
                 Stop Experiment
               </Button>
