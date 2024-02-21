@@ -1,3 +1,6 @@
+import { configAtom } from "@/Atoms";
+import AlertError from "@/components/ui/AlertError";
+import { Checkbox } from "@/components/ui/checkbox";
 import {
   Command,
   CommandEmpty,
@@ -5,29 +8,32 @@ import {
   CommandInput,
   CommandItem,
 } from "@/components/ui/command";
-import { useQuery } from "@tanstack/react-query";
-import { get_models } from "../queries";
-import AlertError from "../ui/AlertError";
-import { Checkbox } from "../ui/checkbox";
 import {
   FormControl,
   FormField,
   FormItem,
   FormLabel,
   FormMessage,
-} from "../ui/form";
+} from "@/components/ui/form";
+import { useQuery } from "@tanstack/react-query";
+import { useAtom } from "jotai";
+import { get_models } from "../queries";
 
 interface IProps {
   form: any;
 }
 
-// todo: see https://ui.shadcn.com/docs/components/checkbox#form
 function ModelSelector(props: IProps) {
   const { form } = props;
+  const [config, __] = useAtom(configAtom);
 
+  // Use config in query key, so we can refetch using
+  // a new config when it is changed in settings
   const query = useQuery({
-    queryKey: ["get_models"],
-    queryFn: get_models,
+    queryKey: ["get_models", config],
+    queryFn: () => get_models(config),
+    staleTime: 0,
+    // cacheTime: 0,
   });
 
   if (query.isError) {

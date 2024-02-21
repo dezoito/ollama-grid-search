@@ -1,4 +1,4 @@
-import { IGridParams } from "@/Interfaces/index";
+import { IDefaultConfigs, IGridParams } from "@/Interfaces/index";
 import { atom } from "jotai";
 
 // Refs https://jotai.org/docs/guides/persistence
@@ -27,10 +27,10 @@ const atomWithLocalStorage = (key: string, initialValue: unknown) => {
   return derivedAtom;
 };
 
-const defaultConfigs = {
-  serverURL: "http://localhost:11434/",
-  systemPrompt: "",
-  defaultOptions: {
+const defaultConfigs: IDefaultConfigs = {
+  server_url: "http://localhost:11434/",
+  system_prompt: "",
+  default_options: {
     mirostat: 0,
     mirostat_tau: 5.0,
     mirostat_eta: 0.1,
@@ -77,10 +77,10 @@ export const gridParamsAtom = atom<IGridParams>({
   uuid: "",
   models: [],
   prompt: "",
-  temperatureList: [defaultConfigs.defaultOptions.temperature],
-  repeatPenaltyList: [defaultConfigs.defaultOptions.repeat_penalty],
-  topKList: [defaultConfigs.defaultOptions.top_k],
-  topPList: [defaultConfigs.defaultOptions.top_p],
+  temperatureList: [defaultConfigs.default_options.temperature],
+  repeatPenaltyList: [defaultConfigs.default_options.repeat_penalty],
+  topKList: [defaultConfigs.default_options.top_k],
+  topPList: [defaultConfigs.default_options.top_p],
 });
 
 // //Creates a global instance of a semaphore that we can use to control call

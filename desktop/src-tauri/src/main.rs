@@ -1,6 +1,9 @@
 // Prevents additional console window on Windows in release, DO NOT REMOVE!!
 #![cfg_attr(not(debug_assertions), windows_subsystem = "windows")]
 
+use std::collections::HashMap;
+use url::{ParseError, Url};
+
 /*
 On error handling:
 
@@ -19,6 +22,7 @@ The Error enum, therefore, has to implement a variant for "OllamaError"
 // use ollama_rs::generation::completion::GenerationFinalResponseData;
 use ollama_rs::{error::OllamaError, generation::completion::request::GenerationRequest, Ollama};
 use serde::{Deserialize, Serialize};
+use serde_json::Value;
 use thiserror::Error;
 use tokio::time::{sleep, Duration};
 
@@ -31,17 +35,12 @@ struct TParamIteration {
     top_k: i32,
     top_p: f32,
 }
-
-#[allow(unused)]
-async fn wait_and_return(duration_seconds: u64) -> String {
-    // Convert seconds to Duration
-    let duration = Duration::from_secs(duration_seconds);
-
-    // Sleep for the specified duration
-    sleep(duration).await;
-
-    // Return a message indicating that the wait is over
-    format!("Waited for {} seconds.", duration_seconds)
+#[derive(Debug, Serialize, Deserialize)]
+#[serde(rename_all = "snake_case")]
+struct IDefaultConfigs {
+    server_url: String,
+    system_prompt: String,
+    default_options: HashMap<String, Value>,
 }
 
 // Use thiserror::Error to implement serializable errors
@@ -70,9 +69,34 @@ impl serde::Serialize for Error {
     }
 }
 
-#[tauri::command]
-async fn get_models() -> Result<Vec<String>, Error> {
-    let ollama = Ollama::default();
+#[allow(unused)]
+async fn wait_and_return(duration_seconds: u64) -> String {
+    // Convert seconds to Duration
+    let duration = Duration::from_secs(duration_seconds);
+
+    // Sleep for the specified duration
+    sleep(duration).await;
+
+    // Return a message indicating that the wait is over
+    format!("Waited for {} seconds.", duration_seconds)
+}
+
+fn split_host_port(url: &str) -> Result<(String, u16), ParseError> {
+    let some_url = Url::parse(url)?;
+    Ok((
+        format!(
+            "{}://{}",
+            some_url.scheme(),
+            some_url.host_str().unwrap().to_string(),
+        ),
+        some_url.port().unwrap(),
+    ))
+}
+
+#[tauri::command(rename_all = "snake_case")]
+async fn get_models(config: IDefaultConfigs) -> Result<Vec<String>, Error> {
+    let (host_url, port) = split_host_port(&config.server_url).unwrap();
+    let ollama = Ollama::new(host_url, port);
     let models = ollama.list_local_models().await?;
 
     let model_list: Vec<String> = models.into_iter().map(|model| model.name).collect();
@@ -83,6 +107,7 @@ async fn get_models() -> Result<Vec<String>, Error> {
 async fn get_inference(params: TParamIteration) -> Result<String, Error> {
     //TODO, simplify and return the entire response
     let ollama = Ollama::default();
+
     dbg!(&params);
     let res = match ollama
         .generate(GenerationRequest::new(params.model, params.prompt))

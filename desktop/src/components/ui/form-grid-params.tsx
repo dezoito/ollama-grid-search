@@ -111,10 +111,10 @@ export default function FormGridParams() {
       uuid: uuidv4(),
       prompt: "Write a short sentence!",
       models: ["tinydolphin:v2.8", "tinyllama:1.1b-chat-v0.6-q4_0"],
-      temperatureList: config.defaultOptions.temperature,
-      repeatPenaltyList: config.defaultOptions.repeat_penalty,
-      topKList: config.defaultOptions.top_k,
-      topPList: config.defaultOptions.top_p,
+      temperatureList: config.default_options.temperature,
+      repeatPenaltyList: config.default_options.repeat_penalty,
+      topKList: config.default_options.top_k,
+      topPList: config.default_options.top_p,
     },
   });
 
