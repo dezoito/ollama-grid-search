@@ -78,7 +78,8 @@ function ModelSelector(props: IProps) {
             <FormLabel className="text-base">
               Models{" "}
               <span className="text-sm text-gray-500">
-                ({(query.data as string[]).length} available)
+                ({(query.data as string[]).length} available on{" "}
+                {config.server_url})
               </span>
             </FormLabel>
             {/* <FormDescription>

@@ -41,7 +41,7 @@ export function SettingsDialog() {
 
   // * default_options has to be valid JSON
   const FormSchema = z.object({
-    server_url: z.string().min(1),
+    server_url: z.string().url(),
     system_prompt: z.string(),
     default_options: z.string().refine(
       (data) => {

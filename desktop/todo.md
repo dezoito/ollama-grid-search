@@ -17,6 +17,7 @@ https://byby.dev/at-rule-tailwind -> Extensions and configs for using tailwind w
 [ok] - Use Ollama server from settings in get_models and get inference
 
 - Consider what to do when updating settings (reset everything? just reset the form? see settings-dialog.tsx)
+- refetch get_models periodically or add icon to refetch
 
 - Use system prompt + other defaults
 - Return full response from inference
