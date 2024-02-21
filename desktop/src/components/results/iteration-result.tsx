@@ -79,12 +79,12 @@ export default function IterationResult(props: IProps) {
           // inference result
           <div id="inference-result" className="my-2">
             {query.error && (
-              <div className="text-red-600 dark:text-red-600 ">
+              <div className="text-red-600 dark:text-red-600 whitespace-pre-wrap">
                 {query.error.toString()}
               </div>
             )}
 
-            <div className="text-cyan-600 dark:text-cyan-600 ">
+            <div className="text-cyan-600 dark:text-cyan-600 whitespace-pre-wrap">
               {query.data as string}
             </div>
 
