@@ -17,9 +17,9 @@ https://byby.dev/at-rule-tailwind -> Extensions and configs for using tailwind w
 [ok] - Use Ollama server from settings in get_models and get inference
 [ok] - refetch get_models periodically or add icon to refetch -> every 30s
 [ok] - Use system prompt + user defined params and default params when invoking the completion API
+[ok] - Move commands and utility functions to commands.rs and lib.rs
 
 - Consider what to do when updating settings (reset everything? just reset the form? see settings-dialog.tsx)
-- Move commands and utility functions to commands.rs and lib.rs
 
 - Return full response from inference
 - Test a multiplatform release
