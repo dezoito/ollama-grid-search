@@ -16,10 +16,11 @@ https://byby.dev/at-rule-tailwind -> Extensions and configs for using tailwind w
 [ok] - Add confirmation dialog when stopping experiment
 [ok] - Use Ollama server from settings in get_models and get inference
 [ok] - refetch get_models periodically or add icon to refetch -> every 30s
+[ok] - Use system prompt + user defined params and default params when invoking the completion API
 
 - Consider what to do when updating settings (reset everything? just reset the form? see settings-dialog.tsx)
+- Move commands and utility functions to commands.rs and lib.rs
 
-- Use system prompt + other defaults
 - Return full response from inference
 - Test a multiplatform release
 - Implement single instance check https://github.com/tauri-apps/plugins-workspace/tree/v1/plugins/single-instance
@@ -27,6 +28,7 @@ https://byby.dev/at-rule-tailwind -> Extensions and configs for using tailwind w
 - Add movable divider component
 - Add keyboard shortcuts
 - Add a "default prompt" setting to settings?
+- Verify if upstream issues with the "stop" option have been resolved (ommited until then)
 
 - Cancel async commands:
   https://github.com/tauri-apps/tauri/discussions/5894

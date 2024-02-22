@@ -110,26 +110,118 @@ async fn get_models(config: IDefaultConfigs) -> Result<Vec<String>, Error> {
 
 #[tauri::command]
 async fn get_inference(config: IDefaultConfigs, params: TParamIteration) -> Result<String, Error> {
+    //TODO, simplify and return the entire response
     println!("Config:");
     dbg!(&config);
     println!("Params:");
     dbg!(&params);
+    // println!(
+    //     "Stop: {}",
+    //     config.default_options.get("stop").unwrap().to_string()
+    // );
 
-    //TODO, simplify and return the entire response
     let (host_url, port) = split_host_port(&config.server_url).unwrap();
     let ollama = Ollama::new(host_url, port);
 
-    // set the inference options
+    // Set the inference options, first apply the
+    // default options from settings, then the actual
+    // inference options defined on the form
     let options = GenerationOptions::default()
+        .mirostat(
+            config
+                .default_options
+                .get("mirostat")
+                .unwrap()
+                .to_string()
+                .parse::<u8>()
+                .expect("Failed to parse mirostat as u8"),
+        )
+        .mirostat_tau(
+            config
+                .default_options
+                .get("mirostat_tau")
+                .unwrap()
+                .to_string()
+                .parse::<f32>()
+                .expect("Failed to parse mirostat_tau as f32"),
+        )
+        .mirostat_eta(
+            config
+                .default_options
+                .get("mirostat_eta")
+                .unwrap()
+                .to_string()
+                .parse::<f32>()
+                .expect("Failed to parse mirostat_eta as f32"),
+        )
+        .num_ctx(
+            config
+                .default_options
+                .get("num_ctx")
+                .unwrap()
+                .to_string()
+                .parse::<u32>()
+                .expect("Failed to parse num_ctx as u32"),
+        )
+        .num_gqa(
+            config
+                .default_options
+                .get("num_gqa")
+                .unwrap()
+                .to_string()
+                .parse::<u32>()
+                .expect("Failed to parse num_gqa as u32"),
+        )
+        .num_thread(
+            config
+                .default_options
+                .get("num_thread")
+                .unwrap()
+                .to_string()
+                .parse::<u32>()
+                .expect("Failed to parse num_thread as u32"),
+        )
+        .repeat_last_n(
+            config
+                .default_options
+                .get("repeat_last_n")
+                .unwrap()
+                .to_string()
+                .parse::<i32>()
+                .expect("Failed to parse repeat_last_n as i32"),
+        )
+        .seed(
+            config
+                .default_options
+                .get("seed")
+                .unwrap()
+                .to_string()
+                .parse::<i32>()
+                .expect("Failed to parse seed as i32"),
+        )
+        // .stop(config.default_options.get("stop").unwrap().to_string())
+        .tfs_z(
+            config
+                .default_options
+                .get("tfs_z")
+                .unwrap()
+                .to_string()
+                .parse::<f32>()
+                .expect("Failed to parse tfs_z as f32"),
+        )
+        .num_predict(
+            config
+                .default_options
+                .get("num_predict")
+                .unwrap()
+                .to_string()
+                .parse::<i32>()
+                .expect("Failed to parse num_predict as i32"),
+        )
         .temperature(params.temperature)
         .repeat_penalty(params.repeat_penalty)
         .top_k(params.top_k)
         .top_p(params.top_p);
-
-    // Ugly way to do this (maybe in a loop?)
-    // let options = GenerationOptions::default();
-    // let options = options.clone().temperature(params.temperature); // Set temperature
-    // let options = options.clone().repeat_penalty(params.repeat_penalty); // Set temperature
 
     let req = GenerationRequest::new(params.model, params.prompt)
         .options(options)
