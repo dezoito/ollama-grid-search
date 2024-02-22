@@ -1,7 +1,9 @@
+import { configAtom } from "@/Atoms";
 import { TParamIteration } from "@/Interfaces";
 import { asyncSleep } from "@/lib/utils";
 import { ReloadIcon } from "@radix-ui/react-icons";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
+import { useAtom } from "jotai";
 import { useState } from "react";
 import { get_inference } from "../queries";
 import { Button } from "../ui/button";
@@ -26,14 +28,15 @@ export default function IterationResult(props: IProps) {
     expandMetadata,
   } = props;
   const { model, temperature, repeat_penalty, top_k, top_p } = params;
-  const queryClient = useQueryClient();
   const [enabled, setEnabled] = useState(false);
+  const [config, __] = useAtom(configAtom);
+  const queryClient = useQueryClient();
 
   // Use only the cached queries from the parent component
   // Keep "enabled: false" to run queries in sequence and not concurrently
   const query = useQuery({
     queryKey: ["get_inference", params],
-    queryFn: () => get_inference(params),
+    queryFn: () => get_inference(config, params),
     enabled: enabled,
     staleTime: Infinity,
     // cacheTime: Infinity,

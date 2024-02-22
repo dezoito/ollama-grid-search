@@ -20,7 +20,11 @@ https://jonaskruckenberg.github.io/tauri-docs-wip/development/inter-process-comm
 The Error enum, therefore, has to implement a variant for "OllamaError"
 */
 // use ollama_rs::generation::completion::GenerationFinalResponseData;
-use ollama_rs::{error::OllamaError, generation::completion::request::GenerationRequest, Ollama};
+use ollama_rs::{
+    error::OllamaError,
+    generation::{completion::request::GenerationRequest, options::GenerationOptions},
+    Ollama,
+};
 use serde::{Deserialize, Serialize};
 use serde_json::Value;
 use thiserror::Error;
@@ -32,7 +36,7 @@ struct TParamIteration {
     prompt: String,
     temperature: f32,
     repeat_penalty: f32,
-    top_k: i32,
+    top_k: u32,
     top_p: f32,
 }
 #[derive(Debug, Serialize, Deserialize)]
@@ -105,15 +109,35 @@ async fn get_models(config: IDefaultConfigs) -> Result<Vec<String>, Error> {
 }
 
 #[tauri::command]
-async fn get_inference(params: TParamIteration) -> Result<String, Error> {
-    //TODO, simplify and return the entire response
-    let ollama = Ollama::default();
-
+async fn get_inference(config: IDefaultConfigs, params: TParamIteration) -> Result<String, Error> {
+    println!("Config:");
+    dbg!(&config);
+    println!("Params:");
     dbg!(&params);
-    let res = match ollama
-        .generate(GenerationRequest::new(params.model, params.prompt))
-        .await
-    {
+
+    //TODO, simplify and return the entire response
+    let (host_url, port) = split_host_port(&config.server_url).unwrap();
+    let ollama = Ollama::new(host_url, port);
+
+    // set the inference options
+    let options = GenerationOptions::default()
+        .temperature(params.temperature)
+        .repeat_penalty(params.repeat_penalty)
+        .top_k(params.top_k)
+        .top_p(params.top_p);
+
+    // Ugly way to do this (maybe in a loop?)
+    // let options = GenerationOptions::default();
+    // let options = options.clone().temperature(params.temperature); // Set temperature
+    // let options = options.clone().repeat_penalty(params.repeat_penalty); // Set temperature
+
+    let req = GenerationRequest::new(params.model, params.prompt)
+        .options(options)
+        .system(config.system_prompt);
+
+    dbg!(&req);
+
+    let res = match ollama.generate(req).await {
         Ok(value) => value,
         Err(err) => {
             println!("Error: {}", err.to_string());
