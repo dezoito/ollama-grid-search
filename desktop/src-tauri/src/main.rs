@@ -20,7 +20,11 @@ https://jonaskruckenberg.github.io/tauri-docs-wip/development/inter-process-comm
 The Error enum, therefore, has to implement a variant for "OllamaError"
 */
 // use ollama_rs::generation::completion::GenerationFinalResponseData;
-use ollama_rs::{error::OllamaError, generation::completion::request::GenerationRequest, Ollama};
+use ollama_rs::{
+    error::OllamaError,
+    generation::{completion::request::GenerationRequest, options::GenerationOptions},
+    Ollama,
+};
 use serde::{Deserialize, Serialize};
 use serde_json::Value;
 use thiserror::Error;
@@ -32,7 +36,7 @@ struct TParamIteration {
     prompt: String,
     temperature: f32,
     repeat_penalty: f32,
-    top_k: i32,
+    top_k: u32,
     top_p: f32,
 }
 #[derive(Debug, Serialize, Deserialize)]
@@ -96,6 +100,7 @@ fn split_host_port(url: &str) -> Result<(String, u16), ParseError> {
 #[tauri::command(rename_all = "snake_case")]
 async fn get_models(config: IDefaultConfigs) -> Result<Vec<String>, Error> {
     let (host_url, port) = split_host_port(&config.server_url).unwrap();
+    println!("Fetching models from {}", &host_url);
     let ollama = Ollama::new(host_url, port);
     let models = ollama.list_local_models().await?;
 
@@ -104,15 +109,127 @@ async fn get_models(config: IDefaultConfigs) -> Result<Vec<String>, Error> {
 }
 
 #[tauri::command]
-async fn get_inference(params: TParamIteration) -> Result<String, Error> {
+async fn get_inference(config: IDefaultConfigs, params: TParamIteration) -> Result<String, Error> {
     //TODO, simplify and return the entire response
-    let ollama = Ollama::default();
-
+    println!("Config:");
+    dbg!(&config);
+    println!("Params:");
     dbg!(&params);
-    let res = match ollama
-        .generate(GenerationRequest::new(params.model, params.prompt))
-        .await
-    {
+    // println!(
+    //     "Stop: {}",
+    //     config.default_options.get("stop").unwrap().to_string()
+    // );
+
+    let (host_url, port) = split_host_port(&config.server_url).unwrap();
+    let ollama = Ollama::new(host_url, port);
+
+    // Set the inference options, first apply the
+    // default options from settings, then the actual
+    // inference options defined on the form
+    let options = GenerationOptions::default()
+        .mirostat(
+            config
+                .default_options
+                .get("mirostat")
+                .unwrap()
+                .to_string()
+                .parse::<u8>()
+                .expect("Failed to parse mirostat as u8"),
+        )
+        .mirostat_tau(
+            config
+                .default_options
+                .get("mirostat_tau")
+                .unwrap()
+                .to_string()
+                .parse::<f32>()
+                .expect("Failed to parse mirostat_tau as f32"),
+        )
+        .mirostat_eta(
+            config
+                .default_options
+                .get("mirostat_eta")
+                .unwrap()
+                .to_string()
+                .parse::<f32>()
+                .expect("Failed to parse mirostat_eta as f32"),
+        )
+        .num_ctx(
+            config
+                .default_options
+                .get("num_ctx")
+                .unwrap()
+                .to_string()
+                .parse::<u32>()
+                .expect("Failed to parse num_ctx as u32"),
+        )
+        .num_gqa(
+            config
+                .default_options
+                .get("num_gqa")
+                .unwrap()
+                .to_string()
+                .parse::<u32>()
+                .expect("Failed to parse num_gqa as u32"),
+        )
+        .num_thread(
+            config
+                .default_options
+                .get("num_thread")
+                .unwrap()
+                .to_string()
+                .parse::<u32>()
+                .expect("Failed to parse num_thread as u32"),
+        )
+        .repeat_last_n(
+            config
+                .default_options
+                .get("repeat_last_n")
+                .unwrap()
+                .to_string()
+                .parse::<i32>()
+                .expect("Failed to parse repeat_last_n as i32"),
+        )
+        .seed(
+            config
+                .default_options
+                .get("seed")
+                .unwrap()
+                .to_string()
+                .parse::<i32>()
+                .expect("Failed to parse seed as i32"),
+        )
+        // .stop(config.default_options.get("stop").unwrap().to_string())
+        .tfs_z(
+            config
+                .default_options
+                .get("tfs_z")
+                .unwrap()
+                .to_string()
+                .parse::<f32>()
+                .expect("Failed to parse tfs_z as f32"),
+        )
+        .num_predict(
+            config
+                .default_options
+                .get("num_predict")
+                .unwrap()
+                .to_string()
+                .parse::<i32>()
+                .expect("Failed to parse num_predict as i32"),
+        )
+        .temperature(params.temperature)
+        .repeat_penalty(params.repeat_penalty)
+        .top_k(params.top_k)
+        .top_p(params.top_p);
+
+    let req = GenerationRequest::new(params.model, params.prompt)
+        .options(options)
+        .system(config.system_prompt);
+
+    dbg!(&req);
+
+    let res = match ollama.generate(req).await {
         Ok(value) => value,
         Err(err) => {
             println!("Error: {}", err.to_string());

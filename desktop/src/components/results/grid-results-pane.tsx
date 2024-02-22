@@ -1,4 +1,4 @@
-import { gridParamsAtom } from "@/Atoms";
+import { configAtom, gridParamsAtom } from "@/Atoms";
 import { TParamIteration } from "@/Interfaces";
 import { ChevronDownIcon, ChevronUpIcon } from "@radix-ui/react-icons";
 import { useQueries } from "@tanstack/react-query";
@@ -18,7 +18,7 @@ export default function GridResultsPane() {
   const [noCompleted, setNoCompleted] = useState(0);
   const [expandParams, setExpandParams] = useState(false);
   const [expandMetadata, setExpandMetadata] = useState(false);
-  // const queryClient = useQueryClient();
+  const [config, __] = useAtom(configAtom);
 
   //https://stackoverflow.com/questions/76933229/can-react-query-make-sequential-network-calls-and-wait-for-previous-one-to-finis
 
@@ -59,7 +59,7 @@ export default function GridResultsPane() {
   // so new experiments can run sequentially
   const queries: any = iterations.map((params: TParamIteration, i: number) => ({
     queryKey: ["get_inference", params],
-    queryFn: () => get_inference(params),
+    queryFn: () => get_inference(config, params),
     enabled: i === 0 || (i <= noCompleted && noCompleted !== iterations.length),
     staleTime: 0,
     cacheTime: 0,

@@ -1,11 +1,17 @@
 import { IDefaultConfigs, TParamIteration } from "@/Interfaces";
 import { invoke } from "@tauri-apps/api/tauri";
 
-export async function get_inference(params: TParamIteration) {
+export async function get_inference(
+  config: IDefaultConfigs,
+  params: TParamIteration,
+) {
   // const randomNumber = Math.floor(Math.random() * (12000 - 1000 + 1)) + 1000;
   // console.log(randomNumber);
   // await asyncSleep(randomNumber);
-  const inference = await invoke("get_inference", { params: params });
+  const inference = await invoke("get_inference", {
+    config: config,
+    params: params,
+  });
   return inference;
 }
 
