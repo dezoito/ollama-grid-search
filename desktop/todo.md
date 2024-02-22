@@ -22,8 +22,13 @@ https://byby.dev/at-rule-tailwind -> Extensions and configs for using tailwind w
 - Consider what to do when updating settings (reset everything? just reset the form? see settings-dialog.tsx)
 
 - Return full response from inference
+- Log responses to a log file?
+- Add response metadata
 - Test a multiplatform release
 - Implement single instance check https://github.com/tauri-apps/plugins-workspace/tree/v1/plugins/single-instance
+
+---
+
 - Plan on saving results to SQLite
 - Add movable divider component
 - Add keyboard shortcuts

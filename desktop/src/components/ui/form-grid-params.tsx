@@ -139,7 +139,7 @@ export default function FormGridParams() {
   }
 
   return (
-    <div className="relative flex flex-col min-h-screen overflow-y-auto">
+    <div className="relative flex flex-col min-h-screen overflow-y-auto mb-8">
       <Form {...form}>
         <form
           onSubmit={form.handleSubmit(onSubmit)}
