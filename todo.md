@@ -19,12 +19,13 @@ https://byby.dev/at-rule-tailwind -> Extensions and configs for using tailwind w
 [ok] - Use system prompt + user defined params and default params when invoking the completion API
 [ok] - Move commands and utility functions to commands.rs and lib.rs
 [ok] - Make desktop the default app, save old one
+[ok] - Rename "desktop" id in Cargo.toml to grid-search-desktop
 
-- Rename "desktop" id in Cargo.toml
-- Redo README (add pics!)
 - Consider what to do when updating settings (reset everything? just reset the form? see settings-dialog.tsx)
-
 - Return full response from inference
+
+- Redo README (add pics!)
+
 - Log responses to a log file?
 - Add response metadata
 - Test a multiplatform release
