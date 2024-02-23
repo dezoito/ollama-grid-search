@@ -101,101 +101,117 @@ pub async fn get_inference(
     let (host_url, port) = split_host_port(&config.server_url).unwrap();
     let ollama = Ollama::new(host_url, port);
 
-    // Set the inference options, first apply the
-    // default options from settings, then the actual
-    // inference options defined on the form
-    let options = GenerationOptions::default()
-        .mirostat(
-            config
-                .default_options
-                .get("mirostat")
-                .unwrap()
-                .to_string()
-                .parse::<u8>()
-                .expect("Failed to parse mirostat as u8"),
-        )
-        .mirostat_tau(
-            config
-                .default_options
-                .get("mirostat_tau")
-                .unwrap()
-                .to_string()
-                .parse::<f32>()
-                .expect("Failed to parse mirostat_tau as f32"),
-        )
-        .mirostat_eta(
-            config
-                .default_options
-                .get("mirostat_eta")
-                .unwrap()
-                .to_string()
-                .parse::<f32>()
-                .expect("Failed to parse mirostat_eta as f32"),
-        )
-        .num_ctx(
-            config
-                .default_options
-                .get("num_ctx")
-                .unwrap()
-                .to_string()
-                .parse::<u32>()
-                .expect("Failed to parse num_ctx as u32"),
-        )
-        .num_gqa(
-            config
-                .default_options
-                .get("num_gqa")
-                .unwrap()
-                .to_string()
-                .parse::<u32>()
-                .expect("Failed to parse num_gqa as u32"),
-        )
-        .num_thread(
-            config
-                .default_options
-                .get("num_thread")
-                .unwrap()
-                .to_string()
-                .parse::<u32>()
-                .expect("Failed to parse num_thread as u32"),
-        )
-        .repeat_last_n(
-            config
-                .default_options
-                .get("repeat_last_n")
-                .unwrap()
-                .to_string()
-                .parse::<i32>()
-                .expect("Failed to parse repeat_last_n as i32"),
-        )
-        .seed(
-            config
-                .default_options
-                .get("seed")
-                .unwrap()
-                .to_string()
-                .parse::<i32>()
-                .expect("Failed to parse seed as i32"),
-        )
-        // .stop(config.default_options.get("stop").unwrap().to_string())
-        .tfs_z(
-            config
-                .default_options
-                .get("tfs_z")
-                .unwrap()
-                .to_string()
-                .parse::<f32>()
-                .expect("Failed to parse tfs_z as f32"),
-        )
-        .num_predict(
-            config
-                .default_options
-                .get("num_predict")
-                .unwrap()
-                .to_string()
-                .parse::<i32>()
-                .expect("Failed to parse num_predict as i32"),
-        )
+    // Default options might not have been set by the user
+    // add only the ones we have a value for
+    let mut options_builder = GenerationOptions::default();
+
+    for &option_name in &[
+        "mirostat",
+        "mirostat_tau",
+        "mirostat_eta",
+        "num_ctx",
+        "num_gqa",
+        "num_gpu",
+        "num_thread",
+        "repeat_last_n",
+        "seed",
+        //"stop",
+        "tfs_z",
+        "num_predict",
+    ] {
+        if let Some(value) = config.default_options.get(option_name) {
+            match option_name {
+                "mirostat" => {
+                    let parsed_value = value
+                        .to_string()
+                        .parse::<u8>()
+                        .expect("Failed to parse mirostat as u8");
+                    options_builder = options_builder.mirostat(parsed_value);
+                }
+                "mirostat_tau" => {
+                    let parsed_value = value
+                        .to_string()
+                        .parse::<f32>()
+                        .expect("Failed to parse mirostat_tau as f32");
+                    options_builder = options_builder.mirostat_tau(parsed_value);
+                }
+                "mirostat_eta" => {
+                    let parsed_value = value
+                        .to_string()
+                        .parse::<f32>()
+                        .expect("Failed to parse mirostat_eta as f32");
+                    options_builder = options_builder.mirostat_eta(parsed_value);
+                }
+                "num_ctx" => {
+                    let parsed_value = value
+                        .to_string()
+                        .parse::<u32>()
+                        .expect("Failed to parse num_ctx as u32");
+                    options_builder = options_builder.num_ctx(parsed_value);
+                }
+                "num_gqa" => {
+                    let parsed_value = value
+                        .to_string()
+                        .parse::<u32>()
+                        .expect("Failed to parse num_gqa as u32");
+                    options_builder = options_builder.num_gqa(parsed_value);
+                }
+                "num_gpu" => {
+                    let parsed_value = value
+                        .to_string()
+                        .parse::<u32>()
+                        .expect("Failed to parse num_gpu as u32");
+                    options_builder = options_builder.num_gpu(parsed_value);
+                }
+                "num_thread" => {
+                    let parsed_value = value
+                        .to_string()
+                        .parse::<u32>()
+                        .expect("Failed to parse num_thread as u32");
+                    options_builder = options_builder.num_thread(parsed_value);
+                }
+                "repeat_last_n" => {
+                    let parsed_value = value
+                        .to_string()
+                        .parse::<i32>()
+                        .expect("Failed to parse repeat_last_n as i32");
+                    options_builder = options_builder.repeat_last_n(parsed_value);
+                }
+                "seed" => {
+                    let parsed_value = value
+                        .to_string()
+                        .parse::<i32>()
+                        .expect("Failed to parse seed as i32");
+                    options_builder = options_builder.seed(parsed_value);
+                }
+                // * needs to be fixed in ollama-rs (has to be string[])
+                // "stop" => {
+                //     let parsed_value = value.to_string();
+                //     options_builder = options_builder.stop(parsed_value);
+                // }
+                "tfs_z" => {
+                    let parsed_value = value
+                        .to_string()
+                        .parse::<f32>()
+                        .expect("Failed to parse tfs_z as f32");
+                    options_builder = options_builder.tfs_z(parsed_value);
+                }
+                "num_predict" => {
+                    let parsed_value = value
+                        .to_string()
+                        .parse::<i32>()
+                        .expect("Failed to parse num_predictnum_predict as i32");
+                    options_builder = options_builder.num_predict(parsed_value);
+                }
+                _ => {
+                    println!("Unknown option: {}", option_name);
+                }
+            }
+        }
+    }
+
+    // Set mandatory options
+    let options = options_builder
         .temperature(params.temperature)
         .repeat_penalty(params.repeat_penalty)
         .top_k(params.top_k)

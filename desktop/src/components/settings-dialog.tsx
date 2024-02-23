@@ -173,7 +173,11 @@ export function SettingsDialog() {
                         >
                           <u>Docs</u>
                         </a>
-                        )
+                        ) .
+                        <p>
+                          Adding new options may cause issues with inference. Be
+                          careful.
+                        </p>
                       </FormDescription>
                       <FormMessage />
                     </FormItem>
