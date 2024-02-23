@@ -3,8 +3,8 @@
         "titleBar.activeBackground": "#ee610f"
     },
     "rust-analyzer.linkedProjects": [
-        "./Cargo.toml",
-        "./desktop/src-tauri/Cargo.toml"
+        "./old/Cargo.toml",
+        "./Cargo.toml"
     ],
     "[rust]": {
         "editor.formatOnPaste": true,

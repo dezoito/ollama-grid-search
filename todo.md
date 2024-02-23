@@ -18,9 +18,10 @@ https://byby.dev/at-rule-tailwind -> Extensions and configs for using tailwind w
 [ok] - refetch get_models periodically or add icon to refetch -> every 30s
 [ok] - Use system prompt + user defined params and default params when invoking the completion API
 [ok] - Move commands and utility functions to commands.rs and lib.rs
+[ok] - Make desktop the default app, save old one
 
-- Make desktop the default app, save old one
 - Rename "desktop" id in Cargo.toml
+- Redo README (add pics!)
 - Consider what to do when updating settings (reset everything? just reset the form? see settings-dialog.tsx)
 
 - Return full response from inference
