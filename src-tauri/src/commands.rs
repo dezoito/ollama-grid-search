@@ -17,7 +17,7 @@ The Error enum, therefore, has to implement a variant for "OllamaError"
 
 use std::collections::HashMap;
 
-use desktop::split_host_port;
+use grid_search_desktop::split_host_port;
 use ollama_rs::{
     error::OllamaError,
     generation::{completion::request::GenerationRequest, options::GenerationOptions},

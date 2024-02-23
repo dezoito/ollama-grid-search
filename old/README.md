@@ -1,4 +1,4 @@
-# Ollama Grid Search Desktop App.
+# Ollama Grid Search
 
 A Rust based tool to evaluate LLM models and model params, when using Ollama for inference.
 
@@ -73,27 +73,54 @@ Top_P: 0.75
 
 Notice that some useful stats are displayed with the generated response.
 
-Once all combinations are completed, the script will display some global statistics:
+One all combinations are completed, the script will display some global statistics:
 
 ```sh
-git clone https://github.com/dezoito/ollama-grid-search.git
-cd ollama-grid-search
-git checkout tauri
-
+----------------------------------------------------------
+End of experiment at 2023-12-26 14:36:07
+AVG chars per sec 2.85
+Total Processing time 30m30s
+----------------------------------------------------------
 ```
 
-3. Install the frontend dependencies.
+## Usage:
 
-   ```sh
-   cd <project root>/desktop
-   # I'm using bun to manage dependecies,
-   # but feel free to use yarn or npm
-   git checkout tauri
-   bun install
-   ```
+1. You must have Rust installed on your machine.
 
-4. Run the app in development mode
-   ```sh
-   cd <project root>/desktop
-   bun run tauri dev
-   ```
+2. Clone the project and cd to the root directory:
+
+```
+git clone https://github.com/dezoito/ollama-grid-search.git
+cd ollama-grid-search
+```
+
+3. Edit `fn main()` at `src/main.rs` and define:
+
+   - the timeout for each call to the Ollama server
+   - the URL for you Ollama `generate` endpoint
+   - the model you want to use (it must be available to your Ollama instance)
+   - the vectors with the values for each parameter (`temperature`, `repeat_penalty`, `top_k`, `top_p`)
+   - finally, the prompt you want to try.
+
+4. Open a terminal on your project's root and run an experiment:
+
+```sh
+cargo run -- -c
+```
+
+Optionally, and easy way to save the output of the experiment to a file is:
+
+```sh
+cargo run -- -c > experiment_<name>.txt
+```
+
+## Supported Parameters:
+
+The full list of parameters available in Ollama can be seen at https://github.com/jmorganca/ollama/blob/main/docs/modelfile.md#parameter
+
+This software supports the following parameters at the moment:
+
+- Temperature (range 0:1)
+- Repeat Penalty (range 0:2)
+- Top K (range 0:100)
+- Top P (range 0:1)
