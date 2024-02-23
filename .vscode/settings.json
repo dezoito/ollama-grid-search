@@ -4,7 +4,7 @@
     },
     "rust-analyzer.linkedProjects": [
         "./old/Cargo.toml",
-        "./Cargo.toml"
+        "./src-tauri/Cargo.toml"
     ],
     "[rust]": {
         "editor.formatOnPaste": true,
