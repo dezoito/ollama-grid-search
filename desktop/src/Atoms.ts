@@ -37,16 +37,19 @@ const defaultConfigs: IDefaultConfigs = {
     num_ctx: 4096,
     num_gqa: 1,
     num_gpu: 50,
-    num_thread: 8,
     repeat_last_n: 64,
     repeat_penalty: 1.1,
     temperature: 0.7,
     seed: 42,
-    stop: ["AI assistant:"],
     tfs_z: 1,
-    num_predict: 42,
     top_k: 40,
     top_p: 0.9,
+    // num_predict: 42,
+    // num_thread: 8, // may cause issues if set
+    // stop: ["AI assistant:"], // not supported as an array yet...
+    // ------------
+    // Params below appear in docs, but don't seem to be supported at this time.
+    // ------------
     // num_keep: 5,
     // typical_p: 0.7,
     // presence_penalty: 1.5,
