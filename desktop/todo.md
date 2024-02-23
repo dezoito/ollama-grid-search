@@ -19,6 +19,8 @@ https://byby.dev/at-rule-tailwind -> Extensions and configs for using tailwind w
 [ok] - Use system prompt + user defined params and default params when invoking the completion API
 [ok] - Move commands and utility functions to commands.rs and lib.rs
 
+- Make desktop the default app, save old one
+- Rename "desktop" id in Cargo.toml
 - Consider what to do when updating settings (reset everything? just reset the form? see settings-dialog.tsx)
 
 - Return full response from inference
