@@ -23,7 +23,7 @@
     "@radix-ui/react-slot": "^1.0.2",
     "@radix-ui/react-toast": "^1.1.5",
     "@radix-ui/react-tooltip": "^1.0.7",
-    "@tanstack/react-query": "^5.17.19",
+    "@tanstack/react-query": "^5.22.2",
     "@tauri-apps/api": "^1.5.2",
     "@types/node": "^20.11.5",
     "autoprefixer": "^10.4.17",
@@ -46,7 +46,7 @@
   },
   "devDependencies": {
     "@tanstack/eslint-plugin-query": "^5.17.20",
-    "@tanstack/react-query-devtools": "^5.17.21",
+    "@tanstack/react-query-devtools": "^5.24.0",
     "@tauri-apps/cli": "^1.5.8",
     "@types/react": "^18.2.15",
     "@types/react-dom": "^18.2.7",

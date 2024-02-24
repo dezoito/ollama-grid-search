@@ -20,7 +20,10 @@ use std::collections::HashMap;
 use grid_search_desktop::split_host_port;
 use ollama_rs::{
     error::OllamaError,
-    generation::{completion::request::GenerationRequest, options::GenerationOptions},
+    generation::{
+        completion::{request::GenerationRequest, GenerationResponse},
+        options::GenerationOptions,
+    },
     Ollama,
 };
 use serde::{Deserialize, Serialize};
@@ -60,7 +63,7 @@ pub enum Error {
     StringError(String), // Include a String to represent the error message
 }
 
-// we must manually implement serde::Serialize
+// Errors must implement serde::Serialize to be used in Commands
 impl serde::Serialize for Error {
     fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
     where
@@ -87,16 +90,10 @@ pub mod commands {}
 pub async fn get_inference(
     config: IDefaultConfigs,
     params: TParamIteration,
-) -> Result<String, Error> {
-    //TODO, simplify and return the entire response
-    println!("Config:");
-    dbg!(&config);
-    println!("Params:");
-    dbg!(&params);
-    // println!(
-    //     "Stop: {}",
-    //     config.default_options.get("stop").unwrap().to_string()
-    // );
+) -> Result<GenerationResponse, Error> {
+    // println!("Config and Params");
+    // dbg!(&config);
+    // dbg!(&params);
 
     let (host_url, port) = split_host_port(&config.server_url).unwrap();
     let ollama = Ollama::new(host_url, port);
@@ -230,7 +227,9 @@ pub async fn get_inference(
             return Err(Error::StringError(err.to_string()));
         }
     };
-    // dbg!(res);
-    println!("Inference complete.");
-    Ok(res.response)
+    println!("---------------------------------------------");
+    dbg!(&res);
+    println!("---------------------------------------------");
+
+    Ok(res)
 }

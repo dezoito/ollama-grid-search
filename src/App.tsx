@@ -8,7 +8,7 @@ import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import { AlertDialogProvider } from "./components/ui/alert-dialog-provider";
 
 const queryClient = new QueryClient({
-  default_options: {
+  defaultOptions: {
     queries: {
       refetchOnWindowFocus: false,
       refetchOnMount: false,

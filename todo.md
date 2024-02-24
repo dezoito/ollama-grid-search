@@ -20,14 +20,17 @@ https://byby.dev/at-rule-tailwind -> Extensions and configs for using tailwind w
 [ok] - Move commands and utility functions to commands.rs and lib.rs
 [ok] - Make desktop the default app, save old one
 [ok] - Rename "desktop" id in Cargo.toml to grid-search-desktop
+[ok] - Return full response from inference (after ollama-rs version bump)
+[ok] - Add response metadata to results
+
+- Format result's metadata in the frontend
 
 - Consider what to do when updating settings (reset everything? just reset the form? see settings-dialog.tsx)
-- Return full response from inference
+- Convert markdown in responses
 
 - Redo README (add pics!)
 
 - Log responses to a log file?
-- Add response metadata
 - Test a multiplatform release
 - Implement single instance check https://github.com/tauri-apps/plugins-workspace/tree/v1/plugins/single-instance
 

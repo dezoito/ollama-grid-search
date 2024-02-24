@@ -1,5 +1,5 @@
 import { configAtom } from "@/Atoms";
-import { TParamIteration } from "@/Interfaces";
+import { IResponsePayload, TParamIteration } from "@/Interfaces";
 import { asyncSleep } from "@/lib/utils";
 import { ReloadIcon } from "@radix-ui/react-icons";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
@@ -34,9 +34,9 @@ export default function IterationResult(props: IProps) {
 
   // Use only the cached queries from the parent component
   // Keep "enabled: false" to run queries in sequence and not concurrently
-  const query = useQuery({
+  const query = useQuery<IResponsePayload>({
     queryKey: ["get_inference", params],
-    queryFn: () => get_inference(config, params),
+    queryFn: (): Promise<IResponsePayload> => get_inference(config, params),
     enabled: enabled,
     staleTime: Infinity,
     // cacheTime: Infinity,
@@ -88,7 +88,7 @@ export default function IterationResult(props: IProps) {
             )}
 
             <div className="text-cyan-600 dark:text-cyan-600 whitespace-pre-wrap">
-              {query.data as string}
+              {query.data && query.data.response}
             </div>
 
             {/* results metadata */}
@@ -98,7 +98,7 @@ export default function IterationResult(props: IProps) {
                 defaultOpen={expandMetadata}
               >
                 <div className="text-sm font-mono">
-                  <div>inference metadata here</div>
+                  <pre>{JSON.stringify(query.data, null, 2)}</pre>
                 </div>
               </CollapsibleItem>
             </div>
