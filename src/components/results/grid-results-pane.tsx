@@ -9,9 +9,6 @@ import { Button } from "../ui/button";
 import { Separator } from "../ui/separator";
 import IterationResult from "./iteration-result";
 
-const now = new Date();
-const start = now.toUTCString();
-
 export default function GridResultsPane() {
   const [gridParams, _] = useAtom(gridParamsAtom);
   const [iterations, setIterations] = useState<TParamIteration[]>([]);
@@ -119,7 +116,7 @@ export default function GridResultsPane() {
 
         <Separator className="my-4" />
         <div>
-          <div>Experiment started on {start}.</div>
+          <div>Experiment started on {new Date().toUTCString()}.</div>
           <div>
             Iterations: {noCompleted}/{iterations.length}
           </div>
