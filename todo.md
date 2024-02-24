@@ -26,7 +26,6 @@ https://byby.dev/at-rule-tailwind -> Extensions and configs for using tailwind w
 - Format result's metadata in the frontend
 
 - Consider what to do when updating settings (reset everything? just reset the form? see settings-dialog.tsx)
-- Convert markdown in responses
 
 - Redo README (add pics!)
 
@@ -36,6 +35,7 @@ https://byby.dev/at-rule-tailwind -> Extensions and configs for using tailwind w
 
 ---
 
+- Convert code markdown in responses
 - Plan on saving results to SQLite
 - Add movable divider component
 - Add keyboard shortcuts
