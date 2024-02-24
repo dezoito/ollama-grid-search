@@ -29,12 +29,12 @@ https://byby.dev/at-rule-tailwind -> Extensions and configs for using tailwind w
 
 - Redo README (add pics!)
 
-- Log responses to a log file? (https://aptabase.com/blog/complete-guide-tauri-log)
 - Test a multiplatform release
 - Implement single instance check https://github.com/tauri-apps/plugins-workspace/tree/v1/plugins/single-instance
 
 ---
 
+- Log responses to a log file? (https://aptabase.com/blog/complete-guide-tauri-log)
 - Add option to display large textarea for prompt in a modal
 - Convert code snippets to markdown in responses? (react-markdown didn't work well to filter code)
 - Plan on saving results to SQLite

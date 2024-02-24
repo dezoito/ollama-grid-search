@@ -219,13 +219,11 @@ pub async fn get_inference(
 
     dbg!(&req);
 
-    let res = match ollama.generate(req).await {
-        Ok(value) => value,
-        Err(err) => {
-            println!("Error: {}", err.to_string());
-            return Err(Error::StringError(err.to_string()));
-        }
-    };
+    let res = ollama.generate(req).await.map_err(|err| {
+        println!("Error: {}", err.to_string());
+        Error::StringError(err.to_string())
+    })?;
+
     println!("---------------------------------------------");
     dbg!(&res);
     println!("---------------------------------------------");
