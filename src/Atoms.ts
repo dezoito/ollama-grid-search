@@ -44,9 +44,9 @@ const defaultConfigs: IDefaultConfigs = {
     tfs_z: 1,
     top_k: 40,
     top_p: 0.9,
+    stop: ["AI assistant:"],
     // num_predict: 42,
     // num_thread: 8, // may cause issues if set
-    // stop: ["AI assistant:"], // not supported as an array yet...
     // ------------
     // Params below appear in docs, but don't seem to be supported at this time.
     // ------------

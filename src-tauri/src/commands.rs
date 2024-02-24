@@ -112,7 +112,7 @@ pub async fn get_inference(
         "num_thread",
         "repeat_last_n",
         "seed",
-        //"stop",
+        "stop",
         "tfs_z",
         "num_predict",
     ] {
@@ -181,11 +181,10 @@ pub async fn get_inference(
                         .expect("Failed to parse seed as i32");
                     options_builder = options_builder.seed(parsed_value);
                 }
-                // * needs to be fixed in ollama-rs (has to be string[])
-                // "stop" => {
-                //     let parsed_value = value.to_string();
-                //     options_builder = options_builder.stop(parsed_value);
-                // }
+                "stop" => {
+                    let parsed_value = vec![value.to_string()];
+                    options_builder = options_builder.stop(parsed_value);
+                }
                 "tfs_z" => {
                     let parsed_value = value
                         .to_string()
