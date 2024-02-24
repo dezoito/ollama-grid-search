@@ -73,7 +73,7 @@ impl serde::Serialize for Error {
     }
 }
 
-#[tauri::command(rename_all = "snake_case")]
+#[tauri::command]
 pub async fn get_models(config: IDefaultConfigs) -> Result<Vec<String>, Error> {
     let (host_url, port) = split_host_port(&config.server_url).unwrap();
     println!("Fetching models from {}", &host_url);
