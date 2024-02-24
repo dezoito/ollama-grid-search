@@ -23,24 +23,25 @@ https://byby.dev/at-rule-tailwind -> Extensions and configs for using tailwind w
 [ok] - Return full response from inference (after ollama-rs version bump)
 [ok] - Add response metadata to results
 
+- Verify if upstream issues with the "stop" option have been resolved (ommited until then)
 - Format result's metadata in the frontend
 
 - Consider what to do when updating settings (reset everything? just reset the form? see settings-dialog.tsx)
 
 - Redo README (add pics!)
 
-- Log responses to a log file?
+- Log responses to a log file? (https://aptabase.com/blog/complete-guide-tauri-log)
 - Test a multiplatform release
 - Implement single instance check https://github.com/tauri-apps/plugins-workspace/tree/v1/plugins/single-instance
 
 ---
 
+- Add option to display large textarea for prompt in a modal
 - Convert code snippets to markdown in responses? (react-markdown didn't work well to filter code)
 - Plan on saving results to SQLite
 - Add movable divider component
 - Add keyboard shortcuts
 - Add a "default prompt" setting to settings?
-- Verify if upstream issues with the "stop" option have been resolved (ommited until then)
 
 - Cancel async commands:
   https://github.com/tauri-apps/tauri/discussions/5894
