@@ -35,7 +35,7 @@ https://byby.dev/at-rule-tailwind -> Extensions and configs for using tailwind w
 
 ---
 
-- Convert code markdown in responses
+- Convert code snippets to markdown in responses? (react-markdown didn't work well to filter code)
 - Plan on saving results to SQLite
 - Add movable divider component
 - Add keyboard shortcuts

@@ -33,7 +33,6 @@
     "geist": "^1.2.1",
     "install": "^0.13.0",
     "jotai": "^2.6.3",
-    "lucide-react": "^0.312.0",
     "postcss": "^8.4.33",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
