@@ -65,7 +65,7 @@
 @layer base {
   * {
     @apply border-border;
-    @apply transition-colors duration-300;
+    /* @apply transition-colors duration-300; */
   }
 
   body {

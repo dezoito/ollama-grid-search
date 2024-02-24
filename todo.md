@@ -22,11 +22,10 @@ https://byby.dev/at-rule-tailwind -> Extensions and configs for using tailwind w
 [ok] - Rename "desktop" id in Cargo.toml to grid-search-desktop
 [ok] - Return full response from inference (after ollama-rs version bump)
 [ok] - Add response metadata to results
+[ok] - Verify if upstream issues with the "stop" option have been resolved (ommited until then)
+[ok]- Changing server_url should preserve form data and current results. Just reload available models and default to first
 
-- Verify if upstream issues with the "stop" option have been resolved (ommited until then)
 - Format result's metadata in the frontend
-
-- Consider what to do when updating settings (reset everything? just reset the form? see settings-dialog.tsx)
 
 - Redo README (add pics!)
 

@@ -12,7 +12,7 @@ import {
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 
-import { configAtom, defaultGridParams } from "@/Atoms";
+import { configAtom } from "@/Atoms";
 import {
   Form,
   FormControl,
@@ -30,13 +30,11 @@ import { useAtom } from "jotai";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import z from "zod";
-import { gridParamsAtom } from "../Atoms";
 
 export function SettingsDialog() {
   const { toast } = useToast();
   const [open, setOpen] = useState(false);
   const [config, setConfig] = useAtom(configAtom);
-  const [_, setGridParams] = useAtom(gridParamsAtom);
   const queryClient = useQueryClient();
 
   // * default_options has to be valid JSON
@@ -71,6 +69,8 @@ export function SettingsDialog() {
     // if (Object.keys(form.formState.errors).length > 0) {
     //   console.log("FORM ERRORS", form.formState.errors);
     // }
+
+    const old_server_url = config.server_url;
     toast({
       title: "Settings updated.",
       duration: 2500,
@@ -82,13 +82,10 @@ export function SettingsDialog() {
       default_options: JSON.parse(data.default_options),
     });
 
-    // Update models in form (requires resetting fields)
-    queryClient.refetchQueries({ queryKey: ["get_models"] });
-
-    //todo
-    //! is this really needed? we lose query results
-    //! with this update
-    setGridParams(defaultGridParams);
+    // Update models in form, in case user changed the server_url field
+    if (data.server_url !== old_server_url) {
+      queryClient.refetchQueries({ queryKey: ["get_models"] });
+    }
 
     setOpen(false);
   }

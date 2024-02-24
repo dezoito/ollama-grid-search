@@ -24,8 +24,8 @@ export async function get_inference(
 //   return inference;
 // };
 
-export async function get_models(config: IDefaultConfigs) {
+export async function get_models(config: IDefaultConfigs): Promise<string[]> {
   console.dir(config);
-  const models = await invoke("get_models", { config: config });
+  const models = await invoke<string[]>("get_models", { config: config });
   return models;
 }

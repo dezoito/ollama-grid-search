@@ -18,23 +18,10 @@ import {
 import { useQuery } from "@tanstack/react-query";
 import { useAtom } from "jotai";
 import { useEffect } from "react";
-import { UseFormReturn } from "react-hook-form";
 import { get_models } from "../queries";
 
 interface IProps {
-  form: UseFormReturn<
-    {
-      models: [string, ...string[]];
-      prompt: string;
-      uuid?: string | undefined;
-      temperatureList?: any;
-      repeatPenaltyList?: any;
-      topKList?: any;
-      topPList?: any;
-    },
-    any,
-    undefined
-  >;
+  form: any;
 }
 
 function ModelSelector(props: IProps) {
@@ -43,20 +30,21 @@ function ModelSelector(props: IProps) {
 
   // Use config in query key, so we can refetch using
   // a new config when it is changed in settings
-  const query = useQuery({
+  const query = useQuery<string[]>({
     queryKey: ["get_models", config],
-    queryFn: () => get_models(config),
+    queryFn: (): Promise<string[]> => get_models(config),
     refetchOnWindowFocus: "always",
     refetchInterval: 1000 * 30,
     staleTime: 0,
     // cacheTime: 0,
   });
 
-  // changing the source for the models should
-  // force the form to be reset
+  // Is we change server_url, select models from new server
+  // and default to the first one if any.
   useEffect(() => {
-    form.reset();
-  }, [config]);
+    query.data &&
+      form.setValue("models", [query.data?.length && query.data[0]]);
+  }, [config.server_url]);
 
   if (query.isError) {
     return (
@@ -84,9 +72,6 @@ function ModelSelector(props: IProps) {
                 {config.server_url})
               </span>
             </FormLabel>
-            {/* <FormDescription>
-              Select the models you want to test.
-            </FormDescription> */}
           </div>
 
           <Command>
