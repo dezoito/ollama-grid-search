@@ -13,7 +13,6 @@ https://jonaskruckenberg.github.io/tauri-docs-wip/development/inter-process-comm
 
 The Error enum, therefore, has to implement a variant for "OllamaError"
 */
-// use ollama_rs::generation::completion::GenerationFinalResponseData;
 
 use std::collections::HashMap;
 
@@ -23,6 +22,7 @@ use ollama_rs::{
     generation::{
         completion::{request::GenerationRequest, GenerationResponse},
         options::GenerationOptions,
+        parameters::KeepAlive,
     },
     Ollama,
 };
@@ -215,7 +215,8 @@ pub async fn get_inference(
 
     let req = GenerationRequest::new(params.model, params.prompt)
         .options(options)
-        .system(config.system_prompt);
+        .system(config.system_prompt)
+        .keep_alive(KeepAlive::UnloadOnCompletion);
 
     dbg!(&req);
 
