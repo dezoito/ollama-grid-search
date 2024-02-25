@@ -47,11 +47,10 @@ export default function IterationResult(props: IProps) {
   // so new experiments can run sequentially.
   const refetchCurrentQuery = async () => {
     setEnabled(true);
-    await asyncSleep(100);
-    queryClient.refetchQueries({
-      queryKey: ["get_inference", params],
-    });
-    await asyncSleep(100);
+    await asyncSleep(1);
+    queryClient.refetchQueries({ queryKey: ["get_inference", params] });
+    await asyncSleep(1);
+
     setEnabled(false);
   };
 
@@ -107,7 +106,7 @@ export default function IterationResult(props: IProps) {
       </div>
 
       {/* Allow reloading after inference is done */}
-      {query.isFetched && (
+      {query.isFetched && !query.isFetching && (
         <div className=" my-3">
           <Button variant="ghost" size="sm" onClick={refetchCurrentQuery}>
             <ReloadIcon className="h-4 w-4 text-cyan-600 dark:text-cyan-600 " />
