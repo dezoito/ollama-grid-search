@@ -14,7 +14,7 @@ It assumes the user has [Ollama](https://www.ollama.ai) installed and serving en
 
 ## Installation
 
-List binaries here...
+List binaries here.
 
 ## Features
 

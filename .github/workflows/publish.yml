@@ -4,7 +4,7 @@ name: "publish"
 on:
   push:
     branches:
-      - release
+      - me
 
 jobs:
   publish-tauri:
