@@ -1,6 +1,6 @@
-# Ollama Grid Search Desktop App.
+# Ollama Grid Search and A/B Testing Desktop App.
 
-A Rust based tool to evaluate LLM models and model params, when using Ollama for inference.
+A Rust based tool to evaluate LLM models, prompts and model params.
 
 ## Purpose
 
@@ -8,9 +8,26 @@ This project aims to automate the process of selecting the best model parameters
 
 It assumes the user has [Ollama](https://www.ollama.ai) installed and serving endpoints, either in `localhost` or in a remote server.
 
-It is not a polished tool by any means but beats the heck out running experiments manually!
+![](./screenshots/main.png?raw=true)
 
 (For a more in-depth look at an evaluation process assisted by this tool, please check https://dezoito.github.io/2023/12/27/rust-ollama-grid-search.html).
+
+## Installation
+
+List binaries here...
+
+## Features
+
+- Automatically fetches models from local or remote Ollama servers;
+- Iterates over different models and params to generate inferences;
+- A/B test prompts on different models simultaneously
+- Makes synchronous inference calls to avoid spamming servers;
+- Optionally output inference parameters and response metadata (inference time, tokens and tokens/s);
+- Refetching of single inference calls;
+- Model selection can be filtered by name;
+- Custom default parameters and system prompts can be defined in settings:
+
+![](./screenshots/settings.png?raw=true)
 
 ## Grid Search (or something similar...)
 
@@ -20,77 +37,63 @@ But the concept here is similar:
 
 Lets define a model, a prompt and some parameter combinations:
 
-```rs
-let ollama_url: &str = "http://localhost:11434/api/generate";
-let model: &str = "codellama:7b";
+![](./screenshots/gridparams.png?raw=true)
 
-let temperature_list: Vec<f32> = vec![0.66, 0.75, 0.9];
-let repeat_penalty_list: Vec<f32> = vec![1.5, 1.75, 2.0];
-let top_k_list: Vec<i8> = vec![75, 85];
-let top_p_list: Vec<f32> = vec![0.72, 0.75, 0.8];
+The prompt will be submitted once for each out of the 3 parameter combinations, using `deepseek-coder:1.3b` to generate numbered responses like:
 
-let prompt = r#"You are an experienced software developer.
-Write a function that returns all even numbers within a range.
-"#
+````
+1/3 - deepseek-coder:1.3b
 
-```
-
-The prompt will be submitted once for each out of the 54 possible combinations, using `codellama:7b` to generate numbered responses like:
-
-```sh
-
-1 - Test started at 2023-12-26 14:05:37:
-Temperature: 0.66
-Repeat Penalty: 1.5
-Top_K: 75
-Top_P: 0.72
-
-
-Results
----
-Eval Count: 137
-Total Duration: 2m12s
-Chars per second 1.04
-Response:
-"def find_even_numbers(start, end):
-        even_numbers = [num for num in range(start, end + 1) if num % 2 == 0]
-    return even_numbers
-"
-
----------------------------------------
-
-2 - Test started at 2023-12-26 14:07:49:
-Temperature: 0.66
-Repeat Penalty: 1.5
-Top_K: 75
-Top_P: 0.75
+Sure, here is the simple way to write hello_world() or simply saying Hello World using python programming language :
+```python
+def sayHelloWorld():
 
 ...
+````
+
+You can also access response metadata to help you make evaluations:
+
+```
+Created at: Mon, 26 Feb 2024 13:42:23 GMT
+Eval Count: 195 tokens
+Eval Duration: 0 hours, 0 minutes, 19 seconds
+Throughput: 9.89 tokens/s
 ```
 
-Notice that some useful stats are displayed with the generated response.
+## A/B Testing
 
-Once all combinations are completed, the script will display some global statistics:
+Similarly, you can perform A/B tests by selecting different models and compare results for the same prompt/parameter combination.
+
+## TODO Future Features
+
+- Grading results and filtering by grade
+- Storing experiments and results in a local database
+- Implementing limited concurrency for inference queries
+- UI/UX improvements
+
+## Development
+
+1. Make sure you have Rust installed.
+
+2. Clone the repository (or a fork)
 
 ```sh
 git clone https://github.com/dezoito/ollama-grid-search.git
 cd ollama-grid-search
-git checkout tauri
-
 ```
 
 3. Install the frontend dependencies.
 
    ```sh
-   cd <project root>/desktop
+   cd <project root>
    # I'm using bun to manage dependecies,
    # but feel free to use yarn or npm
-   git checkout tauri
    bun install
    ```
 
 4. Run the app in development mode
    ```sh
-   cd <project root>/desktop
-   bun run tauri dev
+   cd <project root>/
+   bun tauri dev
    ```
+5. Go grab a cup of coffee because this may take a while.

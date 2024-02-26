@@ -1,6 +1,6 @@
 # Ollama Grid Search (Old CLI version)
 
-A Rust based tool to evaluate LLM models and model params, when using Ollama for inference.
+A Rust based tool to evaluate LLM models and model params, when using Ollama for inference (<u>this has been deprecated as we have a desktop app now!</u>).
 
 ## Purpose
 
