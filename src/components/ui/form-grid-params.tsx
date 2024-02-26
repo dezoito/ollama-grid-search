@@ -139,11 +139,11 @@ export default function FormGridParams() {
   }
 
   return (
-    <div className="relative flex flex-col min-h-screen overflow-y-auto mb-8">
+    <div className="relative mb-8 flex min-h-screen flex-col overflow-y-auto">
       <Form {...form}>
         <form
           onSubmit={form.handleSubmit(onSubmit)}
-          className="space-y-6 flex-grow"
+          className="flex-grow space-y-6"
         >
           <div>
             <ModelSelector form={form} />
@@ -245,14 +245,14 @@ export default function FormGridParams() {
           </div>
           <div
             id="button-area"
-            className="w-[479px] fixed bottom-0 left-0 right-0 p-4 shadow-md bg-white dark:bg-zinc-950"
+            className="fixed bottom-0 left-0 right-0 w-[479px] bg-white p-4 shadow-md dark:bg-zinc-950"
           >
-            <div className="flex gap-4 w-1/5">
+            <div className="flex w-1/5 gap-4">
               {/* Ensure the button-area stays within the column */}
               <Button type="submit" disabled={!!isFetching}>
                 {!!isFetching ? (
                   <div className="flex gap-2">
-                    <Spinner className="w-4 h-4" /> <>Running...</>
+                    <Spinner className="h-4 w-4" /> <>Running...</>
                   </div>
                 ) : (
                   "Start Experiment"

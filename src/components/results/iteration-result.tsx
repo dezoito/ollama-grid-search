@@ -62,7 +62,7 @@ export default function IterationResult(props: IProps) {
 
   return (
     <div className="flex flex-row gap-1">
-      <div className="w-11/12 bg-cyan-400/20 dark:bg-slate-700/50 my-3 p-4 rounded">
+      <div className="my-3 w-11/12 rounded bg-cyan-400/20 p-4 dark:bg-slate-700/50">
         {/* model + inference params */}
 
         <CollapsibleItem
@@ -70,7 +70,7 @@ export default function IterationResult(props: IProps) {
           triggerText="Inference Parameters"
           defaultOpen={expandParams}
         >
-          <div className="text-sm font-mono">
+          <div className="font-mono text-sm">
             <div>temperature: {temperature}</div>
             <div>repeat penalty: {repeat_penalty}</div>
             <div>top k: {top_k}</div>
@@ -79,20 +79,20 @@ export default function IterationResult(props: IProps) {
         </CollapsibleItem>
 
         {query.isFetching ? (
-          <div className="flex text-center my-3 gap-2 items-center">
-            <Spinner className="inline w-8 h-8 text-gray-200 animate-spin dark:text-gray-600 fill-blue-600 dark:fill-cyan-500" />
+          <div className="my-3 flex items-center gap-2 text-center">
+            <Spinner className="inline h-8 w-8 animate-spin fill-blue-600 text-gray-200 dark:fill-cyan-500 dark:text-gray-600" />
             <span className="text-sm ">Running inference...</span>
           </div>
         ) : (
           // inference result
           <div id="inference-result" className="my-2">
             {query.error && (
-              <div className="text-red-600 dark:text-red-600 whitespace-pre-wrap">
+              <div className="whitespace-pre-wrap text-red-600 dark:text-red-600">
                 {query.error.toString()}
               </div>
             )}
 
-            <div className="text-cyan-600 dark:text-cyan-600 whitespace-pre-wrap">
+            <div className="whitespace-pre-wrap text-cyan-600 dark:text-cyan-600">
               {query.data && query.data.response}
             </div>
 
@@ -103,7 +103,7 @@ export default function IterationResult(props: IProps) {
                   triggerText="Results metadata"
                   defaultOpen={expandMetadata}
                 >
-                  <div className="text-sm font-mono">
+                  <div className="font-mono text-sm">
                     <>
                       <div>
                         Created at: {convertToUTCString(query.data.created_at)}

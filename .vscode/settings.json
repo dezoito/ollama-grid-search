@@ -1,15 +1,15 @@
 {
-    "workbench.colorCustomizations": {
-        "titleBar.activeBackground": "#ee610f"
-    },
-    "rust-analyzer.linkedProjects": [
-        "./src-tauri/Cargo.toml",
-        "./old/Cargo.toml"
-    ],
-    "[rust]": {
-        "editor.formatOnPaste": true,
-        "editor.formatOnSave": true,
-    },
-    // Ignore @tailwind warnings
-    "css.lint.unknownAtRules": "ignore",
+  "workbench.colorCustomizations": {
+    "titleBar.activeBackground": "#ee610f"
+  },
+  "rust-analyzer.linkedProjects": [
+    "./src-tauri/Cargo.toml",
+    "./old/Cargo.toml"
+  ],
+  "[rust]": {
+    "editor.formatOnPaste": true,
+    "editor.formatOnSave": true
+  },
+  // Ignore @tailwind warnings
+  "css.lint.unknownAtRules": "ignore"
 }

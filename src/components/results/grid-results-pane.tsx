@@ -76,8 +76,8 @@ export default function GridResultsPane() {
 
   return (
     <div>
-      <div className="sticky top-0 bg-white dark:bg-zinc-950 z-50 pb-4">
-        <div className="flex gap-2 my-4">
+      <div className="sticky top-0 z-50 bg-white pb-4 dark:bg-zinc-950">
+        <div className="my-4 flex gap-2">
           <Button
             variant="ghost"
             size="tight"
@@ -85,12 +85,12 @@ export default function GridResultsPane() {
           >
             {expandParams ? (
               <>
-                <ChevronUpIcon className="h-5 w-5 m-1 text-black dark:text-gray-600" />
+                <ChevronUpIcon className="m-1 h-5 w-5 text-black dark:text-gray-600" />
                 Hide Inference parameters
               </>
             ) : (
               <>
-                <ChevronDownIcon className="h-5 w-5 m-1 text-black dark:text-gray-600" />
+                <ChevronDownIcon className="m-1 h-5 w-5 text-black dark:text-gray-600" />
                 Expand Inference parameters
               </>
             )}
@@ -102,12 +102,12 @@ export default function GridResultsPane() {
           >
             {expandMetadata ? (
               <>
-                <ChevronUpIcon className="h-5 w-5 m-1 text-black dark:text-gray-600" />
+                <ChevronUpIcon className="m-1 h-5 w-5 text-black dark:text-gray-600" />
                 Hide Inference metadata
               </>
             ) : (
               <>
-                <ChevronDownIcon className="h-5 w-5 m-1 text-black dark:text-gray-600" />
+                <ChevronDownIcon className="m-1 h-5 w-5 text-black dark:text-gray-600" />
                 Expand Inference metadata
               </>
             )}
@@ -123,7 +123,7 @@ export default function GridResultsPane() {
         </div>
       </div>
 
-      <div id="results-list" className="py-2 my-4 overflow-y-auto">
+      <div id="results-list" className="my-4 overflow-y-auto py-2">
         {/* <pre>{JSON.stringify(iterations, null, 2)}</pre> */}
         {/* map iterations, not results.. use cached query inside component */}
         {iterations.map((iteration: TParamIteration, idx: number) => (

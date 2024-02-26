@@ -31,12 +31,12 @@ export function CollapsibleItem(props: IProps) {
       onOpenChange={setIsOpen}
       className="space-y-2" //w-[350px]
     >
-      <div className="flex items-center justify-stretch  my-1">
+      <div className="my-1 flex items-center  justify-stretch">
         {title && <div className="text-sm font-semibold">{title}</div>}
 
         <CollapsibleTrigger asChild>
           <Button variant="ghost" size="sm">
-            <DotsVerticalIcon className="h-4 w-4 mr-1" />
+            <DotsVerticalIcon className="mr-1 h-4 w-4" />
             {triggerText}
             <span className="sr-only">Toggle Open</span>
           </Button>

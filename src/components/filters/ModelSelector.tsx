@@ -77,7 +77,7 @@ function ModelSelector(props: IProps) {
           <Command>
             <CommandInput className="h-9" placeholder="Filter Models by Name" />
             <CommandEmpty>No items found.</CommandEmpty>
-            <CommandGroup className="overflow-y-auto max-h-32">
+            <CommandGroup className="max-h-32 overflow-y-auto">
               {(query.data as string[]).map((option: string, idx: number) => (
                 <CommandItem key={idx.toString()}>
                   <FormField

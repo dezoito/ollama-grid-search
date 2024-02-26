@@ -8,27 +8,27 @@ function Layout() {
   // const [models, setModels] = useState<string[]>([]);
 
   return (
-    <div className="flex flex-col h-screen fixed w-full">
+    <div className="fixed flex h-screen w-full flex-col">
       {/* nav */}
-      <header className="flex h-16 items-center justify-between px-4 md:px-6 bg-zinc-950">
+      <header className="flex h-16 items-center justify-between bg-zinc-950 px-4 md:px-6">
         <span className="flex items-center gap-2">
-          <h2 className="text-3xl font-semibold text-cyan-400 font-lcd">
+          <h2 className="font-lcd text-3xl font-semibold text-cyan-400">
             Ollama Grid Search
           </h2>
         </span>
-        <nav className="hidden md:flex gap-4">
+        <nav className="hidden gap-4 md:flex">
           <ModeToggle />
           <SettingsDialog />
         </nav>
       </header>
       <div className="flex flex-1 overflow-hidden">
         {/* sidebar */}
-        <div className="w-[480px] border-r border-gray-200 dark:border-gray-800 gap-6 p-4 overflow-y-auto">
+        <div className="w-[480px] gap-6 overflow-y-auto border-r border-gray-200 p-4 dark:border-gray-800">
           <FormGridParams />
         </div>
 
         {/* main div */}
-        <main className="flex-1 py-0 m-4 overflow-y-auto">
+        <main className="m-4 flex-1 overflow-y-auto py-0">
           <div className="text-gray-500 dark:text-gray-400">
             <GridResultsPane />
           </div>
