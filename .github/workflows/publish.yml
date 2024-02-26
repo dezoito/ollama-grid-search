@@ -5,6 +5,8 @@ on:
   push:
     branches:
       - release
+    tags:
+      - "v*"
 
 jobs:
   publish-tauri:
@@ -36,26 +38,11 @@ jobs:
       - name: install frontend dependencies
         run: yarn install # change this to npm or pnpm depending on which one you use
 
-      - name: Build Tauri app
-        uses: tauri-apps/tauri-action@v0
+      - uses: tauri-apps/tauri-action@v0
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           tagName: app-v__VERSION__ # the action automatically replaces \_\_VERSION\_\_ with the app version
-
-      - uses: tauri-apps/custom-tauri-action@v1 # Replace with latest version
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          action: upload # Specify the action to be performed
-          releaseId: ${{ github.release_id }} # Use the release ID from the current workflow
-
-      - name: Create Release (Optional)
-        # This step is optional and can be removed if the release is already created
-        uses: tauri-apps/custom-tauri-action@v1 # Replace with latest version
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          action: create # Specify the action to be performed
-          tagName: app-v__VERSION__ # Replace if a different tag name is desired
           releaseName: "App v__VERSION__"
           releaseBody: "See the assets to download this version and install."
           releaseDraft: true
