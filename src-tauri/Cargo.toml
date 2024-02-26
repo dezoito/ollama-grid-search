@@ -9,6 +9,9 @@ edition = "2021"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
+# TODO: Workaround to solve issues with the .deb installers built by github actions
+openssl = { version = "0.10.40", features = ["vendored"] }
+
 [build-dependencies]
 tauri-build = { version = "1.5", features = [] }
 
