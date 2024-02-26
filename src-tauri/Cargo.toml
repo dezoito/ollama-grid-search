@@ -5,7 +5,7 @@ description = "A Tauri App to perform Grid Search and A/B testing experiments on
 authors = ["dezoito"]
 license = "Whatever is in the repo"
 repository = "https://github.com/dezoito/ollama-grid-search"
-edition = "2024"
+edition = "2021"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
