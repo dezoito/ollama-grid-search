@@ -25,8 +25,7 @@ https://byby.dev/at-rule-tailwind -> Extensions and configs for using tailwind w
 [ok] - Verify if upstream issues with the "stop" option have been resolved (ommited until then)
 [ok] - Changing server_url should preserve form data and current results. Just reload available models and default to first
 [ok] - Format result's metadata in the frontend
-
-- Redo README (add pics!)
+[ok] - Redo README (add pics!)
 
 - Test a multiplatform release
 
