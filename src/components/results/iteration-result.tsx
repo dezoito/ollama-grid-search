@@ -6,7 +6,7 @@ import {
   convertToUTCString,
   formatInterval,
   tokensPerSecond,
-} from "@/lib/utils";
+} from "@/lib";
 import { ReloadIcon } from "@radix-ui/react-icons";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { useAtom } from "jotai";
@@ -120,7 +120,8 @@ export default function IterationResult(props: IProps) {
                         {tokensPerSecond(
                           query.data.eval_duration,
                           query.data.eval_count,
-                        )}
+                        )}{" "}
+                        tokens/s
                       </div>
                     </>
                   </div>

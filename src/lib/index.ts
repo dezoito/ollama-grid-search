@@ -44,7 +44,7 @@ export function formatInterval(interval: {
   minutes: number;
   seconds: number;
 }) {
-  return `${interval.hours}h, ${interval.minutes}m, ${interval.seconds}s`;
+  return `${interval.hours} hours, ${interval.minutes} minutes, ${interval.seconds} seconds`;
 }
 
 // expects the time unit to be nanoseconds (as returned by ollama)
