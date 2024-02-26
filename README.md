@@ -39,7 +39,7 @@ Lets define a model, a prompt and some parameter combinations:
 
 ![](./screenshots/gridparams.png?raw=true)
 
-The prompt will be submitted once for each out of the 3 parameter combinations, using `deepseek-coder:1.3b` to generate numbered responses like:
+The prompt will be submitted once for each of the 3 parameter combinations, using `deepseek-coder:1.3b` to generate numbered responses like:
 
 ````
 1/3 - deepseek-coder:1.3b
@@ -51,7 +51,7 @@ def sayHelloWorld():
 ...
 ````
 
-You can also access response metadata to help you make evaluations:
+You can also verify response metadata to help you make evaluations:
 
 ```
 Created at: Mon, 26 Feb 2024 13:42:23 GMT
