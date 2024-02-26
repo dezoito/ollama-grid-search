@@ -2,9 +2,9 @@
 name = "grid-search-desktop"
 version = "0.0.1-alpha"
 description = "A Tauri App to perform Grid Search and A/B testing experiments on LLMs"
-authors = ["you"]
-license = ""
-repository = ""
+authors = ["dezoito"]
+license = "Whatever is in the repo"
+repository = "https://github.com/dezoito/ollama-grid-search"
 edition = "2021"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
