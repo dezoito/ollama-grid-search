@@ -23,16 +23,16 @@ https://byby.dev/at-rule-tailwind -> Extensions and configs for using tailwind w
 [ok] - Return full response from inference (after ollama-rs version bump)
 [ok] - Add response metadata to results
 [ok] - Verify if upstream issues with the "stop" option have been resolved (ommited until then)
-[ok]- Changing server_url should preserve form data and current results. Just reload available models and default to first
-
-- Format result's metadata in the frontend
+[ok] - Changing server_url should preserve form data and current results. Just reload available models and default to first
+[ok] - Format result's metadata in the frontend
 
 - Redo README (add pics!)
 
 - Test a multiplatform release
-- Implement single instance check https://github.com/tauri-apps/plugins-workspace/tree/v1/plugins/single-instance
 
 ---
+
+- Implement single instance check https://github.com/tauri-apps/plugins-workspace/tree/v1/plugins/single-instance
 
 - Log responses to a log file? (https://aptabase.com/blog/complete-guide-tauri-log)
 - Add option to display large textarea for prompt in a modal
@@ -45,3 +45,8 @@ https://byby.dev/at-rule-tailwind -> Extensions and configs for using tailwind w
 - Cancel async commands:
   https://github.com/tauri-apps/tauri/discussions/5894
   https://github.com/tauri-apps/tauri/issues/8351
+
+- Use new deserialize method to handle options:
+  https://github.com/pepperoni21/ollama-rs/blob/master/examples/options_from_json.rs
+
+- Implement limited concurrency options

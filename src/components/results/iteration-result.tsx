@@ -1,6 +1,12 @@
 import { configAtom } from "@/Atoms";
 import { IResponsePayload, TParamIteration } from "@/Interfaces";
-import { asyncSleep } from "@/lib/utils";
+import {
+  asyncSleep,
+  convertNanosecondsToTime,
+  convertToUTCString,
+  formatInterval,
+  tokensPerSecond,
+} from "@/lib/utils";
 import { ReloadIcon } from "@radix-ui/react-icons";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { useAtom } from "jotai";
@@ -91,16 +97,36 @@ export default function IterationResult(props: IProps) {
             </div>
 
             {/* results metadata */}
-            <div className="my-3">
-              <CollapsibleItem
-                triggerText="Results metadata"
-                defaultOpen={expandMetadata}
-              >
-                <div className="text-sm font-mono">
-                  <pre>{JSON.stringify(query.data, null, 2)}</pre>
-                </div>
-              </CollapsibleItem>
-            </div>
+            {query.data && (
+              <div className="my-3">
+                <CollapsibleItem
+                  triggerText="Results metadata"
+                  defaultOpen={expandMetadata}
+                >
+                  <div className="text-sm font-mono">
+                    <>
+                      <div>
+                        Created at: {convertToUTCString(query.data.created_at)}
+                      </div>
+                      <div>Eval Count: {query.data.eval_count} tokens</div>
+                      <div>
+                        Eval Duration:{" "}
+                        {formatInterval(
+                          convertNanosecondsToTime(query.data.eval_duration),
+                        )}
+                      </div>
+                      <div>
+                        Throughput:{" "}
+                        {tokensPerSecond(
+                          query.data.eval_duration,
+                          query.data.eval_count,
+                        )}
+                      </div>
+                    </>
+                  </div>
+                </CollapsibleItem>
+              </div>
+            )}
           </div>
         )}
       </div>
