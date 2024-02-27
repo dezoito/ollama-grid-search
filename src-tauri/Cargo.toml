@@ -23,7 +23,7 @@ anyhow = "1.0.79"
 thiserror = "1.0.56"
 tokio = "1.36.0"
 url = "2.5.0"
-ollama-rs = "0.1.7"
+ollama-rs = { version = "0.1.7", default-features = false, features = ["rustls"] }
 
 [features]
 # this feature is used for production builds or when `devPath` points to the filesystem
