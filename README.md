@@ -14,7 +14,7 @@ It assumes the user has [Ollama](https://www.ollama.ai) installed and serving en
 
 ## Installation
 
-List binaries here.
+Check the [releases page](https://github.com/dezoito/ollama-grid-search/releases) for the project, or on the sidebar.
 
 ## Features
 
@@ -64,7 +64,7 @@ Throughput: 9.89 tokens/s
 
 Similarly, you can perform A/B tests by selecting different models and compare results for the same prompt/parameter combination.
 
-## TODO Future Features
+## Future Features
 
 - Grading results and filtering by grade
 - Storing experiments and results in a local database
@@ -97,3 +97,7 @@ cd ollama-grid-search
    bun tauri dev
    ```
 5. Go grab a cup of coffee because this may take a while.
+
+## Thanks
+
+Huge thanks to [@FabianLars](https://github.com/FabianLars), [@peperroni21](https://github.com/pepperoni21) and [@TomReidNZ](https://github.com/TomReidNZ).
