@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file.
 
+## [Version 0.0.3] - 2024-03-01
+
+### Changed
+
+- Displays and uses total_duration to calculate throughput in responses metadata.
+
+---
+
 ## [Version 0.0.2] - 2024-03-01
 
 ### Added
