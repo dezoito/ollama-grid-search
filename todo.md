@@ -1,4 +1,4 @@
-https://byby.dev/at-rule-tailwind -> Extensions and configs for using tailwind with vscode
+--- v0.0.1
 [ok] - Test error handling when server fails
 [ok] - Create settings control (modal)
 [ok] - Edit README
@@ -28,18 +28,19 @@ https://byby.dev/at-rule-tailwind -> Extensions and configs for using tailwind w
 [ok] - Redo README (add pics!)
 [ok] - Test a multiplatform release
 
----
+--- v0.0.2
 
-- Add "tutorial" to start page
-- Add "repeat_last_n" param to inferences
+[ok] - Add "tutorial" to start page
+[ok] - Add "repeat_last_n" param to inferences
+
 - Log responses to a log file? (https://aptabase.com/blog/complete-guide-tauri-log)
+- Add movable divider component
+- Add keyboard shortcuts
 - Implement single instance check https://github.com/tauri-apps/plugins-workspace/tree/v1/plugins/single-instance
 
 - Add option to display large textarea for prompt in a modal
 - Convert code snippets to markdown in responses? (react-markdown didn't work well to filter code)
 - Plan on saving results to SQLite
-- Add movable divider component
-- Add keyboard shortcuts
 - Add a "default prompt" setting to settings?
 
 - Cancel async commands:
