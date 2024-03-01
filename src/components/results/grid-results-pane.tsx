@@ -7,6 +7,7 @@ import { useEffect, useState } from "react";
 import { get_inference } from "../queries";
 import { Button } from "../ui/button";
 import { Separator } from "../ui/separator";
+import Tutorial from "../ui/tutorial";
 import IterationResult from "./iteration-result";
 
 export default function GridResultsPane() {
@@ -28,14 +29,17 @@ export default function GridResultsPane() {
         for (const repeat_penalty of gridParams.repeatPenaltyList) {
           for (const top_k of gridParams.topKList) {
             for (const top_p of gridParams.topPList) {
-              localIterations.push({
-                model,
-                prompt: gridParams.prompt,
-                temperature,
-                repeat_penalty,
-                top_k,
-                top_p,
-              });
+              for (const repeat_last_n of gridParams.repeatLastNList) {
+                localIterations.push({
+                  model,
+                  prompt: gridParams.prompt,
+                  temperature,
+                  repeat_penalty,
+                  top_k,
+                  top_p,
+                  repeat_last_n,
+                });
+              }
             }
           }
         }
@@ -71,7 +75,7 @@ export default function GridResultsPane() {
   }, [lastFetched]);
 
   if (gridParams.models.length === 0 || gridParams.prompt.trim().length === 0) {
-    return <>Tutorial</>;
+    return <Tutorial />;
   }
 
   return (

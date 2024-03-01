@@ -76,6 +76,12 @@ export const ParamsFormSchema = z.object({
       message: `Invalid float array format. Please enter at least one valid float number.`,
     },
   ),
+  repeatLastNList: z.custom(
+    (value) => validateNumberOrArray("int")(value as string | number),
+    {
+      message: `Invalid float array format. Please enter at least one valid integer number.`,
+    },
+  ),
 });
 
 function paramsToArray(list: string): number[] {
@@ -104,7 +110,7 @@ export default function FormGridParams() {
   const [__, setGridParams] = useAtom(gridParamsAtom);
   const confirm = useConfirm();
 
-  // Starts with value set in Settings > default options
+  // Initiates for fields with value set in Settings > default options
   const form = useForm<z.infer<typeof ParamsFormSchema>>({
     resolver: zodResolver(ParamsFormSchema),
     defaultValues: {
@@ -115,6 +121,7 @@ export default function FormGridParams() {
       repeatPenaltyList: config.default_options.repeat_penalty,
       topKList: config.default_options.top_k,
       topPList: config.default_options.top_p,
+      repeatLastNList: config.default_options.repeat_last_n,
     },
   });
 
@@ -130,6 +137,7 @@ export default function FormGridParams() {
       repeatPenaltyList: paramsToArray(data.repeatPenaltyList),
       topKList: paramsToArray(data.topKList),
       topPList: paramsToArray(data.topPList),
+      repeatLastNList: paramsToArray(data.repeatLastNList),
     });
 
     toast({
@@ -139,7 +147,7 @@ export default function FormGridParams() {
   }
 
   return (
-    <div className="relative mb-8 flex min-h-screen flex-col overflow-y-auto">
+    <div className="relative mb-12 flex min-h-screen flex-col overflow-y-auto">
       <Form {...form}>
         <form
           onSubmit={form.handleSubmit(onSubmit)}
@@ -243,6 +251,29 @@ export default function FormGridParams() {
               )}
             />
           </div>
+
+          {/* repeat_last_n */}
+          <div className="flex flex-col gap-2">
+            <FormField
+              control={form.control}
+              name="repeatLastNList"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel className="font-bold">
+                    Repeat_Last_N List
+                  </FormLabel>
+                  <FormControl>
+                    <Input {...field} />
+                  </FormControl>
+                  <FormDescription>
+                    List of "repeat_last_n" values (e.g.: 16, 32, 64)
+                  </FormDescription>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+          </div>
+          {/* Buttons */}
           <div
             id="button-area"
             className="fixed bottom-0 left-0 right-0 w-[479px] bg-white p-4 shadow-md dark:bg-zinc-950"

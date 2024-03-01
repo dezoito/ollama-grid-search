@@ -33,7 +33,8 @@ export default function IterationResult(props: IProps) {
     expandParams,
     expandMetadata,
   } = props;
-  const { model, temperature, repeat_penalty, top_k, top_p } = params;
+  const { model, temperature, repeat_penalty, top_k, top_p, repeat_last_n } =
+    params;
   const [enabled, setEnabled] = useState(false);
   const [config, __] = useAtom(configAtom);
   const queryClient = useQueryClient();
@@ -74,7 +75,8 @@ export default function IterationResult(props: IProps) {
             <div>temperature: {temperature}</div>
             <div>repeat penalty: {repeat_penalty}</div>
             <div>top k: {top_k}</div>
-            <div> top p: {top_p}</div>
+            <div>top p: {top_p}</div>
+            <div>repeat last n: {repeat_last_n}</div>
           </div>
         </CollapsibleItem>
 

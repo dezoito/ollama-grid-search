@@ -38,6 +38,7 @@ pub struct TParamIteration {
     repeat_penalty: f32,
     top_k: u32,
     top_p: f32,
+    repeat_last_n: i32,
 }
 #[derive(Debug, Serialize, Deserialize)]
 #[serde(rename_all = "snake_case")]
@@ -91,9 +92,9 @@ pub async fn get_inference(
     config: IDefaultConfigs,
     params: TParamIteration,
 ) -> Result<GenerationResponse, Error> {
-    // println!("Config and Params");
-    // dbg!(&config);
-    // dbg!(&params);
+    println!("Config and Params");
+    dbg!(&config);
+    dbg!(&params);
 
     let (host_url, port) = split_host_port(&config.server_url).unwrap();
     let ollama = Ollama::new(host_url, port);
@@ -110,7 +111,7 @@ pub async fn get_inference(
         "num_gqa",
         "num_gpu",
         "num_thread",
-        "repeat_last_n",
+        // "repeat_last_n",
         "seed",
         "stop",
         "tfs_z",
@@ -167,13 +168,13 @@ pub async fn get_inference(
                         .expect("Failed to parse num_thread as u32");
                     options_builder = options_builder.num_thread(parsed_value);
                 }
-                "repeat_last_n" => {
-                    let parsed_value = value
-                        .to_string()
-                        .parse::<i32>()
-                        .expect("Failed to parse repeat_last_n as i32");
-                    options_builder = options_builder.repeat_last_n(parsed_value);
-                }
+                // "repeat_last_n" => {
+                //     let parsed_value = value
+                //         .to_string()
+                //         .parse::<i32>()
+                //         .expect("Failed to parse repeat_last_n as i32");
+                //     options_builder = options_builder.repeat_last_n(parsed_value);
+                // }
                 "seed" => {
                     let parsed_value = value
                         .to_string()
@@ -211,7 +212,8 @@ pub async fn get_inference(
         .temperature(params.temperature)
         .repeat_penalty(params.repeat_penalty)
         .top_k(params.top_k)
-        .top_p(params.top_p);
+        .top_p(params.top_p)
+        .repeat_last_n(params.repeat_last_n);
 
     let req = GenerationRequest::new(params.model, params.prompt)
         .options(options)

@@ -26,14 +26,15 @@ https://byby.dev/at-rule-tailwind -> Extensions and configs for using tailwind w
 [ok] - Changing server_url should preserve form data and current results. Just reload available models and default to first
 [ok] - Format result's metadata in the frontend
 [ok] - Redo README (add pics!)
-
-- Test a multiplatform release
+[ok] - Test a multiplatform release
 
 ---
 
+- Add "tutorial" to start page
+- Add "repeat_last_n" param to inferences
+- Log responses to a log file? (https://aptabase.com/blog/complete-guide-tauri-log)
 - Implement single instance check https://github.com/tauri-apps/plugins-workspace/tree/v1/plugins/single-instance
 
-- Log responses to a log file? (https://aptabase.com/blog/complete-guide-tauri-log)
 - Add option to display large textarea for prompt in a modal
 - Convert code snippets to markdown in responses? (react-markdown didn't work well to filter code)
 - Plan on saving results to SQLite

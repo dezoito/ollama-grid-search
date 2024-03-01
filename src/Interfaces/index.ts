@@ -7,6 +7,7 @@ export interface IGridParams {
   repeatPenaltyList: number[];
   topKList: number[];
   topPList: number[];
+  repeatLastNList: number[];
 }
 
 // Represents a single set of params to
@@ -19,6 +20,7 @@ export type TParamIteration = {
   repeat_penalty: number;
   top_k: number;
   top_p: number;
+  repeat_last_n: number;
 };
 
 // Interface for the default configuration options
@@ -51,4 +53,5 @@ export interface IResponsePayload {
   prompt_eval_duration: number;
   eval_count: number;
   eval_duration: number;
+  repeat_last_n: number;
 }

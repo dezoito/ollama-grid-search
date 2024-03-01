@@ -84,6 +84,7 @@ export const defaultGridParams = {
   repeatPenaltyList: [defaultConfigs.default_options.repeat_penalty],
   topKList: [defaultConfigs.default_options.top_k],
   topPList: [defaultConfigs.default_options.top_p],
+  repeatLastNList: [defaultConfigs.default_options.repeat_last_n],
 };
 
 export const gridParamsAtom = atom<IGridParams>(defaultGridParams);
