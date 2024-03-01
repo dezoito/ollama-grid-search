@@ -1,12 +1,12 @@
 --- v0.0.1
+
 [ok] - Test error handling when server fails
 [ok] - Create settings control (modal)
 [ok] - Edit README
 [ok] - Use form and state values in settings form
 [ok] - Check how to share state between backend and frontend
 [ok] - Make parameter selection form
-[ok] - Verify if Atom values for grid params can be scalar or always converted to lists
-(always convert to lists)
+[ok] - Verify if Atom values for grid params can be scalar or always converted to lists (always convert to lists)
 [ok] - Disable submit when queries are running (maybe add spinning icon)
 [ok] - Improve collapsible that displays params, and other metadata
 [ok] - Segregate spinner into its own component
@@ -33,6 +33,13 @@
 [ok] - Add "tutorial" to start page
 [ok] - Add "repeat_last_n" param to inferences
 
+--- v0.0.3
+
+[ok] - In response metadata, use total duration to calculate throughput
+
+---
+
+- Add a damn icon.
 - Log responses to a log file? (https://aptabase.com/blog/complete-guide-tauri-log)
 - Add movable divider component
 - Add keyboard shortcuts

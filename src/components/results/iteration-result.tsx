@@ -118,9 +118,15 @@ export default function IterationResult(props: IProps) {
                         )}
                       </div>
                       <div>
+                        Total Duration:{" "}
+                        {formatInterval(
+                          convertNanosecondsToTime(query.data.total_duration),
+                        )}
+                      </div>
+                      <div>
                         Throughput:{" "}
                         {tokensPerSecond(
-                          query.data.eval_duration,
+                          query.data.total_duration,
                           query.data.eval_count,
                         )}{" "}
                         tokens/s
