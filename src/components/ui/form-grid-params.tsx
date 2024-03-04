@@ -47,7 +47,7 @@ const validateNumberOrArray =
   };
 
 export const ParamsFormSchema = z.object({
-  uuid: z.string().optional(),
+  experiment_uuid: z.string().optional(),
   models: z.string().array().nonempty({
     message: "Select at least 1 model.",
   }),
@@ -114,7 +114,7 @@ export default function FormGridParams() {
   const form = useForm<z.infer<typeof ParamsFormSchema>>({
     resolver: zodResolver(ParamsFormSchema),
     defaultValues: {
-      uuid: uuidv4(),
+      experiment_uuid: uuidv4(),
       prompt: "Write a short sentence!",
       models: [],
       temperatureList: config.default_options.temperature,
@@ -132,7 +132,7 @@ export default function FormGridParams() {
     // regenerate uuid for this experiment so all results are refreshed
     setGridParams({
       ...data,
-      uuid: uuidv4(),
+      experiment_uuid: uuidv4(),
       temperatureList: paramsToArray(data.temperatureList),
       repeatPenaltyList: paramsToArray(data.repeatPenaltyList),
       topKList: paramsToArray(data.topKList),

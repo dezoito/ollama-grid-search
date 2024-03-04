@@ -1,6 +1,6 @@
 // Represents the sets of params sent from the form
 export interface IGridParams {
-  uuid?: string;
+  experiment_uuid: string;
   models: string[];
   prompt: string;
   temperatureList: number[];
@@ -14,6 +14,7 @@ export interface IGridParams {
 // be used in inference
 // * we should create a matching struct in the Rust code
 export type TParamIteration = {
+  experiment_uuid: string;
   model: string;
   prompt: string;
   temperature: number;

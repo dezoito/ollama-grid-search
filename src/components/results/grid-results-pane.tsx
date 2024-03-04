@@ -31,6 +31,7 @@ export default function GridResultsPane() {
             for (const top_p of gridParams.topPList) {
               for (const repeat_last_n of gridParams.repeatLastNList) {
                 localIterations.push({
+                  experiment_uuid: gridParams.experiment_uuid,
                   model,
                   prompt: gridParams.prompt,
                   temperature,
@@ -46,7 +47,7 @@ export default function GridResultsPane() {
       }
     }
     setIterations(localIterations);
-  }, [gridParams.uuid]);
+  }, [gridParams.experiment_uuid]);
 
   // // Define type for query options
   // type ModelQueryOptions = UseQueryOptions<

@@ -32,6 +32,7 @@ use thiserror::Error;
 
 #[derive(Debug, Serialize, Deserialize)]
 pub struct TParamIteration {
+    experiment_uuid: String,
     model: String,
     prompt: String,
     temperature: f32,
@@ -95,6 +96,7 @@ pub async fn get_inference(
     println!("Config and Params");
     dbg!(&config);
     dbg!(&params);
+    println!("----------------------------------------------------------");
 
     let (host_url, port) = split_host_port(&config.server_url).unwrap();
     let ollama = Ollama::new(host_url, port);
@@ -227,9 +229,9 @@ pub async fn get_inference(
         Error::StringError(err.to_string())
     })?;
 
-    println!("---------------------------------------------");
-    dbg!(&res);
-    println!("---------------------------------------------");
+    // println!("---------------------------------------------");
+    // dbg!(&res);
+    // println!("---------------------------------------------");
 
     Ok(res)
 }
