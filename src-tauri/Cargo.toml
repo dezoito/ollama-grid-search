@@ -23,6 +23,7 @@ url = "2.5.0"
 # The feature "rustls" is added due to issues with OpenSSL on Linux releases
 # See https://github.com/tauri-apps/tauri/issues/4470#issuecomment-1170342732
 ollama-rs = { version = "0.1.7", default-features = false, features = ["rustls"] }
+chrono = "0.4.34"
 
 [features]
 # this feature is used for production builds or when `devPath` points to the filesystem

@@ -16,6 +16,7 @@ The Error enum, therefore, has to implement a variant for "OllamaError"
 
 use std::collections::HashMap;
 
+use chrono::{DateTime, Utc};
 use grid_search_desktop::split_host_port;
 use ollama_rs::{
     error::OllamaError,
@@ -27,7 +28,13 @@ use ollama_rs::{
     Ollama,
 };
 use serde::{Deserialize, Serialize};
+use serde_json::json;
 use serde_json::Value;
+use std::{
+    fs::{self, File},
+    io::{self, BufReader, BufWriter},
+    path::Path,
+};
 use thiserror::Error;
 
 #[derive(Debug, Serialize, Deserialize)]
@@ -75,6 +82,54 @@ impl serde::Serialize for Error {
     }
 }
 
+pub async fn log_experiment(
+    config: &IDefaultConfigs,
+    params: &TParamIteration,
+    res: &GenerationResponse,
+) -> Result<(), Error> {
+    let experiment_uuid = &params.experiment_uuid;
+    let log_dir = "./logs";
+    let log_file_path = format!("{}/{}.json", log_dir, experiment_uuid);
+
+    // Create the logs directory if it doesn't exist
+    if !Path::new(log_dir).exists() {
+        fs::create_dir(log_dir)?;
+    }
+
+    let mut log_data = if Path::new(&log_file_path).exists() {
+        // Load existing log file
+        let file = File::open(&log_file_path)?;
+        let reader = BufReader::new(file);
+        serde_json::from_reader(reader)?
+    } else {
+        // Create new log data
+        json!({
+            "experiment_uuid": experiment_uuid,
+            "datetime": Utc::now(),
+            "config": config,
+            "inferences": []
+        })
+    };
+
+    // Add the new inference entry
+    let inference_entry = json!({
+        "parameters": params,
+        "result": res
+    });
+
+    log_data["inferences"]
+        .as_array_mut()
+        .unwrap()
+        .push(inference_entry);
+
+    // Write the updated log data back to the file
+    let file = File::create(&log_file_path)?;
+    let writer = BufWriter::new(file);
+    serde_json::to_writer_pretty(writer, &log_data)?;
+
+    Ok(())
+}
+
 #[tauri::command]
 pub async fn get_models(config: IDefaultConfigs) -> Result<Vec<String>, Error> {
     let (host_url, port) = split_host_port(&config.server_url).unwrap();
@@ -86,7 +141,7 @@ pub async fn get_models(config: IDefaultConfigs) -> Result<Vec<String>, Error> {
     Ok(model_list)
 }
 
-pub mod commands {}
+// pub mod commands {}
 
 #[tauri::command]
 pub async fn get_inference(
@@ -217,9 +272,10 @@ pub async fn get_inference(
         .top_p(params.top_p)
         .repeat_last_n(params.repeat_last_n);
 
+    let system_prompt = config.system_prompt;
     let req = GenerationRequest::new(params.model, params.prompt)
         .options(options)
-        .system(config.system_prompt)
+        .system(system_prompt)
         .keep_alive(KeepAlive::UnloadOnCompletion);
 
     dbg!(&req);
@@ -228,6 +284,8 @@ pub async fn get_inference(
         println!("Error: {}", err.to_string());
         Error::StringError(err.to_string())
     })?;
+
+    log_experiment(&config, &params, &res);
 
     // println!("---------------------------------------------");
     // dbg!(&res);
