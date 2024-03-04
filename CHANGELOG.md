@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file.
 
+## [Version 0.0.3] - 2024-03-01
+
+### Changed
+
+- Added `Total Duration` ellapsed time to results metadata.
+- Calculates `Throughput` based on `total duration` instead of `eval duration`.
+
 ## [Version 0.0.2] - 2024-03-01
 
 ### Added
