@@ -16,7 +16,7 @@ The Error enum, therefore, has to implement a variant for "OllamaError"
 
 use std::collections::HashMap;
 
-use chrono::{DateTime, Utc};
+use chrono::Utc;
 use grid_search_desktop::split_host_port;
 use ollama_rs::{
     error::OllamaError,
@@ -32,12 +32,12 @@ use serde_json::json;
 use serde_json::Value;
 use std::{
     fs::{self, File},
-    io::{self, BufReader, BufWriter},
+    io::{BufReader, BufWriter},
     path::Path,
 };
 use thiserror::Error;
 
-#[derive(Debug, Serialize, Deserialize)]
+#[derive(Debug, Serialize, Deserialize, Clone)]
 pub struct TParamIteration {
     experiment_uuid: String,
     model: String,
@@ -48,7 +48,7 @@ pub struct TParamIteration {
     top_p: f32,
     repeat_last_n: i32,
 }
-#[derive(Debug, Serialize, Deserialize)]
+#[derive(Debug, Serialize, Deserialize, Clone)]
 #[serde(rename_all = "snake_case")]
 pub struct IDefaultConfigs {
     server_url: String,
@@ -66,6 +66,9 @@ pub enum Error {
     #[error(transparent)]
     // #[error("Error from Ollama")]
     Ollama(#[from] OllamaError),
+
+    #[error(transparent)]
+    SerdeJson(#[from] serde_json::Error),
 
     // New variant for string-related errors
     #[error("String error: {0}")]
@@ -105,7 +108,7 @@ pub async fn log_experiment(
         // Create new log data
         json!({
             "experiment_uuid": experiment_uuid,
-            "datetime": Utc::now(),
+            "datetime": Utc::now().to_string(),
             "config": config,
             "inferences": []
         })
@@ -117,15 +120,20 @@ pub async fn log_experiment(
         "result": res
     });
 
-    log_data["inferences"]
-        .as_array_mut()
-        .unwrap()
-        .push(inference_entry);
+    if let Some(inferences) = log_data["inferences"].as_array_mut() {
+        inferences.push(inference_entry);
+    } else {
+        return Err(Error::StringError(
+            "Failed to access inferences array".to_string(),
+        ));
+    }
 
     // Write the updated log data back to the file
     let file = File::create(&log_file_path)?;
     let writer = BufWriter::new(file);
     serde_json::to_writer_pretty(writer, &log_data)?;
+
+    println!("Experiment logged at: {}", log_file_path);
 
     Ok(())
 }
@@ -272,10 +280,10 @@ pub async fn get_inference(
         .top_p(params.top_p)
         .repeat_last_n(params.repeat_last_n);
 
-    let system_prompt = config.system_prompt;
-    let req = GenerationRequest::new(params.model, params.prompt)
+    let system_prompt = &config.system_prompt;
+    let req = GenerationRequest::new(params.clone().model, params.clone().prompt)
         .options(options)
-        .system(system_prompt)
+        .system(system_prompt.into())
         .keep_alive(KeepAlive::UnloadOnCompletion);
 
     dbg!(&req);
@@ -285,7 +293,7 @@ pub async fn get_inference(
         Error::StringError(err.to_string())
     })?;
 
-    log_experiment(&config, &params, &res);
+    log_experiment(&config, &params, &res).await?;
 
     // println!("---------------------------------------------");
     // dbg!(&res);
