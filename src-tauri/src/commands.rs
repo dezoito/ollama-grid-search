@@ -30,8 +30,12 @@ use ollama_rs::{
 use serde::{Deserialize, Serialize};
 use serde_json::json;
 use serde_json::Value;
+use std::fs;
+// use std::io;
+// use std::path::PathBuf;
+use std::time::SystemTime;
 use std::{
-    fs::{self, File},
+    fs::File,
     io::{BufReader, BufWriter},
     path::Path,
 };
@@ -54,6 +58,12 @@ pub struct IDefaultConfigs {
     server_url: String,
     system_prompt: String,
     default_options: HashMap<String, Value>,
+}
+
+#[derive(Debug, Serialize)]
+pub struct ExperimentFile {
+    name: String,
+    created: SystemTime,
 }
 
 // Use thiserror::Error to implement serializable errors
@@ -300,4 +310,24 @@ pub async fn get_inference(
     // println!("---------------------------------------------");
 
     Ok(res)
+}
+
+#[tauri::command]
+pub fn list_experiments() -> Result<Vec<ExperimentFile>, Error> {
+    let mut files: Vec<ExperimentFile> = fs::read_dir("./logs")?
+        .filter_map(Result::ok)
+        .map(|entry| {
+            let path = entry.path();
+            let metadata = fs::metadata(&path).ok()?;
+            let created = metadata.created().ok()?;
+            Some(ExperimentFile {
+                name: path.file_name()?.to_string_lossy().into_owned(),
+                created,
+            })
+        })
+        .filter_map(std::convert::identity)
+        .collect();
+
+    files.sort_by_key(|file| file.created);
+    Ok(files)
 }

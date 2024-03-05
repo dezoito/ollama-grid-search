@@ -7,7 +7,8 @@ fn main() {
     tauri::Builder::default()
         .invoke_handler(tauri::generate_handler![
             commands::get_models,
-            commands::get_inference
+            commands::get_inference,
+            commands::list_experiments,
         ])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");
