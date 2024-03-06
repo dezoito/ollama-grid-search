@@ -29,6 +29,14 @@ export default function Tutorial() {
           and keeping a single combination of params.
         </div>
       </div>
+      <div className="flex flex-col gap-3">
+        <div className="text-3xl font-bold">Experiment History</div>
+
+        <div>
+          You can visualize past experiments, export them in JSON format, or
+          re-run them with the same parameters and configurations.
+        </div>
+      </div>
     </div>
   );
 }

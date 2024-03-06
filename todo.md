@@ -47,6 +47,7 @@
   - to download (as JSON)
   - to visualize (as JSON)?
   - to re-run with the same parameters and defaults
+  - add icons for each task
 
 - Add mention of experiments to tutorial
 

@@ -21,9 +21,10 @@ export function LogsSelector() {
     queryKey: ["get_Experiments"],
     queryFn: (): Promise<IExperimentFile[]> => get_experiments(),
     refetchOnWindowFocus: "always",
+    refetchOnMount: "always",
     // refetchInterval: 1000 * 30,
     staleTime: 0,
-    // cacheTime: 0,
+    cacheTime: 0,
   });
 
   return (
@@ -33,14 +34,14 @@ export function LogsSelector() {
           <FileTextIcon className="h-5 w-5 text-cyan-50" />
         </Button>
       </SheetTrigger>
-      <SheetContent className="w-[600px]  sm:max-w-none">
+      <SheetContent className="w-[500px] sm:max-w-none">
         <SheetHeader>
-          <SheetTitle>Experiments</SheetTitle>
+          <SheetTitle className="text-2xl">Experiments</SheetTitle>
           <SheetDescription>
             Here's a list of your experiments, parameters and results.
           </SheetDescription>
         </SheetHeader>
-        <div className="w-max py-4">
+        <div className="w-max py-6">
           {query.isLoading && (
             <div className="py-2">
               <div>Loading...</div>
@@ -48,7 +49,7 @@ export function LogsSelector() {
           )}
           {query.data &&
             query.data.map((exp: IExperimentFile) => (
-              <div key={exp.name} className="py-2">
+              <div key={exp.name} className="py-4">
                 <div>{exp.name}</div>
                 <div className="text-sm text-gray-400">
                   {convertEpochToDateTime(exp.created.secs_since_epoch)}
