@@ -37,10 +37,21 @@
 
 [ok] - In response metadata, use total duration to calculate throughput
 
+--- v0.1.0
+[ok]- Log experiments to JSON files
+
 ---
 
+- Make experiments available
+
+  - to download (as JSON)
+  - to visualize (as JSON)?
+  - to re-run with the same parameters and defaults
+
+- Add mention of experiments to tutorial
+
 - Add a damn icon.
-- Log responses to a log file? (https://aptabase.com/blog/complete-guide-tauri-log)
+
 - Add movable divider component
 - Add keyboard shortcuts
 - Implement single instance check https://github.com/tauri-apps/plugins-workspace/tree/v1/plugins/single-instance

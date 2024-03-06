@@ -2,6 +2,7 @@ import { ModeToggle } from "@/components/mode-toggle";
 import GridResultsPane from "@/components/results/grid-results-pane";
 import { SettingsDialog } from "@/components/settings-dialog";
 import FormGridParams from "@/components/ui/form-grid-params";
+import { LogsSelector } from "./components/ui/logs-selector";
 
 function Layout() {
   // const [name, setName] = useState("");
@@ -19,6 +20,7 @@ function Layout() {
         <nav className="hidden gap-4 md:flex">
           <ModeToggle />
           <SettingsDialog />
+          <LogsSelector />
         </nav>
       </header>
       <div className="flex flex-1 overflow-hidden">
