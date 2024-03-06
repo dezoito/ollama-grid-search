@@ -24,7 +24,7 @@ export function LogsSelector() {
     refetchOnMount: "always",
     // refetchInterval: 1000 * 30,
     staleTime: 0,
-    cacheTime: 0,
+    // cacheTime: 0,
   });
 
   return (
