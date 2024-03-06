@@ -56,3 +56,11 @@ export interface IResponsePayload {
   eval_duration: number;
   repeat_last_n: number;
 }
+
+export interface IExperimentFile {
+  name: string;
+  created: {
+    secs_since_epoch: number;
+    nanos_since_epoch: number;
+  };
+}

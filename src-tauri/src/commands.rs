@@ -178,7 +178,7 @@ pub async fn get_inference(
 }
 
 #[tauri::command]
-pub fn list_experiments() -> Result<Vec<ExperimentFile>, Error> {
+pub fn get_experiments() -> Result<Vec<ExperimentFile>, Error> {
     let mut files: Vec<ExperimentFile> = fs::read_dir("./logs")?
         .filter_map(Result::ok)
         .map(|entry| {

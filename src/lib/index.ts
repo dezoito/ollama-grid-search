@@ -57,3 +57,20 @@ export function tokensPerSecond(interval: number, tokens: number): number {
   // Return tokens per second rounded to two decimal points
   return parseFloat(tokensPerSecond.toFixed(2));
 }
+
+/**
+ * Converts the given seconds and nanoseconds since epoch to a formatted date and time string.
+ *
+ * @param {number} secs_since_epoch - The seconds since epoch
+ * @return {string} The formatted date and time string
+ */
+export function convertEpochToDateTime(secs_since_epoch: number): string {
+  const date = new Date(secs_since_epoch * 1000);
+  const year = date.getFullYear();
+  const month = String(date.getMonth() + 1).padStart(2, "0");
+  const day = String(date.getDate()).padStart(2, "0");
+  const hours = String(date.getHours()).padStart(2, "0");
+  const minutes = String(date.getMinutes()).padStart(2, "0");
+  const seconds = String(date.getSeconds()).padStart(2, "0");
+  return `${year}-${month}-${day} - ${hours}:${minutes}:${seconds}`;
+}
