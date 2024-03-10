@@ -88,6 +88,8 @@ export function LogsSelector() {
                 </div> */}
                 <div>
                   <Button
+                    variant="ghost"
+                    size="sm"
                     onClick={() => handleDownload(exp.name, exp.contents)}
                   >
                     Download
