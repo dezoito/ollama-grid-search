@@ -13,10 +13,11 @@ import {
 } from "@/components/ui/sheet";
 import { convertEpochToDateTime } from "@/lib";
 import { FileTextIcon } from "@radix-ui/react-icons";
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { get_experiments } from "../queries";
 
 export function LogsSelector() {
+  const queryClient = useQueryClient();
   const query = useQuery<IExperimentFile[]>({
     queryKey: ["get_Experiments"],
     queryFn: (): Promise<IExperimentFile[]> => get_experiments(),
@@ -30,7 +31,15 @@ export function LogsSelector() {
   return (
     <Sheet>
       <SheetTrigger asChild>
-        <Button variant="transparentDark" size="icon" onClick={() => {}}>
+        <Button
+          variant="transparentDark"
+          size="icon"
+          onClick={() =>
+            queryClient.refetchQueries({
+              queryKey: ["get_Experiments"],
+            })
+          }
+        >
           <FileTextIcon className="h-5 w-5 text-cyan-50" />
         </Button>
       </SheetTrigger>
@@ -50,10 +59,10 @@ export function LogsSelector() {
           {query.data &&
             query.data.map((exp: IExperimentFile) => (
               <div key={exp.name} className="py-4">
-                <div>{exp.name}</div>
-                <div className="text-sm text-gray-400">
+                <div className="">
                   {convertEpochToDateTime(exp.created.secs_since_epoch)}
                 </div>
+                <div className="text-sm text-gray-400">{exp.name}</div>
               </div>
             ))}
         </div>

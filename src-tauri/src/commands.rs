@@ -194,5 +194,7 @@ pub fn get_experiments() -> Result<Vec<ExperimentFile>, Error> {
         .collect();
 
     files.sort_by_key(|file| file.created);
+    files.reverse();
+    println!("Fetching experiments");
     Ok(files)
 }
