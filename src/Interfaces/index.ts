@@ -63,4 +63,5 @@ export interface IExperimentFile {
     secs_since_epoch: number;
     nanos_since_epoch: number;
   };
+  contents: string;
 }

@@ -21,9 +21,6 @@ export function LogsSelector() {
   const query = useQuery<IExperimentFile[]>({
     queryKey: ["get_Experiments"],
     queryFn: (): Promise<IExperimentFile[]> => get_experiments(),
-    refetchOnWindowFocus: "always",
-    refetchOnMount: "always",
-    // refetchInterval: 1000 * 30,
     staleTime: 0,
     // cacheTime: 0,
   });
@@ -50,7 +47,10 @@ export function LogsSelector() {
             Here's a list of your experiments, parameters and results.
           </SheetDescription>
         </SheetHeader>
-        <div className="w-max py-6">
+        <div
+          id="results"
+          className="h-full w-full overflow-y-auto bg-slate-700 py-6"
+        >
           {query.isLoading && (
             <div className="py-2">
               <div>Loading...</div>
@@ -63,6 +63,9 @@ export function LogsSelector() {
                   {convertEpochToDateTime(exp.created.secs_since_epoch)}
                 </div>
                 <div className="text-sm text-gray-400">{exp.name}</div>
+                <div className="text-sm text-gray-400">
+                  <pre>{exp.contents}</pre>
+                </div>
               </div>
             ))}
         </div>

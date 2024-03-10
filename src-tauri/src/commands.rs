@@ -185,12 +185,15 @@ pub fn get_experiments() -> Result<Vec<ExperimentFile>, Error> {
             let path = entry.path();
             let metadata = fs::metadata(&path).ok()?;
             let created = metadata.created().ok()?;
+            let contents = fs::read_to_string(&path).ok()?;
+            // let json: serde_json::Value = serde_json::from_str(&contents).ok()?;
             Some(ExperimentFile {
                 name: path.file_name()?.to_string_lossy().into_owned(),
                 created,
+                contents,
             })
         })
-        .filter_map(std::convert::identity)
+        .filter_map(std::convert::identity) // removes "Nones"
         .collect();
 
     files.sort_by_key(|file| file.created);

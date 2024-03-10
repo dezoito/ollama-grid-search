@@ -59,6 +59,7 @@ pub struct IDefaultConfigs {
 pub struct ExperimentFile {
     pub name: String,
     pub created: SystemTime,
+    pub contents: String,
 }
 
 // Use thiserror::Error to implement serializable errors
