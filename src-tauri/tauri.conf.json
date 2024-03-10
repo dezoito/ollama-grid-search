@@ -7,7 +7,7 @@
   },
   "package": {
     "productName": "ollama-grid-search",
-    "version": "0.0.3"
+    "version": "0.1.0"
   },
   "tauri": {
     "allowlist": {
@@ -15,6 +15,28 @@
       "shell": {
         "all": false,
         "open": true
+      },
+      "dialog": {
+        "all": true,
+        "ask": true,
+        "confirm": true,
+        "message": true,
+        "open": true,
+        "save": true
+      },
+      "fs": {
+        "all": true,
+        "readFile": true,
+        "writeFile": true,
+        "readDir": true,
+        "copyFile": true,
+        "createDir": true,
+        "removeDir": true,
+        "removeFile": true,
+        "renameFile": true,
+        "scope": [
+          "$APPDATA/*"
+        ]
       }
     },
     "bundle": {

@@ -193,11 +193,10 @@ pub fn get_experiments() -> Result<Vec<ExperimentFile>, Error> {
                 contents,
             })
         })
-        .filter_map(std::convert::identity) // removes "Nones"
+        .filter_map(std::convert::identity) // removes "Nones" from vector.
         .collect();
 
     files.sort_by_key(|file| file.created);
     files.reverse();
-    println!("Fetching experiments");
     Ok(files)
 }
