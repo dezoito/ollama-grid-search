@@ -67,7 +67,8 @@ export function LogsSelector() {
         <SheetHeader>
           <SheetTitle className="text-2xl">Experiments</SheetTitle>
           <SheetDescription>
-            Here's a list of your experiments, parameters and results.
+            Here's a list of your experiments, parameters and results, in JSON
+            format:
           </SheetDescription>
         </SheetHeader>
         <div id="results" className="h-full w-full gap-8 overflow-y-auto py-6">
