@@ -8,6 +8,7 @@ import { useForm } from "react-hook-form";
 import { v4 as uuidv4 } from "uuid";
 import z from "zod";
 import ModelSelector from "../filters/ModelSelector";
+import { PromptDialog } from "../prompt-dialog";
 import { Button } from "./button";
 import {
   Form,
@@ -163,7 +164,10 @@ export default function FormGridParams() {
               name="prompt"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel className="font-bold">Prompt</FormLabel>
+                  <FormLabel className="flex justify-between align-bottom font-bold">
+                    <div>Prompt</div>
+                    <PromptDialog />
+                  </FormLabel>
                   <FormControl>
                     <Textarea {...field} rows={4} />
                   </FormControl>

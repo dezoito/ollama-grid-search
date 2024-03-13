@@ -5,9 +5,6 @@ import FormGridParams from "@/components/ui/form-grid-params";
 import { LogsSelector } from "./components/ui/logs-selector";
 
 function Layout() {
-  // const [name, setName] = useState("");
-  // const [models, setModels] = useState<string[]>([]);
-
   return (
     <div className="fixed flex h-screen w-full flex-col">
       {/* nav */}

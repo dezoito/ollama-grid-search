@@ -47,12 +47,10 @@
 ---
 
 - Allow re-running past experiments
-- Implement single instance check
 
 - Add a damn icon.
 - Add feature to clear all existing log files.
 
-- Add movable divider component
 - Add keyboard shortcuts
 
 - Add option to display large textarea for prompt in a modal
