@@ -6,7 +6,7 @@ All notable changes to this project will be documented in this file.
 
 ### Added
 
-- List of previous experiment logs, downloadable as JSON files
+- Lists previous experiment logs, downloadable as JSON files.
 
 ## [Version 0.0.3] - 2024-03-01
 

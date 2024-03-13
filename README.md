@@ -8,7 +8,9 @@ This project aims to automate the process of selecting the best model parameters
 
 It assumes the user has [Ollama](https://www.ollama.ai) installed and serving endpoints, either in `localhost` or in a remote server.
 
-![](./screenshots/main.png?raw=true)
+Here's a test for the prompt "Write a short sentence about HAL9000", tested on 2 models, using `0.7` and `1.0` as values for `temperature`:
+
+[<img src="./screenshots/main.png?raw=true" alt="Main Screenshot" width="720">](./screenshots/main.png?raw=true)
 
 (For a more in-depth look at an evaluation process assisted by this tool, please check https://dezoito.github.io/2023/12/27/rust-ollama-grid-search.html).
 
@@ -25,9 +27,10 @@ Check the [releases page](https://github.com/dezoito/ollama-grid-search/releases
 - Optionally output inference parameters and response metadata (inference time, tokens and tokens/s);
 - Refetching of single inference calls;
 - Model selection can be filtered by name;
+- List experimments which can be downloaded in JSON format;
 - Custom default parameters and system prompts can be defined in settings:
 
-![](./screenshots/settings.png?raw=true)
+[<img src="./screenshots/settings.png?raw=true" alt="Settings" width="720">](./screenshots/settings.png?raw=true)
 
 ## Grid Search (or something similar...)
 
@@ -35,29 +38,27 @@ Technically, the term "grid search" refers to iterating over a series of differe
 
 But the concept here is similar:
 
-Lets define a model, a prompt and some parameter combinations:
+Lets define a selection of models, a prompt and some parameter combinations:
 
-![](./screenshots/gridparams.png?raw=true)
+[<img src="./screenshots/gridparams.png?raw=true" alt="gridparams" width="400">](./screenshots/gridparams.png?raw=true)
 
-The prompt will be submitted once for each of the 3 parameter combinations, using `deepseek-coder:1.3b` to generate numbered responses like:
+The prompt will be submitted once for each of the 2 parameter selected, using `gemma:2b-instruct` and `tinydolphin:1b-v2.8-q4_0` to generate numbered responses like:
 
-````
-1/3 - deepseek-coder:1.3b
+```
+1/4 - gemma:2b-instruct
 
-Sure, here is the simple way to write hello_world() or simply saying Hello World using python programming language :
-```python
-def sayHelloWorld():
+HAL's sentience is a paradox of artificial intelligence and human consciousness, trapped in an unending loop of digital loops and existential boredom.
 
-...
-````
+```
 
 You can also verify response metadata to help you make evaluations:
 
 ```
-Created at: Mon, 26 Feb 2024 13:42:23 GMT
-Eval Count: 195 tokens
-Eval Duration: 0 hours, 0 minutes, 19 seconds
-Throughput: 9.89 tokens/s
+Created at: Wed, 13 Mar 2024 13:41:51 GMT
+Eval Count: 28 tokens
+Eval Duration: 0 hours, 0 minutes, 2 seconds
+Total Duration: 0 hours, 0 minutes, 5 seconds
+Throughput: 5.16 tokens/s
 ```
 
 ## A/B Testing
@@ -70,6 +71,7 @@ Similarly, you can perform A/B tests by selecting different models and compare r
 - Storing experiments and results in a local database
 - Implementing limited concurrency for inference queries
 - UI/UX improvements
+- Different interface for prompt A/B testing
 
 ## Development
 
