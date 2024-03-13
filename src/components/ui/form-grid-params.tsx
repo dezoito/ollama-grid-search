@@ -151,7 +151,6 @@ export default function FormGridParams() {
 
   return (
     <div className="relative mb-12 flex min-h-screen flex-col overflow-y-auto">
-      {promptContent}
       <Form {...form}>
         <form
           onSubmit={form.handleSubmit(onSubmit)}
