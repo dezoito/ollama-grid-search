@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file.
 
+## [Version 0.1.1] - 2024-03-13
+
+### Changed
+
+- Prevents multiple instances of the app to run concurrently.
+
 ## [Version 0.1.0] - 2024-03-13
 
 ### Added

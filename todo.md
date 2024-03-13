@@ -38,24 +38,22 @@
 [ok] - In response metadata, use total duration to calculate throughput
 
 --- v0.1.0
-[ok]- Log experiments to JSON files
+[ok] - Log experiments to JSON files
 
+--- v0.1.1
+[ok] - Use the "single-instance" plugin to prevent multiple concurrent instances of the app
+        https://github.com/tauri-apps/plugins-workspace/tree/v1/plugins/single-instance
+        
 ---
 
-- Make experiments available
-
-  - to download (as JSON)
-  - to visualize (as JSON)?
-  - to re-run with the same parameters and defaults
-  - add icons for each task
-
-- Add mention of experiments to tutorial
+- Allow re-running past experiments
+- Implement single instance check
 
 - Add a damn icon.
+- Add feature to clear all existing log files.
 
 - Add movable divider component
 - Add keyboard shortcuts
-- Implement single instance check https://github.com/tauri-apps/plugins-workspace/tree/v1/plugins/single-instance
 
 - Add option to display large textarea for prompt in a modal
 - Convert code snippets to markdown in responses? (react-markdown didn't work well to filter code)

@@ -20,6 +20,7 @@ anyhow = "1.0.79"
 thiserror = "1.0.56"
 tokio = "1.36.0"
 url = "2.5.0"
+tauri-plugin-single-instance = { git = "https://github.com/tauri-apps/plugins-workspace", branch = "v1" }
 # The feature "rustls" is added due to issues with OpenSSL on Linux releases
 # See https://github.com/tauri-apps/tauri/issues/4470#issuecomment-1170342732
 ollama-rs = { version = "0.1.7", default-features = false, features = ["rustls"] }
