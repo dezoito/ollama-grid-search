@@ -124,6 +124,7 @@ export default function GridResultsPane() {
           <div>Experiment started on {new Date().toUTCString()}.</div>
           <div>
             Iterations: {noCompleted}/{iterations.length}
+            Id: {gridParams.experiment_uuid}
           </div>
         </div>
       </div>

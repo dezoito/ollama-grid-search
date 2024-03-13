@@ -46,6 +46,8 @@
         
 ---
 
+- Add option to display large textarea for prompt in a modal (check why it updates the experiment id in configs)
+
 - Allow re-running past experiments
 
 - Add a damn icon.
@@ -53,7 +55,6 @@
 
 - Add keyboard shortcuts
 
-- Add option to display large textarea for prompt in a modal
 - Convert code snippets to markdown in responses? (react-markdown didn't work well to filter code)
 - Plan on saving results to SQLite
 - Add a "default prompt" setting to settings?
