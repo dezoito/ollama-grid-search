@@ -19,8 +19,8 @@ function Layout() {
         </span>
         <nav className="hidden gap-4 md:flex">
           <ModeToggle />
-          <SettingsDialog />
           <LogsSelector />
+          <SettingsDialog />
         </nav>
       </header>
       <div className="flex flex-1 overflow-hidden">

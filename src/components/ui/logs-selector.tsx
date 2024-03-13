@@ -79,7 +79,7 @@ export function LogsSelector() {
           )}
           {query.data &&
             query.data.map((exp: IExperimentFile) => (
-              <div className="my-2">
+              <div className="my-1">
                 <Button
                   variant="ghost"
                   className="flex h-full w-full flex-col items-start rounded-sm text-left text-sm transition-all hover:bg-accent"
@@ -87,15 +87,16 @@ export function LogsSelector() {
                   onClick={() => handleDownload(exp.name, exp.contents)}
                 >
                   <div className="py-2">
-                    <div className="w-full font-semibold">
+                    <div className="w-full text-[18px] font-semibold">
                       {convertEpochToDateTime(exp.created.secs_since_epoch)}
                     </div>
 
-                    <div className="text-sm text-gray-400">{exp.name}</div>
+                    <div className="pb-2 text-sm text-gray-400">{exp.name}</div>
                   </div>
                 </Button>
               </div>
             ))}
+          <div>&nbsp;</div>
         </div>
         <SheetFooter>
           <SheetClose asChild>
