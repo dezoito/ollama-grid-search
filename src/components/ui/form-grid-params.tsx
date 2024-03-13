@@ -164,9 +164,9 @@ export default function FormGridParams() {
               name="prompt"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel className="flex justify-between align-bottom font-bold">
+                  <FormLabel className="flex flex-row items-center justify-between font-bold">
                     <div>Prompt</div>
-                    <PromptDialog />
+                    <PromptDialog originalForm={form} />
                   </FormLabel>
                   <FormControl>
                     <Textarea {...field} rows={4} />
