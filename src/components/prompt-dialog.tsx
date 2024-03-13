@@ -21,16 +21,17 @@ import {
 } from "@/components/ui/form";
 import { Textarea } from "@/components/ui/textarea";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import z from "zod";
 
 interface IProps {
   originalForm: any;
+  content: string;
 }
 
 export function PromptDialog(props: IProps) {
-  const { originalForm } = props;
+  const { originalForm, content } = props;
   const [open, setOpen] = useState(false);
 
   // * default_options has to be valid JSON
@@ -42,7 +43,7 @@ export function PromptDialog(props: IProps) {
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
     defaultValues: {
-      prompt: originalForm.getValues("prompt"),
+      prompt: content,
     },
   });
 
@@ -50,6 +51,11 @@ export function PromptDialog(props: IProps) {
     originalForm.setValue("prompt", data.prompt);
     setOpen(false);
   }
+
+  // Syncs prompt text with original form
+  useEffect(() => {
+    form.setValue("prompt", content);
+  }, [content]);
 
   /*  
       ! Undocumented behaviour

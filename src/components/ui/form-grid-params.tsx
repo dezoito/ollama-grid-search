@@ -4,6 +4,7 @@ import { Input } from "@/components/ui/input";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useIsFetching, useQueryClient } from "@tanstack/react-query";
 import { useAtom } from "jotai";
+import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { v4 as uuidv4 } from "uuid";
 import z from "zod";
@@ -110,13 +111,14 @@ export default function FormGridParams() {
   const [config, _] = useAtom(configAtom);
   const [__, setGridParams] = useAtom(gridParamsAtom);
   const confirm = useConfirm();
+  const [promptContent, setPromtContent] = useState("Write a short sentence!");
 
   // Initiates for fields with value set in Settings > default options
   const form = useForm<z.infer<typeof ParamsFormSchema>>({
     resolver: zodResolver(ParamsFormSchema),
     defaultValues: {
       experiment_uuid: uuidv4(),
-      prompt: "Write a short sentence!",
+      prompt: promptContent,
       models: [],
       temperatureList: config.default_options.temperature,
       repeatPenaltyList: config.default_options.repeat_penalty,
@@ -149,6 +151,7 @@ export default function FormGridParams() {
 
   return (
     <div className="relative mb-12 flex min-h-screen flex-col overflow-y-auto">
+      {promptContent}
       <Form {...form}>
         <form
           onSubmit={form.handleSubmit(onSubmit)}
@@ -166,10 +169,14 @@ export default function FormGridParams() {
                 <FormItem>
                   <FormLabel className="flex flex-row items-center justify-between font-bold">
                     <div>Prompt</div>
-                    <PromptDialog originalForm={form} />
+                    <PromptDialog originalForm={form} content={promptContent} />
                   </FormLabel>
                   <FormControl>
-                    <Textarea {...field} rows={4} />
+                    <Textarea
+                      {...field}
+                      rows={4}
+                      onKeyUp={() => setPromtContent(field.value)}
+                    />
                   </FormControl>
                   <FormDescription>The prompt you want to test</FormDescription>
                   <FormMessage />
