@@ -65,6 +65,12 @@ Throughput: 5.16 tokens/s
 
 Similarly, you can perform A/B tests by selecting different models and compare results for the same prompt/parameter combination.
 
+## Experiment Logs
+
+You can list your experiments and download the corresponding logs in JSON:
+
+[<img src="./screenshots/experiments.png?raw=true" alt="Settings" width="720">](./screenshots/experiments.png?raw=true)
+
 ## Future Features
 
 - Grading results and filtering by grade
