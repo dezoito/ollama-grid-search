@@ -65,7 +65,8 @@ export function PromptDialog(props: IProps) {
           </Button>
         </DialogTrigger>
         <DialogContent className="sm:max-w-[90%]">
-          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+          {/* <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6"> */}
+          <form className="space-y-6">
             <DialogHeader>
               <DialogTitle>Prompt</DialogTitle>
               <DialogDescription>
@@ -95,7 +96,10 @@ export function PromptDialog(props: IProps) {
               </div>
             </div>
             <DialogFooter>
-              <Button type="submit">Update Prompt</Button>
+              {/* Can use submit button, or it submits the original form */}
+              <Button type="button" onClick={form.handleSubmit(onSubmit)}>
+                Update Prompt
+              </Button>
             </DialogFooter>
           </form>
         </DialogContent>
