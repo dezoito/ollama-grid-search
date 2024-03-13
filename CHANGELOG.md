@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file.
 
+## [Version 0.1.0] - 2024-03-13
+
+### Added
+
+- List of previous experiment logs, downloadable as JSON files
+
 ## [Version 0.0.3] - 2024-03-01
 
 ### Changed
