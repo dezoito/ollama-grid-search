@@ -4,7 +4,6 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 
 import ErrorBoundary from "@/components/ErrorBoundary";
 import { Toaster } from "@/components/ui/toaster";
-import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import { AlertDialogProvider } from "./components/ui/alert-dialog-provider";
 
 const queryClient = new QueryClient({
@@ -31,7 +30,7 @@ function App() {
         </ErrorBoundary>
       </ThemeProvider>
 
-      <ReactQueryDevtools initialIsOpen={false} />
+      {/* <ReactQueryDevtools initialIsOpen={false} /> */}
     </QueryClientProvider>
   );
 }
