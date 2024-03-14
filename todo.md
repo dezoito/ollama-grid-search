@@ -47,12 +47,10 @@
 [ok] - Add option to display large textarea for prompt in a modal (check why it updates the experiment id in configs)
 
 
-
 --- v0.1.2
 [ok] - Add keyboard shortcuts
+[ok] - input validation should check for commas as separators.
 ---
-
-- input validation should check for commas as separators.
 
 - Allow re-running past experiments
 
@@ -70,4 +68,4 @@
 - Use new deserialize method to handle options:
   https://github.com/pepperoni21/ollama-rs/blob/master/examples/options_from_json.rs
 
-- Implement limited concurrency options
+- Implement limited concurrency options (nope... ollama runs one request at a time)
