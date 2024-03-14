@@ -62,31 +62,31 @@ export const ParamsFormSchema = z.object({
   temperatureList: z.custom(
     (value) => validateNumberOrArray("float")(value as string | number),
     {
-      message: `Invalid float array format. Please enter at least one valid float number.`,
+      message: `Invalid float array format. Please enter at least one valid float number. Use commas to delimit values.`,
     },
   ),
   repeatPenaltyList: z.custom(
     (value) => validateNumberOrArray("float")(value as string | number),
     {
-      message: `Invalid float array format. Please enter at least one valid float number.`,
+      message: `Invalid float array format. Please enter at least one valid float number. Use commas to delimit values.`,
     },
   ),
   topKList: z.custom(
     (value) => validateNumberOrArray("int")(value as string | number),
     {
-      message: `Invalid int array format. Please enter at least one valid integer number.`,
+      message: `Invalid int array format. Please enter at least one valid integer number. Use commas to delimit values.`,
     },
   ),
   topPList: z.custom(
     (value) => validateNumberOrArray("float")(value as string | number),
     {
-      message: `Invalid float array format. Please enter at least one valid float number.`,
+      message: `Invalid float array format. Please enter at least one valid float number. Use commas to delimit values.`,
     },
   ),
   repeatLastNList: z.custom(
     (value) => validateNumberOrArray("int")(value as string | number),
     {
-      message: `Invalid float array format. Please enter at least one valid integer number.`,
+      message: `Invalid float array format. Please enter at least one valid integer number. Use commas to delimit values.`,
     },
   ),
 });
