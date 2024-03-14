@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file.
 
+## [Version 0.1.2] - 2024-03-15
+
+### Added
+
+- UI tweaks to improve prompt modal (keyboard shortcut to update + tooltip on icon)
+
 ## [Version 0.1.1] - 2024-03-14
 
 ### Added
