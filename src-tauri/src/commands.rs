@@ -30,6 +30,7 @@ pub async fn get_models(config: IDefaultConfigs) -> Result<Vec<String>, Error> {
 pub async fn get_inference(
     config: IDefaultConfigs,
     params: TParamIteration,
+    app_handle: tauri::AppHandle,
 ) -> Result<GenerationResponse, Error> {
     println!("Config and Params");
     dbg!(&config);
@@ -168,7 +169,9 @@ pub async fn get_inference(
         Error::StringError(err.to_string())
     })?;
 
-    log_experiment(&config, &params, &res).await?;
+    let binding = app_handle.path_resolver().app_data_dir().unwrap();
+    let app_data_dir = binding.to_str().unwrap();
+    log_experiment(&config, &params, &res, app_data_dir).await?;
 
     // println!("---------------------------------------------");
     // dbg!(&res);
@@ -178,15 +181,17 @@ pub async fn get_inference(
 }
 
 #[tauri::command]
-pub fn get_experiments() -> Result<Vec<ExperimentFile>, Error> {
-    let mut files: Vec<ExperimentFile> = fs::read_dir("./logs")?
+pub fn get_experiments(app_handle: tauri::AppHandle) -> Result<Vec<ExperimentFile>, Error> {
+    let binding = app_handle.path_resolver().app_data_dir().unwrap();
+    let app_data_dir = binding.to_str().unwrap();
+    let logs_dir = format!("{}/logs", app_data_dir);
+    let mut files: Vec<ExperimentFile> = fs::read_dir(logs_dir)?
         .filter_map(Result::ok)
         .map(|entry| {
             let path = entry.path();
             let metadata = fs::metadata(&path).ok()?;
             let created = metadata.created().ok()?;
             let contents = fs::read_to_string(&path).ok()?;
-            // let json: serde_json::Value = serde_json::from_str(&contents).ok()?;
             Some(ExperimentFile {
                 name: path.file_name()?.to_string_lossy().into_owned(),
                 created,
