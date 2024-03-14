@@ -8,6 +8,10 @@ All notable changes to this project will be documented in this file.
 
 - UI tweaks to improve prompt modal (keyboard shortcut to update + tooltip on icon)
 
+### Changed
+
+- Fixed issue that allowed space delimited lists to pass parameter validation.
+
 ## [Version 0.1.1] - 2024-03-14
 
 ### Added
