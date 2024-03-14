@@ -122,13 +122,11 @@ pub async fn log_experiment(
     app_data_dir: &str,
 ) -> Result<(), Error> {
     let experiment_uuid = &params.experiment_uuid;
-
-    let log_file_path = format!("{}/logs/{}.json", app_data_dir, experiment_uuid);
+    let log_file_path = format!("{}/{}.json", app_data_dir, experiment_uuid);
 
     // Create the logs directory if it doesn't exist
-    let logs_dir = format!("{}/logs", app_data_dir);
-    if !Path::new(&logs_dir).exists() {
-        fs::create_dir(&logs_dir)?;
+    if !Path::new(&app_data_dir).exists() {
+        fs::create_dir(&app_data_dir)?;
     }
 
     let mut log_data = if Path::new(&log_file_path).exists() {

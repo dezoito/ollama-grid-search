@@ -186,8 +186,7 @@ pub async fn get_inference(
 pub fn get_experiments(app_handle: tauri::AppHandle) -> Result<Vec<ExperimentFile>, Error> {
     let binding = app_handle.path_resolver().app_data_dir().unwrap();
     let app_data_dir = binding.to_str().unwrap();
-    let logs_dir = format!("{}/logs", app_data_dir);
-    let mut files: Vec<ExperimentFile> = fs::read_dir(logs_dir)?
+    let mut files: Vec<ExperimentFile> = fs::read_dir(app_data_dir)?
         .filter_map(Result::ok)
         .map(|entry| {
             let path = entry.path();
