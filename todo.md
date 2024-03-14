@@ -45,9 +45,14 @@
         https://github.com/tauri-apps/plugins-workspace/tree/v1/plugins/single-instance
         
 [ok] - Add option to display large textarea for prompt in a modal (check why it updates the experiment id in configs)
+
+
+
+--- v0.1.2
+[ok] - Add keyboard shortcuts
 ---
 
-- Add keyboard shortcuts
+- input validation should check for commas as separators.
 
 - Allow re-running past experiments
 

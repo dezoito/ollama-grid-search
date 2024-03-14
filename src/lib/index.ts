@@ -74,3 +74,19 @@ export function convertEpochToDateTime(secs_since_epoch: number): string {
   const seconds = String(date.getSeconds()).padStart(2, "0");
   return `${year}-${month}-${day} - ${hours}:${minutes}:${seconds}`;
 }
+
+/**
+ * Check if the input is comma delimited.
+ *
+ * @param {string} input - the input string to be checked
+ * @return {boolean} true if the input is comma delimited, false otherwise
+ */
+export function isCommaDelimitedList(input: string): boolean {
+  // Split the string by commas
+  const values = input.split(",");
+
+  // Check if each part is a valid number (int or float with no spaces inbetweengit a)
+  return values.every((val) => {
+    return !isNaN(parseFloat(val.trim())) && !/\d\s+\d/.test(val.trim());
+  });
+}

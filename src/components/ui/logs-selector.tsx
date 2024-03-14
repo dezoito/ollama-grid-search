@@ -79,7 +79,7 @@ export function LogsSelector() {
           )}
           {query.data &&
             query.data.map((exp: IExperimentFile) => (
-              <div className="my-1">
+              <div className="my-1" key={exp.name}>
                 <Button
                   variant="ghost"
                   className="flex h-full w-full flex-col items-start rounded-sm text-left text-sm transition-all hover:bg-accent"

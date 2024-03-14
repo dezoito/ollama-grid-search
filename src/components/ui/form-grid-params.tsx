@@ -1,6 +1,7 @@
 import { configAtom, gridParamsAtom } from "@/Atoms";
 import { useConfirm } from "@/components/ui/alert-dialog-provider";
 import { Input } from "@/components/ui/input";
+import { isCommaDelimitedList } from "@/lib";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useIsFetching, useQueryClient } from "@tanstack/react-query";
 import { useAtom } from "jotai";
@@ -27,6 +28,10 @@ import { useToast } from "./use-toast";
 const validateNumberOrArray =
   (inputType: "float" | "int") => (value: string | number) => {
     const stringValue = typeof value === "string" ? value : value.toString();
+    if (!isCommaDelimitedList(stringValue)) {
+      console.error("caught invalid list", stringValue);
+      return false;
+    }
     const values = stringValue.split(",");
 
     // If there is more than one value (comma-separated), validate each value
