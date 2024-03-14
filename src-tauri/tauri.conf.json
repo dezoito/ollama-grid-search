@@ -42,7 +42,7 @@
     "bundle": {
       "active": true,
       "targets": "all",
-      "identifier": "com.dezoito.github.com.dev",
+      "identifier": "com.dezoito.github.gridsearch",
       "icon": [
         "icons/32x32.png",
         "icons/128x128.png",
