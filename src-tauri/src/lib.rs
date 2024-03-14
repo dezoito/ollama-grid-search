@@ -122,7 +122,7 @@ pub async fn log_experiment(
     app_data_dir: &str,
 ) -> Result<(), Error> {
     let experiment_uuid = &params.experiment_uuid;
-    // let log_dir = "./logs";
+
     let log_file_path = format!("{}/logs/{}.json", app_data_dir, experiment_uuid);
 
     // Create the logs directory if it doesn't exist

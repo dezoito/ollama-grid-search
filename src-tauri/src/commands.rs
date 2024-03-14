@@ -169,6 +169,8 @@ pub async fn get_inference(
         Error::StringError(err.to_string())
     })?;
 
+    // sets the base path for storing logs
+    // see https://github.com/tauri-apps/tauri/discussions/5557
     let binding = app_handle.path_resolver().app_data_dir().unwrap();
     let app_data_dir = binding.to_str().unwrap();
     log_experiment(&config, &params, &res, app_data_dir).await?;

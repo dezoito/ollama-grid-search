@@ -2,11 +2,16 @@
 
 All notable changes to this project will be documented in this file.
 
-## [Version 0.1.1] - 2024-03-13
+## [Version 0.1.1] - 2024-03-14
+
+### Added
+
+- The textarea for the prompt can be expanded to make editing more ergonomic
 
 ### Changed
 
-- Prevents multiple instances of the app to run concurrently.
+- Prevents multiple instances of the app to run simultaneously.
+- Uses the [Rust path module](https://docs.rs/tauri/latest/tauri/api/path/index.html) to store experiment logs (issue #4 - Read-only file system (os error 30) on MacOS).
 
 ## [Version 0.1.0] - 2024-03-13
 
