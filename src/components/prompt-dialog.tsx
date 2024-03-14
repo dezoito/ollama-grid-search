@@ -1,5 +1,3 @@
-import { EnterFullScreenIcon } from "@radix-ui/react-icons";
-
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -20,9 +18,17 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Textarea } from "@/components/ui/textarea";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { EnterFullScreenIcon } from "@radix-ui/react-icons";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
+import { useHotkeys } from "react-hotkeys-hook";
 import z from "zod";
 
 interface IProps {
@@ -52,6 +58,11 @@ export function PromptDialog(props: IProps) {
     setOpen(false);
   }
 
+  // Updates prompt element on ctrl+enter
+  useHotkeys("ctrl+enter", () => form.handleSubmit(onSubmit)(), {
+    enableOnFormTags: ["TEXTAREA"],
+  });
+
   // Syncs prompt text with original form
   useEffect(() => {
     form.setValue("prompt", content);
@@ -66,8 +77,15 @@ export function PromptDialog(props: IProps) {
     <Form {...form}>
       <Dialog open={open} onOpenChange={setOpen}>
         <DialogTrigger asChild>
-          <Button variant="transparentDark" size="sm">
-            <EnterFullScreenIcon className="h-4 w-4 text-cyan-50" />
+          <Button variant="transparentDark" size="sm" type="button">
+            <TooltipProvider>
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <EnterFullScreenIcon className="h-4 w-4 text-cyan-50" />
+                </TooltipTrigger>
+                <TooltipContent>Expand prompt input</TooltipContent>
+              </Tooltip>
+            </TooltipProvider>
           </Button>
         </DialogTrigger>
         <DialogContent className="sm:max-w-[90%]">
@@ -90,7 +108,12 @@ export function PromptDialog(props: IProps) {
                   name="prompt"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Prompt</FormLabel>
+                      <FormLabel>
+                        Prompt{" "}
+                        <span className="text-sm text-gray-500">
+                          (You can use Ctrl+Enter to update)
+                        </span>
+                      </FormLabel>
                       <FormControl>
                         <Textarea {...field} rows={18} cols={100} />
                       </FormControl>

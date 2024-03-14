@@ -44,16 +44,15 @@
 [ok] - Use the "single-instance" plugin to prevent multiple concurrent instances of the app
         https://github.com/tauri-apps/plugins-workspace/tree/v1/plugins/single-instance
         
+[ok] - Add option to display large textarea for prompt in a modal (check why it updates the experiment id in configs)
 ---
 
-- Add option to display large textarea for prompt in a modal (check why it updates the experiment id in configs)
+- Add keyboard shortcuts
 
 - Allow re-running past experiments
 
 - Add a damn icon.
 - Add feature to clear all existing log files.
-
-- Add keyboard shortcuts
 
 - Convert code snippets to markdown in responses? (react-markdown didn't work well to filter code)
 - Plan on saving results to SQLite
