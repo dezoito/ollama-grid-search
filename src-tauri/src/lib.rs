@@ -50,6 +50,7 @@ pub struct TParamIteration {
 #[derive(Debug, Serialize, Deserialize, Clone)]
 #[serde(rename_all = "snake_case")]
 pub struct IDefaultConfigs {
+    pub request_timeout: u64,
     pub server_url: String,
     pub system_prompt: String,
     pub default_options: HashMap<String, Value>,

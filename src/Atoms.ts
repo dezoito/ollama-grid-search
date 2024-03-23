@@ -28,6 +28,7 @@ const atomWithLocalStorage = (key: string, initialValue: unknown) => {
 };
 
 const defaultConfigs: IDefaultConfigs = {
+  request_timeout: 300,
   server_url: "http://localhost:11434/",
   system_prompt: "",
   default_options: {

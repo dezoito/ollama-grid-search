@@ -39,6 +39,7 @@ export function SettingsDialog() {
 
   // * default_options has to be valid JSON
   const FormSchema = z.object({
+    request_timeout: z.coerce.number().min(5),
     server_url: z.string().url(),
     system_prompt: z.string(),
     default_options: z.string().refine(
@@ -115,7 +116,7 @@ export function SettingsDialog() {
             form here
              */}
 
-            <div className="grid gap-6 py-4">
+            <div className="grid max-h-[500px] gap-6 overflow-y-auto px-4 py-4">
               <div className="flex flex-col gap-4">
                 <FormField
                   control={form.control}
@@ -128,6 +129,24 @@ export function SettingsDialog() {
                       </FormControl>
                       <FormDescription>
                         URL for your Ollama server
+                      </FormDescription>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              </div>
+              <div className="flex flex-col gap-4">
+                <FormField
+                  control={form.control}
+                  name="request_timeout"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Request Timeout (secs)</FormLabel>
+                      <FormControl>
+                        <Input {...field} />
+                      </FormControl>
+                      <FormDescription>
+                        The timeout in seconds for each inference request.
                       </FormDescription>
                       <FormMessage />
                     </FormItem>

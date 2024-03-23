@@ -166,7 +166,7 @@ pub async fn get_inference(
     dbg!(&req);
 
     // Process the inference; set a wrap for a timeout
-    let timeout = Duration::from_secs(30);
+    let timeout = Duration::from_secs(config.request_timeout);
     let res = match time::timeout(timeout, ollama.generate(req)).await {
         Ok(result) => result,
         Err(_) => {
