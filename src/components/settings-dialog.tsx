@@ -116,6 +116,7 @@ export function SettingsDialog() {
             form here
              */}
 
+            {/* we need to set a max-height on this div for overflow to work */}
             <div className="grid max-h-[500px] gap-6 overflow-y-auto px-4 py-4">
               <div className="flex flex-col gap-4">
                 <FormField
