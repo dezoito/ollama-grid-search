@@ -1,4 +1,5 @@
 use std::fs;
+use tokio::time::{self, Duration};
 
 use grid_search_desktop::{
     log_experiment, split_host_port, Error, ExperimentFile, IDefaultConfigs, TParamIteration,
@@ -164,22 +165,36 @@ pub async fn get_inference(
 
     dbg!(&req);
 
-    let res = ollama.generate(req).await.map_err(|err| {
-        println!("Error: {}", err.to_string());
-        Error::StringError(err.to_string())
-    })?;
-
-    // sets the base path for storing logs
-    // see https://github.com/tauri-apps/tauri/discussions/5557
-    let binding = app_handle.path_resolver().app_data_dir().unwrap();
-    let app_data_dir = binding.to_str().unwrap();
-    log_experiment(&config, &params, &res, app_data_dir).await?;
-
+    // Process the inference; set a wrap for a timeout
+    let timeout = Duration::from_secs(30);
+    let res = match time::timeout(timeout, ollama.generate(req)).await {
+        Ok(result) => result,
+        Err(_) => {
+            let err_msg = format!("Request timed out after {} seconds", timeout.as_secs());
+            println!("{}", err_msg);
+            return Err(Error::StringError(err_msg));
+        }
+    };
     // println!("---------------------------------------------");
     // dbg!(&res);
     // println!("---------------------------------------------");
 
-    Ok(res)
+    // sets the base path for storing logs
+    // see https://github.com/tauri-apps/tauri/discussions/5557
+    let app_data_dir = app_handle
+        .path_resolver()
+        .app_data_dir()
+        .unwrap_or_else(|| panic!("Failed to get application data directory"));
+    let app_data_dir_str = app_data_dir.to_string_lossy();
+
+    // Log the experiment if it's successful
+    match res {
+        Ok(generation_response) => {
+            log_experiment(&config, &params, &generation_response, &app_data_dir_str).await?;
+            Ok(generation_response)
+        }
+        Err(err) => Err(Error::StringError(err.to_string())),
+    }
 }
 
 #[tauri::command]
