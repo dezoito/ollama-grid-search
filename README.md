@@ -28,6 +28,7 @@ Check the [releases page](https://github.com/dezoito/ollama-grid-search/releases
 - Refetching of single inference calls;
 - Model selection can be filtered by name;
 - List experimments which can be downloaded in JSON format;
+- Configurable inference timeout;
 - Custom default parameters and system prompts can be defined in settings:
 
 [<img src="./screenshots/settings.png?raw=true" alt="Settings" width="720">](./screenshots/settings.png?raw=true)
@@ -75,7 +76,7 @@ You can list your experiments and download the corresponding logs in JSON:
 
 - Grading results and filtering by grade
 - Storing experiments and results in a local database
-- Implementing limited concurrency for inference queries
+- Implementing [limited concurrency](https://dezoito.github.io/2024/03/21/react-limited-concurrency.html) for inference queries
 - UI/UX improvements
 - Different interface for prompt A/B testing
 

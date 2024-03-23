@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file.
 
+## [Version 0.2.0] - 2024-03-23
+
+### Added
+
+- Added a "request_timeout" parameter to settings that controls the amount of time (in seconds),
+  the application should wait for an inference call to complete before returning and error (for that individual call). This is useful as, IME, some combinations of parameters can make models hang.
+
 ## [Version 0.1.2] - 2024-03-14
 
 ### Added
