@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file.
 
+## [Version 0.2.1] - 2024-03-24
+
+### Added
+
+- Supports user input for adicional parameters: `tfs_z`, `mirostat`, `mirostat_eta` and `mirostat_tau`.
+
 ## [Version 0.2.0] - 2024-03-23
 
 ### Added
