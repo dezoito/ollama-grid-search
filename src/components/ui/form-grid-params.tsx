@@ -86,7 +86,31 @@ export const ParamsFormSchema = z.object({
   repeatLastNList: z.custom(
     (value) => validateNumberOrArray("int")(value as string | number),
     {
-      message: `Invalid float array format. Please enter at least one valid integer number. Use commas to delimit values.`,
+      message: `Invalid integer array format. Please enter at least one valid integer number. Use commas to delimit values.`,
+    },
+  ),
+  tfsZList: z.custom(
+    (value) => validateNumberOrArray("float")(value as string | number),
+    {
+      message: `Invalid float array format. Please enter at least one valid float number. Use commas to delimit values.`,
+    },
+  ),
+  mirostatList: z.custom(
+    (value) => validateNumberOrArray("int")(value as string | number),
+    {
+      message: `Invalid integer array format. Please enter at least one valid integer number. Use commas to delimit values.`,
+    },
+  ),
+  mirostatTauList: z.custom(
+    (value) => validateNumberOrArray("float")(value as string | number),
+    {
+      message: `Invalid float array format. Please enter at least one valid float number. Use commas to delimit values.`,
+    },
+  ),
+  mirostatEtaList: z.custom(
+    (value) => validateNumberOrArray("float")(value as string | number),
+    {
+      message: `Invalid float array format. Please enter at least one valid float number. Use commas to delimit values.`,
     },
   ),
 });
@@ -130,6 +154,10 @@ export default function FormGridParams() {
       topKList: config.default_options.top_k,
       topPList: config.default_options.top_p,
       repeatLastNList: config.default_options.repeat_last_n,
+      tfsZList: config.default_options.tfs_z,
+      mirostatList: config.default_options.mirostat,
+      mirostatTauList: config.default_options.mirostat_tau,
+      mirostatEtaList: config.default_options.mirostat_eta,
     },
   });
 
@@ -146,6 +174,10 @@ export default function FormGridParams() {
       topKList: paramsToArray(data.topKList),
       topPList: paramsToArray(data.topPList),
       repeatLastNList: paramsToArray(data.repeatLastNList),
+      tfsZList: paramsToArray(data.tfsZList),
+      mirostatList: paramsToArray(data.mirostatList),
+      mirostatTauList: paramsToArray(data.mirostatTauList),
+      mirostatEtaList: paramsToArray(data.mirostatEtaList),
     });
 
     toast({
@@ -288,6 +320,84 @@ export default function FormGridParams() {
               )}
             />
           </div>
+
+          {/* tfs_z */}
+          <div className="flex flex-col gap-2">
+            <FormField
+              control={form.control}
+              name="tfsZList"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel className="font-bold">Tfs_Z List</FormLabel>
+                  <FormControl>
+                    <Input {...field} />
+                  </FormControl>
+                  <FormDescription>
+                    List of "tfs_z" values (e.g.: 1, 1.5, 2)
+                  </FormDescription>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+          </div>
+          {/* mirostat */}
+          <div className="flex flex-col gap-2">
+            <FormField
+              control={form.control}
+              name="mirostatList"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel className="font-bold">Mirostat List</FormLabel>
+                  <FormControl>
+                    <Input {...field} />
+                  </FormControl>
+                  <FormDescription>
+                    List of "mirostat" values (e.g.: 0, 1, 2)
+                  </FormDescription>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+          </div>
+          {/* mirostat_tau */}
+          <div className="flex flex-col gap-2">
+            <FormField
+              control={form.control}
+              name="mirostatTauList"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel className="font-bold">Mirostat Tau List</FormLabel>
+                  <FormControl>
+                    <Input {...field} />
+                  </FormControl>
+                  <FormDescription>
+                    List of "mirostat_tau" values (e.g.: 1.0, 2.0, 5.0)
+                  </FormDescription>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+          </div>
+          {/* mirostat_eta */}
+          <div className="flex flex-col gap-2">
+            <FormField
+              control={form.control}
+              name="mirostatEtaList"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel className="font-bold">Mirostat Eta List</FormLabel>
+                  <FormControl>
+                    <Input {...field} />
+                  </FormControl>
+                  <FormDescription>
+                    List of "mirostat_eta" values (e.g.: 0.1, 0.2, 0.3)
+                  </FormDescription>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+          </div>
+          {/* ===================================== */}
           {/* Buttons */}
           <div
             id="button-area"

@@ -86,6 +86,10 @@ export const defaultGridParams = {
   topKList: [defaultConfigs.default_options.top_k],
   topPList: [defaultConfigs.default_options.top_p],
   repeatLastNList: [defaultConfigs.default_options.repeat_last_n],
+  tfsZList: [defaultConfigs.default_options.tfs_z],
+  mirostatList: [defaultConfigs.default_options.mirostat],
+  mirostatTauList: [defaultConfigs.default_options.mirostat_tau],
+  mirostatEtaList: [defaultConfigs.default_options.mirostat_eta],
 };
 
 export const gridParamsAtom = atom<IGridParams>(defaultGridParams);

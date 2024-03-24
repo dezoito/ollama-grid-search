@@ -41,47 +41,21 @@ pub async fn get_inference(
     let (host_url, port) = split_host_port(&config.server_url).unwrap();
     let ollama = Ollama::new(host_url, port);
 
-    // Default options might not have been set by the user
-    // add only the ones we have a value for
+    // Build generation options object
+    // First the ones that are default values set in "settings"
     let mut options_builder = GenerationOptions::default();
 
     for &option_name in &[
-        "mirostat",
-        "mirostat_tau",
-        "mirostat_eta",
         "num_ctx",
         "num_gqa",
         "num_gpu",
         "num_thread",
-        // "repeat_last_n",
         "seed",
         "stop",
-        "tfs_z",
         "num_predict",
     ] {
         if let Some(value) = config.default_options.get(option_name) {
             match option_name {
-                "mirostat" => {
-                    let parsed_value = value
-                        .to_string()
-                        .parse::<u8>()
-                        .expect("Failed to parse mirostat as u8");
-                    options_builder = options_builder.mirostat(parsed_value);
-                }
-                "mirostat_tau" => {
-                    let parsed_value = value
-                        .to_string()
-                        .parse::<f32>()
-                        .expect("Failed to parse mirostat_tau as f32");
-                    options_builder = options_builder.mirostat_tau(parsed_value);
-                }
-                "mirostat_eta" => {
-                    let parsed_value = value
-                        .to_string()
-                        .parse::<f32>()
-                        .expect("Failed to parse mirostat_eta as f32");
-                    options_builder = options_builder.mirostat_eta(parsed_value);
-                }
                 "num_ctx" => {
                     let parsed_value = value
                         .to_string()
@@ -110,13 +84,7 @@ pub async fn get_inference(
                         .expect("Failed to parse num_thread as u32");
                     options_builder = options_builder.num_thread(parsed_value);
                 }
-                // "repeat_last_n" => {
-                //     let parsed_value = value
-                //         .to_string()
-                //         .parse::<i32>()
-                //         .expect("Failed to parse repeat_last_n as i32");
-                //     options_builder = options_builder.repeat_last_n(parsed_value);
-                // }
+
                 "seed" => {
                     let parsed_value = value
                         .to_string()
@@ -128,13 +96,7 @@ pub async fn get_inference(
                     let parsed_value = vec![value.to_string()];
                     options_builder = options_builder.stop(parsed_value);
                 }
-                "tfs_z" => {
-                    let parsed_value = value
-                        .to_string()
-                        .parse::<f32>()
-                        .expect("Failed to parse tfs_z as f32");
-                    options_builder = options_builder.tfs_z(parsed_value);
-                }
+
                 "num_predict" => {
                     let parsed_value = value
                         .to_string()
@@ -149,13 +111,19 @@ pub async fn get_inference(
         }
     }
 
-    // Set mandatory options
+    // Set mandatory options based on user input
     let options = options_builder
         .temperature(params.temperature)
         .repeat_penalty(params.repeat_penalty)
         .top_k(params.top_k)
         .top_p(params.top_p)
-        .repeat_last_n(params.repeat_last_n);
+        .repeat_last_n(params.repeat_last_n)
+        .tfs_z(params.tfs_z)
+        .mirostat(params.mirostat)
+        .mirostat_tau(params.mirostat_tau)
+        .mirostat_eta(params.mirostat_eta);
+
+    // dbg!(&options);
 
     let system_prompt = &config.system_prompt;
     let req = GenerationRequest::new(params.clone().model, params.clone().prompt)
@@ -165,7 +133,7 @@ pub async fn get_inference(
 
     dbg!(&req);
 
-    // Process the inference; set a wrap for a timeout
+    // Process the inference; set a wrapper to check for timeouts
     let timeout = Duration::from_secs(config.request_timeout);
     let res = match time::timeout(timeout, ollama.generate(req)).await {
         Ok(result) => result,

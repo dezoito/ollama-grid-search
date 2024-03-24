@@ -46,6 +46,10 @@ pub struct TParamIteration {
     pub top_k: u32,
     pub top_p: f32,
     pub repeat_last_n: i32,
+    pub tfs_z: f32,
+    pub mirostat: u8,
+    pub mirostat_tau: f32,
+    pub mirostat_eta: f32,
 }
 #[derive(Debug, Serialize, Deserialize, Clone)]
 #[serde(rename_all = "snake_case")]

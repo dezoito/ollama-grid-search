@@ -8,6 +8,10 @@ export interface IGridParams {
   topKList: number[];
   topPList: number[];
   repeatLastNList: number[];
+  tfsZList: number[];
+  mirostatList: number[];
+  mirostatTauList: number[];
+  mirostatEtaList: number[];
 }
 
 // Represents a single set of params to
@@ -22,6 +26,10 @@ export type TParamIteration = {
   top_k: number;
   top_p: number;
   repeat_last_n: number;
+  tfs_z: number;
+  mirostat: number;
+  mirostat_tau: number;
+  mirostat_eta: number;
 };
 
 // Interface for the default configuration options

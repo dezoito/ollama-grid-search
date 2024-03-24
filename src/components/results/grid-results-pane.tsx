@@ -20,7 +20,7 @@ export default function GridResultsPane() {
 
   //https://stackoverflow.com/questions/76933229/can-react-query-make-sequential-network-calls-and-wait-for-previous-one-to-finis
 
-  // creates a linear array with param combinations
+  // creates a linear array of param combination objects
   useEffect(() => {
     setNoCompleted(0);
     const localIterations = [];
@@ -30,16 +30,28 @@ export default function GridResultsPane() {
           for (const top_k of gridParams.topKList) {
             for (const top_p of gridParams.topPList) {
               for (const repeat_last_n of gridParams.repeatLastNList) {
-                localIterations.push({
-                  experiment_uuid: gridParams.experiment_uuid,
-                  model,
-                  prompt: gridParams.prompt,
-                  temperature,
-                  repeat_penalty,
-                  top_k,
-                  top_p,
-                  repeat_last_n,
-                });
+                for (const tfs_z of gridParams.tfsZList) {
+                  for (const mirostat of gridParams.mirostatList) {
+                    for (const mirostat_tau of gridParams.mirostatTauList) {
+                      for (const mirostat_eta of gridParams.mirostatEtaList) {
+                        localIterations.push({
+                          experiment_uuid: gridParams.experiment_uuid,
+                          model: model,
+                          prompt: gridParams.prompt,
+                          temperature: temperature,
+                          repeat_penalty: repeat_penalty,
+                          top_k: top_k,
+                          top_p: top_p,
+                          repeat_last_n: repeat_last_n,
+                          tfs_z: tfs_z,
+                          mirostat: mirostat,
+                          mirostat_tau: mirostat_tau,
+                          mirostat_eta: mirostat_eta,
+                        });
+                      }
+                    }
+                  }
+                }
               }
             }
           }
