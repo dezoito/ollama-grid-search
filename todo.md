@@ -42,15 +42,22 @@
 
 --- v0.1.1
 [ok] - Use the "single-instance" plugin to prevent multiple concurrent instances of the app
-        https://github.com/tauri-apps/plugins-workspace/tree/v1/plugins/single-instance
-        
-[ok] - Add option to display large textarea for prompt in a modal (check why it updates the experiment id in configs)
+https://github.com/tauri-apps/plugins-workspace/tree/v1/plugins/single-instance
 
+[ok] - Add option to display large textarea for prompt in a modal (check why it updates the experiment id in configs)
 
 --- v0.1.2
 [ok] - Add keyboard shortcuts
 [ok] - input validation should check for commas as separators.
----
+[ok] - "Full screen" prompt input
+
+--- v0.2.0.0
+[ok] - Added "request_timeout" parameter to settings
+
+--- v0.2.0.1
+[ok] - Supports user input for adicional parameters: tfs_z, mirostat, mirostat_eta and mirostat_tau.
+
+- Add a way to check the version number on the interface
 
 - Allow re-running past experiments
 
