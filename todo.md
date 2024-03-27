@@ -59,6 +59,7 @@ https://github.com/tauri-apps/plugins-workspace/tree/v1/plugins/single-instance
 
 - Add a way to check the version number on the interface
 
+- Allow inspecting past experiments without downloading them (use a modal)
 - Allow re-running past experiments
 
 - Add a damn icon.
@@ -67,6 +68,8 @@ https://github.com/tauri-apps/plugins-workspace/tree/v1/plugins/single-instance
 - Convert code snippets to markdown in responses? (react-markdown didn't work well to filter code)
 - Plan on saving results to SQLite
 - Add a "default prompt" setting to settings?
+
+- Add a way to filter visible results by params, or length or throughput?
 
 - Cancel async commands:
   https://github.com/tauri-apps/tauri/discussions/5894
