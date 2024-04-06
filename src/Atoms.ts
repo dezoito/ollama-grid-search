@@ -27,6 +27,9 @@ const atomWithLocalStorage = (key: string, initialValue: unknown) => {
   return derivedAtom;
 };
 
+// "Options" reference:
+// https://github.com/ollama/ollama/blob/main/docs/modelfile.md#valid-parameters-and-values
+// I've kept only the documented ones at default values
 const defaultConfigs: IDefaultConfigs = {
   request_timeout: 300,
   server_url: "http://localhost:11434/",
@@ -71,9 +74,6 @@ const defaultConfigs: IDefaultConfigs = {
 };
 
 // Store configs in LocalStorage
-// "Options" reference:
-// https://github.com/ollama/ollama/blob/main/docs/modelfile.md#valid-parameters-and-values
-// I've kept only the documented ones at default values
 export const configAtom = atomWithLocalStorage("configs", defaultConfigs);
 
 // Initializes grid parameters

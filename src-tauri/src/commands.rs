@@ -25,8 +25,6 @@ pub async fn get_models(config: IDefaultConfigs) -> Result<Vec<String>, Error> {
     Ok(model_list)
 }
 
-// pub mod commands {}
-
 #[tauri::command]
 pub async fn get_inference(
     config: IDefaultConfigs,
