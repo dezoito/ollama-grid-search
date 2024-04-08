@@ -27,7 +27,7 @@ Check the [releases page](https://github.com/dezoito/ollama-grid-search/releases
 - Optionally output inference parameters and response metadata (inference time, tokens and tokens/s);
 - Refetching of single inference calls;
 - Model selection can be filtered by name;
-- List experimments which can be downloaded in JSON format;
+- List experiments which can be downloaded in JSON format;
 - Configurable inference timeout;
 - Custom default parameters and system prompts can be defined in settings:
 
