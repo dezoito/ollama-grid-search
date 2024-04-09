@@ -51,13 +51,17 @@ https://github.com/tauri-apps/plugins-workspace/tree/v1/plugins/single-instance
 [ok] - input validation should check for commas as separators.
 [ok] - "Full screen" prompt input
 
---- v0.2.0.0
+--- v0.2.0.
 [ok] - Added "request_timeout" parameter to settings
 
---- v0.2.0.1
+--- v0.2.1
 [ok] - Supports user input for adicional parameters: tfs_z, mirostat, mirostat_eta and mirostat_tau.
 
-- Add a way to check the version number on the interface
+--- v0.2.2
+[ok] - Adds the application's version number to the settings interface
+
+
+---
 
 - Allow inspecting past experiments without downloading them (use a modal)
 - Allow re-running past experiments

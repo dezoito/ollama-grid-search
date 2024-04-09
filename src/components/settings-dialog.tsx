@@ -26,10 +26,12 @@ import { Textarea } from "@/components/ui/textarea";
 import { useToast } from "@/components/ui/use-toast";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useQueryClient } from "@tanstack/react-query";
+import { getVersion } from "@tauri-apps/api/app";
 import { useAtom } from "jotai";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import z from "zod";
+const appVersion = await getVersion();
 
 export function SettingsDialog() {
   const { toast } = useToast();
@@ -203,7 +205,12 @@ export function SettingsDialog() {
               </div>
             </div>
             <DialogFooter>
-              <Button type="submit">Save changes</Button>
+              <div className="flex w-full items-center justify-around">
+                <div className="text-xs text-gray-500">
+                  Ollama Grid Search version {appVersion}
+                </div>
+                <Button type="submit">Save changes</Button>
+              </div>
             </DialogFooter>
           </form>
         </DialogContent>
