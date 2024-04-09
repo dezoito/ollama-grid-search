@@ -12,11 +12,12 @@ import {
   SheetTrigger,
 } from "@/components/ui/sheet";
 import { convertEpochToDateTime } from "@/lib";
-import { FileTextIcon } from "@radix-ui/react-icons";
+import { DownloadIcon, FileTextIcon } from "@radix-ui/react-icons";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { save } from "@tauri-apps/api/dialog";
 import { writeTextFile } from "@tauri-apps/api/fs";
 import { saveAs } from "file-saver";
+import { ExperimentDataDialog } from "../experiment-data-dialog";
 import { get_experiments } from "../queries";
 
 const handleDownload = async (
@@ -79,21 +80,29 @@ export function LogsSelector() {
           )}
           {query.data &&
             query.data.map((exp: IExperimentFile) => (
-              <div className="my-1" key={exp.name}>
-                <Button
-                  variant="ghost"
-                  className="flex h-full w-full flex-col items-start rounded-sm text-left text-sm transition-all hover:bg-accent"
-                  size="lg"
-                  onClick={() => handleDownload(exp.name, exp.contents)}
-                >
-                  <div className="py-2">
-                    <div className="w-full text-[18px] font-semibold">
-                      {convertEpochToDateTime(exp.created.secs_since_epoch)}
-                    </div>
-
-                    <div className="pb-2 text-sm text-gray-400">{exp.name}</div>
+              <div
+                className="my-1 flex items-center gap-2 justify-self-start rounded-sm p-2 transition-colors duration-200 hover:bg-gray-100 dark:hover:bg-gray-800"
+                key={exp.name}
+              >
+                <div className="py-1">
+                  <div className="w-[300px] text-[14px] font-semibold">
+                    {convertEpochToDateTime(exp.created.secs_since_epoch)}
                   </div>
-                </Button>
+
+                  <div className="pb-1 text-xs text-gray-400">{exp.name}</div>
+                </div>
+
+                {/* Buttons to inspect and download */}
+                <div>
+                  <ExperimentDataDialog experiment={exp} />
+                  <Button
+                    variant="ghost"
+                    size="icon"
+                    onClick={() => handleDownload(exp.name, exp.contents)}
+                  >
+                    <DownloadIcon className="h-4 w-4" />
+                  </Button>
+                </div>
               </div>
             ))}
           <div>&nbsp;</div>

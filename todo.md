@@ -59,11 +59,11 @@ https://github.com/tauri-apps/plugins-workspace/tree/v1/plugins/single-instance
 
 --- v0.2.2
 [ok] - Adds the application's version number to the settings interface
+[ok] - Allows inspecting past experiments without downloading them
 
 
 ---
 
-- Allow inspecting past experiments without downloading them (use a modal)
 - Allow re-running past experiments
 
 - Add a damn icon.
