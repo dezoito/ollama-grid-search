@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file.
 
+## [Version 0.2.2] - 2024-04-10
+
+### Added
+
+- Adds current version number to the settings interface.
+- Allows inspecting past experiments without the need to download the corresponding file.
+
 ## [Version 0.2.1] - 2024-03-24
 
 ### Added
