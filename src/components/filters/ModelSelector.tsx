@@ -40,9 +40,9 @@ function ModelSelector(props: IProps) {
   });
 
   const versionQuery = useQuery<string>({
-    queryKey: ["get_ollama_version"],
+    queryKey: ["get_ollama_version", config],
     queryFn: (): Promise<string> => get_ollama_version(config),
-    refetchInterval: 1000 * 30,
+    refetchInterval: 1000 * 30 * 10,
     refetchOnWindowFocus: "always",
     staleTime: 0,
     // cacheTime: 0,

@@ -44,7 +44,6 @@ export async function get_models(config: IDefaultConfigs): Promise<string[]> {
 export async function get_ollama_version(
   config: IDefaultConfigs,
 ): Promise<string> {
-  console.log("trying to get ollama version from client");
   const version = await invoke<string>("get_ollama_version", {
     config: config,
   });
