@@ -231,7 +231,7 @@ export default function FormGridParams() {
               render={({ field }) => (
                 <FormItem>
                   <FormLabel className="font-bold">
-                    Generations per setting
+                    Generations per parameter set
                   </FormLabel>
                   <FormControl>
                     <Input {...field} />
