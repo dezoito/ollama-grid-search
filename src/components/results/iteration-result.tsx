@@ -52,7 +52,7 @@ export default function IterationResult(props: IProps) {
   // Use only the cached queries from the parent component
   // Keep "enabled: false" to run queries in sequence and not concurrently
   const query = useQuery<IResponsePayload>({
-    queryKey: ["get_inference", params],
+    queryKey: ["get_inference", params, params.generation],
     queryFn: (): Promise<IResponsePayload> => get_inference(config, params),
     enabled: enabled,
     staleTime: Infinity,
@@ -65,7 +65,9 @@ export default function IterationResult(props: IProps) {
   const refetchCurrentQuery = async () => {
     setEnabled(true);
     await asyncSleep(1);
-    queryClient.refetchQueries({ queryKey: ["get_inference", params] });
+    queryClient.refetchQueries({
+      queryKey: ["get_inference", params, params.generation],
+    });
     await asyncSleep(1);
 
     setEnabled(false);
@@ -77,7 +79,7 @@ export default function IterationResult(props: IProps) {
         {/* model + inference params */}
 
         <CollapsibleItem
-          title={`${iterationIndex + 1}/${totalIterations} - ${model}`}
+          title={`[${iterationIndex + 1}/${totalIterations}] Gen ${params.generation + 1} | ${model} `}
           triggerText="Inference Parameters"
           defaultOpen={expandParams}
         >

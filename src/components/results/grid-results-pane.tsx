@@ -34,20 +34,28 @@ export default function GridResultsPane() {
                   for (const mirostat of gridParams.mirostatList) {
                     for (const mirostat_tau of gridParams.mirostatTauList) {
                       for (const mirostat_eta of gridParams.mirostatEtaList) {
-                        localIterations.push({
-                          experiment_uuid: gridParams.experiment_uuid,
-                          model: model,
-                          prompt: gridParams.prompt,
-                          temperature: temperature,
-                          repeat_penalty: repeat_penalty,
-                          top_k: top_k,
-                          top_p: top_p,
-                          repeat_last_n: repeat_last_n,
-                          tfs_z: tfs_z,
-                          mirostat: mirostat,
-                          mirostat_tau: mirostat_tau,
-                          mirostat_eta: mirostat_eta,
-                        });
+                        // loop over the number of generations
+                        for (
+                          let generation = 0;
+                          generation < gridParams.generations;
+                          generation++
+                        ) {
+                          localIterations.push({
+                            experiment_uuid: gridParams.experiment_uuid,
+                            model: model,
+                            prompt: gridParams.prompt,
+                            temperature: temperature,
+                            repeat_penalty: repeat_penalty,
+                            top_k: top_k,
+                            top_p: top_p,
+                            repeat_last_n: repeat_last_n,
+                            tfs_z: tfs_z,
+                            mirostat: mirostat,
+                            mirostat_tau: mirostat_tau,
+                            mirostat_eta: mirostat_eta,
+                            generation: generation,
+                          });
+                        }
                       }
                     }
                   }
@@ -61,18 +69,10 @@ export default function GridResultsPane() {
     setIterations(localIterations);
   }, [gridParams.experiment_uuid]);
 
-  // // Define type for query options
-  // type ModelQueryOptions = UseQueryOptions<
-  //   unknown,
-  //   Error,
-  //   unknown,
-  //   string[] | TParamIteration[]
-  // >;
-
   // Enable one query at a time, disable all once they've all been processed
   // so new experiments can run sequentially
   const queries: any = iterations.map((params: TParamIteration, i: number) => ({
-    queryKey: ["get_inference", params],
+    queryKey: ["get_inference", params, params.generation],
     queryFn: () => get_inference(config, params),
     enabled: i === 0 || (i <= noCompleted && noCompleted !== iterations.length),
     staleTime: 0,
@@ -155,9 +155,6 @@ export default function GridResultsPane() {
             />
           </div>
         ))}
-        {/* {results.map((result: any, i: number) => (
-          <pre key={i}>{JSON.stringify(result, null, 2)}</pre>
-        ))} */}
       </div>
     </div>
   );

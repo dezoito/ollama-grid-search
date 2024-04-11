@@ -59,6 +59,7 @@ export const ParamsFormSchema = z.object({
     message: "Select at least 1 model.",
   }),
   prompt: z.string().min(1),
+  generations: z.coerce.number().int().min(1),
   temperatureList: z.custom(
     (value) => validateNumberOrArray("float")(value as string | number),
     {
@@ -158,6 +159,7 @@ export default function FormGridParams() {
       mirostatList: config.default_options.mirostat,
       mirostatTauList: config.default_options.mirostat_tau,
       mirostatEtaList: config.default_options.mirostat_eta,
+      generations: 1,
     },
   });
 
@@ -178,6 +180,7 @@ export default function FormGridParams() {
       mirostatList: paramsToArray(data.mirostatList),
       mirostatTauList: paramsToArray(data.mirostatTauList),
       mirostatEtaList: paramsToArray(data.mirostatEtaList),
+      generations: data.generations,
     });
 
     toast({
@@ -220,6 +223,29 @@ export default function FormGridParams() {
               )}
             />
           </div>
+          {/* generations */}
+          <div className="flex flex-col gap-2">
+            <FormField
+              control={form.control}
+              name="generations"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel className="font-bold">
+                    Generations per setting
+                  </FormLabel>
+                  <FormControl>
+                    <Input {...field} />
+                  </FormControl>
+                  <FormDescription>
+                    Values higher than "1" will result in multiple generations
+                    for each combination of parameters.
+                  </FormDescription>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+          </div>
+
           {/* temperature */}
           <div className="flex flex-col gap-2">
             <FormField

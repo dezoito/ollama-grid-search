@@ -12,6 +12,7 @@ export interface IGridParams {
   mirostatList: number[];
   mirostatTauList: number[];
   mirostatEtaList: number[];
+  generations: number;
 }
 
 // Represents a single set of params to
@@ -30,6 +31,7 @@ export type TParamIteration = {
   mirostat: number;
   mirostat_tau: number;
   mirostat_eta: number;
+  generation: number;
 };
 
 // Interface for the default configuration options
