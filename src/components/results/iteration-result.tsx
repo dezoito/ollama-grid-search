@@ -124,11 +124,31 @@ export default function IterationResult(props: IProps) {
                       <div>
                         Created at: {convertToUTCString(query.data.created_at)}
                       </div>
+                      <div>
+                        Prompt Eval Count: {query.data.prompt_eval_count} tokens
+                      </div>
+                      <div>
+                        Prompt Eval Duration:{" "}
+                        {formatInterval(
+                          convertNanosecondsToTime(
+                            query.data.prompt_eval_duration,
+                          ),
+                        )}
+                      </div>
                       <div>Eval Count: {query.data.eval_count} tokens</div>
                       <div>
                         Eval Duration:{" "}
                         {formatInterval(
                           convertNanosecondsToTime(query.data.eval_duration),
+                        )}
+                      </div>
+                      <div>
+                        Inference Duration (prompt + eval):{" "}
+                        {formatInterval(
+                          convertNanosecondsToTime(
+                            query.data.eval_duration +
+                              query.data.prompt_eval_duration,
+                          ),
                         )}
                       </div>
                       <div>
@@ -138,7 +158,7 @@ export default function IterationResult(props: IProps) {
                         )}
                       </div>
                       <div>
-                        Throughput:{" "}
+                        Throughput (tokens/total_duration):{" "}
                         {tokensPerSecond(
                           query.data.total_duration,
                           query.data.eval_count,
