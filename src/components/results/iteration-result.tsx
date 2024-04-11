@@ -55,7 +55,7 @@ export default function IterationResult(props: IProps) {
     queryKey: ["get_inference", params, params.generation],
     queryFn: (): Promise<IResponsePayload> => get_inference(config, params),
     enabled: enabled,
-    staleTime: Infinity,
+    staleTime: 0,
     // cacheTime: Infinity,
   });
 

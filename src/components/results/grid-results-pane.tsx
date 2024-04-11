@@ -40,6 +40,7 @@ export default function GridResultsPane() {
                           generation < gridParams.generations;
                           generation++
                         ) {
+                          // set seed = generation to ensure results differ when temp > 0
                           localIterations.push({
                             experiment_uuid: gridParams.experiment_uuid,
                             model: model,
@@ -54,6 +55,7 @@ export default function GridResultsPane() {
                             mirostat_tau: mirostat_tau,
                             mirostat_eta: mirostat_eta,
                             generation: generation,
+                            seed: generation,
                           });
                         }
                       }

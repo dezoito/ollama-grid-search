@@ -64,10 +64,11 @@ pub async fn get_inference(
     params: TParamIteration,
     app_handle: tauri::AppHandle,
 ) -> Result<GenerationResponse, Error> {
-    println!("Config and Params");
-    dbg!(&config);
-    dbg!(&params);
-    println!("----------------------------------------------------------");
+    // println!("----------------------------------------------------------");
+    // println!("Config and Params");
+    // dbg!(&config);
+    // dbg!(&params);
+    // println!("----------------------------------------------------------");
 
     let (host_url, port) = split_host_port(&config.server_url).unwrap();
     let ollama = Ollama::new(host_url, port);
@@ -81,7 +82,7 @@ pub async fn get_inference(
         "num_gqa",
         "num_gpu",
         "num_thread",
-        "seed",
+        // "seed",
         "stop",
         "num_predict",
     ] {
@@ -116,13 +117,13 @@ pub async fn get_inference(
                     options_builder = options_builder.num_thread(parsed_value);
                 }
 
-                "seed" => {
-                    let parsed_value = value
-                        .to_string()
-                        .parse::<i32>()
-                        .expect("Failed to parse seed as i32");
-                    options_builder = options_builder.seed(parsed_value);
-                }
+                // "seed" => {
+                //     let parsed_value = value
+                //         .to_string()
+                //         .parse::<i32>()
+                //         .expect("Failed to parse seed as i32");
+                //     options_builder = options_builder.seed(parsed_value);
+                // }
                 "stop" => {
                     let parsed_value = vec![value.to_string()];
                     options_builder = options_builder.stop(parsed_value);
@@ -152,7 +153,8 @@ pub async fn get_inference(
         .tfs_z(params.tfs_z)
         .mirostat(params.mirostat)
         .mirostat_tau(params.mirostat_tau)
-        .mirostat_eta(params.mirostat_eta);
+        .mirostat_eta(params.mirostat_eta)
+        .seed(params.seed);
 
     // dbg!(&options);
 
@@ -181,9 +183,9 @@ pub async fn get_inference(
             return Err(Error::StringError(err_msg));
         }
     };
-    // println!("---------------------------------------------");
-    // dbg!(&res);
-    // println!("---------------------------------------------");
+    println!("---------------------------------------------");
+    dbg!(&res);
+    println!("---------------------------------------------");
 
     // sets the base path for storing logs
     // see https://github.com/tauri-apps/tauri/discussions/5557
