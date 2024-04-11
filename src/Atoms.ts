@@ -44,11 +44,11 @@ const defaultConfigs: IDefaultConfigs = {
     repeat_last_n: 64,
     repeat_penalty: 1.1,
     temperature: 0.7,
-    seed: 42,
     tfs_z: 1,
     top_k: 40,
     top_p: 0.9,
     stop: ["AI assistant:"],
+    // seed: 42, // we now use the number of generation for each result
     // num_predict: 42,
     // num_thread: 8, // may cause issues if set
     // ------------
@@ -90,6 +90,7 @@ export const defaultGridParams = {
   mirostatList: [defaultConfigs.default_options.mirostat],
   mirostatTauList: [defaultConfigs.default_options.mirostat_tau],
   mirostatEtaList: [defaultConfigs.default_options.mirostat_eta],
+  generations: 1,
 };
 
 export const gridParamsAtom = atom<IGridParams>(defaultGridParams);
