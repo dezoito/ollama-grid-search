@@ -1,3 +1,4 @@
+use reqwest::Client;
 use std::fs;
 use tokio::time::{self, Duration};
 
@@ -23,6 +24,42 @@ pub async fn get_models(config: IDefaultConfigs) -> Result<Vec<String>, Error> {
 
     let model_list: Vec<String> = models.into_iter().map(|model| model.name).collect();
     Ok(model_list)
+}
+
+#[tauri::command]
+pub async fn get_ollama_version(config: IDefaultConfigs) -> Result<String, Error> {
+    println!("Fetching ollama version from {}", &config.server_url);
+    let url = format!("{}/api/version", config.server_url);
+
+    let timeout = Duration::from_secs(config.clone().request_timeout); // in seconds
+    let client = Client::new();
+
+    // Send the POST request with the provided body
+    let response = client
+        .get(url)
+        .json("post:''")
+        .timeout(timeout)
+        .send()
+        .await
+        .map_err(|err| match err {
+            err => Error::StringError(
+                "Version Request failed with status: ".to_string() + &err.to_string(),
+            ),
+        })?;
+
+    dbg!(response);
+
+    // // Process the response
+    // if response.status().is_server_error() {
+    //     // Handle unsuccessful response (e.g., print status code)
+    //     eprintln!("Request failed with status: {:?}", response.status());
+
+    //     // Create a custom error using anyhow
+    //     // Err("Request failed with status: {:?}", response.status())
+    //     Err("Request failed with status: {:?}", response.status())
+    // }
+
+    Ok("0.0.0".to_string())
 }
 
 #[tauri::command]
@@ -124,6 +161,13 @@ pub async fn get_inference(
     // dbg!(&options);
 
     let system_prompt = &config.system_prompt;
+
+    // Preload the model by sending an empty prompt
+    // GenerationRequest::new(params.clone().model, "".to_string())
+    //     .options(options.clone())
+    //     .system(system_prompt.into())
+    //     .keep_alive(KeepAlive::Indefinitely);
+
     let req = GenerationRequest::new(params.clone().model, params.clone().prompt)
         .options(options)
         .system(system_prompt.into())

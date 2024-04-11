@@ -18,7 +18,7 @@ import {
 import { useQuery } from "@tanstack/react-query";
 import { useAtom } from "jotai";
 import { useEffect } from "react";
-import { get_models } from "../queries";
+import { get_models, get_ollama_version } from "../queries";
 
 interface IProps {
   form: any;
@@ -37,6 +37,13 @@ function ModelSelector(props: IProps) {
     refetchInterval: 1000 * 30,
     staleTime: 0,
     // cacheTime: 0,
+  });
+
+  const versionQuery = useQuery<string>({
+    queryKey: ["get_ollama_version"],
+    queryFn: (): Promise<string> => get_ollama_version(config),
+    refetchOnWindowFocus: "always",
+    staleTime: 0,
   });
 
   // Is we change server_url, select models from new server
@@ -70,6 +77,11 @@ function ModelSelector(props: IProps) {
               <span className="text-sm text-gray-500">
                 ({(query.data as string[]).length} available on{" "}
                 {config.server_url})
+              </span>
+              <span className="text-sm text-gray-500">
+                {versionQuery.data && (
+                  <pre>{JSON.stringify(versionQuery.data)}</pre>
+                )}
               </span>
             </FormLabel>
           </div>

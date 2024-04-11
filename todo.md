@@ -58,12 +58,15 @@ https://github.com/tauri-apps/plugins-workspace/tree/v1/plugins/single-instance
 [ok] - Supports user input for adicional parameters: tfs_z, mirostat, mirostat_eta and mirostat_tau.
 
 --- v0.2.2
-[ok] - Adds the application's version number to the settings interface
+[ok] - Adds the application's version number to the settings interfac
 [ok] - Allows inspecting past experiments without downloading them
 
 
 ---
 
+- Display Ollama's version next to the selected server
+- Allow multiple generations for each param combination
+- Allow pre-loading a model before running inference with it (benchmark avg time for this operation)
 - Allow re-running past experiments
 
 - Add a damn icon.

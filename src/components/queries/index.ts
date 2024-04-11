@@ -36,6 +36,21 @@ export async function get_models(config: IDefaultConfigs): Promise<string[]> {
 }
 
 /**
+ * Retrieves ollama version from the server.
+ *
+ * @return {Promise<string>} The version number string
+ */
+export async function get_ollama_version(
+  config: IDefaultConfigs,
+): Promise<string> {
+  console.log("trying to get ollama version from client");
+  const version = await invoke<string>("get_ollama_version", {
+    config: config,
+  });
+  return version;
+}
+
+/**
  * Retrieves a list of experiments from the server.
  *
  * @return {Promise<IExperimentFile[]>} The list of experiment files retrieved from the server.
