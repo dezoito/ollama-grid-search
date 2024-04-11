@@ -64,6 +64,7 @@ https://github.com/tauri-apps/plugins-workspace/tree/v1/plugins/single-instance
 
 ---
 
+- Calculate inference time and use this value to calc throughput.
 - Display Ollama's version next to the selected server
   - Check for slashes in server url
   - refetch version when config changes

@@ -31,8 +31,10 @@ pub async fn get_ollama_version(config: IDefaultConfigs) -> Result<String, Error
     // In this command we use reqwest since ollama_rs does not have a method to get
     // the ollama server version
     println!("Fetching ollama version from {}", &config.server_url);
-
-    let url = format!("{}/api/version", config.server_url);
+    let mut url = format!("{}/api/version", config.server_url);
+    if url.ends_with('/') {
+        url.pop();
+    }
 
     let timeout = Duration::from_secs(config.clone().request_timeout); // in seconds
     let client = Client::new();

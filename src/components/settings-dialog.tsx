@@ -122,6 +122,9 @@ export function SettingsDialog() {
               <DialogTitle>Settings</DialogTitle>
               <DialogDescription>
                 Set default values for interacting with Ollama.
+                <div className="pt-1 text-xs text-gray-500">
+                  Ollama Grid Search version {appVersion}
+                </div>
               </DialogDescription>
             </DialogHeader>
             {/* 
@@ -216,9 +219,6 @@ export function SettingsDialog() {
             </div>
             <DialogFooter>
               <div className="flex w-full items-center justify-around">
-                <div className="text-xs text-gray-500">
-                  Ollama Grid Search version {appVersion}
-                </div>
                 <Button type="submit">Save changes</Button>
               </div>
             </DialogFooter>
