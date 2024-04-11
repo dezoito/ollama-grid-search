@@ -52,7 +52,7 @@ export default function IterationResult(props: IProps) {
   // Use only the cached queries from the parent component
   // Keep "enabled: false" to run queries in sequence and not concurrently
   const query = useQuery<IResponsePayload>({
-    queryKey: ["get_inference", params, params.generation],
+    queryKey: ["get_inference", params],
     queryFn: (): Promise<IResponsePayload> => get_inference(config, params),
     enabled: enabled,
     staleTime: 0,
@@ -66,7 +66,7 @@ export default function IterationResult(props: IProps) {
     setEnabled(true);
     await asyncSleep(1);
     queryClient.refetchQueries({
-      queryKey: ["get_inference", params, params.generation],
+      queryKey: ["get_inference", params],
     });
     await asyncSleep(1);
 

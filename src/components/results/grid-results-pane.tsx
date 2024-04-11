@@ -74,7 +74,7 @@ export default function GridResultsPane() {
   // Enable one query at a time, disable all once they've all been processed
   // so new experiments can run sequentially
   const queries: any = iterations.map((params: TParamIteration, i: number) => ({
-    queryKey: ["get_inference", params, params.generation],
+    queryKey: ["get_inference", params],
     queryFn: () => get_inference(config, params),
     enabled: i === 0 || (i <= noCompleted && noCompleted !== iterations.length),
     staleTime: 0,
