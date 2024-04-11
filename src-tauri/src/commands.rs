@@ -28,8 +28,10 @@ pub async fn get_models(config: IDefaultConfigs) -> Result<Vec<String>, Error> {
 
 #[tauri::command]
 pub async fn get_ollama_version(config: IDefaultConfigs) -> Result<String, Error> {
+    // In this command we use reqwest since ollama_rs does not have a method to get
+    // the ollama server version
     println!("Fetching ollama version from {}", &config.server_url);
-    //TODO, add slash to url if it's missing
+
     let url = format!("{}/api/version", config.server_url);
 
     let timeout = Duration::from_secs(config.clone().request_timeout); // in seconds

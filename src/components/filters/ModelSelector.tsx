@@ -78,7 +78,7 @@ function ModelSelector(props: IProps) {
               Models{" "}
               <span className="text-sm text-gray-500">
                 ({(query.data as string[]).length} available on{" "}
-                {config.server_url} v.
+                {config.server_url} - Ollama v.
                 {versionQuery.data && JSON.parse(versionQuery.data).version})
               </span>
             </FormLabel>

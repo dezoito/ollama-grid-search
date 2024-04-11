@@ -73,11 +73,15 @@ export function SettingsDialog() {
     //   console.log("FORM ERRORS", form.formState.errors);
     // }
 
+    // remove slash from server_url after port if it was added
+    if (data.server_url.charAt(data.server_url.length - 1) === "/") {
+      data = {
+        ...data,
+        server_url: data.server_url.slice(0, -1),
+      };
+    }
+
     const old_server_url = config.server_url;
-    toast({
-      title: "Settings updated.",
-      duration: 2500,
-    });
 
     // * convert default_options to object and save changes
     setConfig({
@@ -92,6 +96,11 @@ export function SettingsDialog() {
     }
 
     setOpen(false);
+
+    toast({
+      title: "Settings updated.",
+      duration: 2500,
+    });
   }
 
   /*  
