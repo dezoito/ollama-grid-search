@@ -39,11 +39,9 @@ pub async fn get_ollama_version(config: IDefaultConfigs) -> Result<String, Error
     let timeout = Duration::from_secs(config.clone().request_timeout); // in seconds
     let client = Client::new();
 
-    // Send the POST request with the provided body
-    dbg!(&url);
+    // dbg!(&url);
     let response = client
         .get(url)
-        .json("post:''")
         .timeout(timeout)
         .send()
         .await
@@ -82,7 +80,6 @@ pub async fn get_inference(
         "num_gqa",
         "num_gpu",
         "num_thread",
-        // "seed",
         "stop",
         "num_predict",
     ] {
