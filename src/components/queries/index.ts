@@ -38,6 +38,7 @@ export async function get_models(config: IDefaultConfigs): Promise<string[]> {
 /**
  * Retrieves ollama version from the server.
  *
+ * @param {IDefaultConfigs} config - the default configurations
  * @return {Promise<string>} The version number string
  */
 export async function get_ollama_version(

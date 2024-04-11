@@ -29,12 +29,14 @@ pub async fn get_models(config: IDefaultConfigs) -> Result<Vec<String>, Error> {
 #[tauri::command]
 pub async fn get_ollama_version(config: IDefaultConfigs) -> Result<String, Error> {
     println!("Fetching ollama version from {}", &config.server_url);
+    //TODO, add slash to url if it's missing
     let url = format!("{}/api/version", config.server_url);
 
     let timeout = Duration::from_secs(config.clone().request_timeout); // in seconds
     let client = Client::new();
 
     // Send the POST request with the provided body
+    dbg!(&url);
     let response = client
         .get(url)
         .json("post:''")
@@ -47,19 +49,9 @@ pub async fn get_ollama_version(config: IDefaultConfigs) -> Result<String, Error
             ),
         })?;
 
-    dbg!(response);
+    dbg!(&response);
 
-    // // Process the response
-    // if response.status().is_server_error() {
-    //     // Handle unsuccessful response (e.g., print status code)
-    //     eprintln!("Request failed with status: {:?}", response.status());
-
-    //     // Create a custom error using anyhow
-    //     // Err("Request failed with status: {:?}", response.status())
-    //     Err("Request failed with status: {:?}", response.status())
-    // }
-
-    Ok("0.0.0".to_string())
+    Ok(response.text().await.unwrap())
 }
 
 #[tauri::command]

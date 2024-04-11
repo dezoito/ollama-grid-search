@@ -65,6 +65,8 @@ https://github.com/tauri-apps/plugins-workspace/tree/v1/plugins/single-instance
 ---
 
 - Display Ollama's version next to the selected server
+  - Check for slashes in server url
+  - refetch version when config changes
 - Allow multiple generations for each param combination
 - Allow pre-loading a model before running inference with it (benchmark avg time for this operation)
 - Allow re-running past experiments

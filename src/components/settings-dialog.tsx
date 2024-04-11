@@ -85,9 +85,10 @@ export function SettingsDialog() {
       default_options: JSON.parse(data.default_options),
     });
 
-    // Update models in form, in case user changed the server_url field
+    // Update models and version in form, in case user changed the server_url field
     if (data.server_url !== old_server_url) {
       queryClient.refetchQueries({ queryKey: ["get_models"] });
+      queryClient.refetchQueries({ queryKey: ["get_ollama_version"] });
     }
 
     setOpen(false);

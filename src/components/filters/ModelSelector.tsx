@@ -44,6 +44,7 @@ function ModelSelector(props: IProps) {
     queryFn: (): Promise<string> => get_ollama_version(config),
     refetchOnWindowFocus: "always",
     staleTime: 0,
+    // cacheTime: 0,
   });
 
   // Is we change server_url, select models from new server
@@ -76,12 +77,8 @@ function ModelSelector(props: IProps) {
               Models{" "}
               <span className="text-sm text-gray-500">
                 ({(query.data as string[]).length} available on{" "}
-                {config.server_url})
-              </span>
-              <span className="text-sm text-gray-500">
-                {versionQuery.data && (
-                  <pre>{JSON.stringify(versionQuery.data)}</pre>
-                )}
+                {config.server_url} v.
+                {versionQuery.data && JSON.parse(versionQuery.data).version})
               </span>
             </FormLabel>
           </div>
