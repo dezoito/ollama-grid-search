@@ -25,7 +25,7 @@ tauri-plugin-single-instance = { git = "https://github.com/tauri-apps/plugins-wo
 # See https://github.com/tauri-apps/tauri/issues/4470#issuecomment-1170342732
 ollama-rs = { version = "0.1.8", default-features = false, features = ["rustls"] }
 chrono = "0.4.34"
-reqwest = {version = "0.12.2", features = ["blocking", "json"] }
+reqwest = {version = "0.12.2", features = ["blocking", "json", "rustls-tls"], default-features = false  }
 
 [features]
 # this feature is used for production builds or when `devPath` points to the filesystem
