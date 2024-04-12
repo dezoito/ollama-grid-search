@@ -69,7 +69,7 @@ Similarly, you can perform A/B tests by selecting different models and compare r
 
 ## Experiment Logs
 
-You can list your experiments and download the corresponding logs in JSON:
+You can list, inspect, or download your experiments:
 
 [<img src="./screenshots/experiments.png?raw=true" alt="Settings" width="720">](./screenshots/experiments.png?raw=true)
 
