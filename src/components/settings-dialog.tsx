@@ -31,13 +31,19 @@ import { useAtom } from "jotai";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import z from "zod";
-const appVersion = await getVersion();
 
 export function SettingsDialog() {
   const { toast } = useToast();
   const [open, setOpen] = useState(false);
   const [config, setConfig] = useAtom(configAtom);
   const queryClient = useQueryClient();
+  const [appVersion, setAppVersion] = useState<string>();
+
+  const appVersionPromise = getVersion();
+  (async () => {
+    let v = await appVersionPromise;
+    setAppVersion(v);
+  })();
 
   // * default_options has to be valid JSON
   const FormSchema = z.object({
