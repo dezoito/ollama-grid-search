@@ -108,6 +108,6 @@ cd ollama-grid-search
    ```
 5. Go grab a cup of coffee because this may take a while.
 
-## Thanks
+## Thank you!
 
 Huge thanks to [@FabianLars](https://github.com/FabianLars), [@peperroni21](https://github.com/pepperoni21) and [@TomReidNZ](https://github.com/TomReidNZ).
