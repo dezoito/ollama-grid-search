@@ -23,6 +23,7 @@ Check the [releases page](https://github.com/dezoito/ollama-grid-search/releases
 - Automatically fetches models from local or remote Ollama servers;
 - Iterates over different models and params to generate inferences;
 - A/B test prompts on different models simultaneously
+- Allows multiple iterations for each combination of parameters;
 - Makes synchronous inference calls to avoid spamming servers;
 - Optionally output inference parameters and response metadata (inference time, tokens and tokens/s);
 - Refetching of single inference calls;

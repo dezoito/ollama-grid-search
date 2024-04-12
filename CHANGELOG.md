@@ -2,12 +2,15 @@
 
 All notable changes to this project will be documented in this file.
 
-## [Version 0.2.2] - 2024-04-10
+## [Version 0.3.0] - 2024-04-12
 
 ### Added
 
-- Adds current version number to the settings interface.
+- Allow multiple generations for each combination of parameters.
+- Improved metrics are displayed after inference results
 - Allows inspecting past experiments without the need to download the corresponding file.
+- Displays current version number to the settings interface.
+- Displays the version of Ollama running on the selected server
 
 ## [Version 0.2.1] - 2024-03-24
 

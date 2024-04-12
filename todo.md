@@ -61,20 +61,22 @@ https://github.com/tauri-apps/plugins-workspace/tree/v1/plugins/single-instance
 [ok] - Adds the application's version number to the settings interfac
 [ok] - Allows inspecting past experiments without downloading them
 
-
----
+--- v0.3.0
 
 [ok] - Calculate inference time and use this value to calc throughput.
 [ok] - Display Ollama's version next to the selected server
 [ok] - Check for slashes in server url
 [ok] - refetch version when config changes
 
-- Allow multiple generations for each param combination
-  - add generations to queryKeys and when refetching
-  - add field to form and Interfaces or Structs
-  - Show generations number at output
-  - recalculate total number of iterations
-- Allow pre-loading a model before running inference with it (benchmark avg time for this operation)
+[ok] - Allow multiple generations for each param combination
+add generations to queryKeys and when refetching
+add field to form and Interfaces or Structs
+Show generations number at output
+recalculate total number of iterations
+
+---
+
+- [?] Allow pre-loading a model before running inference with it (benchmark avg time for this operation)
 - Allow re-running past experiments
 
 - Add a damn icon.
