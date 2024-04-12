@@ -30,7 +30,7 @@ pub async fn get_models(config: IDefaultConfigs) -> Result<Vec<String>, Error> {
 pub async fn get_ollama_version(config: IDefaultConfigs) -> Result<String, Error> {
     // In this command we use reqwest since ollama_rs does not have a method to get
     // the ollama server version
-    let mut server = config.server_url;
+    let mut server = config.server_url.clone();
     if server.ends_with('/') {
         server.pop();
     }

@@ -32,7 +32,7 @@ const atomWithLocalStorage = (key: string, initialValue: unknown) => {
 // I've kept only the documented ones at default values
 const defaultConfigs: IDefaultConfigs = {
   request_timeout: 300,
-  server_url: "http://localhost:11434/",
+  server_url: "http://localhost:11434",
   system_prompt: "",
   default_options: {
     mirostat: 0,
