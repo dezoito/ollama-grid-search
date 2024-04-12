@@ -6,7 +6,7 @@ All notable changes to this project will be documented in this file.
 
 ### Added
 
-- Allow multiple generations for each combination of parameters.
+- Allows multiple generations for each combination of parameters.
 - Improved metrics are displayed after inference results
 - Allows inspecting past experiments without the need to download the corresponding file.
 - Displays current version number to the settings interface.
