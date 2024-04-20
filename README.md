@@ -2,6 +2,8 @@
 
 A Rust based tool to evaluate LLM models, prompts and model params.
 
+(Issues with Llama3? Please read [this](https://github.com/dezoito/ollama-grid-search/issues/8)).
+
 ## Purpose
 
 This project aims to automate the process of selecting the best model parameters, given an LLM model and a prompt, iterating over the possible combinations and letting the user visually inspect the results.
