@@ -433,7 +433,7 @@ export default function FormGridParams() {
               {/* Ensure the button-area stays within the column */}
               <Button type="submit" disabled={!!isFetching}>
                 {!!isFetching ? (
-                  <div className="flex gap-2">
+                  <div className="flex gap-2 items-center">
                     <Spinner className="h-4 w-4" /> <>Running...</>
                   </div>
                 ) : (
