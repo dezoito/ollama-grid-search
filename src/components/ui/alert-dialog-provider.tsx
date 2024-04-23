@@ -152,7 +152,7 @@ export function AlertDialogProvider({
                 {state.cancelButton}
               </Button>
               {state.type === "alert" ? null : (
-                <Button type="submit">{state.actionButton}</Button>
+                <Button type="submit" variant="destructive">{state.actionButton}</Button>
               )}
             </AlertDialogFooter>
           </form>
