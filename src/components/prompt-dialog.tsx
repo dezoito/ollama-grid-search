@@ -78,14 +78,12 @@ export function PromptDialog(props: IProps) {
       <Dialog open={open} onOpenChange={setOpen}>
         <DialogTrigger asChild>
           <Button variant="transparentDark" size="sm" type="button">
-            <TooltipProvider>
-              <Tooltip>
-                <TooltipTrigger asChild>
-                  <EnterFullScreenIcon className="h-4 w-4 text-cyan-50" />
-                </TooltipTrigger>
-                <TooltipContent>Expand prompt input</TooltipContent>
-              </Tooltip>
-            </TooltipProvider>
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <EnterFullScreenIcon className="h-4 w-4 text-cyan-50" />
+              </TooltipTrigger>
+              <TooltipContent>Expand prompt input</TooltipContent>
+            </Tooltip>
           </Button>
         </DialogTrigger>
         <DialogContent className="sm:max-w-[90%]">
