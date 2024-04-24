@@ -24,6 +24,12 @@ import {
 import Spinner from "./spinner";
 import { Textarea } from "./textarea";
 import { useToast } from "./use-toast";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
+import { InfoCircledIcon } from "@radix-ui/react-icons";
 
 const validateNumberOrArray =
   (inputType: "float" | "int") => (value: string | number) => {
@@ -253,7 +259,17 @@ export default function FormGridParams() {
               name="temperatureList"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel className="font-bold">Temperature List</FormLabel>
+                  <FormLabel className="font-bold flex items-center">
+                    <span className="flex-1">Temperature List</span>
+                    <Button variant="transparentDark" size="sm" type="button">
+                      <Tooltip>
+                        <TooltipTrigger asChild>
+                          <InfoCircledIcon className="h-4 w-4 text-cyan-50" />
+                        </TooltipTrigger>
+                        <TooltipContent>The temperature of the model. Increasing the temperature will make the model answer more creatively.</TooltipContent>
+                      </Tooltip>
+                    </Button>
+                  </FormLabel>
                   <FormControl>
                     <Input {...field} />
                   </FormControl>
@@ -272,8 +288,16 @@ export default function FormGridParams() {
               name="repeatPenaltyList"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel className="font-bold">
-                    Repeat Penalty List
+                  <FormLabel className="font-bold flex items-center">
+                    <span className="flex-1">Repeat Penalty List</span>
+                    <Button variant="transparentDark" size="sm" type="button">
+                      <Tooltip>
+                        <TooltipTrigger asChild>
+                          <InfoCircledIcon className="h-4 w-4 text-cyan-50" />
+                        </TooltipTrigger>
+                        <TooltipContent>Sets how strongly to penalize repetitions. A higher value (e.g., 1.5) will penalize repetitions more strongly, while a lower value (e.g., 0.9) will be more lenient.</TooltipContent>
+                      </Tooltip>
+                    </Button>
                   </FormLabel>
                   <FormControl>
                     <Input {...field} />
@@ -293,7 +317,17 @@ export default function FormGridParams() {
               name="topKList"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel className="font-bold">Top_K List</FormLabel>
+                  <FormLabel className="font-bold flex items-center">
+                    <span className="flex-1">Top_K List</span>
+                    <Button variant="transparentDark" size="sm" type="button">
+                      <Tooltip>
+                        <TooltipTrigger asChild>
+                          <InfoCircledIcon className="h-4 w-4 text-cyan-50" />
+                        </TooltipTrigger>
+                        <TooltipContent>Reduces the probability of generating nonsense. A higher value (e.g. 100) will give more diverse answers, while a lower value (e.g. 10) will be more conservative.</TooltipContent>
+                      </Tooltip>
+                    </Button>
+                  </FormLabel>
                   <FormControl>
                     <Input {...field} />
                   </FormControl>
@@ -312,7 +346,17 @@ export default function FormGridParams() {
               name="topPList"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel className="font-bold">Top_P List</FormLabel>
+                  <FormLabel className="font-bold flex items-center">
+                    <span className="flex-1">Top_P List</span>
+                    <Button variant="transparentDark" size="sm" type="button">
+                      <Tooltip>
+                        <TooltipTrigger asChild>
+                          <InfoCircledIcon className="h-4 w-4 text-cyan-50" />
+                        </TooltipTrigger>
+                        <TooltipContent>Works together with top-k. A higher value (e.g., 0.95) will lead to more diverse text, while a lower value (e.g., 0.5) will generate more focused and conservative text.</TooltipContent>
+                      </Tooltip>
+                    </Button>
+                  </FormLabel>
                   <FormControl>
                     <Input {...field} />
                   </FormControl>
@@ -332,8 +376,16 @@ export default function FormGridParams() {
               name="repeatLastNList"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel className="font-bold">
-                    Repeat_Last_N List
+                  <FormLabel className="font-bold flex items-center">
+                    <span className="flex-1">Repeat_Last_N List</span>
+                    <Button variant="transparentDark" size="sm" type="button">
+                      <Tooltip>
+                        <TooltipTrigger asChild>
+                          <InfoCircledIcon className="h-4 w-4 text-cyan-50" />
+                        </TooltipTrigger>
+                        <TooltipContent>Sets how far back for the model to look back to prevent repetition. (Default: 64, 0 = disabled, -1 = num_ctx)</TooltipContent>
+                      </Tooltip>
+                    </Button>
                   </FormLabel>
                   <FormControl>
                     <Input {...field} />
@@ -354,7 +406,17 @@ export default function FormGridParams() {
               name="tfsZList"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel className="font-bold">Tfs_Z List</FormLabel>
+                  <FormLabel className="font-bold flex items-center">
+                    <span className="flex-1">Tfs_Z List</span>
+                    <Button variant="transparentDark" size="sm" type="button">
+                      <Tooltip>
+                        <TooltipTrigger asChild>
+                          <InfoCircledIcon className="h-4 w-4 text-cyan-50" />
+                        </TooltipTrigger>
+                        <TooltipContent>Tail free sampling is used to reduce the impact of less probable tokens from the output. A higher value (e.g., 2.0) will reduce the impact more, while a value of 1.0 disables this setting.</TooltipContent>
+                      </Tooltip>
+                    </Button>
+                  </FormLabel>
                   <FormControl>
                     <Input {...field} />
                   </FormControl>
@@ -373,7 +435,17 @@ export default function FormGridParams() {
               name="mirostatList"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel className="font-bold">Mirostat List</FormLabel>
+                  <FormLabel className="font-bold flex items-center">
+                    <span className="flex-1">Mirostat List</span>
+                    <Button variant="transparentDark" size="sm" type="button">
+                      <Tooltip>
+                        <TooltipTrigger asChild>
+                          <InfoCircledIcon className="h-4 w-4 text-cyan-50" />
+                        </TooltipTrigger>
+                        <TooltipContent>Enable Mirostat sampling for controlling perplexity. (default: 0, 0 = disabled, 1 = Mirostat, 2 = Mirostat 2.0)</TooltipContent>
+                      </Tooltip>
+                    </Button>
+                  </FormLabel>
                   <FormControl>
                     <Input {...field} />
                   </FormControl>
@@ -392,7 +464,17 @@ export default function FormGridParams() {
               name="mirostatTauList"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel className="font-bold">Mirostat Tau List</FormLabel>
+                  <FormLabel className="font-bold flex items-center">
+                    <span className="flex-1">Mirostat Tau List</span>
+                    <Button variant="transparentDark" size="sm" type="button">
+                      <Tooltip>
+                        <TooltipTrigger asChild>
+                          <InfoCircledIcon className="h-4 w-4 text-cyan-50" />
+                        </TooltipTrigger>
+                        <TooltipContent>Controls the balance between coherence and diversity of the output. A lower value will result in more focused and coherent text.</TooltipContent>
+                      </Tooltip>
+                    </Button>
+                  </FormLabel>
                   <FormControl>
                     <Input {...field} />
                   </FormControl>
@@ -411,7 +493,17 @@ export default function FormGridParams() {
               name="mirostatEtaList"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel className="font-bold">Mirostat Eta List</FormLabel>
+                  <FormLabel className="font-bold flex items-center">
+                    <span className="flex-1">Mirostat Eta List</span>
+                    <Button variant="transparentDark" size="sm" type="button">
+                      <Tooltip>
+                        <TooltipTrigger asChild>
+                          <InfoCircledIcon className="h-4 w-4 text-cyan-50" />
+                        </TooltipTrigger>
+                        <TooltipContent>Influences how quickly the algorithm responds to feedback from the generated text. A lower learning rate will result in slower adjustments, while a higher learning rate will make the algorithm more responsive.</TooltipContent>
+                      </Tooltip>
+                    </Button>
+                  </FormLabel>
                   <FormControl>
                     <Input {...field} />
                   </FormControl>
