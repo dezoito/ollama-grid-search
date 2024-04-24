@@ -26,7 +26,7 @@ function App() {
       <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
         <ErrorBoundary>
           <AlertDialogProvider>
-            <TooltipProvider>
+            <TooltipProvider delayDuration="100" skipDelayDuration="700">
               <Layout />
             </TooltipProvider>
           </AlertDialogProvider>
