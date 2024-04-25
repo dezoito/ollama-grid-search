@@ -119,7 +119,7 @@ export function SettingsDialog() {
       <Dialog open={open} onOpenChange={setOpen}>
         <DialogTrigger asChild>
           <Button variant="transparentDark" size="icon">
-            <GearIcon className="h-5 w-5 text-cyan-50" />
+            <GearIcon className="h-5 w-5" />
           </Button>
         </DialogTrigger>
         <DialogContent className="sm:max-w-[425px]">

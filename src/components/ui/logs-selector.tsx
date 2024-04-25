@@ -61,7 +61,7 @@ export function LogsSelector() {
             })
           }
         >
-          <FileTextIcon className="h-5 w-5 text-cyan-50" />
+          <FileTextIcon className="h-5 w-5" />
         </Button>
       </SheetTrigger>
       <SheetContent className="w-[500px] sm:max-w-none">
@@ -83,8 +83,8 @@ export function LogsSelector() {
                 className="my-1 flex items-center gap-2 justify-self-start rounded-sm p-2 transition-colors duration-200 hover:bg-gray-100 dark:hover:bg-gray-800"
                 key={exp.name}
               >
-                <div className="py-1">
-                  <div className="w-[300px] text-[14px] font-semibold">
+                <div className="flex-1 py-1">
+                  <div className="text-[14px] font-semibold">
                     {convertEpochToDateTime(exp.created.secs_since_epoch)}
                   </div>
 
