@@ -17,6 +17,13 @@ export default function GridResultsPane() {
   const [expandParams, setExpandParams] = useState(false);
   const [expandMetadata, setExpandMetadata] = useState(false);
   const [config, __] = useAtom(configAtom);
+  const [experimentDate, setExperimentDate] = useState<string>(
+    new Date().toUTCString(),
+  );
+
+  useEffect(() => {
+    setExperimentDate(new Date().toUTCString());
+  }, [gridParams]);
 
   //https://stackoverflow.com/questions/76933229/can-react-query-make-sequential-network-calls-and-wait-for-previous-one-to-finis
 
@@ -135,7 +142,7 @@ export default function GridResultsPane() {
 
         <Separator className="my-4" />
         <div>
-          <div>Experiment started on {new Date().toUTCString()}.</div>
+          <div>Experiment started on {experimentDate}.</div>
           <div>
             Iterations: {noCompleted}/{iterations.length}
           </div>
