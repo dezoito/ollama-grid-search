@@ -98,7 +98,7 @@ function ModelSelector(props: IProps) {
                       return (
                         <FormItem
                           key={idx.toString()}
-                          className="flex flex-row items-start space-x-3 space-y-0"
+                          className="flex flex-row items-start space-x-3 space-y-0 w-full"
                         >
                           <FormControl>
                             <Checkbox
@@ -114,7 +114,7 @@ function ModelSelector(props: IProps) {
                               }}
                             />
                           </FormControl>
-                          <FormLabel className="text-sm font-normal">
+                          <FormLabel className="text-sm font-normal w-full">
                             {option}
                           </FormLabel>
                         </FormItem>
