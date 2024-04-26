@@ -114,7 +114,7 @@ pub async fn get_inference(
                         .expect("Failed to parse num_thread as u32");
                     options_builder = options_builder.num_thread(parsed_value);
                 }
-
+                // Commented since a different seed is used at each generation (for the same model/params)
                 // "seed" => {
                 //     let parsed_value = value
                 //         .to_string()
@@ -156,7 +156,8 @@ pub async fn get_inference(
 
     // dbg!(&options);
 
-    let system_prompt = &config.system_prompt;
+    // get prompt defined in settings
+    //let system_prompt = &config.system_prompt;
 
     // Preload the model by sending an empty prompt
     // GenerationRequest::new(params.clone().model, "".to_string())
@@ -166,7 +167,7 @@ pub async fn get_inference(
 
     let req = GenerationRequest::new(params.clone().model, params.clone().prompt)
         .options(options)
-        .system(system_prompt.into())
+        .system(params.clone().system_prompt.into())
         .keep_alive(KeepAlive::UnloadOnCompletion);
 
     dbg!(&req);

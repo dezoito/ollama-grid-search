@@ -52,6 +52,7 @@ export default function GridResultsPane() {
                             experiment_uuid: gridParams.experiment_uuid,
                             model: model,
                             prompt: gridParams.prompt,
+                            system_prompt: gridParams.system_prompt,
                             temperature: temperature,
                             repeat_penalty: repeat_penalty,
                             top_k: top_k,

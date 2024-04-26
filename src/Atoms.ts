@@ -33,7 +33,7 @@ const atomWithLocalStorage = (key: string, initialValue: unknown) => {
 const defaultConfigs: IDefaultConfigs = {
   request_timeout: 300,
   server_url: "http://localhost:11434",
-  system_prompt: "",
+  system_prompt_prompt: "",
   default_options: {
     mirostat: 0,
     mirostat_tau: 5.0,
@@ -47,7 +47,7 @@ const defaultConfigs: IDefaultConfigs = {
     tfs_z: 1,
     top_k: 40,
     top_p: 0.9,
-    stop: ["AI assistant:"],
+    // stop: ["AI assistant:"],  // commented due to causing issues with Llama3
     // seed: 42, // we now use the number of generation for each result
     // num_predict: 42,
     // num_thread: 8, // may cause issues if set
@@ -81,6 +81,7 @@ export const defaultGridParams = {
   experiment_uuid: "",
   models: [],
   prompt: "",
+  system_prompt: "",
   temperatureList: [defaultConfigs.default_options.temperature],
   repeatPenaltyList: [defaultConfigs.default_options.repeat_penalty],
   topKList: [defaultConfigs.default_options.top_k],

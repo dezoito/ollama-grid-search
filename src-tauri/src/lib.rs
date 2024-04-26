@@ -39,6 +39,7 @@ pub struct TParamIteration {
     pub experiment_uuid: String,
     pub model: String,
     pub prompt: String,
+    pub system_prompt: String,
     pub temperature: f32,
     pub repeat_penalty: f32,
     pub top_k: u32,

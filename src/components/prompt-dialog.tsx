@@ -21,7 +21,6 @@ import { Textarea } from "@/components/ui/textarea";
 import {
   Tooltip,
   TooltipContent,
-  TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -34,27 +33,29 @@ import z from "zod";
 interface IProps {
   originalForm: any;
   content: string;
+  fieldName: string;
+  fieldLabel: string;
 }
 
 export function PromptDialog(props: IProps) {
-  const { originalForm, content } = props;
+  const { originalForm, content, fieldName, fieldLabel } = props;
   const [open, setOpen] = useState(false);
 
   // * default_options has to be valid JSON
   const FormSchema = z.object({
-    prompt: z.string(),
+    [fieldName]: z.string(),
   });
 
   // * format default_options to display in form
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
     defaultValues: {
-      prompt: content,
+      [fieldName]: content,
     },
   });
 
   function onSubmit(data: z.infer<typeof FormSchema>) {
-    originalForm.setValue("prompt", data.prompt);
+    originalForm.setValue(fieldName, data[fieldName]);
     setOpen(false);
   }
 
@@ -65,7 +66,7 @@ export function PromptDialog(props: IProps) {
 
   // Syncs prompt text with original form
   useEffect(() => {
-    form.setValue("prompt", content);
+    form.setValue(fieldName, content);
   }, [content]);
 
   /*  
@@ -82,7 +83,7 @@ export function PromptDialog(props: IProps) {
               <TooltipTrigger asChild>
                 <EnterFullScreenIcon className="h-4 w-4" />
               </TooltipTrigger>
-              <TooltipContent>Expand prompt input</TooltipContent>
+              <TooltipContent>Expand {fieldLabel} input</TooltipContent>
             </Tooltip>
           </Button>
         </DialogTrigger>
@@ -92,7 +93,7 @@ export function PromptDialog(props: IProps) {
             <DialogHeader>
               <DialogTitle>Prompt</DialogTitle>
               <DialogDescription>
-                Use this dialog for a more comfortable prompting experience.
+                Use this dialog to edit the contents of {fieldLabel}.
               </DialogDescription>
             </DialogHeader>
             {/* 
@@ -103,11 +104,11 @@ export function PromptDialog(props: IProps) {
               <div className="flex flex-col gap-4">
                 <FormField
                   control={form.control}
-                  name="prompt"
+                  name={fieldName}
                   render={({ field }) => (
                     <FormItem>
                       <FormLabel>
-                        Prompt{" "}
+                        {fieldLabel}{" "}
                         <span className="text-sm text-gray-500">
                           (You can use Ctrl+Enter to update)
                         </span>
@@ -125,7 +126,7 @@ export function PromptDialog(props: IProps) {
             <DialogFooter>
               {/* Can use submit button, or it submits the original form */}
               <Button type="button" onClick={form.handleSubmit(onSubmit)}>
-                Update Prompt
+                Update {fieldLabel}
               </Button>
             </DialogFooter>
           </form>

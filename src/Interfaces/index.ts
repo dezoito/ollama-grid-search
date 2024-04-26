@@ -3,6 +3,7 @@ export interface IGridParams {
   experiment_uuid: string;
   models: string[];
   prompt: string;
+  system_prompt: string;
   temperatureList: number[];
   repeatPenaltyList: number[];
   topKList: number[];
@@ -21,6 +22,7 @@ export interface IGridParams {
 export type TParamIteration = {
   experiment_uuid: string;
   model: string;
+  system_prompt: string;
   prompt: string;
   temperature: number;
   repeat_penalty: number;
@@ -38,7 +40,7 @@ export type TParamIteration = {
 export interface IDefaultConfigs {
   request_timeout: number;
   server_url: string;
-  system_prompt: string;
+  system_prompt_prompt: string;
   // default_options: {
   //   [key: string]: number | string | boolean | string[];
   // };
