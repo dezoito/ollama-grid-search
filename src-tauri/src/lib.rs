@@ -141,9 +141,11 @@ pub async fn log_experiment(
         serde_json::from_reader(reader)?
     } else {
         // Create new log data
+        // Log version does NOT have to match the app version
         json!({
             "experiment_uuid": experiment_uuid,
             "datetime": Utc::now().to_string(),
+            "log_version": "0.4.0",
             "config": config,
             "inferences": []
         })
