@@ -2,6 +2,20 @@
 
 All notable changes to this project will be documented in this file.
 
+## [Version 0.4.0] - 2024-04-26
+
+### Added
+
+- Added system prompt to main params form
+- Added versioning to the JSON log files, starting at this release's version.
+
+### Changed
+
+- Many UI improvements (Thanks to @calebsheridan)
+- Fixes issue with date of the experiment being updated on re-renders
+- Presents experiment inspection output in human readable format instead of JSON
+- Fixes bug where the experiment's start date would be updated on component's re-render.
+
 ## [Version 0.3.0] - 2024-04-12
 
 ### Added
