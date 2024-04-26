@@ -6,7 +6,7 @@ All notable changes to this project will be documented in this file.
 
 ### Added
 
-- Added system prompt to main params form
+- Added system prompt to main form
 - Added versioning to the JSON log files, starting at this release's version.
 
 ### Changed
