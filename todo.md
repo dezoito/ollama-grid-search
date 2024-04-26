@@ -76,7 +76,8 @@ https://github.com/tauri-apps/plugins-workspace/tree/v1/plugins/single-instance
 [ok] - PRs: UI improvements
 [ok] - Add system prompt to main params form
 [ok] - Fix issue with date of the experiment being updated on re-renders
-- Present experiment inspection output in human readable format instead of JSON
+[ok] - Present experiment inspection output in human readable format instead of JSON
+[ok] - Add versioning to the JSON log files, starting at this release's version.
 
 
 ---
