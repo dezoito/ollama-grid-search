@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file.
 
+## [Version 0.4.0] - 2024-04-27
+
+### Added
+
+- Github action should build release for intel based Macs
+
 ## [Version 0.4.0] - 2024-04-26
 
 ### Added
