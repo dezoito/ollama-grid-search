@@ -2,24 +2,26 @@
 
 All notable changes to this project will be documented in this file.
 
-## [Version 0.4.0] - 2024-04-27
+## [Version 0.4.1] - 2024-04-27
 
-### Added
+### Changed
 
-- Github action should build release for intel based Macs
+- Github action now builds releases for INTEL and AARCH based Macs.
+- Bumped `ollama-rs` to version 0.1.9.
+- Improved readability for past experiments.
 
 ## [Version 0.4.0] - 2024-04-26
 
 ### Added
 
-- Added system prompt to main form
+- Added system prompt to main form.
 - Added versioning to the JSON log files, starting at this release's version.
 
 ### Changed
 
-- Many UI improvements (Thanks to @calebsheridan)
-- Fixes issue with date of the experiment being updated on re-renders
-- Presents experiment inspection output in human readable format instead of JSON
+- Many UI improvements (Thanks to @calebsheridan).
+- Fixes issue with date of the experiment being updated on re-renders.
+- Presents experiment inspection output in human readable format instead of JSON.
 - Fixes bug where the experiment's start date would be updated on component's re-render.
 
 ## [Version 0.3.0] - 2024-04-12
@@ -27,10 +29,10 @@ All notable changes to this project will be documented in this file.
 ### Added
 
 - Allows multiple generations for each combination of parameters.
-- Improved metrics are displayed after inference results
+- Improved metrics are displayed after inference results.
 - Allows inspecting past experiments without the need to download the corresponding file.
 - Displays current version number to the settings interface.
-- Displays the version of Ollama running on the selected server
+- Displays the version of Ollama running on the selected server.
 
 ## [Version 0.2.1] - 2024-03-24
 
@@ -49,7 +51,7 @@ All notable changes to this project will be documented in this file.
 
 ### Added
 
-- UI tweaks to improve prompt modal (keyboard shortcut to update + tooltip on icon)
+- UI tweaks to improve prompt modal (keyboard shortcut to update + tooltip on icon).
 
 ### Changed
 
@@ -59,7 +61,7 @@ All notable changes to this project will be documented in this file.
 
 ### Added
 
-- The textarea for the prompt can be expanded to make editing more ergonomic
+- The textarea for the prompt can be expanded to make editing more ergonomic.
 
 ### Changed
 
