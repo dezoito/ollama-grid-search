@@ -13,5 +13,5 @@
   // Ignore @tailwind warnings
   "css.lint.unknownAtRules": "ignore",
   "editor.fontSize": 14,
-  "rust-analyzer.showUnlinkedFileNotification": false
+  "rust-analyzer.showUnlinkedFileNotification": false,
 }
