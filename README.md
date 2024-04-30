@@ -31,6 +31,7 @@ Check the [releases page](https://github.com/dezoito/ollama-grid-search/releases
 - Refetching of individual inference calls;
 - Model selection can be filtered by name;
 - List experiments which can be downloaded in JSON format;
+- Experiments can be inspected in readable views;
 - Configurable inference timeout;
 - Custom default parameters and system prompts can be defined in settings:
 

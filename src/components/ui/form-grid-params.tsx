@@ -1,8 +1,14 @@
 import { configAtom, gridParamsAtom } from "@/Atoms";
 import { useConfirm } from "@/components/ui/alert-dialog-provider";
 import { Input } from "@/components/ui/input";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 import { isCommaDelimitedList } from "@/lib";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { InfoCircledIcon } from "@radix-ui/react-icons";
 import { useIsFetching, useQueryClient } from "@tanstack/react-query";
 import { useAtom } from "jotai";
 import { useForm } from "react-hook-form";
@@ -21,13 +27,9 @@ import {
 } from "./form";
 import Spinner from "./spinner";
 import { useToast } from "./use-toast";
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipTrigger,
-} from "@/components/ui/tooltip";
-import { InfoCircledIcon } from "@radix-ui/react-icons";
 import PromptSelector from "@/components/filters/PromptSelector";
+import { useState } from "react";
+import { Textarea } from "@/components/ui/textarea";
 
 const validateNumberOrArray =
   (inputType: "float" | "int") => (value: string | number) => {
@@ -65,6 +67,7 @@ export const ParamsFormSchema = z.object({
   prompts: z.string().array().nonempty({
     message: "Select at least 1 prompt.",
   }),
+  system_prompt: z.string(),
   generations: z.coerce.number().int().min(1),
   temperatureList: z.custom(
     (value) => validateNumberOrArray("float")(value as string | number),
@@ -149,6 +152,9 @@ export default function FormGridParams() {
   const confirm = useConfirm();
 
   const defaultPrompt = "Write a short sentence!"
+  const [systemPromptContent, setSystemPromptContent] = useState(
+    config.system_prompt,
+  );
 
   // Initiates for fields with value set in Settings > default options
   const form = useForm<z.infer<typeof ParamsFormSchema>>({
@@ -156,6 +162,7 @@ export default function FormGridParams() {
     defaultValues: {
       experiment_uuid: uuidv4(),
       prompts: [defaultPrompt],
+      system_prompt: config.system_prompt,
       models: [],
       temperatureList: config.default_options.temperature,
       repeatPenaltyList: config.default_options.repeat_penalty,
@@ -207,6 +214,38 @@ export default function FormGridParams() {
           <ModelSelector form={form} />
           {/* prompts */}
           <PromptSelector form={form} />
+
+          {/* system prompt */}
+          <div className="flex flex-col gap-2">
+            <FormField
+              control={form.control}
+              name="system_prompt"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel className="flex flex-row items-center justify-between font-bold">
+                    <div>System Prompt</div>
+                    {/* <PromptDialog
+                      originalForm={form}
+                      content={systemPromptContent}
+                      fieldName="system_prompt"
+                      fieldLabel="System Prompt"
+                    /> */}
+                  </FormLabel>
+                  <FormControl>
+                    <Textarea
+                      {...field}
+                      rows={2}
+                      onKeyUp={() => setSystemPromptContent(field.value)}
+                    />
+                  </FormControl>
+                  <FormDescription>
+                    Optional. The system message used to specify custom behavior.
+                  </FormDescription>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+          </div>
           {/* generations */}
           <div className="flex flex-col gap-2">
             <FormField
@@ -237,14 +276,18 @@ export default function FormGridParams() {
               name="temperatureList"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel className="font-bold flex items-center">
+                  <FormLabel className="flex items-center font-bold">
                     <span className="flex-1">Temperature List</span>
                     <Button variant="ghost" size="sm" type="button">
                       <Tooltip>
                         <TooltipTrigger asChild>
                           <InfoCircledIcon className="h-4 w-4" />
                         </TooltipTrigger>
-                        <TooltipContent>The temperature of the model. Increasing the temperature will make the model answer more creatively.</TooltipContent>
+                        <TooltipContent>
+                          The temperature of the model. Increasing the
+                          temperature will make the model answer more
+                          creatively.
+                        </TooltipContent>
                       </Tooltip>
                     </Button>
                   </FormLabel>
@@ -266,14 +309,19 @@ export default function FormGridParams() {
               name="repeatPenaltyList"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel className="font-bold flex items-center">
+                  <FormLabel className="flex items-center font-bold">
                     <span className="flex-1">Repeat Penalty List</span>
                     <Button variant="ghost" size="sm" type="button">
                       <Tooltip>
                         <TooltipTrigger asChild>
                           <InfoCircledIcon className="h-4 w-4" />
                         </TooltipTrigger>
-                        <TooltipContent>Sets how strongly to penalize repetitions. A higher value (e.g., 1.5) will penalize repetitions more strongly, while a lower value (e.g., 0.9) will be more lenient.</TooltipContent>
+                        <TooltipContent>
+                          Sets how strongly to penalize repetitions. A higher
+                          value (e.g., 1.5) will penalize repetitions more
+                          strongly, while a lower value (e.g., 0.9) will be more
+                          lenient.
+                        </TooltipContent>
                       </Tooltip>
                     </Button>
                   </FormLabel>
@@ -295,14 +343,19 @@ export default function FormGridParams() {
               name="topKList"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel className="font-bold flex items-center">
+                  <FormLabel className="flex items-center font-bold">
                     <span className="flex-1">Top_K List</span>
                     <Button variant="ghost" size="sm" type="button">
                       <Tooltip>
                         <TooltipTrigger asChild>
                           <InfoCircledIcon className="h-4 w-4" />
                         </TooltipTrigger>
-                        <TooltipContent>Reduces the probability of generating nonsense. A higher value (e.g. 100) will give more diverse answers, while a lower value (e.g. 10) will be more conservative.</TooltipContent>
+                        <TooltipContent>
+                          Reduces the probability of generating nonsense. A
+                          higher value (e.g. 100) will give more diverse
+                          answers, while a lower value (e.g. 10) will be more
+                          conservative.
+                        </TooltipContent>
                       </Tooltip>
                     </Button>
                   </FormLabel>
@@ -324,14 +377,19 @@ export default function FormGridParams() {
               name="topPList"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel className="font-bold flex items-center">
+                  <FormLabel className="flex items-center font-bold">
                     <span className="flex-1">Top_P List</span>
                     <Button variant="ghost" size="sm" type="button">
                       <Tooltip>
                         <TooltipTrigger asChild>
                           <InfoCircledIcon className="h-4 w-4" />
                         </TooltipTrigger>
-                        <TooltipContent>Works together with top-k. A higher value (e.g., 0.95) will lead to more diverse text, while a lower value (e.g., 0.5) will generate more focused and conservative text.</TooltipContent>
+                        <TooltipContent>
+                          Works together with top-k. A higher value (e.g., 0.95)
+                          will lead to more diverse text, while a lower value
+                          (e.g., 0.5) will generate more focused and
+                          conservative text.
+                        </TooltipContent>
                       </Tooltip>
                     </Button>
                   </FormLabel>
@@ -354,14 +412,18 @@ export default function FormGridParams() {
               name="repeatLastNList"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel className="font-bold flex items-center">
+                  <FormLabel className="flex items-center font-bold">
                     <span className="flex-1">Repeat_Last_N List</span>
                     <Button variant="ghost" size="sm" type="button">
                       <Tooltip>
                         <TooltipTrigger asChild>
                           <InfoCircledIcon className="h-4 w-4" />
                         </TooltipTrigger>
-                        <TooltipContent>Sets how far back for the model to look back to prevent repetition. (Default: 64, 0 = disabled, -1 = num_ctx)</TooltipContent>
+                        <TooltipContent>
+                          Sets how far back for the model to look back to
+                          prevent repetition. (Default: 64, 0 = disabled, -1 =
+                          num_ctx)
+                        </TooltipContent>
                       </Tooltip>
                     </Button>
                   </FormLabel>
@@ -384,14 +446,19 @@ export default function FormGridParams() {
               name="tfsZList"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel className="font-bold flex items-center">
+                  <FormLabel className="flex items-center font-bold">
                     <span className="flex-1">Tfs_Z List</span>
                     <Button variant="ghost" size="sm" type="button">
                       <Tooltip>
                         <TooltipTrigger asChild>
                           <InfoCircledIcon className="h-4 w-4" />
                         </TooltipTrigger>
-                        <TooltipContent>Tail free sampling is used to reduce the impact of less probable tokens from the output. A higher value (e.g., 2.0) will reduce the impact more, while a value of 1.0 disables this setting.</TooltipContent>
+                        <TooltipContent>
+                          Tail free sampling is used to reduce the impact of
+                          less probable tokens from the output. A higher value
+                          (e.g., 2.0) will reduce the impact more, while a value
+                          of 1.0 disables this setting.
+                        </TooltipContent>
                       </Tooltip>
                     </Button>
                   </FormLabel>
@@ -413,14 +480,18 @@ export default function FormGridParams() {
               name="mirostatList"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel className="font-bold flex items-center">
+                  <FormLabel className="flex items-center font-bold">
                     <span className="flex-1">Mirostat List</span>
                     <Button variant="ghost" size="sm" type="button">
                       <Tooltip>
                         <TooltipTrigger asChild>
                           <InfoCircledIcon className="h-4 w-4" />
                         </TooltipTrigger>
-                        <TooltipContent>Enable Mirostat sampling for controlling perplexity. (default: 0, 0 = disabled, 1 = Mirostat, 2 = Mirostat 2.0)</TooltipContent>
+                        <TooltipContent>
+                          Enable Mirostat sampling for controlling perplexity.
+                          (default: 0, 0 = disabled, 1 = Mirostat, 2 = Mirostat
+                          2.0)
+                        </TooltipContent>
                       </Tooltip>
                     </Button>
                   </FormLabel>
@@ -442,14 +513,18 @@ export default function FormGridParams() {
               name="mirostatTauList"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel className="font-bold flex items-center">
+                  <FormLabel className="flex items-center font-bold">
                     <span className="flex-1">Mirostat Tau List</span>
                     <Button variant="ghost" size="sm" type="button">
                       <Tooltip>
                         <TooltipTrigger asChild>
                           <InfoCircledIcon className="h-4 w-4" />
                         </TooltipTrigger>
-                        <TooltipContent>Controls the balance between coherence and diversity of the output. A lower value will result in more focused and coherent text.</TooltipContent>
+                        <TooltipContent>
+                          Controls the balance between coherence and diversity
+                          of the output. A lower value will result in more
+                          focused and coherent text.
+                        </TooltipContent>
                       </Tooltip>
                     </Button>
                   </FormLabel>
@@ -471,14 +546,19 @@ export default function FormGridParams() {
               name="mirostatEtaList"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel className="font-bold flex items-center">
+                  <FormLabel className="flex items-center font-bold">
                     <span className="flex-1">Mirostat Eta List</span>
                     <Button variant="ghost" size="sm" type="button">
                       <Tooltip>
                         <TooltipTrigger asChild>
                           <InfoCircledIcon className="h-4 w-4" />
                         </TooltipTrigger>
-                        <TooltipContent>Influences how quickly the algorithm responds to feedback from the generated text. A lower learning rate will result in slower adjustments, while a higher learning rate will make the algorithm more responsive.</TooltipContent>
+                        <TooltipContent>
+                          Influences how quickly the algorithm responds to
+                          feedback from the generated text. A lower learning
+                          rate will result in slower adjustments, while a higher
+                          learning rate will make the algorithm more responsive.
+                        </TooltipContent>
                       </Tooltip>
                     </Button>
                   </FormLabel>
@@ -503,7 +583,7 @@ export default function FormGridParams() {
               {/* Ensure the button-area stays within the column */}
               <Button type="submit" disabled={!!isFetching}>
                 {!!isFetching ? (
-                  <div className="flex gap-2 items-center">
+                  <div className="flex items-center gap-2">
                     <Spinner className="h-4 w-4" /> <>Running...</>
                   </div>
                 ) : (
@@ -534,8 +614,8 @@ export default function FormGridParams() {
               </Button>
             </div>
           </div>
-        </form>
-      </Form>
-    </div>
+        </form >
+      </Form >
+    </div >
   );
 }

@@ -5,8 +5,8 @@ import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 
 import ErrorBoundary from "@/components/ErrorBoundary";
 import { Toaster } from "@/components/ui/toaster";
-import { AlertDialogProvider } from "./components/ui/alert-dialog-provider";
 import { TooltipProvider } from "@/components/ui/tooltip";
+import { AlertDialogProvider } from "./components/ui/alert-dialog-provider";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -26,7 +26,7 @@ function App() {
       <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
         <ErrorBoundary>
           <AlertDialogProvider>
-            <TooltipProvider delayDuration="100" skipDelayDuration="700">
+            <TooltipProvider delayDuration={100} skipDelayDuration={700}>
               <Layout />
             </TooltipProvider>
           </AlertDialogProvider>

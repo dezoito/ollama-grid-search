@@ -10,13 +10,13 @@ import { useCallback, useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { TrashIcon } from "@radix-ui/react-icons";
-import { PromptDialog } from "../prompt-dialog";
-import { type Form } from "react-form-hook"
+import { PromptDialog } from "@/components/prompt-dialog";
+// import { Form } from "react-hook-form"
 import * as React from "react";
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
 
 interface IProps {
-  form: Form;
+  form: any;
 }
 
 function PromptSelector(props: IProps) {
@@ -77,7 +77,7 @@ function PromptSelector(props: IProps) {
                     <FormLabel className="flex flex-row items-center justify-between font-bold">
                       Prompt {prompts.length > 1 && (idx + 1).toString()}
                       <div>
-                        <PromptDialog originalForm={form} content={option} handleChange={handleChange} idx={idx}  />
+                        <PromptDialog content={option} handleChange={handleChange} idx={idx} fieldName="prompt" fieldLabel="prompt"  />
                         {prompts.length > 1 && <Button
                           variant="destructiveGhost"
                           size="sm"

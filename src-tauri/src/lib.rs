@@ -39,6 +39,7 @@ pub struct TParamIteration {
     pub experiment_uuid: String,
     pub model: String,
     pub prompt: String,
+    pub system_prompt: String,
     pub temperature: f32,
     pub repeat_penalty: f32,
     pub top_k: u32,
@@ -140,9 +141,11 @@ pub async fn log_experiment(
         serde_json::from_reader(reader)?
     } else {
         // Create new log data
+        // Log version does NOT have to match the app version
         json!({
             "experiment_uuid": experiment_uuid,
             "datetime": Utc::now().to_string(),
+            "log_version": "0.4.0",
             "config": config,
             "inferences": []
         })

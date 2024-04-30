@@ -34,6 +34,7 @@ export default function IterationResult(props: IProps) {
   } = props;
   const {
     model,
+    system_prompt,
     prompt,
     temperature,
     repeat_penalty,
@@ -84,6 +85,7 @@ export default function IterationResult(props: IProps) {
           defaultOpen={expandParams}
         >
           <div className="font-mono text-sm">
+            <div>system prompt: {system_prompt}</div>
             <div>prompt: {prompt}</div>
             <div>temperature: {temperature}</div>
             <div>repeat penalty: {repeat_penalty}</div>

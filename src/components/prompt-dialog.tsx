@@ -12,7 +12,6 @@ import {
 import {
   Form,
   FormControl,
-  FormField,
   FormItem,
   FormLabel,
   FormMessage,
@@ -34,22 +33,24 @@ interface IProps {
   content: string;
   handleChange: (e: React.ChangeEvent<HTMLTextAreaElement>, idx: number) => void;
   idx: number;
+  fieldName: string;
+  fieldLabel: string;
 }
 
 export function PromptDialog(props: IProps) {
-  const { content, handleChange, idx } = props;
+  const { content, handleChange, idx, fieldName, fieldLabel } = props;
   const [open, setOpen] = useState(false);
 
   // * default_options has to be valid JSON
   const FormSchema = z.object({
-    prompt: z.string(),
+    [fieldName]: z.string(),
   });
 
   // * format default_options to display in form
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
     defaultValues: {
-      prompt: content,
+      [fieldName]: content,
     },
   });
 
@@ -76,7 +77,7 @@ export function PromptDialog(props: IProps) {
               <TooltipTrigger asChild>
                 <EnterFullScreenIcon className="h-4 w-4" />
               </TooltipTrigger>
-              <TooltipContent>Expand prompt input</TooltipContent>
+              <TooltipContent>Expand {fieldLabel} input</TooltipContent>
             </Tooltip>
           </Button>
         </DialogTrigger>
@@ -85,7 +86,7 @@ export function PromptDialog(props: IProps) {
             <DialogHeader>
               <DialogTitle>Prompt Editor</DialogTitle>
               <DialogDescription>
-                Use this dialog for a more comfortable prompting experience.
+                Use this dialog to edit the contents of the {fieldLabel}.
               </DialogDescription>
             </DialogHeader>
             {/* 
