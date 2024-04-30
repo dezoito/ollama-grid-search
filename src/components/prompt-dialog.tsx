@@ -21,23 +21,23 @@ import { Textarea } from "@/components/ui/textarea";
 import {
   Tooltip,
   TooltipContent,
-  TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { EnterFullScreenIcon } from "@radix-ui/react-icons";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { useHotkeys } from "react-hotkeys-hook";
 import z from "zod";
 
 interface IProps {
-  originalForm: any;
   content: string;
+  handleChange: (e: React.ChangeEvent<HTMLTextAreaElement>, idx: number) => void;
+  idx: number;
 }
 
 export function PromptDialog(props: IProps) {
-  const { originalForm, content } = props;
+  const { content, handleChange, idx } = props;
   const [open, setOpen] = useState(false);
 
   // * default_options has to be valid JSON
@@ -53,20 +53,14 @@ export function PromptDialog(props: IProps) {
     },
   });
 
-  function onSubmit(data: z.infer<typeof FormSchema>) {
-    originalForm.setValue("prompt", data.prompt);
+  function onSubmit() {
     setOpen(false);
   }
 
-  // Updates prompt element on ctrl+enter
-  useHotkeys("ctrl+enter", () => form.handleSubmit(onSubmit)(), {
+  // Updates prompt element on ctrl+enter (cmd+enter on macOS)
+  useHotkeys("mod+enter", () => form.handleSubmit(onSubmit)(), {
     enableOnFormTags: ["TEXTAREA"],
   });
-
-  // Syncs prompt text with original form
-  useEffect(() => {
-    form.setValue("prompt", content);
-  }, [content]);
 
   /*  
       ! Undocumented behaviour
@@ -87,10 +81,9 @@ export function PromptDialog(props: IProps) {
           </Button>
         </DialogTrigger>
         <DialogContent className="sm:max-w-[90%]">
-          {/* <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6"> */}
           <form className="space-y-6">
             <DialogHeader>
-              <DialogTitle>Prompt</DialogTitle>
+              <DialogTitle>Prompt Editor</DialogTitle>
               <DialogDescription>
                 Use this dialog for a more comfortable prompting experience.
               </DialogDescription>
@@ -101,31 +94,26 @@ export function PromptDialog(props: IProps) {
 
             <div className="grid gap-6 py-4">
               <div className="flex flex-col gap-4">
-                <FormField
-                  control={form.control}
-                  name="prompt"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>
-                        Prompt{" "}
-                        <span className="text-sm text-gray-500">
-                          (You can use Ctrl+Enter to update)
-                        </span>
-                      </FormLabel>
-                      <FormControl>
-                        <Textarea {...field} rows={18} cols={100} />
-                      </FormControl>
+                <FormItem>
+                  <FormLabel>
+                    Prompt{" "}
+                    <span className="text-sm text-gray-500">
+                      (Changes are automatically saved)
+                    </span>
+                  </FormLabel>
+                  <FormControl>
+                    <Textarea rows={18} cols={100}
+                      value={content}
+                      onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) => handleChange(e, idx)} />
+                  </FormControl>
 
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
+                  <FormMessage />
+                </FormItem>
               </div>
             </div>
             <DialogFooter>
-              {/* Can use submit button, or it submits the original form */}
               <Button type="button" onClick={form.handleSubmit(onSubmit)}>
-                Update Prompt
+                Close (Ctrl+Enter)
               </Button>
             </DialogFooter>
           </form>

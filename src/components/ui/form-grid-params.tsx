@@ -5,12 +5,10 @@ import { isCommaDelimitedList } from "@/lib";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useIsFetching, useQueryClient } from "@tanstack/react-query";
 import { useAtom } from "jotai";
-import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { v4 as uuidv4 } from "uuid";
 import z from "zod";
 import ModelSelector from "../filters/ModelSelector";
-import { PromptDialog } from "../prompt-dialog";
 import { Button } from "./button";
 import {
   Form,
@@ -22,7 +20,6 @@ import {
   FormMessage,
 } from "./form";
 import Spinner from "./spinner";
-import { Textarea } from "./textarea";
 import { useToast } from "./use-toast";
 import {
   Tooltip,
@@ -30,6 +27,7 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip";
 import { InfoCircledIcon } from "@radix-ui/react-icons";
+import PromptSelector from "@/components/filters/PromptSelector";
 
 const validateNumberOrArray =
   (inputType: "float" | "int") => (value: string | number) => {
@@ -64,7 +62,9 @@ export const ParamsFormSchema = z.object({
   models: z.string().array().nonempty({
     message: "Select at least 1 model.",
   }),
-  prompt: z.string().min(1),
+  prompts: z.string().array().nonempty({
+    message: "Select at least 1 prompt.",
+  }),
   generations: z.coerce.number().int().min(1),
   temperatureList: z.custom(
     (value) => validateNumberOrArray("float")(value as string | number),
@@ -147,14 +147,15 @@ export default function FormGridParams() {
   const [config, _] = useAtom(configAtom);
   const [__, setGridParams] = useAtom(gridParamsAtom);
   const confirm = useConfirm();
-  const [promptContent, setPromtContent] = useState("Write a short sentence!");
+
+  const defaultPrompt = "Write a short sentence!"
 
   // Initiates for fields with value set in Settings > default options
   const form = useForm<z.infer<typeof ParamsFormSchema>>({
     resolver: zodResolver(ParamsFormSchema),
     defaultValues: {
       experiment_uuid: uuidv4(),
-      prompt: promptContent,
+      prompts: [defaultPrompt],
       models: [],
       temperatureList: config.default_options.temperature,
       repeatPenaltyList: config.default_options.repeat_penalty,
@@ -202,33 +203,10 @@ export default function FormGridParams() {
           onSubmit={form.handleSubmit(onSubmit)}
           className="flex-grow space-y-6"
         >
-          <div>
-            <ModelSelector form={form} />
-          </div>
-          {/* prompt */}
-          <div className="flex flex-col gap-2">
-            <FormField
-              control={form.control}
-              name="prompt"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel className="flex flex-row items-center justify-between font-bold">
-                    <div>Prompt</div>
-                    <PromptDialog originalForm={form} content={promptContent} />
-                  </FormLabel>
-                  <FormControl>
-                    <Textarea
-                      {...field}
-                      rows={4}
-                      onKeyUp={() => setPromtContent(field.value)}
-                    />
-                  </FormControl>
-                  <FormDescription>The prompt you want to test</FormDescription>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-          </div>
+          {/* models */}
+          <ModelSelector form={form} />
+          {/* prompts */}
+          <PromptSelector form={form} />
           {/* generations */}
           <div className="flex flex-col gap-2">
             <FormField

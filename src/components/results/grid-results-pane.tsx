@@ -25,38 +25,40 @@ export default function GridResultsPane() {
     setNoCompleted(0);
     const localIterations = [];
     for (const model of gridParams.models) {
-      for (const temperature of gridParams.temperatureList) {
-        for (const repeat_penalty of gridParams.repeatPenaltyList) {
-          for (const top_k of gridParams.topKList) {
-            for (const top_p of gridParams.topPList) {
-              for (const repeat_last_n of gridParams.repeatLastNList) {
-                for (const tfs_z of gridParams.tfsZList) {
-                  for (const mirostat of gridParams.mirostatList) {
-                    for (const mirostat_tau of gridParams.mirostatTauList) {
-                      for (const mirostat_eta of gridParams.mirostatEtaList) {
-                        // loop over the number of generations
-                        for (
-                          let generation = 0;
-                          generation < gridParams.generations;
-                          generation++
-                        ) {
-                          // set seed = generation to ensure results differ when temp > 0
-                          localIterations.push({
-                            experiment_uuid: gridParams.experiment_uuid,
-                            model: model,
-                            prompt: gridParams.prompt,
-                            temperature: temperature,
-                            repeat_penalty: repeat_penalty,
-                            top_k: top_k,
-                            top_p: top_p,
-                            repeat_last_n: repeat_last_n,
-                            tfs_z: tfs_z,
-                            mirostat: mirostat,
-                            mirostat_tau: mirostat_tau,
-                            mirostat_eta: mirostat_eta,
-                            generation: generation,
-                            seed: generation,
-                          });
+      for (const prompt of gridParams.prompts) {
+        for (const temperature of gridParams.temperatureList) {
+          for (const repeat_penalty of gridParams.repeatPenaltyList) {
+            for (const top_k of gridParams.topKList) {
+              for (const top_p of gridParams.topPList) {
+                for (const repeat_last_n of gridParams.repeatLastNList) {
+                  for (const tfs_z of gridParams.tfsZList) {
+                    for (const mirostat of gridParams.mirostatList) {
+                      for (const mirostat_tau of gridParams.mirostatTauList) {
+                        for (const mirostat_eta of gridParams.mirostatEtaList) {
+                          // loop over the number of generations
+                          for (
+                            let generation = 0;
+                            generation < gridParams.generations;
+                            generation++
+                          ) {
+                            // set seed = generation to ensure results differ when temp > 0
+                            localIterations.push({
+                              experiment_uuid: gridParams.experiment_uuid,
+                              model: model,
+                              prompt: prompt,
+                              temperature: temperature,
+                              repeat_penalty: repeat_penalty,
+                              top_k: top_k,
+                              top_p: top_p,
+                              repeat_last_n: repeat_last_n,
+                              tfs_z: tfs_z,
+                              mirostat: mirostat,
+                              mirostat_tau: mirostat_tau,
+                              mirostat_eta: mirostat_eta,
+                              generation: generation,
+                              seed: generation,
+                            });
+                          }
                         }
                       }
                     }
@@ -89,7 +91,7 @@ export default function GridResultsPane() {
     setNoCompleted(lastFetched.length);
   }, [lastFetched]);
 
-  if (gridParams.models.length === 0 || gridParams.prompt.trim().length === 0) {
+  if (gridParams.models.length === 0) {
     return <Tutorial />;
   }
 
@@ -151,7 +153,6 @@ export default function GridResultsPane() {
               iterationIndex={idx}
               totalIterations={iterations.length}
               params={iteration}
-              prompt={gridParams.prompt}
               expandParams={expandParams}
               expandMetadata={expandMetadata}
             />
