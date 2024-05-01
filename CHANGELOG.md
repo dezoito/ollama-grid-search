@@ -6,7 +6,7 @@ All notable changes to this project will be documented in this file.
 
 ### Fixes
 
-- Bug with new installations that had no previous configs for "system prompt"
+- Bug in new installations that had no previous configs for "system prompt"
 
 ## [Version 0.4.2] - 2024-05-01
 
