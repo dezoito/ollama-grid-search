@@ -33,7 +33,7 @@ const atomWithLocalStorage = (key: string, initialValue: unknown) => {
 const defaultConfigs: IDefaultConfigs = {
   request_timeout: 300,
   server_url: "http://localhost:11434",
-  system_prompt_prompt: "",
+  system_prompt: "You are a helpful AI assistant.",
   default_options: {
     mirostat: 0,
     mirostat_tau: 5.0,

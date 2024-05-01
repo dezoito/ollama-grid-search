@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file.
 
+## [Version 0.4.3] - 2024-05-01
+
+### Fixes
+
+- Bug with new installations that had no previous configs for "system prompt"
+
 ## [Version 0.4.2] - 2024-05-01
 
 ### Added
