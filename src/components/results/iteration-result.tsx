@@ -17,7 +17,6 @@ import { CollapsibleItem } from "../ui/collapsible-item";
 import Spinner from "../ui/spinner";
 
 interface IProps {
-  prompt: string;
   params: TParamIteration;
   iterationIndex: number;
   totalIterations: number;
@@ -35,6 +34,8 @@ export default function IterationResult(props: IProps) {
   } = props;
   const {
     model,
+    system_prompt,
+    prompt,
     temperature,
     repeat_penalty,
     top_k,
@@ -84,6 +85,8 @@ export default function IterationResult(props: IProps) {
           defaultOpen={expandParams}
         >
           <div className="font-mono text-sm">
+            <div>system prompt: {system_prompt}</div>
+            <div>prompt: {prompt}</div>
             <div>temperature: {temperature}</div>
             <div>repeat penalty: {repeat_penalty}</div>
             <div>top k: {top_k}</div>

@@ -80,7 +80,7 @@ export const configAtom = atomWithLocalStorage("configs", defaultConfigs);
 export const defaultGridParams = {
   experiment_uuid: "",
   models: [],
-  prompt: "",
+  prompts: [""],
   system_prompt: "",
   temperatureList: [defaultConfigs.default_options.temperature],
   repeatPenaltyList: [defaultConfigs.default_options.repeat_penalty],

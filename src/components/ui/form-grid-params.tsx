@@ -11,12 +11,10 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { InfoCircledIcon } from "@radix-ui/react-icons";
 import { useIsFetching, useQueryClient } from "@tanstack/react-query";
 import { useAtom } from "jotai";
-import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { v4 as uuidv4 } from "uuid";
 import z from "zod";
 import ModelSelector from "../filters/ModelSelector";
-import { PromptDialog } from "../prompt-dialog";
 import { Button } from "./button";
 import {
   Form,
@@ -28,8 +26,11 @@ import {
   FormMessage,
 } from "./form";
 import Spinner from "./spinner";
-import { Textarea } from "./textarea";
 import { useToast } from "./use-toast";
+import PromptSelector from "@/components/filters/PromptSelector";
+import { useState } from "react";
+import { Textarea } from "@/components/ui/textarea";
+import SystemPromptSelector from "../filters/SystemPromptSelector";
 
 const validateNumberOrArray =
   (inputType: "float" | "int") => (value: string | number) => {
@@ -64,7 +65,9 @@ export const ParamsFormSchema = z.object({
   models: z.string().array().nonempty({
     message: "Select at least 1 model.",
   }),
-  prompt: z.string().min(1),
+  prompts: z.string().array().nonempty({
+    message: "Select at least 1 prompt.",
+  }),
   system_prompt: z.string(),
   generations: z.coerce.number().int().min(1),
   temperatureList: z.custom(
@@ -148,17 +151,15 @@ export default function FormGridParams() {
   const [config, _] = useAtom(configAtom);
   const [__, setGridParams] = useAtom(gridParamsAtom);
   const confirm = useConfirm();
-  const [promptContent, setPromptContent] = useState("Write a short sentence!");
-  const [systemPromptContent, setSystemPromptContent] = useState(
-    config.system_prompt,
-  );
+
+  const defaultPrompt = "Write a short sentence!"
 
   // Initiates for fields with value set in Settings > default options
   const form = useForm<z.infer<typeof ParamsFormSchema>>({
     resolver: zodResolver(ParamsFormSchema),
     defaultValues: {
       experiment_uuid: uuidv4(),
-      prompt: promptContent,
+      prompts: [defaultPrompt],
       system_prompt: config.system_prompt,
       models: [],
       temperatureList: config.default_options.temperature,
@@ -207,69 +208,14 @@ export default function FormGridParams() {
           onSubmit={form.handleSubmit(onSubmit)}
           className="flex-grow space-y-6"
         >
-          <div>
-            <ModelSelector form={form} />
-          </div>
+          {/* models */}
+          <ModelSelector form={form} />
+          {/* prompts */}
+          <PromptSelector form={form} />
+
           {/* system prompt */}
-          <div className="flex flex-col gap-2">
-            <FormField
-              control={form.control}
-              name="system_prompt"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel className="flex flex-row items-center justify-between font-bold">
-                    <div>System Prompt</div>
-                    <PromptDialog
-                      originalForm={form}
-                      content={systemPromptContent}
-                      fieldName="system_prompt"
-                      fieldLabel="System Prompt"
-                    />
-                  </FormLabel>
-                  <FormControl>
-                    <Textarea
-                      {...field}
-                      rows={2}
-                      onKeyUp={() => setSystemPromptContent(field.value)}
-                    />
-                  </FormControl>
-                  <FormDescription>
-                    The SYSTEM prompt for all iterations
-                  </FormDescription>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-          </div>
-          {/* prompt */}
-          <div className="flex flex-col gap-2">
-            <FormField
-              control={form.control}
-              name="prompt"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel className="flex flex-row items-center justify-between font-bold">
-                    <div>Prompt</div>
-                    <PromptDialog
-                      originalForm={form}
-                      content={promptContent}
-                      fieldName="prompt"
-                      fieldLabel="Prompt"
-                    />
-                  </FormLabel>
-                  <FormControl>
-                    <Textarea
-                      {...field}
-                      rows={4}
-                      onKeyUp={() => setPromptContent(field.value)}
-                    />
-                  </FormControl>
-                  <FormDescription>The prompt you want to test</FormDescription>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-          </div>
+          <SystemPromptSelector form={form} />
+          
           {/* generations */}
           <div className="flex flex-col gap-2">
             <FormField
@@ -638,8 +584,8 @@ export default function FormGridParams() {
               </Button>
             </div>
           </div>
-        </form>
-      </Form>
-    </div>
+        </form >
+      </Form >
+    </div >
   );
 }

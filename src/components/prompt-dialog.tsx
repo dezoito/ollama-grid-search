@@ -12,7 +12,6 @@ import {
 import {
   Form,
   FormControl,
-  FormField,
   FormItem,
   FormLabel,
   FormMessage,
@@ -25,20 +24,21 @@ import {
 } from "@/components/ui/tooltip";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { EnterFullScreenIcon } from "@radix-ui/react-icons";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { useHotkeys } from "react-hotkeys-hook";
 import z from "zod";
 
 interface IProps {
-  originalForm: any;
   content: string;
+  handleChange: (e: React.ChangeEvent<HTMLTextAreaElement>, idx: number) => void;
+  idx: number;
   fieldName: string;
   fieldLabel: string;
 }
 
 export function PromptDialog(props: IProps) {
-  const { originalForm, content, fieldName, fieldLabel } = props;
+  const { content, handleChange, idx, fieldName, fieldLabel } = props;
   const [open, setOpen] = useState(false);
 
   // * default_options has to be valid JSON
@@ -54,20 +54,14 @@ export function PromptDialog(props: IProps) {
     },
   });
 
-  function onSubmit(data: z.infer<typeof FormSchema>) {
-    originalForm.setValue(fieldName, data[fieldName]);
+  function onSubmit() {
     setOpen(false);
   }
 
-  // Updates prompt element on ctrl+enter
-  useHotkeys("ctrl+enter", () => form.handleSubmit(onSubmit)(), {
+  // Updates prompt element on ctrl+enter (cmd+enter on macOS)
+  useHotkeys("mod+enter", () => form.handleSubmit(onSubmit)(), {
     enableOnFormTags: ["TEXTAREA"],
   });
-
-  // Syncs prompt text with original form
-  useEffect(() => {
-    form.setValue(fieldName, content);
-  }, [content]);
 
   /*  
       ! Undocumented behaviour
@@ -88,12 +82,13 @@ export function PromptDialog(props: IProps) {
           </Button>
         </DialogTrigger>
         <DialogContent className="sm:max-w-[90%]">
-          {/* <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6"> */}
           <form className="space-y-6">
             <DialogHeader>
-              <DialogTitle>Prompt</DialogTitle>
+              <DialogTitle>
+                <span className="capitalize">{fieldLabel}</span> Editor
+              </DialogTitle>
               <DialogDescription>
-                Use this dialog to edit the contents of {fieldLabel}.
+                Use this dialog to edit the contents of the {fieldLabel}.
               </DialogDescription>
             </DialogHeader>
             {/* 
@@ -102,31 +97,27 @@ export function PromptDialog(props: IProps) {
 
             <div className="grid gap-6 py-4">
               <div className="flex flex-col gap-4">
-                <FormField
-                  control={form.control}
-                  name={fieldName}
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>
-                        {fieldLabel}{" "}
-                        <span className="text-sm text-gray-500">
-                          (You can use Ctrl+Enter to update)
-                        </span>
-                      </FormLabel>
-                      <FormControl>
-                        <Textarea {...field} rows={18} cols={100} />
-                      </FormControl>
+                <FormItem>
+                  <FormLabel>
+                    <span className="capitalize">{fieldLabel}</span>
+                    {" "}
+                    <span className="text-sm text-gray-500">
+                      (Changes are automatically saved)
+                    </span>
+                  </FormLabel>
+                  <FormControl>
+                    <Textarea rows={18} cols={100}
+                      value={content}
+                      onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) => handleChange(e, idx)} />
+                  </FormControl>
 
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
+                  <FormMessage />
+                </FormItem>
               </div>
             </div>
             <DialogFooter>
-              {/* Can use submit button, or it submits the original form */}
               <Button type="button" onClick={form.handleSubmit(onSubmit)}>
-                Update {fieldLabel}
+                Close (Ctrl+Enter)
               </Button>
             </DialogFooter>
           </form>

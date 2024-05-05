@@ -2,8 +2,8 @@
 export interface IGridParams {
   experiment_uuid: string;
   models: string[];
-  prompt: string;
   system_prompt: string;
+  prompts: string[];
   temperatureList: number[];
   repeatPenaltyList: number[];
   topKList: number[];
