@@ -112,7 +112,7 @@ function PromptSelector(props: IProps) {
 
           <FormMessage />
           {prompts.length === 1 && <FormDescription>
-            Add another prompt to generate multi-variant tests.
+            Add another prompt to test multiple prompts.
           </FormDescription>}
           <Button
             variant="secondary"

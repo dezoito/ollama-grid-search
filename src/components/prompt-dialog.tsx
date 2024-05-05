@@ -84,7 +84,9 @@ export function PromptDialog(props: IProps) {
         <DialogContent className="sm:max-w-[90%]">
           <form className="space-y-6">
             <DialogHeader>
-              <DialogTitle>Prompt Editor</DialogTitle>
+              <DialogTitle>
+                <span className="capitalize">{fieldLabel}</span> Editor
+              </DialogTitle>
               <DialogDescription>
                 Use this dialog to edit the contents of the {fieldLabel}.
               </DialogDescription>
@@ -97,7 +99,8 @@ export function PromptDialog(props: IProps) {
               <div className="flex flex-col gap-4">
                 <FormItem>
                   <FormLabel>
-                    Prompt{" "}
+                    <span className="capitalize">{fieldLabel}</span>
+                    {" "}
                     <span className="text-sm text-gray-500">
                       (Changes are automatically saved)
                     </span>

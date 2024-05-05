@@ -30,6 +30,7 @@ import { useToast } from "./use-toast";
 import PromptSelector from "@/components/filters/PromptSelector";
 import { useState } from "react";
 import { Textarea } from "@/components/ui/textarea";
+import SystemPromptSelector from "../filters/SystemPromptSelector";
 
 const validateNumberOrArray =
   (inputType: "float" | "int") => (value: string | number) => {
@@ -152,9 +153,6 @@ export default function FormGridParams() {
   const confirm = useConfirm();
 
   const defaultPrompt = "Write a short sentence!"
-  const [systemPromptContent, setSystemPromptContent] = useState(
-    config.system_prompt,
-  );
 
   // Initiates for fields with value set in Settings > default options
   const form = useForm<z.infer<typeof ParamsFormSchema>>({
@@ -216,36 +214,8 @@ export default function FormGridParams() {
           <PromptSelector form={form} />
 
           {/* system prompt */}
-          <div className="flex flex-col gap-2">
-            <FormField
-              control={form.control}
-              name="system_prompt"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel className="flex flex-row items-center justify-between font-bold">
-                    <div>System Prompt</div>
-                    {/* <PromptDialog
-                      originalForm={form}
-                      content={systemPromptContent}
-                      fieldName="system_prompt"
-                      fieldLabel="System Prompt"
-                    /> */}
-                  </FormLabel>
-                  <FormControl>
-                    <Textarea
-                      {...field}
-                      rows={2}
-                      onKeyUp={() => setSystemPromptContent(field.value)}
-                    />
-                  </FormControl>
-                  <FormDescription>
-                    Optional. The system message used to specify custom behavior.
-                  </FormDescription>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-          </div>
+          <SystemPromptSelector form={form} />
+          
           {/* generations */}
           <div className="flex flex-col gap-2">
             <FormField
