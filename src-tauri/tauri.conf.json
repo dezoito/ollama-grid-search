@@ -7,7 +7,7 @@
   },
   "package": {
     "productName": "ollama-grid-search",
-    "version": "0.4.1"
+    "version": "0.4.3"
   },
   "tauri": {
     "allowlist": {
@@ -49,7 +49,14 @@
         "icons/128x128@2x.png",
         "icons/icon.icns",
         "icons/icon.ico"
-      ]
+      ],
+      "macOS": {
+        "entitlements": null,
+        "exceptionDomain": "",
+        "frameworks": [],
+        "providerShortName": null,
+        "signingIdentity": null
+      }
     },
     "security": {
       "csp": null

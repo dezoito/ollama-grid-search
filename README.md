@@ -99,7 +99,7 @@ cd ollama-grid-search
 
    ```sh
    cd <project root>
-   # I'm using bun to manage dependecies,
+   # I'm using bun to manage dependencies,
    # but feel free to use yarn or npm
    bun install
    ```
