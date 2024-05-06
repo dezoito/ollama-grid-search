@@ -40,7 +40,7 @@ export type TParamIteration = {
 export interface IDefaultConfigs {
   request_timeout: number;
   server_url: string;
-  system_prompt_prompt: string;
+  system_prompt: string;
   // default_options: {
   //   [key: string]: number | string | boolean | string[];
   // };

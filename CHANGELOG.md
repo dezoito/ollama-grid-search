@@ -2,6 +2,26 @@
 
 All notable changes to this project will be documented in this file.
 
+## [Version 0.4.3] - 2024-05-01
+
+### Fixes
+
+- Bug in new installations that had no previous configs for "system prompt"
+
+## [Version 0.4.2] - 2024-05-01
+
+### Added
+
+- Adds basic self-signed code signing to macOS app/DMG.
+
+### Changed
+
+- Bumps Linux build runner version to current stable.
+- Builds for both ARM and x86 macOS separately.
+- Bumps Tauri package versions to current stable.
+
+All contributions from @sammcj!
+
 ## [Version 0.4.1] - 2024-04-27
 
 ### Changed
