@@ -6,7 +6,7 @@ A Rust based tool to evaluate LLM models, prompts and model params.
 
 ## Purpose
 
-This project aims to automate the process of selecting the best model parameters, given an LLM model and a prompt, iterating over the possible combinations and letting the user visually inspect the results.
+This project aims to automate the process of selecting the best models, prompts, or inference parameters for a given use-case or application, allowing the iteration over the possible combinations and visual inspection of the results.
 
 It assumes the user has [Ollama](https://www.ollama.ai) installed and serving endpoints, either in `localhost` or in a remote server.
 
@@ -23,8 +23,8 @@ Check the [releases page](https://github.com/dezoito/ollama-grid-search/releases
 ## Features
 
 - Automatically fetches models from local or remote Ollama servers;
-- Iterates over different models and params to generate inferences;
-- A/B test prompts on different models simultaneously;
+- Iterates over different models, prompts and parameters to generate inferences;
+- A/B test different prompts on several models simultaneously;
 - Allows multiple iterations for each combination of parameters;
 - Makes synchronous inference calls to avoid spamming servers;
 - Optionally outputs inference parameters and response metadata (inference time, tokens and tokens/s);
