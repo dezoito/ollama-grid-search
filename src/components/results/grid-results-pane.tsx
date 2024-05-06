@@ -81,12 +81,15 @@ export default function GridResultsPane() {
     setIterations(localIterations);
   }, [gridParams.experiment_uuid]);
 
-  // Enable one query at a time, disable all once they've all been processed
+  // Enables a limited number of queries to run concurrently, disable all once they've all been processed
   // so new experiments can run sequentially
   const queries: any = iterations.map((params: TParamIteration, i: number) => ({
     queryKey: ["get_inference", params],
     queryFn: () => get_inference(config, params),
-    enabled: i === 0 || (i <= noCompleted && noCompleted !== iterations.length),
+    enabled:
+      i === 0 ||
+      (i <= noCompleted + (config.concurrent_inferences - 1) &&
+        noCompleted !== iterations.length),
     staleTime: 0,
     cacheTime: 0,
   }));

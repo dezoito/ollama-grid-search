@@ -48,6 +48,7 @@ export function SettingsDialog() {
   // * default_options has to be valid JSON
   const FormSchema = z.object({
     request_timeout: z.coerce.number().min(5),
+    concurrent_inferences: z.coerce.number().min(1).max(5),
     server_url: z.string().url(),
     system_prompt: z.string(),
     default_options: z.string().refine(
@@ -169,6 +170,25 @@ export function SettingsDialog() {
                       </FormControl>
                       <FormDescription>
                         The timeout in seconds for each inference request.
+                      </FormDescription>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              </div>
+              <div className="flex flex-col gap-4">
+                <FormField
+                  control={form.control}
+                  name="concurrent_inferences"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Concurrent Inferences</FormLabel>
+                      <FormControl>
+                        <Input {...field} />
+                      </FormControl>
+                      <FormDescription>
+                        Number of concurrent inference requests sent to the
+                        server (max. 5)
                       </FormDescription>
                       <FormMessage />
                     </FormItem>
