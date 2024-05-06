@@ -6,9 +6,11 @@ A Rust based tool to evaluate LLM models, prompts and model params.
 
 ## Purpose
 
-This project aims to automate the process of selecting the best models, prompts, or inference parameters for a given use-case or application, allowing the iteration over the possible combinations and visual inspection of the results.
+This project automates the process of selecting the best models, prompts, or inference parameters for a given use-case, allowing you to iterate over their combinations and to visually inspect the results.
 
-It assumes the user has [Ollama](https://www.ollama.ai) installed and serving endpoints, either in `localhost` or in a remote server.
+It assumes [Ollama](https://www.ollama.ai) is installed and serving endpoints, either in `localhost` or in a remote server.
+
+## Quick Example
 
 Here's a test for the prompt "Write a short sentence about HAL9000", tested on 2 models, using `0.7` and `1.0` as values for `temperature`:
 
@@ -45,7 +47,7 @@ But the concept here is similar:
 
 Lets define a selection of models, a prompt and some parameter combinations:
 
-[<img src="./screenshots/gridparams.png?raw=true" alt="gridparams" width="400">](./screenshots/gridparams.png?raw=true)
+[<img src="./screenshots/gridparams-animation.gif?raw=true" alt="gridparams" width="400">](./screenshots/gridparams-animation.gif?raw=true)
 
 The prompt will be submitted once for each of the 2 parameter selected, using `gemma:2b-instruct` and `tinydolphin:1b-v2.8-q4_0` to generate numbered responses like:
 
