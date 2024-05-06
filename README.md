@@ -28,6 +28,7 @@ Check the [releases page](https://github.com/dezoito/ollama-grid-search/releases
 - Iterates over different models, prompts and parameters to generate inferences;
 - A/B test different prompts on several models simultaneously;
 - Allows multiple iterations for each combination of parameters;
+- Allows [limited concurrency](https://dezoito.github.io/2024/03/21/react-limited-concurrency.html) for inference queries
 - Makes synchronous inference calls to avoid spamming servers;
 - Optionally outputs inference parameters and response metadata (inference time, tokens and tokens/s);
 - Refetching of individual inference calls;
@@ -86,7 +87,6 @@ You can list, inspect, or download your experiments:
 
 - Grading results and filtering by grade
 - Storing experiments and results in a local database
-- Implementing [limited concurrency](https://dezoito.github.io/2024/03/21/react-limited-concurrency.html) for inference queries
 
 ## Development
 

@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file.
 
+## [Version 0.5.0] - 2024-05-XX
+
+### Added
+
+- Allows multiple prompts when running experiments (courtesy of @calebsheridan).
+- Allows multiple concurrent inference calls, matching Ollama's support for concurrency.
+- Added `concurrent_inferences` input to settings.
+
+### Changed
+
+- Experiment inspection view was updated to show which prompt was used for each iteration, preserving their line breaks (courtesy of @calebsheridan)
+
 ## [Version 0.4.3] - 2024-05-01
 
 ### Fixes
