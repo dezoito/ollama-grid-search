@@ -4,7 +4,6 @@ import { Button } from "@/components/ui/button";
 import {
   Dialog,
   DialogContent,
-  DialogDescription,
   DialogHeader,
   DialogTitle,
   DialogTrigger,
@@ -32,26 +31,24 @@ export function ExperimentDataDialog(props: IProps) {
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
-        <Button variant="ghost" size="icon" onClick={() => { }}>
+        <Button variant="ghost" size="icon" onClick={() => {}}>
           <ActivityLogIcon className="h-4 w-4" />
         </Button>
       </DialogTrigger>
       <DialogContent className="sm:max-w-[700px]">
         <DialogHeader>
           <DialogTitle>Experiment Data</DialogTitle>
-          <DialogDescription>
+          {/* <DialogDescription>
             {convertEpochToDateTime(experiment.created.secs_since_epoch)}
-          </DialogDescription>
+          </DialogDescription> */}
         </DialogHeader>
 
         {/* we need to set a max-height on this div for overflow to work */}
-        <div className="flex flex-col gap-4 max-h-[500px] w-full overflow-y-auto">
+        <div className="flex max-h-[500px] w-full flex-col gap-4 overflow-y-auto">
           <div className="text-sm">
             <div className="font-bold">Metadata</div>
             <div className="flex flex-col gap-2 px-2">
-              <div>
-                ID: {experiment.name.slice(0, -5)}
-              </div>
+              <div>ID: {experiment.name.slice(0, -5)}</div>
               <div>
                 Date:{" "}
                 {convertEpochToDateTime(experiment.created.secs_since_epoch)}
@@ -112,8 +109,12 @@ export function ExperimentDataDialog(props: IProps) {
                   </div>
                   <div className="m-4">
                     <div>Inference Prompts</div>
-                    <div className="whitespace-pre-wrap font-mono text-gray-700 dark:text-gray-400">System prompt: {inf.parameters.system_prompt}</div>
-                    <div className="whitespace-pre-wrap font-mono text-gray-700 dark:text-gray-400">Prompt: {inf.parameters.prompt}</div>
+                    <div className="whitespace-pre-wrap font-mono text-gray-700 dark:text-gray-400">
+                      System prompt: {inf.parameters.system_prompt}
+                    </div>
+                    <div className="whitespace-pre-wrap font-mono text-gray-700 dark:text-gray-400">
+                      Prompt: {inf.parameters.prompt}
+                    </div>
                   </div>
                   <div className="m-4">
                     <div>Response</div>
@@ -142,8 +143,7 @@ export function ExperimentDataDialog(props: IProps) {
                           top_p: {Number(inf.parameters.top_p).toFixed(2)}
                         </div>
                         <div className="font-mono text-gray-700 dark:text-gray-400">
-                          repeat_last_n:{" "}
-                          {Number(inf.parameters.repeat_last_n)}
+                          repeat_last_n: {Number(inf.parameters.repeat_last_n)}
                         </div>
                         <div className="font-mono text-gray-700 dark:text-gray-400">
                           tfs_z: {Number(inf.parameters.tfs_z).toFixed(2)}
@@ -188,9 +188,7 @@ export function ExperimentDataDialog(props: IProps) {
                         <div className="font-mono text-gray-700 dark:text-gray-400">
                           Eval Duration:{" "}
                           {formatInterval(
-                            convertNanosecondsToTime(
-                              inf.result.eval_duration,
-                            ),
+                            convertNanosecondsToTime(inf.result.eval_duration),
                           )}
                         </div>
                         <div className="font-mono text-gray-700 dark:text-gray-400">
@@ -198,16 +196,14 @@ export function ExperimentDataDialog(props: IProps) {
                           {formatInterval(
                             convertNanosecondsToTime(
                               inf.result.eval_duration +
-                              inf.result.prompt_eval_duration,
+                                inf.result.prompt_eval_duration,
                             ),
                           )}
                         </div>
                         <div className="font-mono text-gray-700 dark:text-gray-400">
                           Total Duration:{" "}
                           {formatInterval(
-                            convertNanosecondsToTime(
-                              inf.result.total_duration,
-                            ),
+                            convertNanosecondsToTime(inf.result.total_duration),
                           )}
                         </div>
                         <div className="font-mono text-gray-700 dark:text-gray-400">
