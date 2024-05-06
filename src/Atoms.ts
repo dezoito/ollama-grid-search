@@ -4,6 +4,14 @@ import { atom } from "jotai";
 // Refs https://jotai.org/docs/guides/persistence
 
 // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
+
+/*
+ * This implemention is taken from Jotai's persistence example, but it doesn't handle
+ *  nested values well.
+ *
+ *  If we add params to defaultConfigs, they won't initially have corresponding keys in localStorage
+ *  and the corresponding default values are not passed to the settings form.
+ */
 const atomWithLocalStorage = (key: string, initialValue: unknown) => {
   // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
   const getInitialValue = () => {
@@ -32,6 +40,7 @@ const atomWithLocalStorage = (key: string, initialValue: unknown) => {
 // I've kept only the documented ones at default values
 const defaultConfigs: IDefaultConfigs = {
   request_timeout: 300,
+  concurrent_inferences: 1,
   server_url: "http://localhost:11434",
   system_prompt: "You are a helpful AI assistant.",
   default_options: {

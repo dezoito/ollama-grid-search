@@ -39,6 +39,7 @@ export type TParamIteration = {
 // Interface for the default configuration options
 export interface IDefaultConfigs {
   request_timeout: number;
+  concurrent_inferences: number;
   server_url: string;
   system_prompt: string;
   // default_options: {
