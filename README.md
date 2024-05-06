@@ -68,7 +68,11 @@ Throughput: 5.16 tokens/s
 
 ## A/B Testing
 
-Similarly, you can perform A/B tests by selecting different models and compare results for the same prompt/parameter combination.
+Similarly, you can perform A/B tests by selecting different models and compare results for the same prompt/parameter combination, or test different prompts under similar configurations:
+
+[<img src="./screenshots/ab-animation.gif?raw=true" alt="A/B tessting" width="720">](./screenshots/ab-animation.gif?raw=true)
+
+<small>Comparing the results of different prompts for the same model</small>
 
 ## Experiment Logs
 
@@ -81,8 +85,6 @@ You can list, inspect, or download your experiments:
 - Grading results and filtering by grade
 - Storing experiments and results in a local database
 - Implementing [limited concurrency](https://dezoito.github.io/2024/03/21/react-limited-concurrency.html) for inference queries
-- UI/UX improvements
-- Different interface for prompt A/B testing
 
 ## Development
 
