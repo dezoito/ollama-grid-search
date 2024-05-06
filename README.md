@@ -6,7 +6,7 @@ A Rust based tool to evaluate LLM models, prompts and model params.
 
 ## Purpose
 
-This project aims to automate the process of selecting the best model parameters, given an LLM model and a prompt, iterating over the possible combinations and letting the user visually inspect the results.
+This project aims to automate the process of selecting the best models, prompts, or inference parameters for a given use-case or application, allowing the iteration over the possible combinations and visual inspection of the results.
 
 It assumes the user has [Ollama](https://www.ollama.ai) installed and serving endpoints, either in `localhost` or in a remote server.
 
@@ -23,8 +23,8 @@ Check the [releases page](https://github.com/dezoito/ollama-grid-search/releases
 ## Features
 
 - Automatically fetches models from local or remote Ollama servers;
-- Iterates over different models and params to generate inferences;
-- A/B test prompts on different models simultaneously;
+- Iterates over different models, prompts and parameters to generate inferences;
+- A/B test different prompts on several models simultaneously;
 - Allows multiple iterations for each combination of parameters;
 - Makes synchronous inference calls to avoid spamming servers;
 - Optionally outputs inference parameters and response metadata (inference time, tokens and tokens/s);
@@ -68,7 +68,11 @@ Throughput: 5.16 tokens/s
 
 ## A/B Testing
 
-Similarly, you can perform A/B tests by selecting different models and compare results for the same prompt/parameter combination.
+Similarly, you can perform A/B tests by selecting different models and compare results for the same prompt/parameter combination, or test different prompts under similar configurations:
+
+[<img src="./screenshots/ab-animation.gif?raw=true" alt="A/B tessting" width="720">](./screenshots/ab-animation.gif?raw=true)
+
+<small>Comparing the results of different prompts for the same model</small>
 
 ## Experiment Logs
 
@@ -81,8 +85,6 @@ You can list, inspect, or download your experiments:
 - Grading results and filtering by grade
 - Storing experiments and results in a local database
 - Implementing [limited concurrency](https://dezoito.github.io/2024/03/21/react-limited-concurrency.html) for inference queries
-- UI/UX improvements
-- Different interface for prompt A/B testing
 
 ## Development
 
