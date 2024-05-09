@@ -39,6 +39,7 @@ const atomWithLocalStorage = (key: string, initialValue: unknown) => {
 // https://github.com/ollama/ollama/blob/main/docs/modelfile.md#valid-parameters-and-values
 // I've kept only the documented ones at default values
 const defaultConfigs: IDefaultConfigs = {
+  hide_modelnames: false,
   request_timeout: 300,
   concurrent_inferences: 1,
   server_url: "http://localhost:11434",

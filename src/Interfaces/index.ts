@@ -38,6 +38,7 @@ export type TParamIteration = {
 
 // Interface for the default configuration options
 export interface IDefaultConfigs {
+  hide_modelnames: boolean;
   request_timeout: number;
   concurrent_inferences: number;
   server_url: string;
