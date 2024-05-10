@@ -1,4 +1,5 @@
 import { configAtom, gridParamsAtom } from "@/Atoms";
+import PromptSelector from "@/components/filters/PromptSelector";
 import { useConfirm } from "@/components/ui/alert-dialog-provider";
 import { Input } from "@/components/ui/input";
 import {
@@ -15,6 +16,7 @@ import { useForm } from "react-hook-form";
 import { v4 as uuidv4 } from "uuid";
 import z from "zod";
 import ModelSelector from "../filters/ModelSelector";
+import SystemPromptSelector from "../filters/SystemPromptSelector";
 import { Button } from "./button";
 import {
   Form,
@@ -27,10 +29,6 @@ import {
 } from "./form";
 import Spinner from "./spinner";
 import { useToast } from "./use-toast";
-import PromptSelector from "@/components/filters/PromptSelector";
-import { useState } from "react";
-import { Textarea } from "@/components/ui/textarea";
-import SystemPromptSelector from "../filters/SystemPromptSelector";
 
 const validateNumberOrArray =
   (inputType: "float" | "int") => (value: string | number) => {
@@ -152,7 +150,7 @@ export default function FormGridParams() {
   const [__, setGridParams] = useAtom(gridParamsAtom);
   const confirm = useConfirm();
 
-  const defaultPrompt = "Write a short sentence!"
+  const defaultPrompt = "Write a short sentence!";
 
   // Initiates for fields with value set in Settings > default options
   const form = useForm<z.infer<typeof ParamsFormSchema>>({
@@ -215,7 +213,7 @@ export default function FormGridParams() {
 
           {/* system prompt */}
           <SystemPromptSelector form={form} />
-          
+
           {/* generations */}
           <div className="flex flex-col gap-2">
             <FormField
@@ -584,8 +582,8 @@ export default function FormGridParams() {
               </Button>
             </div>
           </div>
-        </form >
-      </Form >
-    </div >
+        </form>
+      </Form>
+    </div>
   );
 }

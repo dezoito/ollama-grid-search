@@ -1,3 +1,4 @@
+import { PromptDialog } from "@/components/prompt-dialog";
 import {
   FormControl,
   FormDescription,
@@ -6,14 +7,10 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import { useCallback, useEffect, useState } from "react";
-import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
-import { TrashIcon } from "@radix-ui/react-icons";
-import { PromptDialog } from "@/components/prompt-dialog";
+import { useEffect, useState } from "react";
 // import { Form } from "react-hook-form"
 import * as React from "react";
-import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
 
 interface IProps {
   form: any;
@@ -22,16 +19,21 @@ interface IProps {
 function SystemPromptSelector(props: IProps) {
   const { form } = props;
   const idx = 0;
-  const [systemPrompt, setSystemPrompt] = useState<string>(form.getValues().system_prompt)
+  const [systemPrompt, setSystemPrompt] = useState<string>(
+    form.getValues().system_prompt,
+  );
 
   useEffect(() => {
     // sync form state
-    form.setValue("system_prompt", systemPrompt)
-  }, [systemPrompt])
+    form.setValue("system_prompt", systemPrompt);
+  }, [systemPrompt]);
 
-  const handleChange = (e: React.ChangeEvent<HTMLTextAreaElement>, _: number) => {
-    setSystemPrompt(e.target.value)
-  }
+  const handleChange = (
+    e: React.ChangeEvent<HTMLTextAreaElement>,
+    _: number,
+  ) => {
+    setSystemPrompt(e.target.value);
+  };
 
   return (
     <FormField
@@ -48,7 +50,13 @@ function SystemPromptSelector(props: IProps) {
                   <FormLabel className="flex flex-row items-center justify-between font-bold">
                     System Prompt
                     <div>
-                      <PromptDialog content={systemPrompt} handleChange={handleChange} idx={idx} fieldName="system_prompt" fieldLabel="system prompt" />
+                      <PromptDialog
+                        content={systemPrompt}
+                        handleChange={handleChange}
+                        idx={idx}
+                        fieldName="system_prompt"
+                        fieldLabel="system prompt"
+                      />
                     </div>
                   </FormLabel>
                   <FormControl>
@@ -57,11 +65,14 @@ function SystemPromptSelector(props: IProps) {
                       className="flex-1"
                       value={systemPrompt}
                       rows={4}
-                      onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) => handleChange(e, idx)}
+                      onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) =>
+                        handleChange(e, idx)
+                      }
                     />
                   </FormControl>
                   <FormDescription>
-                    Optional. The system message used to specify custom behavior.
+                    Optional. The system message used to specify custom
+                    behavior.
                   </FormDescription>
                 </FormItem>
               );
