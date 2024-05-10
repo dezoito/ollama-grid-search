@@ -145,7 +145,7 @@ pub async fn log_experiment(
         json!({
             "experiment_uuid": experiment_uuid,
             "datetime": Utc::now().to_string(),
-            "log_version": "0.4.0",
+            "log_version": "0.5.0",
             "config": config,
             "inferences": []
         })
