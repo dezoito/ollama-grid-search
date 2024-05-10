@@ -121,12 +121,12 @@ export default function GridResultsPane() {
             {expandParams ? (
               <>
                 <ChevronUpIcon className="m-1 h-5 w-5 text-black dark:text-gray-600" />
-                Hide Inference parameters
+                Hide parameters
               </>
             ) : (
               <>
                 <ChevronDownIcon className="m-1 h-5 w-5 text-black dark:text-gray-600" />
-                Expand Inference parameters
+                Expand parameters
               </>
             )}
           </Button>
@@ -138,12 +138,12 @@ export default function GridResultsPane() {
             {expandMetadata ? (
               <>
                 <ChevronUpIcon className="m-1 h-5 w-5 text-black dark:text-gray-600" />
-                Hide Inference metadata
+                Hide metadata
               </>
             ) : (
               <>
                 <ChevronDownIcon className="m-1 h-5 w-5 text-black dark:text-gray-600" />
-                Expand Inference metadata
+                Expand metadata
               </>
             )}
           </Button>
@@ -154,7 +154,9 @@ export default function GridResultsPane() {
               onClick={() => setHideModelNames(!hideModelNames)}
             />
 
-            <Label htmlFor="hide_model_names">Hide Model Names</Label>
+            <Label htmlFor="hide_model_names" className="text-xs">
+              Hide Model Names
+            </Label>
           </div>
         </div>
 
