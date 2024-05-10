@@ -2,17 +2,20 @@
 
 All notable changes to this project will be documented in this file.
 
-## [Version 0.5.0] - 2024-05-XX
+## [Version 0.5.0] - 2024-05-10
 
 ### Added
 
 - Allows multiple prompts when running experiments (courtesy of @calebsheridan).
 - Allows multiple concurrent inference calls, matching Ollama's support for concurrency.
+- Allows user to hide model names on the results pane, to avoid bias in evaluations.
 - Added `concurrent_inferences` input to settings.
+- Added `hide_model_names` input to settings.
 
 ### Changed
 
-- Experiment inspection view was updated to show which prompt was used for each iteration, preserving their line breaks (courtesy of @calebsheridan)
+- Experiment inspection view was updated to show which prompt was used for each iteration, preserving their line breaks (courtesy of @calebsheridan).
+- Minor UI tweaks.
 
 ## [Version 0.4.3] - 2024-05-01
 

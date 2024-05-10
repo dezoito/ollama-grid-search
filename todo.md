@@ -80,6 +80,16 @@ https://github.com/tauri-apps/plugins-workspace/tree/v1/plugins/single-instance
 [ok] - Add versioning to the JSON log files, starting at this release's version.
 
 
+--- v0.5.0
+
+[ok] - Multiple prompts
+[ok] - Concurrent inferences
+[ok] - Hide/Show model names
+[ok] - Present experiment inspection output in human readable format instead of JSON
+[ok] - Add versioning to the JSON log files, starting at this release's version.
+
+
+
 ---
 
 - [?] Allow pre-loading a model before running inference with it (benchmark avg time for this operation)

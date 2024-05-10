@@ -31,6 +31,7 @@ import { useAtom } from "jotai";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import z from "zod";
+import { Switch } from "./ui/switch";
 
 export function SettingsDialog() {
   const { toast } = useToast();
@@ -47,6 +48,7 @@ export function SettingsDialog() {
 
   // * default_options has to be valid JSON
   const FormSchema = z.object({
+    hide_model_names: z.coerce.boolean().default(false),
     request_timeout: z.coerce.number().min(5),
     concurrent_inferences: z.coerce.number().min(1).max(5),
     server_url: z.string().url(),
@@ -140,6 +142,31 @@ export function SettingsDialog() {
 
             {/* we need to set a max-height on this div for overflow to work */}
             <div className="grid max-h-[500px] gap-6 overflow-y-auto px-4 py-4">
+              <div>
+                <FormField
+                  control={form.control}
+                  name="hide_model_names"
+                  render={({ field }) => (
+                    <FormItem className="flex flex-row items-center justify-between">
+                      <div className="space-y-0.5">
+                        <FormLabel>Hide Model Names</FormLabel>
+                        <FormDescription>
+                          Hides model names in results to prevent human biases
+                          in evaluations.{" "}
+                          <p>(They are still shown in inspections and logs)</p>
+                        </FormDescription>
+                      </div>
+                      <FormControl>
+                        <Switch
+                          checked={field.value}
+                          onCheckedChange={field.onChange}
+                        />
+                      </FormControl>
+                    </FormItem>
+                  )}
+                />
+              </div>
+              {/* end switch */}
               <div className="flex flex-col gap-4">
                 <FormField
                   control={form.control}

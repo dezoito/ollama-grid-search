@@ -22,6 +22,7 @@ interface IProps {
   totalIterations: number;
   expandParams: boolean;
   expandMetadata: boolean;
+  hideModelNames: boolean;
 }
 
 export default function IterationResult(props: IProps) {
@@ -31,6 +32,7 @@ export default function IterationResult(props: IProps) {
     totalIterations,
     expandParams,
     expandMetadata,
+    hideModelNames,
   } = props;
   const {
     model,
@@ -49,6 +51,8 @@ export default function IterationResult(props: IProps) {
   const [enabled, setEnabled] = useState(false);
   const [config, __] = useAtom(configAtom);
   const queryClient = useQueryClient();
+
+  const modelLabel = hideModelNames ? "<Model name hidden>" : model;
 
   // Use only the cached queries from the parent component
   // Keep "enabled: false" to run queries in sequence and not concurrently
@@ -80,12 +84,14 @@ export default function IterationResult(props: IProps) {
         {/* model + inference params */}
 
         <CollapsibleItem
-          title={`[${iterationIndex + 1}/${totalIterations}] Gen ${params.generation + 1} | ${model} `}
+          title={`[${iterationIndex + 1}/${totalIterations}] Gen ${params.generation + 1} | ${modelLabel} `}
           triggerText="Inference Parameters"
           defaultOpen={expandParams}
         >
           <div className="font-mono text-sm">
-            <div className="whitespace-pre-wrap">system prompt: {system_prompt}</div>
+            <div className="whitespace-pre-wrap">
+              system prompt: {system_prompt}
+            </div>
             <div className="whitespace-pre-wrap">prompt: {prompt}</div>
             <div>temperature: {temperature}</div>
             <div>repeat penalty: {repeat_penalty}</div>
