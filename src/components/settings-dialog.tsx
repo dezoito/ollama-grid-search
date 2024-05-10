@@ -48,7 +48,7 @@ export function SettingsDialog() {
 
   // * default_options has to be valid JSON
   const FormSchema = z.object({
-    hide_modelnames: z.coerce.boolean().default(false),
+    hide_model_names: z.coerce.boolean().default(false),
     request_timeout: z.coerce.number().min(5),
     concurrent_inferences: z.coerce.number().min(1).max(5),
     server_url: z.string().url(),
@@ -145,7 +145,7 @@ export function SettingsDialog() {
               <div>
                 <FormField
                   control={form.control}
-                  name="hide_modelnames"
+                  name="hide_model_names"
                   render={({ field }) => (
                     <FormItem className="flex flex-row items-center justify-between">
                       <div className="space-y-0.5">

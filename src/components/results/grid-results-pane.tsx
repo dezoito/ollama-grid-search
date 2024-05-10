@@ -6,7 +6,9 @@ import { useAtom } from "jotai";
 import { useEffect, useState } from "react";
 import { get_inference } from "../queries";
 import { Button } from "../ui/button";
+import { Label } from "../ui/label";
 import { Separator } from "../ui/separator";
+import { Switch } from "../ui/switch";
 import Tutorial from "../ui/tutorial";
 import IterationResult from "./iteration-result";
 
@@ -20,6 +22,7 @@ export default function GridResultsPane() {
   const [experimentDate, setExperimentDate] = useState<string>(
     new Date().toUTCString(),
   );
+  const [hideModelNames, setHideModelNames] = useState(config.hide_model_names);
 
   useEffect(() => {
     setExperimentDate(new Date().toUTCString());
@@ -109,7 +112,7 @@ export default function GridResultsPane() {
   return (
     <div>
       <div className="sticky top-0 z-50 bg-white pb-4 dark:bg-zinc-950">
-        <div className="my-4 flex gap-2">
+        <div className="my-4 flex gap-4">
           <Button
             variant="ghost"
             size="tight"
@@ -144,6 +147,15 @@ export default function GridResultsPane() {
               </>
             )}
           </Button>
+          {/* hide/show model names */}
+          <div className="ml-4 flex items-center space-x-2">
+            <Switch
+              defaultChecked={config.hide_model_names}
+              onClick={() => setHideModelNames(!hideModelNames)}
+            />
+
+            <Label htmlFor="hide_model_names">Hide Model Names</Label>
+          </div>
         </div>
 
         <Separator className="my-4" />
@@ -166,6 +178,7 @@ export default function GridResultsPane() {
               params={iteration}
               expandParams={expandParams}
               expandMetadata={expandMetadata}
+              hideModelNames={hideModelNames}
             />
           </div>
         ))}
