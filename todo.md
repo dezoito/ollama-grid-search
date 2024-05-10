@@ -80,7 +80,7 @@ https://github.com/tauri-apps/plugins-workspace/tree/v1/plugins/single-instance
 [ok] - Add versioning to the JSON log files, starting at this release's version.
 
 
---- v0.4.0
+--- v0.5.0
 
 [ok] - Multiple prompts
 [ok] - Concurrent inferences
