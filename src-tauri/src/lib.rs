@@ -111,11 +111,7 @@ pub async fn wait_and_return(duration_seconds: u64) -> String {
 pub fn split_host_port(url: &str) -> Result<(String, u16), ParseError> {
     let some_url = Url::parse(url)?;
     Ok((
-        format!(
-            "{}://{}",
-            some_url.scheme(),
-            some_url.host_str().unwrap().to_string(),
-        ),
+        format!("{}://{}", some_url.scheme(), some_url.host_str().unwrap(),),
         some_url.port().unwrap(),
     ))
 }
@@ -131,7 +127,7 @@ pub async fn log_experiment(
 
     // Create the logs directory if it doesn't exist
     if !Path::new(&app_data_dir).exists() {
-        fs::create_dir(&app_data_dir)?;
+        fs::create_dir(app_data_dir)?;
     }
 
     let mut log_data = if Path::new(&log_file_path).exists() {
