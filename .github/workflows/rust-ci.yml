@@ -31,16 +31,16 @@ jobs:
 
       - name: Build the project
         run: cargo build --verbose
-        working-directory: ./src
+        working-directory: ./src-tauri
 
       - name: Test the project
         run: cargo test
-        working-directory: ./src
+        working-directory: ./src-tauri
 
       - name: Run Clippy
         run: cargo clippy -- -D warnings
-        working-directory: ./src
+        working-directory: ./src-tauri
 
       - name: Run cargo audit
         run: cargo audit
-        working-directory: ./src
+        working-directory: ./src-tauri
