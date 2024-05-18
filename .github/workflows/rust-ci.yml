@@ -16,7 +16,7 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: setup node
+      - name: Setup Node
         uses: actions/setup-node@v4
         with:
           node-version: 20
@@ -31,12 +31,16 @@ jobs:
 
       - name: Build the project
         run: cargo build --verbose
+        working-directory: ./src
 
       - name: Test the project
         run: cargo test
+        working-directory: ./src
 
       - name: Run Clippy
         run: cargo clippy -- -D warnings
+        working-directory: ./src
 
       - name: Run cargo audit
         run: cargo audit
+        working-directory: ./src
