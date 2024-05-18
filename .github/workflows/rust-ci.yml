@@ -26,6 +26,9 @@ jobs:
         with:
           toolchain: stable
 
+      - name: Install system dependencies
+        run: sudo apt-get update && sudo apt-get install -y libgtk-3-dev
+
       - name: Install cargo audit
         run: cargo install cargo-audit
 
