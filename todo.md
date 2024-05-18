@@ -88,10 +88,16 @@ https://github.com/tauri-apps/plugins-workspace/tree/v1/plugins/single-instance
 [ok] - Present experiment inspection output in human readable format instead of JSON
 [ok] - Add versioning to the JSON log files, starting at this release's version.
 
+--- v0.5.1
+[ok] - Add3ed Rust CI
+[ok] - Added Clippy checks when saving Rust code
+[ok] - Corrected existing Rust code to pass Clippy checks
+
 
 
 ---
 
+- Add CI checks for typescript code (ESLint?)
 - [?] Allow pre-loading a model before running inference with it (benchmark avg time for this operation)
 - Allow re-running past experiments
 
