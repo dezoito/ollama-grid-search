@@ -187,10 +187,10 @@ Feynman's legacy extends beyond the academic realm. Known for his playful approa
                         prompt,
                         stream: false,
                         options: Options {
-                            temperature: temperature.clone(),
-                            repeat_penalty: repeat_penalty.clone(),
-                            top_k: top_k.clone(),
-                            top_p: top_p.clone(),
+                            temperature: *temperature,
+                            repeat_penalty: *repeat_penalty,
+                            top_k: *top_k,
+                            top_p: *top_p,
                         },
                     };
                     // println!("Request object {:#?}", request_object);

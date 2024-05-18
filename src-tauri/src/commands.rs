@@ -46,10 +46,9 @@ pub async fn get_ollama_version(config: IDefaultConfigs) -> Result<String, Error
         .timeout(timeout)
         .send()
         .await
-        .map_err(|err| match err {
-            err => Error::StringError(
-                "Version Request failed with status: ".to_string() + &err.to_string(),
-            ),
+        .map_err(|err| {
+            let err_str = format!("Version Request failed with status: {}", err);
+            Error::StringError(err_str)
         })?;
 
     dbg!(&response);
@@ -167,7 +166,7 @@ pub async fn get_inference(
 
     let req = GenerationRequest::new(params.clone().model, params.clone().prompt)
         .options(options)
-        .system(params.clone().system_prompt.into())
+        .system(params.clone().system_prompt)
         .keep_alive(KeepAlive::UnloadOnCompletion);
 
     dbg!(&req);
@@ -210,7 +209,7 @@ pub fn get_experiments(app_handle: tauri::AppHandle) -> Result<Vec<ExperimentFil
     let app_data_dir = binding.to_str().unwrap();
     let mut files: Vec<ExperimentFile> = fs::read_dir(app_data_dir)?
         .filter_map(Result::ok)
-        .map(|entry| {
+        .filter_map(|entry| {
             let path = entry.path();
             let metadata = fs::metadata(&path).ok()?;
             let created = metadata.created().ok()?;
@@ -221,7 +220,6 @@ pub fn get_experiments(app_handle: tauri::AppHandle) -> Result<Vec<ExperimentFil
                 contents,
             })
         })
-        .filter_map(std::convert::identity) // removes "Nones" from vector.
         .collect();
 
     files.sort_by_key(|file| file.created);
