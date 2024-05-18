@@ -3,10 +3,10 @@ name: Rust CI
 on:
   push:
     branches:
-      - ci
+      - main
   pull_request:
     branches:
-      - ci
+      - main
 
 jobs:
   build:

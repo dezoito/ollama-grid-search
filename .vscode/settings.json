@@ -15,5 +15,4 @@
   // Ignore @tailwind warnings
   "css.lint.unknownAtRules": "ignore",
   "editor.fontSize": 14,
-  "editor.fontFamily": "'JetBrains Mono medium', 'fira code', 'hack'",
 }
