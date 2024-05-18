@@ -107,12 +107,25 @@ cd ollama-grid-search
    bun install
    ```
 
-4. Run the app in development mode
+4. Make sure `rust-analyzer` is configured to run `Clippy` when checking code.
+
+   If you are running VS Code, add this to your `settings.json` file
+
+   ```
+   {
+      ...
+      "rust-analyzer.check.command": "clippy",
+   }
+   ```
+
+   (or, better yet, just use the settings file provided with the code)
+
+5. Run the app in development mode
    ```sh
    cd <project root>/
    bun tauri dev
    ```
-5. Go grab a cup of coffee because this may take a while.
+6. Go grab a cup of coffee because this may take a while.
 
 ## Thank you!
 

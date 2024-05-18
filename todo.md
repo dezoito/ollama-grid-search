@@ -97,6 +97,7 @@ https://github.com/tauri-apps/plugins-workspace/tree/v1/plugins/single-instance
 
 ---
 
+- Add CI checks for typescript code (ESLint?)
 - [?] Allow pre-loading a model before running inference with it (benchmark avg time for this operation)
 - Allow re-running past experiments
 
