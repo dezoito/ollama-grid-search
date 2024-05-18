@@ -22,7 +22,7 @@ jobs:
           node-version: 20
 
       - name: Set up Rust
-        uses: actions-rs/toolchain@v1
+        uses: dtolnay/rust-toolchain@stable
         with:
           toolchain: stable
           profile: minimal
