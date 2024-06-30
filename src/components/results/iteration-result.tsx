@@ -14,8 +14,9 @@ import { useState } from "react";
 import { get_inference } from "../queries";
 import { Button } from "../ui/button";
 import { CollapsibleItem } from "../ui/collapsible-item";
+import { CollapsibleText } from "../ui/collapsible-text";
+import { Separator } from "../ui/separator";
 import Spinner from "../ui/spinner";
-
 interface IProps {
   params: TParamIteration;
   iterationIndex: number;
@@ -89,10 +90,6 @@ export default function IterationResult(props: IProps) {
           defaultOpen={expandParams}
         >
           <div className="font-mono text-sm">
-            <div className="whitespace-pre-wrap">
-              system prompt: {system_prompt}
-            </div>
-            <div className="whitespace-pre-wrap">prompt: {prompt}</div>
             <div>temperature: {temperature}</div>
             <div>repeat penalty: {repeat_penalty}</div>
             <div>top k: {top_k}</div>
@@ -102,6 +99,14 @@ export default function IterationResult(props: IProps) {
             <div>mirostat: {mirostat}</div>
             <div>mirostat tau: {mirostat_tau}</div>
             <div>mirostat eta: {mirostat_eta}</div>
+            <Separator className="my-1" />
+            <div className=" whitespace-pre-wrap">
+              prompt: <CollapsibleText text={prompt} maxChars={45} />
+            </div>
+            <div className=" whitespace-pre-wrap">
+              system prompt:{" "}
+              <CollapsibleText text={system_prompt} maxChars={45} />
+            </div>
           </div>
         </CollapsibleItem>
 
