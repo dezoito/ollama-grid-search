@@ -117,6 +117,7 @@ export default function GridResultsPane() {
             variant="ghost"
             size="tight"
             onClick={() => setExpandParams(!expandParams)}
+            className="pr-2"
           >
             {expandParams ? (
               <>
@@ -134,6 +135,7 @@ export default function GridResultsPane() {
             variant="ghost"
             size="tight"
             onClick={() => setExpandMetadata(!expandMetadata)}
+            className="pr-2"
           >
             {expandMetadata ? (
               <>
