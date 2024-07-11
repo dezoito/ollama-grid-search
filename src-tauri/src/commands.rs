@@ -10,7 +10,7 @@ use ollama_rs::{
     generation::{
         completion::{request::GenerationRequest, GenerationResponse},
         options::GenerationOptions,
-        parameters::KeepAlive,
+        // parameters::KeepAlive,
     },
     Ollama,
 };
@@ -166,8 +166,8 @@ pub async fn get_inference(
 
     let req = GenerationRequest::new(params.clone().model, params.clone().prompt)
         .options(options)
-        .system(params.clone().system_prompt)
-        .keep_alive(KeepAlive::UnloadOnCompletion);
+        .system(params.clone().system_prompt);
+    // .keep_alive(KeepAlive::Indefinitely);
 
     dbg!(&req);
 

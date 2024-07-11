@@ -1,6 +1,6 @@
 [package]
 name = "grid-search-desktop"
-version = "0.5.0"
+version = "0.5.1"
 description = "A Tauri App to perform Grid Search and A/B testing experiments on LLMs"
 authors = ["dezoito"]
 license = "Whatever is in the repo"
@@ -23,7 +23,7 @@ url = "2.5.0"
 tauri-plugin-single-instance = { git = "https://github.com/tauri-apps/plugins-workspace", branch = "v1" }
 # The feature "rustls" is added due to issues with OpenSSL on Linux releases
 # See https://github.com/tauri-apps/tauri/issues/4470#issuecomment-1170342732
-ollama-rs = { version = "0.1.9", default-features = false, features = ["rustls"] }
+ollama-rs = { version = "0.2.0", default-features = false, features = ["rustls"] }
 chrono = "0.4.38"
 reqwest = {version = "0.12.4", features = ["blocking", "json", "rustls-tls"], default-features = false  }
 
