@@ -2,6 +2,21 @@
 
 All notable changes to this project will be documented in this file.
 
+## [Version 0.5.1] - 2024-07-10
+
+### Added
+
+- Added Clippy checks when saving Rust code.
+- Corrected existing Rust code to pass Clippy checks.
+- Improved UI for component that displays inference parameters with collapsible prompts.
+
+### Changed
+
+- Fixes generation responses not returning metadata (like `eval_duration`, `total_duration`, `eval_count`).
+- Added Rust CI checks.
+- Fixed padding in "Expand/Hide" buttons for params and metadate.
+- `keep-alive` parameter for generation is set to Ollama's default (instead of `indefinitely`).
+
 ## [Version 0.5.0] - 2024-05-10
 
 ### Added

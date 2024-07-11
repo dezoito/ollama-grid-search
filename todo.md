@@ -89,6 +89,7 @@ https://github.com/tauri-apps/plugins-workspace/tree/v1/plugins/single-instance
 [ok] - Add versioning to the JSON log files, starting at this release's version.
 
 --- v0.5.1
+[ok] - Fixes generation responses not returning metadata (like eval_duration, total_duration, eval_count).
 [ok] - Added Rust CI
 [ok] - Added Clippy checks when saving Rust code
 [ok] - Corrected existing Rust code to pass Clippy checks
