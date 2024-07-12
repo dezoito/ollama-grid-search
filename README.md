@@ -72,7 +72,7 @@ Throughput: 5.16 tokens/s
 
 Similarly, you can perform A/B tests by selecting different models and compare results for the same prompt/parameter combination, or test different prompts under similar configurations:
 
-[<img src="./screenshots/ab-animation.gif?raw=true" alt="A/B tessting" width="720">](./screenshots/ab-animation.gif?raw=true)
+[<img src="./screenshots/ab-animation.gif?raw=true" alt="A/B testing" width="720">](./screenshots/ab-animation.gif?raw=true)
 
 <small>Comparing the results of different prompts for the same model</small>
 
