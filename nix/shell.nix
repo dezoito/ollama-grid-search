@@ -12,7 +12,6 @@ pkgs.mkShell rec {
   nativeBuildInputs = with pkgs; [
     bun
     cargo
-    cargo
     gcc
     gnome.libsoup
     nixfmt-rfc-style
