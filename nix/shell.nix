@@ -13,7 +13,7 @@ pkgs.mkShell rec {
     bun
     cargo
     gcc
-    gnome.libsoup
+    yarn
     nixfmt-rfc-style
     pkg-config
     rustc
