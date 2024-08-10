@@ -86,7 +86,7 @@ You can list, inspect, or download your experiments:
 
 - Grading results and filtering by grade
 - Storing experiments and results in a local database
-- Importing, Exporting and sharing prompt lists and experiments
+- Importing, exporting and sharing prompt lists and experiments
 
 ## Contributing
 
