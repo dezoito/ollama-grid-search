@@ -100,10 +100,18 @@ https://github.com/tauri-apps/plugins-workspace/tree/v1/plugins/single-instance
 
 ---
 
+- Allow re-running past experiments
+  Let's call this cloning an experiment.
+  What happens if a model is not available anymore (skip/alert?)
+
+  - alerting the model is not available, so the user can pull it again and retry before running.
+
+  when hitting a "clone" button on an experiment entry, we just update the form and let the user change stuff or press submit without changing anything.
+
+  This will result in a new experiment.
+
 - Add CI checks for typescript code (ESLint?)
 - Build options straight from config: https://github.com/pepperoni21/ollama-rs/blob/master/examples/options_from_json.rs
-- [?] Allow pre-loading a model before running inference with it (benchmark avg time for this operation)
-- Allow re-running past experiments
 
 - Add a damn icon.
 - Add feature to clear all existing log files.
