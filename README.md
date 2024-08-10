@@ -12,7 +12,7 @@ It assumes [Ollama](https://www.ollama.ai) is installed and serving endpoints, e
 
 ## Quick Example
 
-Here's a test for the prompt "Write a short sentence about HAL9000", tested on 2 models, using `0.7` and `1.0` as values for `temperature`:
+Here's a test for a simple prompt, tested on 2 models, using `0.7` and `1.0` as values for `temperature`:
 
 [<img src="./screenshots/main.png?raw=true" alt="Main Screenshot" width="720">](./screenshots/main.png?raw=true)
 
