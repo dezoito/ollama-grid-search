@@ -86,6 +86,13 @@ You can list, inspect, or download your experiments:
 
 - Grading results and filtering by grade
 - Storing experiments and results in a local database
+- Importing, Exporting and sharing prompt lists and experiments
+
+## Contributing
+
+- For obvious bugs and spelling mistakes, please go ahead and submit a PR.
+
+- If you want to propose a new feature, change existing functionality, or propose anything more complex, please open an issue for discussion, **before** getting work done on a PR.
 
 ## Development
 
@@ -126,6 +133,14 @@ cd ollama-grid-search
    bun tauri dev
    ```
 6. Go grab a cup of coffee because this may take a while.
+
+## Citations
+
+The following works and theses have cited this repository:
+
+Inouye, D & Lindo, L, & Lee, R & Allen, E; Computer Science and Engineering Senior Theses: **Applied Auto-tuning on LoRA Hyperparameters**
+Santa Clara University, 2024
+<https://scholarcommons.scu.edu/cgi/viewcontent.cgi?article=1271&context=cseng_senior>
 
 ## Thank you!
 
