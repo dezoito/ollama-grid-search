@@ -53,7 +53,10 @@ pub async fn get_ollama_version(config: IDefaultConfigs) -> Result<String, Error
 
     dbg!(&response);
 
-    Ok(response.text().await.unwrap())
+    Ok(response
+        .text()
+        .await
+        .unwrap_or("Version Unavailable".to_string()))
 }
 
 #[tauri::command]
