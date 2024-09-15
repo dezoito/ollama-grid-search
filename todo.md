@@ -96,6 +96,9 @@ https://github.com/tauri-apps/plugins-workspace/tree/v1/plugins/single-instance
 [ok] - Fixed padding in "Expand/Hide" buttons for params and metadate
 [ok] - Improved UI for component that displays inference parameters with collapsible prompts
 
+--- v0.5.2
+[ok] - Adds custom application icon
+[ok] - Handles Ollama version info not being correctly returned by the server
 
 
 ---

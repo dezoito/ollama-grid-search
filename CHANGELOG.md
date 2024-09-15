@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file.
 
+## [Version 0.5.2] - 2024-09-15
+
+### Added
+
+[ok] - Adds custom application icon
+
+### Fixes
+
+[ok] - Handles Ollama version info not being correctly returned by the server
+
 ## [Version 0.5.1] - 2024-07-10
 
 ### Added

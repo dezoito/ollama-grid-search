@@ -1,4 +1,5 @@
 use reqwest::Client;
+use serde_json::json;
 use std::fs;
 use tokio::time::{self, Duration};
 
@@ -53,7 +54,10 @@ pub async fn get_ollama_version(config: IDefaultConfigs) -> Result<String, Error
 
     dbg!(&response);
 
-    Ok(response.text().await.unwrap())
+    Ok(response
+        .text()
+        .await
+        .unwrap_or(json!({"version": "_(Version Unavailable)"}).to_string()))
 }
 
 #[tauri::command]
