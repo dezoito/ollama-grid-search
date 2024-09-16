@@ -100,6 +100,9 @@ https://github.com/tauri-apps/plugins-workspace/tree/v1/plugins/single-instance
 [ok] - Adds custom application icon
 [ok] - Handles Ollama version info not being correctly returned by the server
 
+--- v0.5.3
+[ok] - Handles Ollama servers using default ports (80 or 443)
+
 
 ---
 
