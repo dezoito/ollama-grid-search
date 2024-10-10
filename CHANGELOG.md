@@ -2,6 +2,22 @@
 
 All notable changes to this project will be documented in this file.
 
+## [Version 0.5.3] - 2024-09-16
+
+### Fixes
+
+- Handles Ollama servers using default ports (80 or 443)
+
+## [Version 0.5.2] - 2024-09-15
+
+### Added
+
+- Adds custom application icon
+
+### Fixes
+
+- Handles Ollama version info not being correctly returned by the server
+
 ## [Version 0.5.1] - 2024-07-10
 
 ### Added

@@ -110,9 +110,16 @@ pub async fn wait_and_return(duration_seconds: u64) -> String {
 
 pub fn split_host_port(url: &str) -> Result<(String, u16), ParseError> {
     let some_url = Url::parse(url)?;
+    let port = some_url.port().unwrap_or_else(|| {
+        if some_url.scheme() == "https" {
+            443
+        } else {
+            80
+        }
+    });
     Ok((
         format!("{}://{}", some_url.scheme(), some_url.host_str().unwrap(),),
-        some_url.port().unwrap(),
+        port,
     ))
 }
 
