@@ -25,9 +25,7 @@ interface IProps {
 
 function PromptSelector(props: IProps) {
   const { form } = props;
-  const [prompts, setPrompts] = useState<string[]>(
-    form.getValues().prompts ?? ["no prompts cause undefined in form"],
-  );
+  const [prompts, setPrompts] = useState<string[]>(form.getValues().prompts);
 
   const setPromptForIdx = useCallback(
     ({ idx, prompt }: { idx: number; prompt: string }) => {

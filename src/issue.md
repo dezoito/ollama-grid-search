@@ -12,3 +12,9 @@ Possible fixes...
 1. add a default prompts field to settings?
 
 2. Using nullish coalescence to insert a default?
+
+======
+I moved prompts from config to defaultGridParams atom
+in the form, I had to refer to that atom to use the value on the form.
+
+That worked.

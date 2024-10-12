@@ -147,7 +147,7 @@ export default function FormGridParams() {
   const isFetching = useIsFetching({ queryKey: ["get_inference"] });
   const { toast } = useToast();
   const [config, _] = useAtom(configAtom);
-  const [__, setGridParams] = useAtom(gridParamsAtom);
+  const [gridParams, setGridParams] = useAtom(gridParamsAtom);
   const confirm = useConfirm();
 
   console.log("---------------------------D");
@@ -163,9 +163,7 @@ export default function FormGridParams() {
     resolver: zodResolver(ParamsFormSchema),
     defaultValues: {
       experiment_uuid: uuidv4(),
-      prompts: config.prompts && [
-        "whatever dude... i cant read the config.prompts",
-      ],
+      prompts: gridParams.prompts,
       system_prompt: config.system_prompt,
       models: [],
       temperatureList: config.default_options.temperature,
