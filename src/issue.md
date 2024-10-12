@@ -27,6 +27,8 @@ That worked.
 [ok]Try updating TParamIteration with strings, or rewriting every field (which is more correct)
 [ok]If we rewrite the fields, using temperatureList, we could also manually derive them each from configAtom.
 
-Can we derive gridParams from FormValues, adding just uuid?
+[ok]Can we derive gridParams from FormValues, adding just uuid?
+
+There is something wrong happening when we set form values to string arrays
 
 When rebuilding the values to be inserted into the FormValues atom, we will have to loop over the prompts from the experiment to build the prompt array
