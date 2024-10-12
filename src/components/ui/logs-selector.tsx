@@ -12,13 +12,15 @@ import {
   SheetTrigger,
 } from "@/components/ui/sheet";
 import { convertEpochToDateTime } from "@/lib";
-import { DownloadIcon, FileTextIcon } from "@radix-ui/react-icons";
+import { DownloadIcon, FileTextIcon, UpdateIcon } from "@radix-ui/react-icons";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { save } from "@tauri-apps/api/dialog";
 import { writeTextFile } from "@tauri-apps/api/fs";
 import { saveAs } from "file-saver";
+import { useState } from "react";
 import { ExperimentDataDialog } from "../experiment-data-dialog";
 import { get_experiments } from "../queries";
+import { toast } from "./use-toast";
 
 const handleDownload = async (
   fileName: string,
@@ -48,9 +50,18 @@ export function LogsSelector() {
     staleTime: 0,
     // cacheTime: 0,
   });
+  const [sheetOpen, setSheetOpen] = useState(false);
+
+  function cloneExperiment(data: string) {
+    toast({
+      title: JSON.stringify(data, null, 2),
+      duration: 2500,
+    });
+    setSheetOpen(false);
+  }
 
   return (
-    <Sheet>
+    <Sheet open={sheetOpen} onOpenChange={setSheetOpen}>
       <SheetTrigger asChild>
         <Button
           variant="transparentDark"
@@ -68,7 +79,7 @@ export function LogsSelector() {
         <SheetHeader>
           <SheetTitle className="text-2xl">Experiments</SheetTitle>
           <SheetDescription>
-            Inspect or download your past experiments in JSON format.
+            Inspect, re-run or download your experiments (JSON)
           </SheetDescription>
         </SheetHeader>
         <div id="results" className="h-full w-full gap-8 overflow-y-auto py-6">
@@ -94,6 +105,14 @@ export function LogsSelector() {
                 {/* Buttons to inspect and download */}
                 <div>
                   <ExperimentDataDialog experiment={exp} />
+                  <Button
+                    variant="ghost"
+                    size="icon"
+                    onClick={() => cloneExperiment(exp.contents)}
+                  >
+                    <UpdateIcon className="h-4 w-4" />
+                  </Button>
+
                   <Button
                     variant="ghost"
                     size="icon"
