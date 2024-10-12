@@ -136,3 +136,12 @@ https://github.com/tauri-apps/plugins-workspace/tree/v1/plugins/single-instance
   https://github.com/pepperoni21/ollama-rs/blob/master/examples/options_from_json.rs
 
 - Implement limited concurrency options (nope... ollama runs one request at a time)
+
+=====
+On cloning past experiments, on form-grid-params
+
+// Initiates for fields with value set in Settings > default options
+// ! make a derived atom called formParams that combines gridParams and config
+// ! and can be updated when cloning an experiment
+// ! https://jotai.org/docs/guides/composing-atoms
+// ! https://chatgpt.com/c/0ea69b31-988d-4e7b-bd7d-a6d2cc0d7347
