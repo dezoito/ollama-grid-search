@@ -1,4 +1,4 @@
-import { IDefaultConfigs, IGridParams } from "@/Interfaces/index";
+import { IDefaultConfigs, IGridParams, TFormValues } from "@/Interfaces/index";
 import { atom } from "jotai";
 
 // Refs https://jotai.org/docs/guides/persistence
@@ -106,3 +106,31 @@ export const defaultGridParams = {
 };
 
 export const gridParamsAtom = atom<IGridParams>(defaultGridParams);
+
+// Create the FormValuesAtom, initially deriving values from configAtom
+
+export const FormValuesAtom = atom(
+  (get) => {
+    const config = get(configAtom);
+    return {
+      models: [],
+      prompts: ["(Set from derived) Write a short sentence."],
+      system_prompt: config.system_prompt,
+      temperatureList: [config.default_options.temperature],
+      repeatPenaltyList: [config.default_options.repeat_penalty],
+      topKList: [config.default_options.top_k],
+      topPList: [config.default_options.top_p],
+      repeatLastNList: [config.default_options.repeat_last_n],
+      tfsZList: [config.default_options.tfs_z],
+      mirostatList: [config.default_options.mirostat],
+      mirostatTauList: [config.default_options.mirostat_tau],
+      mirostatEtaList: [config.default_options.mirostat_eta],
+      generations: 1,
+    };
+  },
+  (get, set, update: Partial<TFormValues>) => {
+    // Allow external updates to the form values
+    const currentValues = get(FormValuesAtom);
+    set(FormValuesAtom, { ...currentValues, ...update });
+  },
+);

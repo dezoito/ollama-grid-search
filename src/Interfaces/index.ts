@@ -36,6 +36,23 @@ export type TParamIteration = {
   generation: number;
 };
 
+// Represents the fields displayed in the inference form
+export type TFormValues = {
+  models: string[];
+  system_prompt: string;
+  prompts: string[];
+  temperatureList: number[] | string;
+  repeatPenaltyList: number[] | string;
+  topKList: number[] | string;
+  topPList: number[] | string;
+  repeatLastNList: number[] | string;
+  tfsZList: number[] | string;
+  mirostatList: number[] | string;
+  mirostatTauList: number[] | string;
+  mirostatEtaList: number[] | string;
+  generations: number;
+};
+
 // Interface for the default configuration options
 export interface IDefaultConfigs {
   hide_model_names: boolean;

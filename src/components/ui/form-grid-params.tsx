@@ -1,4 +1,4 @@
-import { configAtom, gridParamsAtom } from "@/Atoms";
+import { FormValuesAtom, gridParamsAtom } from "@/Atoms";
 import PromptSelector from "@/components/filters/PromptSelector";
 import { useConfirm } from "@/components/ui/alert-dialog-provider";
 import { Input } from "@/components/ui/input";
@@ -124,15 +124,17 @@ export const ParamsFormSchema = z.object({
   ),
 });
 
-function paramsToArray(list: string): number[] {
+function paramsToArray(list: string | number | (string | number)[]): number[] {
   // If it's a scalar value, create an array with that value
   if (typeof list === "number") {
-    const parsedValue = parseFloat(list);
-    if (!isNaN(parsedValue)) {
-      return [parsedValue];
-    } else {
-      throw new Error("Invalid input: not a number or list of numbers");
-    }
+    return [list];
+  }
+
+  // If it's an array, flatten it
+  if (Array.isArray(list)) {
+    return list
+      .flat()
+      .map((value) => (typeof value === "number" ? value : parseFloat(value)));
   }
 
   // Otherwise, split the string and parse values as a list
@@ -146,12 +148,10 @@ export default function FormGridParams() {
   const queryClient = useQueryClient();
   const isFetching = useIsFetching({ queryKey: ["get_inference"] });
   const { toast } = useToast();
-  const [config, _] = useAtom(configAtom);
-  const [gridParams, setGridParams] = useAtom(gridParamsAtom);
+  // const [config, _] = useAtom(configAtom);
+  const [_, setGridParams] = useAtom(gridParamsAtom);
+  const [formValues, __] = useAtom(FormValuesAtom);
   const confirm = useConfirm();
-
-  console.log("---------------------------D");
-  console.dir(config);
 
   // Initiates for fields with value set in Settings > default options
   // ! make a derived atom called formParams that combines gridParams and config
@@ -163,19 +163,19 @@ export default function FormGridParams() {
     resolver: zodResolver(ParamsFormSchema),
     defaultValues: {
       experiment_uuid: uuidv4(),
-      prompts: gridParams.prompts,
-      system_prompt: config.system_prompt,
+      prompts: formValues.prompts,
+      system_prompt: formValues.system_prompt,
       models: [],
-      temperatureList: config.default_options.temperature,
-      repeatPenaltyList: config.default_options.repeat_penalty,
-      topKList: config.default_options.top_k,
-      topPList: config.default_options.top_p,
-      repeatLastNList: config.default_options.repeat_last_n,
-      tfsZList: config.default_options.tfs_z,
-      mirostatList: config.default_options.mirostat,
-      mirostatTauList: config.default_options.mirostat_tau,
-      mirostatEtaList: config.default_options.mirostat_eta,
-      generations: 1,
+      temperatureList: formValues.temperatureList,
+      repeatPenaltyList: formValues.repeatPenaltyList,
+      topKList: formValues.topKList,
+      topPList: formValues.topPList,
+      repeatLastNList: formValues.repeatLastNList,
+      tfsZList: formValues.tfsZList,
+      mirostatList: formValues.mirostatList,
+      mirostatTauList: formValues.mirostatTauList,
+      mirostatEtaList: formValues.mirostatEtaList,
+      generations: formValues.generations,
     },
   });
 
@@ -183,21 +183,31 @@ export default function FormGridParams() {
     // ! clear previous results (keep queries sequential)
     queryClient.removeQueries({ queryKey: ["get_inference"] });
 
+    console.dir(data, { depth: null });
     // regenerate uuid for this experiment so all results are refreshed
-    setGridParams({
-      ...data,
-      experiment_uuid: uuidv4(),
-      temperatureList: paramsToArray(data.temperatureList),
-      repeatPenaltyList: paramsToArray(data.repeatPenaltyList),
-      topKList: paramsToArray(data.topKList),
-      topPList: paramsToArray(data.topPList),
-      repeatLastNList: paramsToArray(data.repeatLastNList),
-      tfsZList: paramsToArray(data.tfsZList),
-      mirostatList: paramsToArray(data.mirostatList),
-      mirostatTauList: paramsToArray(data.mirostatTauList),
-      mirostatEtaList: paramsToArray(data.mirostatEtaList),
-      generations: data.generations,
-    });
+    try {
+      setGridParams({
+        ...data,
+        experiment_uuid: uuidv4(),
+        temperatureList: paramsToArray(data.temperatureList),
+        repeatPenaltyList: paramsToArray(data.repeatPenaltyList),
+        topKList: paramsToArray(data.topKList),
+        topPList: paramsToArray(data.topPList),
+        repeatLastNList: paramsToArray(data.repeatLastNList),
+        tfsZList: paramsToArray(data.tfsZList),
+        mirostatList: paramsToArray(data.mirostatList),
+        mirostatTauList: paramsToArray(data.mirostatTauList),
+        mirostatEtaList: paramsToArray(data.mirostatEtaList),
+        generations: data.generations,
+      });
+    } catch (error) {
+      console.error(error);
+      toast({
+        title: "Error while submitting form.",
+        description: "Please check the console for more information.",
+        duration: 5000,
+      });
+    }
 
     toast({
       title: "Running experiment.",

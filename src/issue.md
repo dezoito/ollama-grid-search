@@ -20,4 +20,13 @@ in the form, I had to refer to that atom to use the value on the form.
 That worked.
 
 ====
-To trigger inference, we need to change the value of gridParams.experiment_uuid, but if we use the value from an older experiment, we will rewrite its log file!
+[ok]To trigger inference, we need to change the value of gridParams.experiment_uuid, but if we use the value from an older experiment, we will rewrite its log file!
+
+[ok]we are close, but remember the form fields can hold arrays of data, so we have to retype TFormValues and make sure we can import those into the form
+
+[ok]Try updating TParamIteration with strings, or rewriting every field (which is more correct)
+[ok]If we rewrite the fields, using temperatureList, we could also manually derive them each from configAtom.
+
+Can we derive gridParams from FormValues, adding just uuid?
+
+When rebuilding the values to be inserted into the FormValues atom, we will have to loop over the prompts from the experiment to build the prompt array
