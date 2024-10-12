@@ -183,31 +183,20 @@ export default function FormGridParams() {
     // ! clear previous results (keep queries sequential)
     queryClient.removeQueries({ queryKey: ["get_inference"] });
 
-    console.dir(data, { depth: null });
     // regenerate uuid for this experiment so all results are refreshed
-    try {
-      setGridParams({
-        ...data,
-        experiment_uuid: uuidv4(),
-        temperatureList: paramsToArray(data.temperatureList),
-        repeatPenaltyList: paramsToArray(data.repeatPenaltyList),
-        topKList: paramsToArray(data.topKList),
-        topPList: paramsToArray(data.topPList),
-        repeatLastNList: paramsToArray(data.repeatLastNList),
-        tfsZList: paramsToArray(data.tfsZList),
-        mirostatList: paramsToArray(data.mirostatList),
-        mirostatTauList: paramsToArray(data.mirostatTauList),
-        mirostatEtaList: paramsToArray(data.mirostatEtaList),
-        generations: data.generations,
-      });
-    } catch (error) {
-      console.error(error);
-      toast({
-        title: "Error while submitting form.",
-        description: "Please check the console for more information.",
-        duration: 5000,
-      });
-    }
+    setGridParams({
+      ...data,
+      experiment_uuid: uuidv4(),
+      temperatureList: paramsToArray(data.temperatureList),
+      repeatPenaltyList: paramsToArray(data.repeatPenaltyList),
+      topKList: paramsToArray(data.topKList),
+      topPList: paramsToArray(data.topPList),
+      repeatLastNList: paramsToArray(data.repeatLastNList),
+      tfsZList: paramsToArray(data.tfsZList),
+      mirostatList: paramsToArray(data.mirostatList),
+      mirostatTauList: paramsToArray(data.mirostatTauList),
+      mirostatEtaList: paramsToArray(data.mirostatEtaList),
+    });
 
     toast({
       title: "Running experiment.",
