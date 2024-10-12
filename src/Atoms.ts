@@ -91,8 +91,8 @@ export const configAtom = atomWithLocalStorage("configs", defaultConfigs);
 export const defaultGridParams = {
   experiment_uuid: "",
   models: [],
-  prompts: ["Write a short sentence."],
-  system_prompt: "",
+  prompts: [],
+  system_prompt: defaultConfigs.system_prompt,
   temperatureList: [defaultConfigs.default_options.temperature],
   repeatPenaltyList: [defaultConfigs.default_options.repeat_penalty],
   topKList: [defaultConfigs.default_options.top_k],
@@ -114,7 +114,7 @@ export const FormValuesAtom = atom(
     const config = get(configAtom);
     return {
       models: [],
-      prompts: ["(Set from derived) Write a short sentence."],
+      prompts: ["Write a short sentence."],
       system_prompt: config.system_prompt,
       temperatureList: [config.default_options.temperature],
       repeatPenaltyList: [config.default_options.repeat_penalty],

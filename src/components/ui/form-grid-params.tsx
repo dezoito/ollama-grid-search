@@ -124,6 +124,14 @@ export const ParamsFormSchema = z.object({
   ),
 });
 
+/**
+ * Takes a list of values which can be a scalar number, an array of numbers and/or strings,
+ * or a comma-separated string of numbers and/or strings, and returns a flattened array
+ * of numbers. If the input contains any non-number values, they are ignored.
+ *
+ * @param {string | number | (string | number)[]} list - The input list of values
+ * @returns {number[]} - A flattened array of numbers
+ */
 function paramsToArray(list: string | number | (string | number)[]): number[] {
   // If it's a scalar value, create an array with that value
   if (typeof list === "number") {
