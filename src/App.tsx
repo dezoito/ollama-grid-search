@@ -3,7 +3,7 @@ import { ThemeProvider } from "@/components/theme-provider";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 
-import ErrorBoundary from "@/components/ErrorBoundary";
+import ErrorBoundary from "@/components/Error/ErrorBoundary";
 import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { AlertDialogProvider } from "./components/ui/alert-dialog-provider";

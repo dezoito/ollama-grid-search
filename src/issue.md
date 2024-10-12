@@ -18,3 +18,6 @@ I moved prompts from config to defaultGridParams atom
 in the form, I had to refer to that atom to use the value on the form.
 
 That worked.
+
+====
+To trigger inference, we need to change the value of gridParams.experiment_uuid, but if we use the value from an older experiment, we will rewrite its log file!
