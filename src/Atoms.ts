@@ -43,6 +43,7 @@ const defaultConfigs: IDefaultConfigs = {
   request_timeout: 300,
   concurrent_inferences: 1,
   server_url: "http://localhost:11434",
+  prompts: ["Write a short sentence."],
   system_prompt: "You are a helpful AI assistant.",
   default_options: {
     mirostat: 0,
@@ -90,7 +91,7 @@ export const configAtom = atomWithLocalStorage("configs", defaultConfigs);
 export const defaultGridParams = {
   experiment_uuid: "",
   models: [],
-  prompts: [""],
+  prompts: defaultConfigs.prompts,
   system_prompt: "",
   temperatureList: [defaultConfigs.default_options.temperature],
   repeatPenaltyList: [defaultConfigs.default_options.repeat_penalty],

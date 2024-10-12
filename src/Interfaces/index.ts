@@ -42,6 +42,7 @@ export interface IDefaultConfigs {
   request_timeout: number;
   concurrent_inferences: number;
   server_url: string;
+  prompts: string[];
   system_prompt: string;
   // default_options: {
   //   [key: string]: number | string | boolean | string[];

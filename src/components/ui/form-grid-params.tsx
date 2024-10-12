@@ -150,7 +150,8 @@ export default function FormGridParams() {
   const [__, setGridParams] = useAtom(gridParamsAtom);
   const confirm = useConfirm();
 
-  const defaultPrompt = "Write a short sentence!";
+  console.log("---------------------------D");
+  console.dir(config);
 
   // Initiates for fields with value set in Settings > default options
   // ! make a derived atom called formParams that combines gridParams and config
@@ -162,7 +163,9 @@ export default function FormGridParams() {
     resolver: zodResolver(ParamsFormSchema),
     defaultValues: {
       experiment_uuid: uuidv4(),
-      prompts: [defaultPrompt],
+      prompts: config.prompts && [
+        "whatever dude... i cant read the config.prompts",
+      ],
       system_prompt: config.system_prompt,
       models: [],
       temperatureList: config.default_options.temperature,
