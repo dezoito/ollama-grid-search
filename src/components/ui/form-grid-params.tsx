@@ -153,6 +153,11 @@ export default function FormGridParams() {
   const defaultPrompt = "Write a short sentence!";
 
   // Initiates for fields with value set in Settings > default options
+  // ! make a derived atom called formParams that combines gridParams and config
+  // ! and can be updated when cloning an experiment
+  // ! https://jotai.org/docs/guides/composing-atoms
+  // ! https://chatgpt.com/c/0ea69b31-988d-4e7b-bd7d-a6d2cc0d7347
+
   const form = useForm<z.infer<typeof ParamsFormSchema>>({
     resolver: zodResolver(ParamsFormSchema),
     defaultValues: {
