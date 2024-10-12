@@ -211,12 +211,8 @@ export default function FormGridParams() {
           onSubmit={form.handleSubmit(onSubmit)}
           className="flex-grow space-y-6"
         >
-          {/* models */}
           <ModelSelector form={form} />
-          {/* prompts */}
           <PromptSelector form={form} />
-
-          {/* system prompt */}
           <SystemPromptSelector form={form} />
 
           {/* generations */}
