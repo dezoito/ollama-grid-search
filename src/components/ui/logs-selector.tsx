@@ -1,4 +1,4 @@
-import { IExperimentFile } from "@/Interfaces";
+import { IExperimentFile, TFormValues } from "@/Interfaces";
 import { Button } from "@/components/ui/button";
 
 import {
@@ -21,6 +21,94 @@ import { useState } from "react";
 import { ExperimentDataDialog } from "../experiment-data-dialog";
 import { get_experiments } from "../queries";
 import { toast } from "./use-toast";
+
+function processExperimentData(logContent: string): TFormValues {
+  const logData = JSON.parse(logContent);
+  const formValues: TFormValues = {
+    models: [],
+    system_prompt: logData.config.system_prompt || "",
+    prompts: [],
+    temperatureList: [],
+    repeatPenaltyList: [],
+    topKList: [],
+    topPList: [],
+    repeatLastNList: [],
+    tfsZList: [],
+    mirostatList: [],
+    mirostatTauList: [],
+    mirostatEtaList: [],
+    generations: 0,
+  };
+
+  const uniquePrompts = new Set<string>();
+  const uniqueModels = new Set<string>();
+  const parameterSets = new Set<string>();
+
+  logData.inferences.forEach((inference: any) => {
+    const params = inference.parameters;
+    uniquePrompts.add(params.prompt);
+    uniqueModels.add(params.model);
+
+    const roundedParams = {
+      temperature: Number(params.temperature.toFixed(2)),
+      repeat_penalty: Number(params.repeat_penalty.toFixed(2)),
+      top_k: params.top_k,
+      top_p: Number(params.top_p.toFixed(2)),
+      repeat_last_n: params.repeat_last_n,
+      tfs_z: Number(params.tfs_z.toFixed(2)),
+      mirostat: params.mirostat,
+      mirostat_tau: Number(params.mirostat_tau.toFixed(2)),
+      mirostat_eta: Number(params.mirostat_eta.toFixed(2)),
+    };
+
+    const paramSet = JSON.stringify(roundedParams);
+
+    const addParamIfNotDuplicate = (
+      paramList: number[],
+      paramValue: number,
+    ): void => {
+      if (!paramList.some((p) => p === paramValue)) {
+        paramList.push(paramValue);
+      }
+    };
+
+    if (!parameterSets.has(paramSet)) {
+      parameterSets.add(paramSet);
+
+      addParamIfNotDuplicate(
+        formValues.temperatureList,
+        roundedParams.temperature,
+      );
+      addParamIfNotDuplicate(
+        formValues.repeatPenaltyList,
+        roundedParams.repeat_penalty,
+      );
+      addParamIfNotDuplicate(formValues.topKList, roundedParams.top_k);
+      addParamIfNotDuplicate(formValues.topPList, roundedParams.top_p);
+      addParamIfNotDuplicate(
+        formValues.repeatLastNList,
+        roundedParams.repeat_last_n,
+      );
+      addParamIfNotDuplicate(formValues.tfsZList, roundedParams.tfs_z);
+      addParamIfNotDuplicate(formValues.mirostatList, roundedParams.mirostat);
+      addParamIfNotDuplicate(
+        formValues.mirostatTauList,
+        roundedParams.mirostat_tau,
+      );
+      addParamIfNotDuplicate(
+        formValues.mirostatEtaList,
+        roundedParams.mirostat_eta,
+      );
+    }
+  });
+
+  formValues.models = Array.from(uniqueModels);
+  formValues.prompts = Array.from(uniquePrompts);
+  formValues.generations = logData.inferences.length / uniqueModels.size;
+
+  console.log(formValues);
+  return formValues;
+}
 
 const handleDownload = async (
   fileName: string,
@@ -53,8 +141,9 @@ export function LogsSelector() {
   const [sheetOpen, setSheetOpen] = useState(false);
 
   function cloneExperiment(data: string) {
+    const output = processExperimentData(data);
     toast({
-      title: JSON.stringify(data, null, 2),
+      title: JSON.stringify(output, null, 2),
       duration: 2500,
     });
     setSheetOpen(false);
