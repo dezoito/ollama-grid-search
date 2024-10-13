@@ -107,8 +107,7 @@ export const defaultGridParams = {
 
 export const gridParamsAtom = atom<IGridParams>(defaultGridParams);
 
-// Create the FormValuesAtom, initially deriving values from configAtom
-
+// Create vthe FormValuesAtom, initially deriing values from configAtom
 export const FormValuesAtom = atom(
   (get) => {
     const config = get(configAtom);

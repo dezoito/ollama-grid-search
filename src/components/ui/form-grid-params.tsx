@@ -152,6 +152,27 @@ function paramsToArray(list: string | number | (string | number)[]): number[] {
   return values.filter((value) => !isNaN(value));
 }
 
+/**
+ * Converts an value (which can be a scalar, a string, or an array of numbers or strings)
+ * into a string representation that can be used as the value for a text input field.
+ * If the input is an array, the values are joined with a comma and a space.
+ * If the input is not an array, the value is converted to a string using the toString() method.
+ * If the input is not a number, string, or array, an error is thrown.
+ *
+ * * Essentially, this is the opposite of what paramsToArray() does
+ * @param {number|string|(number|string)[]} input - The input value
+ * @returns {string} - The string representation of the input
+ */
+function arrayToFormValue(input: number | (number | string)[]): string {
+  if (Array.isArray(input)) {
+    return input.join(", ").toString();
+  } else if (typeof input === "number" || typeof input === "string") {
+    return input.toString();
+  } else {
+    throw new Error("Invalid input type");
+  }
+}
+
 export default function FormGridParams() {
   const queryClient = useQueryClient();
   const isFetching = useIsFetching({ queryKey: ["get_inference"] });
@@ -174,15 +195,15 @@ export default function FormGridParams() {
       prompts: formValues.prompts,
       system_prompt: formValues.system_prompt,
       models: [],
-      temperatureList: formValues.temperatureList,
-      repeatPenaltyList: formValues.repeatPenaltyList,
-      topKList: formValues.topKList,
-      topPList: formValues.topPList,
-      repeatLastNList: formValues.repeatLastNList,
-      tfsZList: formValues.tfsZList,
-      mirostatList: formValues.mirostatList,
-      mirostatTauList: formValues.mirostatTauList,
-      mirostatEtaList: formValues.mirostatEtaList,
+      temperatureList: arrayToFormValue(formValues.temperatureList),
+      repeatPenaltyList: arrayToFormValue(formValues.repeatPenaltyList),
+      topKList: arrayToFormValue(formValues.topKList),
+      topPList: arrayToFormValue(formValues.topPList),
+      repeatLastNList: arrayToFormValue(formValues.repeatLastNList),
+      tfsZList: arrayToFormValue(formValues.tfsZList),
+      mirostatList: arrayToFormValue(formValues.mirostatList),
+      mirostatTauList: arrayToFormValue(formValues.mirostatTauList),
+      mirostatEtaList: arrayToFormValue(formValues.mirostatEtaList),
       generations: formValues.generations,
     },
   });
