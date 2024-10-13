@@ -1,4 +1,4 @@
-import { FormValuesAtom, gridParamsAtom } from "@/Atoms";
+import { formValuesAtom } from "@/Atoms";
 import PromptSelector from "@/components/filters/PromptSelector";
 import { useConfirm } from "@/components/ui/alert-dialog-provider";
 import { Input } from "@/components/ui/input";
@@ -132,7 +132,9 @@ export const ParamsFormSchema = z.object({
  * @param {string | number | (string | number)[]} list - The input list of values
  * @returns {number[]} - A flattened array of numbers
  */
-function paramsToArray(list: string | number | (string | number)[]): number[] {
+function formValueToArray(
+  list: string | number | (string | number)[],
+): number[] {
   // If it's a scalar value, create an array with that value
   if (typeof list === "number") {
     return [list];
@@ -159,7 +161,7 @@ function paramsToArray(list: string | number | (string | number)[]): number[] {
  * If the input is not an array, the value is converted to a string using the toString() method.
  * If the input is not a number, string, or array, an error is thrown.
  *
- * * Essentially, this is the opposite of what paramsToArray() does
+ * * Essentially, this is the opposite of what formValueToArray() does
  * @param {number|string|(number|string)[]} input - The input value
  * @returns {string} - The string representation of the input
  */
@@ -177,17 +179,10 @@ export default function FormGridParams() {
   const queryClient = useQueryClient();
   const isFetching = useIsFetching({ queryKey: ["get_inference"] });
   const { toast } = useToast();
-  // const [config, _] = useAtom(configAtom);
-  const [_, setGridParams] = useAtom(gridParamsAtom);
-  const [formValues, __] = useAtom(FormValuesAtom);
+  const [formValues, setFormValues] = useAtom(formValuesAtom);
   const confirm = useConfirm();
 
   // Initiates for fields with value set in Settings > default options
-  // ! make a derived atom called formParams that combines gridParams and config
-  // ! and can be updated when cloning an experiment
-  // ! https://jotai.org/docs/guides/composing-atoms
-  // ! https://chatgpt.com/c/0ea69b31-988d-4e7b-bd7d-a6d2cc0d7347
-
   const form = useForm<z.infer<typeof ParamsFormSchema>>({
     resolver: zodResolver(ParamsFormSchema),
     defaultValues: {
@@ -213,18 +208,18 @@ export default function FormGridParams() {
     queryClient.removeQueries({ queryKey: ["get_inference"] });
 
     // regenerate uuid for this experiment so all results are refreshed
-    setGridParams({
+    setFormValues({
       ...data,
       experiment_uuid: uuidv4(),
-      temperatureList: paramsToArray(data.temperatureList),
-      repeatPenaltyList: paramsToArray(data.repeatPenaltyList),
-      topKList: paramsToArray(data.topKList),
-      topPList: paramsToArray(data.topPList),
-      repeatLastNList: paramsToArray(data.repeatLastNList),
-      tfsZList: paramsToArray(data.tfsZList),
-      mirostatList: paramsToArray(data.mirostatList),
-      mirostatTauList: paramsToArray(data.mirostatTauList),
-      mirostatEtaList: paramsToArray(data.mirostatEtaList),
+      temperatureList: formValueToArray(data.temperatureList),
+      repeatPenaltyList: formValueToArray(data.repeatPenaltyList),
+      topKList: formValueToArray(data.topKList),
+      topPList: formValueToArray(data.topPList),
+      repeatLastNList: formValueToArray(data.repeatLastNList),
+      tfsZList: formValueToArray(data.tfsZList),
+      mirostatList: formValueToArray(data.mirostatList),
+      mirostatTauList: formValueToArray(data.mirostatTauList),
+      mirostatEtaList: formValueToArray(data.mirostatEtaList),
     });
 
     toast({

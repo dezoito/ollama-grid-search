@@ -20,6 +20,7 @@ export type TParamIteration = {
 
 // Represents the fields displayed in the inference form
 export type TFormValues = {
+  experiment_uuid: string;
   models: string[];
   system_prompt: string;
   prompts: string[];
@@ -34,11 +35,6 @@ export type TFormValues = {
   mirostatEtaList: number[];
   generations: number;
 };
-
-// Represents the sets of params sent from the form
-export interface IGridParams extends TFormValues {
-  experiment_uuid: string;
-}
 
 // Interface for the default configuration options
 export interface IDefaultConfigs {

@@ -1,4 +1,4 @@
-import { IDefaultConfigs, IGridParams, TFormValues } from "@/Interfaces/index";
+import { IDefaultConfigs, TFormValues } from "@/Interfaces/index";
 import { atom } from "jotai";
 
 // Refs https://jotai.org/docs/guides/persistence
@@ -87,11 +87,11 @@ const defaultConfigs: IDefaultConfigs = {
 // Store configs in LocalStorage
 export const configAtom = atomWithLocalStorage("configs", defaultConfigs);
 
-// Initializes grid parameters
-export const defaultGridParams = {
+// Initializes form parameters
+export const defaultFormParams = {
   experiment_uuid: "",
   models: [],
-  prompts: [],
+  prompts: ["Write a short sentence."],
   system_prompt: defaultConfigs.system_prompt,
   temperatureList: [defaultConfigs.default_options.temperature],
   repeatPenaltyList: [defaultConfigs.default_options.repeat_penalty],
@@ -105,16 +105,22 @@ export const defaultGridParams = {
   generations: 1,
 };
 
-export const gridParamsAtom = atom<IGridParams>(defaultGridParams);
+// Derived atom with values from configAtom
+// Base atom to hold the form state
+// * We need an intermediate Atom in this case, because the initial values
+// * are derived, and because we need to be able to update formValuesAtom
+export const formValuesBaseAtom = atom<TFormValues>(defaultFormParams);
 
-// Create vthe FormValuesAtom, initially deriing values from configAtom
-export const FormValuesAtom = atom(
+// Derived atom that reads from configAtom initially and updates the base atom
+export const formValuesAtom = atom(
   (get) => {
     const config = get(configAtom);
+    const currentFormValues = get(formValuesBaseAtom); // Use the base atom
+
+    // Merge config values into form state
     return {
-      models: [],
-      prompts: ["Write a short sentence."],
-      system_prompt: config.system_prompt,
+      ...currentFormValues,
+      system_prompt: config.system_prompt, // Deriving from configAtom
       temperatureList: [config.default_options.temperature],
       repeatPenaltyList: [config.default_options.repeat_penalty],
       topKList: [config.default_options.top_k],
@@ -124,12 +130,18 @@ export const FormValuesAtom = atom(
       mirostatList: [config.default_options.mirostat],
       mirostatTauList: [config.default_options.mirostat_tau],
       mirostatEtaList: [config.default_options.mirostat_eta],
-      generations: 1,
     };
   },
   (get, set, update: Partial<TFormValues>) => {
-    // Allow external updates to the form values
-    const currentValues = get(FormValuesAtom);
-    set(FormValuesAtom, { ...currentValues, ...update });
+    const currentFormValues = get(formValuesBaseAtom); // Use the base atom for updating
+
+    // Safely apply updates to the base atom
+    const updatedFormValues = {
+      ...currentFormValues,
+      ...update,
+    };
+
+    // Set the updated values in the base atom
+    set(formValuesBaseAtom, updatedFormValues);
   },
 );

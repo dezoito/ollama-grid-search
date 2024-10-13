@@ -1,4 +1,4 @@
-import { configAtom, gridParamsAtom } from "@/Atoms";
+import { configAtom, formValuesAtom } from "@/Atoms";
 import { TParamIteration } from "@/Interfaces";
 import { ChevronDownIcon, ChevronUpIcon } from "@radix-ui/react-icons";
 import { useQueries } from "@tanstack/react-query";
@@ -13,12 +13,12 @@ import Tutorial from "../ui/tutorial";
 import IterationResult from "./iteration-result";
 
 export default function GridResultsPane() {
-  const [gridParams, _] = useAtom(gridParamsAtom);
+  const [config, __] = useAtom(configAtom);
+  const [formValues, _] = useAtom(formValuesAtom);
   const [iterations, setIterations] = useState<TParamIteration[]>([]);
   const [noCompleted, setNoCompleted] = useState(0);
   const [expandParams, setExpandParams] = useState(false);
   const [expandMetadata, setExpandMetadata] = useState(false);
-  const [config, __] = useAtom(configAtom);
   const [experimentDate, setExperimentDate] = useState<string>(
     new Date().toUTCString(),
   );
@@ -26,7 +26,7 @@ export default function GridResultsPane() {
 
   useEffect(() => {
     setExperimentDate(new Date().toUTCString());
-  }, [gridParams]);
+  }, [formValues]);
 
   //https://stackoverflow.com/questions/76933229/can-react-query-make-sequential-network-calls-and-wait-for-previous-one-to-finis
 
@@ -34,28 +34,28 @@ export default function GridResultsPane() {
   useEffect(() => {
     setNoCompleted(0);
     const localIterations = [];
-    for (const model of gridParams.models) {
-      for (const prompt of gridParams.prompts) {
-        for (const temperature of gridParams.temperatureList) {
-          for (const repeat_penalty of gridParams.repeatPenaltyList) {
-            for (const top_k of gridParams.topKList) {
-              for (const top_p of gridParams.topPList) {
-                for (const repeat_last_n of gridParams.repeatLastNList) {
-                  for (const tfs_z of gridParams.tfsZList) {
-                    for (const mirostat of gridParams.mirostatList) {
-                      for (const mirostat_tau of gridParams.mirostatTauList) {
-                        for (const mirostat_eta of gridParams.mirostatEtaList) {
+    for (const model of formValues.models) {
+      for (const prompt of formValues.prompts) {
+        for (const temperature of formValues.temperatureList) {
+          for (const repeat_penalty of formValues.repeatPenaltyList) {
+            for (const top_k of formValues.topKList) {
+              for (const top_p of formValues.topPList) {
+                for (const repeat_last_n of formValues.repeatLastNList) {
+                  for (const tfs_z of formValues.tfsZList) {
+                    for (const mirostat of formValues.mirostatList) {
+                      for (const mirostat_tau of formValues.mirostatTauList) {
+                        for (const mirostat_eta of formValues.mirostatEtaList) {
                           // loop over the number of generations
                           for (
                             let generation = 0;
-                            generation < gridParams.generations;
+                            generation < formValues.generations;
                             generation++
                           ) {
                             // set seed = generation to ensure results differ when temp > 0
                             localIterations.push({
-                              experiment_uuid: gridParams.experiment_uuid,
+                              experiment_uuid: formValues.experiment_uuid,
                               model: model,
-                              system_prompt: gridParams.system_prompt,
+                              system_prompt: formValues.system_prompt,
                               prompt: prompt,
                               temperature: temperature,
                               repeat_penalty: repeat_penalty,
@@ -82,7 +82,7 @@ export default function GridResultsPane() {
       }
     }
     setIterations(localIterations);
-  }, [gridParams.experiment_uuid]);
+  }, [formValues.experiment_uuid]);
 
   // Enables a limited number of queries to run concurrently, disable all once they've all been processed
   // so new experiments can run sequentially
@@ -98,14 +98,13 @@ export default function GridResultsPane() {
   }));
 
   const results = useQueries({ queries: queries });
-
   const lastFetched = results.filter((r) => r.isFetched);
 
   useEffect(() => {
     setNoCompleted(lastFetched.length);
   }, [lastFetched]);
 
-  if (gridParams.models.length === 0) {
+  if (formValues.models.length === 0) {
     return <Tutorial />;
   }
 

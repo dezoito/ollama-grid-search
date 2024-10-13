@@ -25,6 +25,7 @@ import { toast } from "./use-toast";
 function processExperimentData(logContent: string): TFormValues {
   const logData = JSON.parse(logContent);
   const formValues: TFormValues = {
+    experiment_uuid: "",
     models: [],
     system_prompt: logData.config.system_prompt || "",
     prompts: [],
