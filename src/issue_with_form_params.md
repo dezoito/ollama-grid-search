@@ -33,4 +33,6 @@ That worked.
 
 [ok] Use only FormParams Atom (adding an experiment_uuid field), getting rid of defaultGridParams
 
-When rebuilding the values to be inserted into the FormValues atom, we will have to loop over the prompts from the experiment to build the prompt array
+[ok] When rebuilding the values to be inserted into the FormValues atom, we will have to loop over the prompts from the experiment to build the prompt array
+
+Check why the experiment files seem to be keeping only one value for each param, even when an array of different values was used.

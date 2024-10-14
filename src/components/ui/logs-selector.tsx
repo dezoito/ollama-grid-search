@@ -1,6 +1,7 @@
 import { IExperimentFile, TFormValues } from "@/Interfaces";
 import { Button } from "@/components/ui/button";
 
+import { formValuesAtom } from "@/Atoms";
 import {
   Sheet,
   SheetClose,
@@ -17,6 +18,7 @@ import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { save } from "@tauri-apps/api/dialog";
 import { writeTextFile } from "@tauri-apps/api/fs";
 import { saveAs } from "file-saver";
+import { useAtom } from "jotai";
 import { useState } from "react";
 import { ExperimentDataDialog } from "../experiment-data-dialog";
 import { get_experiments } from "../queries";
@@ -133,18 +135,22 @@ const handleDownload = async (
 
 export function LogsSelector() {
   const queryClient = useQueryClient();
+  const [_, setFormValues] = useAtom(formValuesAtom);
+  const [sheetOpen, setSheetOpen] = useState(false);
+
   const query = useQuery<IExperimentFile[]>({
     queryKey: ["get_Experiments"],
     queryFn: (): Promise<IExperimentFile[]> => get_experiments(),
     staleTime: 0,
     // cacheTime: 0,
   });
-  const [sheetOpen, setSheetOpen] = useState(false);
 
   function cloneExperiment(data: string) {
-    const output = processExperimentData(data);
+    const experimentData = processExperimentData(data);
+    setFormValues(experimentData);
     toast({
-      title: JSON.stringify(output, null, 2),
+      title:
+        "The Form has been updated with the selected experiment parameters.",
       duration: 2500,
     });
     setSheetOpen(false);
