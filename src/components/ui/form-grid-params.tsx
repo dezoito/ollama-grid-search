@@ -12,6 +12,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { InfoCircledIcon } from "@radix-ui/react-icons";
 import { useIsFetching, useQueryClient } from "@tanstack/react-query";
 import { useAtom } from "jotai";
+import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { v4 as uuidv4 } from "uuid";
 import z from "zod";
@@ -202,6 +203,27 @@ export default function FormGridParams() {
       generations: formValues.generations,
     },
   });
+
+  // Updates form values when the user clones an experiment
+  //TODO: Handle prompt fields not displaying updated info
+  useEffect(() => {
+    form.reset({
+      // experiment_uuid: formValues.experiment_uuid,
+      prompts: formValues.prompts,
+      system_prompt: formValues.system_prompt,
+      models: formValues.models,
+      temperatureList: arrayToFormValue(formValues.temperatureList),
+      repeatPenaltyList: arrayToFormValue(formValues.repeatPenaltyList),
+      topKList: arrayToFormValue(formValues.topKList),
+      topPList: arrayToFormValue(formValues.topPList),
+      repeatLastNList: arrayToFormValue(formValues.repeatLastNList),
+      tfsZList: arrayToFormValue(formValues.tfsZList),
+      mirostatList: arrayToFormValue(formValues.mirostatList),
+      mirostatTauList: arrayToFormValue(formValues.mirostatTauList),
+      mirostatEtaList: arrayToFormValue(formValues.mirostatEtaList),
+      generations: formValues.generations,
+    });
+  }, [formValues, form]);
 
   function onSubmit(data: z.infer<typeof ParamsFormSchema>) {
     // ! clear previous results (keep queries sequential)

@@ -35,4 +35,9 @@ That worked.
 
 [ok] When rebuilding the values to be inserted into the FormValues atom, we will have to loop over the prompts from the experiment to build the prompt array
 
-Check why the experiment files seem to be keeping only one value for each param, even when an array of different values was used.
+[ok] Check why the experiment files seem to be keeping only one value for each param, even when an array of different values was used. --> The issue was that the formValuesAtom was always returning the default config, instead of updated values. This has been corrected in Atoms.py
+
+All form values are updated now but, however, the prompt component is not displayed correctly.
+It displays the previous prompts that were in the form before cloning, instead of the updated values.
+
+Fix Generation per prompt calculation when cloning

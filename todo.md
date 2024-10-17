@@ -110,6 +110,8 @@ https://github.com/tauri-apps/plugins-workspace/tree/v1/plugins/single-instance
   Let's call this cloning an experiment.
   What happens if a model is not available anymore (skip/alert?)
 
+- Add button to copy a response from an experiment iteration.
+
   - alerting the model is not available, so the user can pull it again and retry before running.
 
   when hitting a "clone" button on an experiment entry, we just update the form and let the user change stuff or press submit without changing anything.

@@ -109,39 +109,49 @@ export const defaultFormParams = {
 // Base atom to hold the form state
 // * We need an intermediate Atom in this case, because the initial values
 // * are derived, and because we need to be able to update formValuesAtom
-export const formValuesBaseAtom = atom<TFormValues>(defaultFormParams);
+// Base atom for storing form values, initialized later
+export const formValuesBaseAtom = atom<TFormValues | null>(null);
 
-// Derived atom that reads from configAtom initially and updates the base atom
+// Derived atom for initial setup from configAtom
 export const formValuesAtom = atom(
   (get) => {
-    const config = get(configAtom);
-    const currentFormValues = get(formValuesBaseAtom); // Use the base atom
+    const formValues = get(formValuesBaseAtom);
 
-    // Merge config values into form state
-    return {
-      ...currentFormValues,
-      system_prompt: config.system_prompt, // Deriving from configAtom
-      temperatureList: [config.default_options.temperature],
-      repeatPenaltyList: [config.default_options.repeat_penalty],
-      topKList: [config.default_options.top_k],
-      topPList: [config.default_options.top_p],
-      repeatLastNList: [config.default_options.repeat_last_n],
-      tfsZList: [config.default_options.tfs_z],
-      mirostatList: [config.default_options.mirostat],
-      mirostatTauList: [config.default_options.mirostat_tau],
-      mirostatEtaList: [config.default_options.mirostat_eta],
-    };
+    // If formValuesBaseAtom hasn't been initialized yet, pull values from configAtom
+    if (formValues === null) {
+      const config = get(configAtom);
+      return {
+        experiment_uuid: "",
+        models: [],
+        prompts: ["Write a short sentence."],
+        system_prompt: config.system_prompt,
+        temperatureList: [config.default_options.temperature],
+        repeatPenaltyList: [config.default_options.repeat_penalty],
+        topKList: [config.default_options.top_k],
+        topPList: [config.default_options.top_p],
+        repeatLastNList: [config.default_options.repeat_last_n],
+        tfsZList: [config.default_options.tfs_z],
+        mirostatList: [config.default_options.mirostat],
+        mirostatTauList: [config.default_options.mirostat_tau],
+        mirostatEtaList: [config.default_options.mirostat_eta],
+        generations: 1,
+      };
+    }
+
+    // If already initialized, return the current form values
+    return formValues;
   },
   (get, set, update: Partial<TFormValues>) => {
-    const currentFormValues = get(formValuesBaseAtom); // Use the base atom for updating
+    // Get current form values from the base atom
+    const currentFormValues = get(formValuesBaseAtom) ?? get(formValuesAtom); // Fallback to the derived atom if not initialized
 
-    // Safely apply updates to the base atom
+    // Update the base atom with new values
     const updatedFormValues = {
       ...currentFormValues,
       ...update,
     };
 
-    // Set the updated values in the base atom
+    // Set the updated values in base atom
     set(formValuesBaseAtom, updatedFormValues);
   },
 );
