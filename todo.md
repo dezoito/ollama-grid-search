@@ -103,25 +103,18 @@ https://github.com/tauri-apps/plugins-workspace/tree/v1/plugins/single-instance
 --- v0.5.3
 [ok] - Handles Ollama servers using default ports (80 or 443)
 
+--- v0.6.0
+[ok] - Allow re-running past experiments
+[ok] - Add button to copy a response from an experiment iteration.
+[ok] - Fix HMR not working on MacOS
+[ok] - Moved "reload" icon to improve layout
+
 
 ---
-
-- Allow re-running past experiments
-  Let's call this cloning an experiment.
-  What happens if a model is not available anymore (skip/alert?)
-
-- Add button to copy a response from an experiment iteration.
-
-  - alerting the model is not available, so the user can pull it again and retry before running.
-
-  when hitting a "clone" button on an experiment entry, we just update the form and let the user change stuff or press submit without changing anything.
-
-  This will result in a new experiment.
 
 - Add CI checks for typescript code (ESLint?)
 - Build options straight from config: https://github.com/pepperoni21/ollama-rs/blob/master/examples/options_from_json.rs
 
-- Add a damn icon.
 - Add feature to clear all existing log files.
 
 - Convert code snippets to markdown in responses? (react-markdown didn't work well to filter code)
