@@ -24,14 +24,17 @@ import {
 } from "@/components/ui/tooltip";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { EnterFullScreenIcon } from "@radix-ui/react-icons";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useHotkeys } from "react-hotkeys-hook";
 import z from "zod";
 
 interface IProps {
   content: string;
-  handleChange: (e: React.ChangeEvent<HTMLTextAreaElement>, idx: number) => void;
+  handleChange: (
+    e: React.ChangeEvent<HTMLTextAreaElement>,
+    idx: number,
+  ) => void;
   idx: number;
   fieldName: string;
   fieldLabel: string;
@@ -40,17 +43,20 @@ interface IProps {
 export function PromptDialog(props: IProps) {
   const { content, handleChange, idx, fieldName, fieldLabel } = props;
   const [open, setOpen] = useState(false);
+  const [localContent, setLocalContent] = useState(content);
 
-  // * default_options has to be valid JSON
+  useEffect(() => {
+    setLocalContent(content);
+  }, [content]);
+
   const FormSchema = z.object({
     [fieldName]: z.string(),
   });
 
-  // * format default_options to display in form
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
-    defaultValues: {
-      [fieldName]: content,
+    values: {
+      [fieldName]: localContent,
     },
   });
 
@@ -58,16 +64,15 @@ export function PromptDialog(props: IProps) {
     setOpen(false);
   }
 
-  // Updates prompt element on ctrl+enter (cmd+enter on macOS)
   useHotkeys("mod+enter", () => form.handleSubmit(onSubmit)(), {
     enableOnFormTags: ["TEXTAREA"],
   });
 
-  /*  
-      ! Undocumented behaviour
-      - Form has to wrap the entire dialog
-      - form has to be inside DialogContent
-  */
+  const handleLocalChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+    setLocalContent(e.target.value);
+    handleChange(e, idx);
+  };
+
   return (
     <Form {...form}>
       <Dialog open={open} onOpenChange={setOpen}>
@@ -91,26 +96,23 @@ export function PromptDialog(props: IProps) {
                 Use this dialog to edit the contents of the {fieldLabel}.
               </DialogDescription>
             </DialogHeader>
-            {/* 
-            form here
-             */}
-
             <div className="grid gap-6 py-4">
               <div className="flex flex-col gap-4">
                 <FormItem>
                   <FormLabel>
-                    <span className="capitalize">{fieldLabel}</span>
-                    {" "}
+                    <span className="capitalize">{fieldLabel}</span>{" "}
                     <span className="text-sm text-gray-500">
                       (Changes are automatically saved)
                     </span>
                   </FormLabel>
                   <FormControl>
-                    <Textarea rows={18} cols={100}
-                      value={content}
-                      onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) => handleChange(e, idx)} />
+                    <Textarea
+                      rows={18}
+                      cols={100}
+                      value={localContent}
+                      onChange={handleLocalChange}
+                    />
                   </FormControl>
-
                   <FormMessage />
                 </FormItem>
               </div>
