@@ -107,7 +107,12 @@ function processExperimentData(logContent: string): TFormValues {
 
   formValues.models = Array.from(uniqueModels);
   formValues.prompts = Array.from(uniquePrompts);
-  formValues.generations = logData.inferences.length / uniqueModels.size;
+  formValues.generations = Math.floor(
+    logData.inferences.length /
+      parameterSets.size /
+      uniqueModels.size /
+      uniquePrompts.size,
+  );
 
   console.log(formValues);
   return formValues;
