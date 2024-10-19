@@ -62,48 +62,11 @@ const defaultConfigs: IDefaultConfigs = {
     // seed: 42, // we now use the number of generation for each result
     // num_predict: 42,
     // num_thread: 8, // may cause issues if set
-    // ------------
-    // Params below appear in docs, but don't seem to be supported at this time.
-    // ------------
-    // num_keep: 5,
-    // typical_p: 0.7,
-    // presence_penalty: 1.5,
-    // frequency_penalty: 1.0,
-    // penalize_newline: true,
-    // numa: false,
-    // num_batch: 2,
-    // main_gpu: 0,
-    // low_vram: false,
-    // f16_kv: true,
-    // vocab_only: false,
-    // use_mmap: true,
-    // use_mlock: false,
-    // embedding_only: false,
-    // rope_frequency_base: 1.1,
-    // rope_frequency_scale: 0.8,
   },
 };
 
 // Store configs in LocalStorage
 export const configAtom = atomWithLocalStorage("configs", defaultConfigs);
-
-// Initializes form parameters
-export const defaultFormParams = {
-  experiment_uuid: "",
-  models: [],
-  prompts: ["Write a short sentence."],
-  system_prompt: defaultConfigs.system_prompt,
-  temperatureList: [defaultConfigs.default_options.temperature],
-  repeatPenaltyList: [defaultConfigs.default_options.repeat_penalty],
-  topKList: [defaultConfigs.default_options.top_k],
-  topPList: [defaultConfigs.default_options.top_p],
-  repeatLastNList: [defaultConfigs.default_options.repeat_last_n],
-  tfsZList: [defaultConfigs.default_options.tfs_z],
-  mirostatList: [defaultConfigs.default_options.mirostat],
-  mirostatTauList: [defaultConfigs.default_options.mirostat_tau],
-  mirostatEtaList: [defaultConfigs.default_options.mirostat_eta],
-  generations: 1,
-};
 
 // Derived atom with values from configAtom
 // Base atom to hold the form state
