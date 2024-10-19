@@ -32,6 +32,9 @@ export default function GridResultsPane() {
 
   // creates a linear array of param combination objects
   useEffect(() => {
+    // Do not trigger run immediatelly when we clone
+    // an existing experiment
+    if (formValues.experiment_uuid === "") return;
     setNoCompleted(0);
     const localIterations = [];
     for (const model of formValues.models) {

@@ -64,6 +64,7 @@ export function PromptDialog(props: IProps) {
     setOpen(false);
   }
 
+  // Shortcut to save updated prompt text
   useHotkeys("mod+enter", () => form.handleSubmit(onSubmit)(), {
     enableOnFormTags: ["TEXTAREA"],
   });
@@ -72,6 +73,12 @@ export function PromptDialog(props: IProps) {
     setLocalContent(e.target.value);
     handleChange(e, idx);
   };
+
+  /*  
+      ! Undocumented behaviour
+      - Form has to wrap the entire dialog
+      - form has to be inside DialogContent
+  */
 
   return (
     <Form {...form}>
