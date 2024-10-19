@@ -37,7 +37,17 @@ That worked.
 
 [ok] Check why the experiment files seem to be keeping only one value for each param, even when an array of different values was used. --> The issue was that the formValuesAtom was always returning the default config, instead of updated values. This has been corrected in Atoms.py
 
-All form values are updated now but, however, the prompt component is not displayed correctly.
+[ok] All form values are updated now but, however, the prompt component is not displayed correctly.
 It displays the previous prompts that were in the form before cloning, instead of the updated values.
 
-Fix Generation per prompt calculation when cloning
+[ok] Fix Generation per prompt calculation when cloning
+! This is fixed but the current implementation has a bug: since it recalculates the # of generations based on the experiment log file, it can miscalculate
+when that file is based on an interrupted experiment
+(the number of total inferences will be less than expected to properly calc. generations)
+
+    Proposed way to fix this:
+    1- Start a new version for the generation log file
+    2- Store the current inference params used for the experiment in this file
+    3- When cloning experiments, check the version:
+    - use the current way if the version is old
+    - just copy those params if the log is in the new format
