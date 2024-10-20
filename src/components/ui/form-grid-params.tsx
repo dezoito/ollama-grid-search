@@ -1,4 +1,4 @@
-import { configAtom, gridParamsAtom } from "@/Atoms";
+import { formValuesAtom } from "@/Atoms";
 import PromptSelector from "@/components/filters/PromptSelector";
 import { useConfirm } from "@/components/ui/alert-dialog-provider";
 import { Input } from "@/components/ui/input";
@@ -12,6 +12,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { InfoCircledIcon } from "@radix-ui/react-icons";
 import { useIsFetching, useQueryClient } from "@tanstack/react-query";
 import { useAtom } from "jotai";
+import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { v4 as uuidv4 } from "uuid";
 import z from "zod";
@@ -124,15 +125,27 @@ export const ParamsFormSchema = z.object({
   ),
 });
 
-function paramsToArray(list: string): number[] {
+/**
+ * Takes a list of values which can be a scalar number, an array of numbers and/or strings,
+ * or a comma-separated string of numbers and/or strings, and returns a flattened array
+ * of numbers. If the input contains any non-number values, they are ignored.
+ *
+ * @param {string | number | (string | number)[]} list - The input list of values
+ * @returns {number[]} - A flattened array of numbers
+ */
+function formValueToArray(
+  list: string | number | (string | number)[],
+): number[] {
   // If it's a scalar value, create an array with that value
   if (typeof list === "number") {
-    const parsedValue = parseFloat(list);
-    if (!isNaN(parsedValue)) {
-      return [parsedValue];
-    } else {
-      throw new Error("Invalid input: not a number or list of numbers");
-    }
+    return [list];
+  }
+
+  // If it's an array, flatten it
+  if (Array.isArray(list)) {
+    return list
+      .flat()
+      .map((value) => (typeof value === "number" ? value : parseFloat(value)));
   }
 
   // Otherwise, split the string and parse values as a list
@@ -142,55 +155,93 @@ function paramsToArray(list: string): number[] {
   return values.filter((value) => !isNaN(value));
 }
 
+/**
+ * Converts an value (which can be a scalar, a string, or an array of numbers or strings)
+ * into a string representation that can be used as the value for a text input field.
+ * If the input is an array, the values are joined with a comma and a space.
+ * If the input is not an array, the value is converted to a string using the toString() method.
+ * If the input is not a number, string, or array, an error is thrown.
+ *
+ * * Essentially, this is the opposite of what formValueToArray() does
+ * @param {number|string|(number|string)[]} input - The input value
+ * @returns {string} - The string representation of the input
+ */
+function arrayToFormValue(input: number | (number | string)[]): string {
+  if (Array.isArray(input)) {
+    return input.join(", ").toString();
+  } else if (typeof input === "number" || typeof input === "string") {
+    return input.toString();
+  } else {
+    throw new Error("Invalid input type");
+  }
+}
+
 export default function FormGridParams() {
   const queryClient = useQueryClient();
   const isFetching = useIsFetching({ queryKey: ["get_inference"] });
   const { toast } = useToast();
-  const [config, _] = useAtom(configAtom);
-  const [__, setGridParams] = useAtom(gridParamsAtom);
+  const [formValues, setFormValues] = useAtom(formValuesAtom);
   const confirm = useConfirm();
-
-  const defaultPrompt = "Write a short sentence!";
 
   // Initiates for fields with value set in Settings > default options
   const form = useForm<z.infer<typeof ParamsFormSchema>>({
     resolver: zodResolver(ParamsFormSchema),
     defaultValues: {
       experiment_uuid: uuidv4(),
-      prompts: [defaultPrompt],
-      system_prompt: config.system_prompt,
+      prompts: formValues.prompts,
+      system_prompt: formValues.system_prompt,
       models: [],
-      temperatureList: config.default_options.temperature,
-      repeatPenaltyList: config.default_options.repeat_penalty,
-      topKList: config.default_options.top_k,
-      topPList: config.default_options.top_p,
-      repeatLastNList: config.default_options.repeat_last_n,
-      tfsZList: config.default_options.tfs_z,
-      mirostatList: config.default_options.mirostat,
-      mirostatTauList: config.default_options.mirostat_tau,
-      mirostatEtaList: config.default_options.mirostat_eta,
-      generations: 1,
+      temperatureList: arrayToFormValue(formValues.temperatureList),
+      repeatPenaltyList: arrayToFormValue(formValues.repeatPenaltyList),
+      topKList: arrayToFormValue(formValues.topKList),
+      topPList: arrayToFormValue(formValues.topPList),
+      repeatLastNList: arrayToFormValue(formValues.repeatLastNList),
+      tfsZList: arrayToFormValue(formValues.tfsZList),
+      mirostatList: arrayToFormValue(formValues.mirostatList),
+      mirostatTauList: arrayToFormValue(formValues.mirostatTauList),
+      mirostatEtaList: arrayToFormValue(formValues.mirostatEtaList),
+      generations: formValues.generations,
     },
   });
+
+  // Updates form values when the user clones an experiment
+  //TODO: Handle prompt fields not displaying updated info
+  useEffect(() => {
+    form.reset({
+      // experiment_uuid: formValues.experiment_uuid,
+      prompts: formValues.prompts,
+      system_prompt: formValues.system_prompt,
+      models: formValues.models,
+      temperatureList: arrayToFormValue(formValues.temperatureList),
+      repeatPenaltyList: arrayToFormValue(formValues.repeatPenaltyList),
+      topKList: arrayToFormValue(formValues.topKList),
+      topPList: arrayToFormValue(formValues.topPList),
+      repeatLastNList: arrayToFormValue(formValues.repeatLastNList),
+      tfsZList: arrayToFormValue(formValues.tfsZList),
+      mirostatList: arrayToFormValue(formValues.mirostatList),
+      mirostatTauList: arrayToFormValue(formValues.mirostatTauList),
+      mirostatEtaList: arrayToFormValue(formValues.mirostatEtaList),
+      generations: formValues.generations,
+    });
+  }, [formValues, form]);
 
   function onSubmit(data: z.infer<typeof ParamsFormSchema>) {
     // ! clear previous results (keep queries sequential)
     queryClient.removeQueries({ queryKey: ["get_inference"] });
 
     // regenerate uuid for this experiment so all results are refreshed
-    setGridParams({
+    setFormValues({
       ...data,
       experiment_uuid: uuidv4(),
-      temperatureList: paramsToArray(data.temperatureList),
-      repeatPenaltyList: paramsToArray(data.repeatPenaltyList),
-      topKList: paramsToArray(data.topKList),
-      topPList: paramsToArray(data.topPList),
-      repeatLastNList: paramsToArray(data.repeatLastNList),
-      tfsZList: paramsToArray(data.tfsZList),
-      mirostatList: paramsToArray(data.mirostatList),
-      mirostatTauList: paramsToArray(data.mirostatTauList),
-      mirostatEtaList: paramsToArray(data.mirostatEtaList),
-      generations: data.generations,
+      temperatureList: formValueToArray(data.temperatureList),
+      repeatPenaltyList: formValueToArray(data.repeatPenaltyList),
+      topKList: formValueToArray(data.topKList),
+      topPList: formValueToArray(data.topPList),
+      repeatLastNList: formValueToArray(data.repeatLastNList),
+      tfsZList: formValueToArray(data.tfsZList),
+      mirostatList: formValueToArray(data.mirostatList),
+      mirostatTauList: formValueToArray(data.mirostatTauList),
+      mirostatEtaList: formValueToArray(data.mirostatEtaList),
     });
 
     toast({
@@ -206,12 +257,8 @@ export default function FormGridParams() {
           onSubmit={form.handleSubmit(onSubmit)}
           className="flex-grow space-y-6"
         >
-          {/* models */}
           <ModelSelector form={form} />
-          {/* prompts */}
           <PromptSelector form={form} />
-
-          {/* system prompt */}
           <SystemPromptSelector form={form} />
 
           {/* generations */}

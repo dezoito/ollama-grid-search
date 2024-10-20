@@ -103,23 +103,21 @@ https://github.com/tauri-apps/plugins-workspace/tree/v1/plugins/single-instance
 --- v0.5.3
 [ok] - Handles Ollama servers using default ports (80 or 443)
 
+--- v0.6.0
+[ok] - Added UI controls to re-run past experiments.
+[ok] - Added controls to remove experiment files from the UI.
+[ok] - Added button to copy an inference text to the clipboard.
+
+[ok] - Fix HMR not working on MacOS (in development, of course).
+[ok] - Moved "reload" icon to improve layout.
+[ok] - Improved experiment inspection UI readability.
+[ok] - Streamlined State management.
 
 ---
-
-- Allow re-running past experiments
-  Let's call this cloning an experiment.
-  What happens if a model is not available anymore (skip/alert?)
-
-  - alerting the model is not available, so the user can pull it again and retry before running.
-
-  when hitting a "clone" button on an experiment entry, we just update the form and let the user change stuff or press submit without changing anything.
-
-  This will result in a new experiment.
 
 - Add CI checks for typescript code (ESLint?)
 - Build options straight from config: https://github.com/pepperoni21/ollama-rs/blob/master/examples/options_from_json.rs
 
-- Add a damn icon.
 - Add feature to clear all existing log files.
 
 - Convert code snippets to markdown in responses? (react-markdown didn't work well to filter code)
@@ -136,3 +134,12 @@ https://github.com/tauri-apps/plugins-workspace/tree/v1/plugins/single-instance
   https://github.com/pepperoni21/ollama-rs/blob/master/examples/options_from_json.rs
 
 - Implement limited concurrency options (nope... ollama runs one request at a time)
+
+=====
+On cloning past experiments, on form-grid-params
+
+// Initiates for fields with value set in Settings > default options
+// ! make a derived atom called formParams that combines gridParams and config
+// ! and can be updated when cloning an experiment
+// ! https://jotai.org/docs/guides/composing-atoms
+// ! https://chatgpt.com/c/0ea69b31-988d-4e7b-bd7d-a6d2cc0d7347

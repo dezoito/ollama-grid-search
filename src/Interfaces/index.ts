@@ -1,21 +1,3 @@
-// Represents the sets of params sent from the form
-export interface IGridParams {
-  experiment_uuid: string;
-  models: string[];
-  system_prompt: string;
-  prompts: string[];
-  temperatureList: number[];
-  repeatPenaltyList: number[];
-  topKList: number[];
-  topPList: number[];
-  repeatLastNList: number[];
-  tfsZList: number[];
-  mirostatList: number[];
-  mirostatTauList: number[];
-  mirostatEtaList: number[];
-  generations: number;
-}
-
 // Represents a single set of params to
 // be used in inference
 // * we should create a matching struct in the Rust code
@@ -34,6 +16,24 @@ export type TParamIteration = {
   mirostat_tau: number;
   mirostat_eta: number;
   generation: number;
+};
+
+// Represents the fields displayed in the inference form
+export type TFormValues = {
+  experiment_uuid: string;
+  models: string[];
+  system_prompt: string;
+  prompts: string[];
+  temperatureList: number[];
+  repeatPenaltyList: number[];
+  topKList: number[];
+  topPList: number[];
+  repeatLastNList: number[];
+  tfsZList: number[];
+  mirostatList: number[];
+  mirostatTauList: number[];
+  mirostatEtaList: number[];
+  generations: number;
 };
 
 // Interface for the default configuration options

@@ -24,6 +24,7 @@ fn main() {
             commands::get_inference,
             commands::get_experiments,
             commands::get_ollama_version,
+            commands::delete_experiment_files
         ])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");

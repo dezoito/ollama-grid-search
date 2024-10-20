@@ -1,3 +1,5 @@
+import { PromptDialog } from "@/components/prompt-dialog";
+import { Button } from "@/components/ui/button";
 import {
   FormControl,
   FormDescription,
@@ -6,56 +8,32 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import { useCallback, useEffect, useState } from "react";
-import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { TrashIcon } from "@radix-ui/react-icons";
-import { PromptDialog } from "@/components/prompt-dialog";
-// import { Form } from "react-hook-form"
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 import * as React from "react";
-import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
+import { useFieldArray } from "react-hook-form";
 
 interface IProps {
   form: any;
 }
 
-function PromptSelector(props: IProps) {
-  const { form } = props;
-  const [prompts, setPrompts] = useState<string[]>(form.getValues().prompts)
+function PromptSelector({ form }: IProps) {
+  const { fields, append, remove } = useFieldArray({
+    control: form.control,
+    name: "prompts",
+  });
 
-  const setPromptForIdx = useCallback(({
-    idx,
-    prompt
-  }: {
-    idx: number,
-    prompt: string
-  }) => {
-    const tmpPrompts = prompts.slice()
-    tmpPrompts[idx] = prompt
-    setPrompts(tmpPrompts)
-  }, [prompts])
-
-  const addPrompt = useCallback(() => {
-    const idx = prompts.length
-    const tmpPrompts = prompts.slice()
-    tmpPrompts[idx] = ""
-    setPrompts(tmpPrompts)
-  }, [prompts])
-
-  const removePrompt = useCallback((idx: number) => {
-    const tmpPrompts = prompts.slice()
-    tmpPrompts.splice(idx, 1)
-    setPrompts(tmpPrompts)
-  }, [prompts])
-
-  useEffect(() => {
-    // sync form state
-    form.setValue("prompts", prompts)
-  }, [prompts])
-
-  const handleChange = (e: React.ChangeEvent<HTMLTextAreaElement>, idx: number) => {
-    setPromptForIdx({ idx: idx, prompt: e.target.value })
-  }
+  const handleChange = (
+    e: React.ChangeEvent<HTMLTextAreaElement>,
+    index: number,
+  ) => {
+    form.setValue(`prompts.${index}`, e.target.value);
+  };
 
   return (
     <FormField
@@ -63,27 +41,32 @@ function PromptSelector(props: IProps) {
       name="prompts"
       render={() => (
         <FormItem>
-          <FormLabel className="text-base flex flex-row items-center justify-between font-bold">
+          <FormLabel className="flex flex-row items-center justify-between text-base font-bold">
             Prompts
           </FormLabel>
-          {prompts.map((option: string, idx: number) => (
+          {fields.map((field, index) => (
             <FormField
-              key={idx.toString()}
+              key={field.id}
               control={form.control}
-              name="prompt"
-              render={({ field }) => {
-                return (
-                  <FormItem key={idx.toString()}>
-                    <FormLabel className="flex flex-row items-center justify-between font-bold">
-                      Prompt {prompts.length > 1 && (idx + 1).toString()}
-                      <div>
-                        <PromptDialog content={option} handleChange={handleChange} idx={idx} fieldName="prompt" fieldLabel="prompt"  />
-                        {prompts.length > 1 && <Button
+              name={`prompts.${index}`}
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel className="flex flex-row items-center justify-between font-bold">
+                    Prompt {fields.length > 1 && (index + 1).toString()}
+                    <div>
+                      <PromptDialog
+                        content={field.value}
+                        handleChange={handleChange}
+                        idx={index}
+                        fieldName={`prompts.${index}`}
+                        fieldLabel="prompt"
+                      />
+                      {fields.length > 1 && (
+                        <Button
                           variant="destructiveGhost"
                           size="sm"
                           type="button"
-                          disabled={prompts.length === 1}
-                          onClick={() => removePrompt(idx)}
+                          onClick={() => remove(index)}
                         >
                           <Tooltip>
                             <TooltipTrigger asChild>
@@ -91,35 +74,38 @@ function PromptSelector(props: IProps) {
                             </TooltipTrigger>
                             <TooltipContent>Delete prompt</TooltipContent>
                           </Tooltip>
-                        </Button>}
-                      </div>
-                    </FormLabel>
-                    <FormControl>
-                      <Textarea
-                        {...field}
-                        className="flex-1"
-                        value={option}
-                        rows={4}
-                        onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) => handleChange(e, idx)}
-                      />
-                    </FormControl>
-                    <FormDescription>The prompt you want to test</FormDescription>
-                  </FormItem>
-                );
-              }}
+                        </Button>
+                      )}
+                    </div>
+                  </FormLabel>
+                  <FormControl>
+                    <Textarea
+                      {...field}
+                      className="flex-1"
+                      rows={4}
+                      onChange={(e) => handleChange(e, index)}
+                    />
+                  </FormControl>
+                  <FormDescription>The prompt you want to test</FormDescription>
+                </FormItem>
+              )}
             />
           ))}
 
           <FormMessage />
-          {prompts.length === 1 && <FormDescription>
-            Add another prompt to test multiple prompts.
-          </FormDescription>}
+          {fields.length === 1 && (
+            <FormDescription>
+              Add another prompt to test multiple prompts.
+            </FormDescription>
+          )}
           <Button
             variant="secondary"
             size="sm"
             type="button"
-            onClick={() => addPrompt()}
-          >Add Another Prompt</Button>
+            onClick={() => append("")}
+          >
+            Add Another Prompt
+          </Button>
         </FormItem>
       )}
     />

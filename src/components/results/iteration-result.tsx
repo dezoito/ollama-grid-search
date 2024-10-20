@@ -7,7 +7,7 @@ import {
   formatInterval,
   tokensPerSecond,
 } from "@/lib";
-import { ReloadIcon } from "@radix-ui/react-icons";
+import { ClipboardCopyIcon, ReloadIcon } from "@radix-ui/react-icons";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { useAtom } from "jotai";
 import { useState } from "react";
@@ -17,6 +17,7 @@ import { CollapsibleItem } from "../ui/collapsible-item";
 import { CollapsibleText } from "../ui/collapsible-text";
 import { Separator } from "../ui/separator";
 import Spinner from "../ui/spinner";
+import { toast } from "../ui/use-toast";
 interface IProps {
   params: TParamIteration;
   iterationIndex: number;
@@ -81,7 +82,7 @@ export default function IterationResult(props: IProps) {
 
   return (
     <div className="flex flex-row gap-1">
-      <div className="my-3 w-11/12 rounded bg-cyan-400/20 p-4 dark:bg-slate-700/50">
+      <div className="my-2 w-[98%] rounded bg-cyan-400/20 p-4 dark:bg-slate-700/50">
         {/* model + inference params */}
 
         <CollapsibleItem
@@ -99,7 +100,7 @@ export default function IterationResult(props: IProps) {
             <div>mirostat: {mirostat}</div>
             <div>mirostat tau: {mirostat_tau}</div>
             <div>mirostat eta: {mirostat_eta}</div>
-            <Separator className="my-1" />
+            <Separator className="my-2" />
             <div className=" whitespace-pre-wrap">
               prompt: <CollapsibleText text={prompt} maxChars={45} />
             </div>
@@ -117,20 +118,49 @@ export default function IterationResult(props: IProps) {
           </div>
         ) : (
           // inference result
-          <div id="inference-result" className="my-2">
+          <div id="inference-result">
             {query.error && (
               <div className="whitespace-pre-wrap text-red-600 dark:text-red-600">
                 {query.error.toString()}
               </div>
             )}
 
-            <div className="whitespace-pre-wrap text-cyan-600 dark:text-cyan-600">
+            <div className="mt-3 whitespace-pre-wrap text-cyan-600 dark:text-cyan-600">
               {query.data && query.data.response}
             </div>
 
             {/* results metadata */}
             {query.data && (
-              <div className="my-3">
+              <div className=" my-3 flex items-center">
+                {/* copy text to clipboard */}
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  onClick={() => {
+                    if (query.data) {
+                      navigator.clipboard.writeText(query.data.response);
+
+                      toast({
+                        title: "Inferred text copied to clipboard.",
+                        duration: 2500,
+                      });
+                    }
+                  }}
+                >
+                  <ClipboardCopyIcon className="h-4 w-4 text-gray-700 dark:text-gray-400 " />
+                </Button>
+
+                {/* Allow reloading after inference is done */}
+                {query.isFetched && !query.isFetching && (
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    onClick={refetchCurrentQuery}
+                  >
+                    <ReloadIcon className="text-grey-700 h-4 w-4 dark:text-gray-400 " />
+                  </Button>
+                )}
+
                 <CollapsibleItem
                   triggerText="Results metadata"
                   defaultOpen={expandMetadata}
@@ -189,15 +219,6 @@ export default function IterationResult(props: IProps) {
           </div>
         )}
       </div>
-
-      {/* Allow reloading after inference is done */}
-      {query.isFetched && !query.isFetching && (
-        <div className=" my-3">
-          <Button variant="ghost" size="sm" onClick={refetchCurrentQuery}>
-            <ReloadIcon className="h-4 w-4 text-cyan-600 dark:text-cyan-600 " />
-          </Button>
-        </div>
-      )}
     </div>
   );
 }
