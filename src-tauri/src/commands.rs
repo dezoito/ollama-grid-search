@@ -242,11 +242,11 @@ pub fn delete_experiment_files(
         .ok_or_else(|| "Failed to get application data directory".to_string())?;
 
     if file_name == "*" {
-        // Delete all files in the directory
+        // Delete all JSON files in the directory
         for entry in fs::read_dir(&app_data_dir).map_err(|e| e.to_string())? {
             let entry = entry.map_err(|e| e.to_string())?;
             let path = entry.path();
-            if path.is_file() {
+            if path.is_file() && path.extension().map(|e| e == "json").unwrap_or(false) {
                 fs::remove_file(path).map_err(|e| e.to_string())?;
             }
         }
