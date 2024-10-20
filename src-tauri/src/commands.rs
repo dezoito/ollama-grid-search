@@ -230,3 +230,36 @@ pub fn get_experiments(app_handle: tauri::AppHandle) -> Result<Vec<ExperimentFil
     files.reverse();
     Ok(files)
 }
+
+#[tauri::command]
+pub fn delete_experiment_files(
+    app_handle: tauri::AppHandle,
+    file_name: String,
+) -> Result<(), String> {
+    let app_data_dir = app_handle
+        .path_resolver()
+        .app_data_dir()
+        .ok_or_else(|| "Failed to get application data directory".to_string())?;
+
+    if file_name == "*" {
+        // Delete all files in the directory
+        for entry in fs::read_dir(&app_data_dir).map_err(|e| e.to_string())? {
+            let entry = entry.map_err(|e| e.to_string())?;
+            let path = entry.path();
+            if path.is_file() {
+                fs::remove_file(path).map_err(|e| e.to_string())?;
+            }
+        }
+        Ok(())
+    } else {
+        // Delete a specific file
+        let file_path = app_data_dir.join(file_name);
+        if file_path.exists() && file_path.is_file() {
+            fs::remove_file(file_path).map_err(|e| e.to_string())?;
+            Ok(())
+        } else {
+            // File doesn't exist, do nothing
+            Ok(())
+        }
+    }
+}

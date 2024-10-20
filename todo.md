@@ -112,6 +112,8 @@ https://github.com/tauri-apps/plugins-workspace/tree/v1/plugins/single-instance
 
 ---
 
+- Add a way to delete experiment log files, from the UI.
+
 - Add CI checks for typescript code (ESLint?)
 - Build options straight from config: https://github.com/pepperoni21/ollama-rs/blob/master/examples/options_from_json.rs
 
