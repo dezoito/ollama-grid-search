@@ -224,7 +224,7 @@ export function LogsSelector() {
             </div>
           )}
           {query.data && (
-            <div className="mr-4 flex justify-end">
+            <div className="mr-1 flex justify-end">
               {" "}
               <Button
                 variant="ghost"

@@ -105,8 +105,9 @@ https://github.com/tauri-apps/plugins-workspace/tree/v1/plugins/single-instance
 
 --- v0.6.0
 [ok] - Added UI controls to re-run past experiments.
-[ok] - Add button to copy an inference text to the clipboard.
 [ok] - Added controls to remove experiment files from the UI.
+[ok] - Added button to copy an inference text to the clipboard.
+
 [ok] - Fix HMR not working on MacOS (in development, of course).
 [ok] - Moved "reload" icon to improve layout.
 [ok] - Improved experiment inspection UI readability.
