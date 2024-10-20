@@ -18,6 +18,7 @@ import {
   tokensPerSecond,
 } from "@/lib";
 import { useState } from "react";
+import { Separator } from "./ui/separator";
 
 interface IProps {
   experiment: IExperimentFile;
@@ -61,7 +62,7 @@ export function ExperimentDataDialog(props: IProps) {
             <div className="font-bold">Settings</div>
 
             {/* main settings table */}
-            <div className="grid grid-cols-[140px_minmax(140px,_auto)] gap-0">
+            <div className="grid grid-cols-[180px_minmax(180px,_auto)] gap-0">
               <div className="flex flex-col">
                 <div className="p-2">Server URL</div>
                 <div className="p-2">Timeout</div>
@@ -70,12 +71,14 @@ export function ExperimentDataDialog(props: IProps) {
               <div className="flex flex-col">
                 <div className="p-2">{data.config.server_url}</div>
                 <div className="p-2">{data.config.request_timeout}</div>
-                <div className="p-2">{data.config.system_prompt}</div>
+                <div className="p-2 text-amber-600 dark:text-amber-500">
+                  {data.config.system_prompt}
+                </div>
               </div>
             </div>
 
             {/* options table */}
-            <div className="grid  grid-cols-[140px_minmax(140px,_auto)] gap-0">
+            <div className="grid  grid-cols-[180px_minmax(180px,_auto)] gap-0">
               <div className="flex flex-col">
                 <div className="p-2">Default Options</div>
               </div>
@@ -95,6 +98,8 @@ export function ExperimentDataDialog(props: IProps) {
             </div>
           </div>
 
+          <Separator className="my-3" />
+
           {/* inferences */}
           <div className="text-sm">
             <div className="font-bold">Inferences</div>
@@ -102,7 +107,7 @@ export function ExperimentDataDialog(props: IProps) {
             {/* inferences table */}
             <div>
               {data.inferences.map((inf: any, index: number) => (
-                <div key={index} className="my-6">
+                <div key={index} className="my-8">
                   <div className="font-bold">
                     [{index + 1}/{data.inferences.length}]{" "}
                     {inf.parameters.model}
@@ -110,10 +115,16 @@ export function ExperimentDataDialog(props: IProps) {
                   <div className="m-4">
                     <div>Inference Prompts</div>
                     <div className="whitespace-pre-wrap font-mono text-gray-700 dark:text-gray-400">
-                      System prompt: {inf.parameters.system_prompt}
+                      System prompt:{" "}
+                      <span className="text-amber-600 dark:text-amber-500">
+                        {inf.parameters.system_prompt}
+                      </span>
                     </div>
                     <div className="whitespace-pre-wrap font-mono text-gray-700 dark:text-gray-400">
-                      Prompt: {inf.parameters.prompt}
+                      Prompt:{" "}
+                      <span className="text-green-600 dark:text-green-500">
+                        {inf.parameters.prompt}
+                      </span>
                     </div>
                   </div>
                   <div className="m-4">
@@ -163,6 +174,9 @@ export function ExperimentDataDialog(props: IProps) {
                           seed: {Number(inf.parameters.seed)}
                         </div>
                       </div>
+
+                      {/* Vertical line separator */}
+                      <div className="w-px bg-gray-200 dark:bg-gray-700"></div>
                       {/* metadata */}
                       <div>
                         <div>Result Metadata</div>

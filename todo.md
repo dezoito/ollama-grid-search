@@ -104,15 +104,15 @@ https://github.com/tauri-apps/plugins-workspace/tree/v1/plugins/single-instance
 [ok] - Handles Ollama servers using default ports (80 or 443)
 
 --- v0.6.0
-[ok] - Allow re-running past experiments
-[ok] - Add button to copy a response from an experiment iteration.
-[ok] - Fix HMR not working on MacOS
-[ok] - Moved "reload" icon to improve layout
-
+[ok] - Added UI controls to re-run past experiments.
+[ok] - Add button to copy an inference text to the clipboard.
+[ok] - Added controls to remove experiment files from the UI.
+[ok] - Fix HMR not working on MacOS (in development, of course).
+[ok] - Moved "reload" icon to improve layout.
+[ok] - Improved experiment inspection UI readability.
+[ok] - Streamlined State management.
 
 ---
-
-- Add a way to delete experiment log files, from the UI.
 
 - Add CI checks for typescript code (ESLint?)
 - Build options straight from config: https://github.com/pepperoni21/ollama-rs/blob/master/examples/options_from_json.rs
