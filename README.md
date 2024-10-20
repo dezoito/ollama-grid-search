@@ -34,6 +34,7 @@ Check the [releases page](https://github.com/dezoito/ollama-grid-search/releases
 - Model selection can be filtered by name;
 - List experiments which can be downloaded in JSON format;
 - Experiments can be inspected in readable views;
+- Re-run past experiments, cloning or modifying the parameters used in the past;
 - Configurable inference timeout;
 - Custom default parameters and system prompts can be defined in settings:
 
@@ -86,7 +87,7 @@ You can list, inspect, or download your experiments:
 
 - Grading results and filtering by grade
 - Storing experiments and results in a local database
-- Importing, exporting and sharing prompt lists and experiments
+- Importing, exporting and sharing prompt lists and experiment parameters.
 
 ## Contributing
 
