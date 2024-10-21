@@ -9,7 +9,7 @@ import { Button } from "../ui/button";
 import { Label } from "../ui/label";
 import { Separator } from "../ui/separator";
 import { Switch } from "../ui/switch";
-import Tutorial from "../ui/tutorial";
+import Tutorial from "@/components/tutorial";
 import IterationResult from "./iteration-result";
 
 export default function GridResultsPane() {

@@ -1,5 +1,5 @@
 import { formValuesAtom } from "@/Atoms";
-import PromptSelector from "@/components/filters/PromptSelector";
+import PromptSelector from "@/components/Selectors/PromptSelector";
 import { useConfirm } from "@/components/ui/alert-dialog-provider";
 import { Input } from "@/components/ui/input";
 import {
@@ -16,9 +16,9 @@ import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { v4 as uuidv4 } from "uuid";
 import z from "zod";
-import ModelSelector from "../filters/ModelSelector";
-import SystemPromptSelector from "../filters/SystemPromptSelector";
-import { Button } from "./button";
+import ModelSelector from "@/components/Selectors/ModelSelector";
+import SystemPromptSelector from "@/components/Selectors/SystemPromptSelector";
+import { Button } from "@/components/ui/button";
 import {
   Form,
   FormControl,
@@ -27,9 +27,9 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "./form";
-import Spinner from "./spinner";
-import { useToast } from "./use-toast";
+} from "@/components/ui/form";
+import Spinner from "@/components/ui/spinner";
+import { useToast } from "@/components/ui/use-toast";
 
 const validateNumberOrArray =
   (inputType: "float" | "int") => (value: string | number) => {
