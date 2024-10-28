@@ -25,6 +25,7 @@ interface IProps {
   expandParams: boolean;
   expandMetadata: boolean;
   hideModelNames: boolean;
+  borderStyle: string;
 }
 
 export default function IterationResult(props: IProps) {
@@ -35,6 +36,7 @@ export default function IterationResult(props: IProps) {
     expandParams,
     expandMetadata,
     hideModelNames,
+    borderStyle: borderStyle,
   } = props;
   const {
     model,
@@ -82,7 +84,9 @@ export default function IterationResult(props: IProps) {
 
   return (
     <div className="flex flex-row gap-1">
-      <div className="my-2 w-[98%] rounded bg-cyan-400/20 p-4 dark:bg-slate-700/50">
+      <div
+        className={`my-2 w-[98%] rounded border-l-2 ${borderStyle} bg-cyan-400/20 p-4 dark:bg-slate-700/50`}
+      >
         {/* model + inference params */}
 
         <CollapsibleItem

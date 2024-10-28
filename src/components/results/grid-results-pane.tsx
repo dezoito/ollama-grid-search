@@ -1,5 +1,6 @@
 import { configAtom, formValuesAtom } from "@/Atoms";
-import { TParamIteration } from "@/Interfaces";
+import { TFormValues, TParamIteration } from "@/Interfaces";
+import Tutorial from "@/components/tutorial";
 import { ChevronDownIcon, ChevronUpIcon } from "@radix-ui/react-icons";
 import { useQueries } from "@tanstack/react-query";
 import { useAtom } from "jotai";
@@ -9,12 +10,11 @@ import { Button } from "../ui/button";
 import { Label } from "../ui/label";
 import { Separator } from "../ui/separator";
 import { Switch } from "../ui/switch";
-import Tutorial from "@/components/tutorial";
 import IterationResult from "./iteration-result";
 
 export default function GridResultsPane() {
   const [config, __] = useAtom(configAtom);
-  const [formValues, _] = useAtom(formValuesAtom);
+  const [formValues, _] = useAtom<TFormValues>(formValuesAtom);
   const [iterations, setIterations] = useState<TParamIteration[]>([]);
   const [noCompleted, setNoCompleted] = useState(0);
   const [expandParams, setExpandParams] = useState(false);
@@ -23,6 +23,22 @@ export default function GridResultsPane() {
     new Date().toUTCString(),
   );
   const [hideModelNames, setHideModelNames] = useState(config.hide_model_names);
+  const borderStyles = [
+    "border-amber-500",
+    "border-lime-400",
+    "border-violet-500",
+    "border-green-600",
+    "border-yellow-300",
+    "border-cyan-500",
+    "border-fuchsia-600",
+    "border-yellow-600",
+    "border-rose-700",
+    "border-blue-600",
+    "border-pink-500",
+    "border-rose-700",
+  ];
+
+  const numStyles = borderStyles.length;
 
   useEffect(() => {
     setExperimentDate(new Date().toUTCString());
@@ -185,6 +201,11 @@ export default function GridResultsPane() {
               expandParams={expandParams}
               expandMetadata={expandMetadata}
               hideModelNames={hideModelNames}
+              borderStyle={
+                borderStyles[
+                  formValues.models.indexOf(iteration.model) % numStyles
+                ]
+              }
             />
           </div>
         ))}
