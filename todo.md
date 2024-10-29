@@ -118,6 +118,9 @@ https://github.com/tauri-apps/plugins-workspace/tree/v1/plugins/single-instance
 [ok] - Add colors to prompt and system_prompt when displaying inference params in results.
 [ok] - Border colors are used on the side of a result to group outputs from the same model.
 
+--- v0.6.2
+[ok] - The "refetch" button must be shown when there was an error in the inference call.
+
 ---
 
 - Add CI checks for typescript code (ESLint?)
