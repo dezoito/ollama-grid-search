@@ -14,9 +14,10 @@ import {
 interface IProps {
   text: string;
   maxChars: number;
+  textClasses?: String;
 }
 
-export function CollapsibleText({ text, maxChars }: IProps) {
+export function CollapsibleText({ text, maxChars, textClasses }: IProps) {
   const [isOpen, setIsOpen] = React.useState(false);
   const isTextLong = text.length > maxChars;
   const displayText =
@@ -29,7 +30,9 @@ export function CollapsibleText({ text, maxChars }: IProps) {
   return (
     <Collapsible open={isOpen} onOpenChange={setIsOpen} className="space-y-2">
       <div className="my-1 flex justify-stretch">
-        <div className="text-sm font-semibold">{displayText}</div>
+        <div className={`text-sm font-semibold ${textClasses}`}>
+          {displayText}
+        </div>
 
         {isTextLong && (
           <CollapsibleTrigger asChild>

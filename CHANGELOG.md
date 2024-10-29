@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file.
 
+## [Version 0.6.1] - 2024-10-28
+
+### Changed
+
+- When removing all experiment logs, only JSON files should be deleted.
+- Add colors to prompt and system_prompt when displaying inference params in results.
+- Border colors are used on the side of a result to group outputs from the same model.
+
 ## [Version 0.6.0] - 2024-10-20
 
 ### Added

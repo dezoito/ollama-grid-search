@@ -1,8 +1,8 @@
 import { ModeToggle } from "@/components/mode-toggle";
 import GridResultsPane from "@/components/results/grid-results-pane";
 import { SettingsDialog } from "@/components/settings-dialog";
-import FormGridParams from "@/components/ui/form-grid-params";
-import { LogsSelector } from "./components/ui/logs-selector";
+import FormGridParams from "@/components/form-grid-params";
+import { LogsSelector } from "@/components/Selectors/logs-selector";
 
 function Layout() {
   return (

@@ -25,6 +25,7 @@ interface IProps {
   expandParams: boolean;
   expandMetadata: boolean;
   hideModelNames: boolean;
+  borderStyle: string;
 }
 
 export default function IterationResult(props: IProps) {
@@ -35,6 +36,7 @@ export default function IterationResult(props: IProps) {
     expandParams,
     expandMetadata,
     hideModelNames,
+    borderStyle: borderStyle,
   } = props;
   const {
     model,
@@ -82,7 +84,9 @@ export default function IterationResult(props: IProps) {
 
   return (
     <div className="flex flex-row gap-1">
-      <div className="my-2 w-[98%] rounded bg-cyan-400/20 p-4 dark:bg-slate-700/50">
+      <div
+        className={`my-2 w-[98%] rounded border-l-2 ${borderStyle} bg-cyan-400/20 p-4 dark:bg-slate-700/50`}
+      >
         {/* model + inference params */}
 
         <CollapsibleItem
@@ -102,11 +106,20 @@ export default function IterationResult(props: IProps) {
             <div>mirostat eta: {mirostat_eta}</div>
             <Separator className="my-2" />
             <div className=" whitespace-pre-wrap">
-              prompt: <CollapsibleText text={prompt} maxChars={45} />
+              prompt:{" "}
+              <CollapsibleText
+                text={prompt}
+                maxChars={45}
+                textClasses={"text-green-600 dark:text-green-500"}
+              />
             </div>
             <div className=" whitespace-pre-wrap">
               system prompt:{" "}
-              <CollapsibleText text={system_prompt} maxChars={45} />
+              <CollapsibleText
+                text={system_prompt}
+                maxChars={45}
+                textClasses={"text-amber-600 dark:text-amber-500"}
+              />
             </div>
           </div>
         </CollapsibleItem>
@@ -131,9 +144,10 @@ export default function IterationResult(props: IProps) {
 
             {/* results metadata */}
             {query.data && (
-              <div className=" my-3 flex items-center">
+              <div className="my-3 flex items-start">
                 {/* copy text to clipboard */}
                 <Button
+                  className="mt-1"
                   variant="ghost"
                   size="sm"
                   onClick={() => {
@@ -154,6 +168,7 @@ export default function IterationResult(props: IProps) {
                 {query.isFetched && !query.isFetching && (
                   <Button
                     variant="ghost"
+                    className="mt-1"
                     size="sm"
                     onClick={refetchCurrentQuery}
                   >

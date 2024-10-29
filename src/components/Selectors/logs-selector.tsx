@@ -26,10 +26,10 @@ import { invoke } from "@tauri-apps/api/tauri";
 import { saveAs } from "file-saver";
 import { useAtom } from "jotai";
 import { useState } from "react";
-import { ExperimentDataDialog } from "../experiment-data-dialog";
-import { get_experiments } from "../queries";
-import { useConfirm } from "./alert-dialog-provider";
-import { toast } from "./use-toast";
+import { ExperimentDataDialog } from "@/components/experiment-data-dialog";
+import { get_experiments } from "@/components/queries";
+import { useConfirm } from "@/components/ui/alert-dialog-provider";
+import { toast } from "@/components/ui/use-toast";
 
 function processExperimentData(logContent: string): TFormValues {
   const logData = JSON.parse(logContent);
