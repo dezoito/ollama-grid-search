@@ -135,6 +135,15 @@ export default function IterationResult(props: IProps) {
             {query.error && (
               <div className="whitespace-pre-wrap text-red-600 dark:text-red-600">
                 {query.error.toString()}
+
+                <Button
+                  variant="ghost"
+                  className="mt-1"
+                  size="sm"
+                  onClick={refetchCurrentQuery}
+                >
+                  <ReloadIcon className="text-grey-700 h-4 w-4 dark:text-gray-400 " />
+                </Button>
               </div>
             )}
 

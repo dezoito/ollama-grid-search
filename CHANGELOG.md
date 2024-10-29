@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file.
 
+## [Version 0.6.2] - 2024-10-29
+
+### Fixed
+
+- The "refetch" button must be shown when there was an error in the inference call.
+
 ## [Version 0.6.1] - 2024-10-28
 
 ### Changed
