@@ -1,6 +1,7 @@
+use crate::db::DatabaseState;
 use reqwest::Client;
 use serde_json::json;
-use std::fs;
+use std::{fs, time::SystemTime};
 use tokio::time::{self, Duration};
 
 use grid_search_desktop::{
@@ -207,27 +208,55 @@ pub async fn get_inference(
     }
 }
 
+// #[tauri::command]
+// pub fn get_experiments(app_handle: tauri::AppHandle) -> Result<Vec<ExperimentFile>, Error> {
+//     let binding = app_handle.path_resolver().app_data_dir().unwrap();
+//     let app_data_dir = binding.to_str().unwrap();
+//     let mut files: Vec<ExperimentFile> = fs::read_dir(app_data_dir)?
+//         .filter_map(Result::ok)
+//         .filter_map(|entry| {
+//             let path = entry.path();
+//             let metadata = fs::metadata(&path).ok()?;
+//             let created = metadata.created().ok()?;
+//             let contents = fs::read_to_string(&path).ok()?;
+//             Some(ExperimentFile {
+//                 name: path.file_name()?.to_string_lossy().into_owned(),
+//                 created,
+//                 contents,
+//             })
+//         })
+//         .collect();
+
+//     files.sort_by_key(|file| file.created);
+//     files.reverse();
+//     Ok(files)
+// }
+
 #[tauri::command]
-pub fn get_experiments(app_handle: tauri::AppHandle) -> Result<Vec<ExperimentFile>, Error> {
-    let binding = app_handle.path_resolver().app_data_dir().unwrap();
-    let app_data_dir = binding.to_str().unwrap();
-    let mut files: Vec<ExperimentFile> = fs::read_dir(app_data_dir)?
-        .filter_map(Result::ok)
-        .filter_map(|entry| {
-            let path = entry.path();
-            let metadata = fs::metadata(&path).ok()?;
-            let created = metadata.created().ok()?;
-            let contents = fs::read_to_string(&path).ok()?;
-            Some(ExperimentFile {
-                name: path.file_name()?.to_string_lossy().into_owned(),
-                created,
-                contents,
-            })
+pub async fn get_experiments(
+    app_handle: tauri::AppHandle,
+    state: tauri::State<'_, DatabaseState>,
+) -> Result<Vec<ExperimentFile>, Error> {
+    // Access the database pool
+    let pool = &state.0;
+
+    // Example query
+    let experiments =
+        sqlx::query!("SELECT name, created, contents FROM experiments ORDER BY created DESC")
+            .fetch_all(pool)
+            .await
+            .map_err(|e| Error::StringError(e.to_string()))?;
+
+    // Convert to your ExperimentFile struct
+    let files: Vec<ExperimentFile> = experiments
+        .into_iter()
+        .map(|row| ExperimentFile {
+            name: row.name,
+            created: SystemTime::from(chrono::DateTime::parse_from_rfc3339(&row.created).unwrap()),
+            contents: row.contents,
         })
         .collect();
 
-    files.sort_by_key(|file| file.created);
-    files.reverse();
     Ok(files)
 }
 
