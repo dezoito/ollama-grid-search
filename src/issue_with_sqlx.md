@@ -129,3 +129,10 @@ temp/grid_search.db
 so we can run `DATABASE_URL="sqlite://temp/grid_search.db" cargo sqlx prepare` from /src-tauri
 
 [that fixed the warnings and compilation errors]
+
+REFS
+https://tauritutorials.com/blog/building-a-todo-app-in-tauri-with-sqlite-and-sqlx
+
+https://users.rust-lang.org/t/help-needed-with-sqlx-query-macro-and-database-url-in-a-rust-discord-bot/103914
+
+https://github.com/launchbadge/sqlx/tree/main/sqlx-cli#readme
