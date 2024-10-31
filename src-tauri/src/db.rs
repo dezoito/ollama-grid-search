@@ -1,7 +1,7 @@
 use anyhow::Result;
 use sqlx::{sqlite::SqlitePool, Pool, Sqlite};
 use std::env;
-use std::{fs, path::Path};
+use std::fs;
 use tauri::AppHandle;
 
 pub struct Database {

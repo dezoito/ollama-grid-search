@@ -119,3 +119,13 @@ SQLX_OFFLINE=true cargo build --release
 - **`DATABASE_URL` for Development**: Setting `DATABASE_URL` during development lets `sqlx` prepare and cache the metadata for the queries in an offline `.sqlx` file.
 - **`SQLX_OFFLINE=true` for Production**: This lets you compile without needing `DATABASE_URL` at runtime.
 ````
+
+---
+
+Created a temp db file at
+
+temp/grid_search.db
+
+so we can run `DATABASE_URL="sqlite://temp/grid_search.db" cargo sqlx prepare` from /src-tauri
+
+[that fixed the warnings and compilation errors]

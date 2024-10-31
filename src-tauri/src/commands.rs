@@ -234,7 +234,6 @@ pub async fn get_inference(
 
 #[tauri::command]
 pub async fn get_experiments(
-    app_handle: tauri::AppHandle,
     state: tauri::State<'_, DatabaseState>,
 ) -> Result<Vec<ExperimentFile>, Error> {
     // Access the database pool

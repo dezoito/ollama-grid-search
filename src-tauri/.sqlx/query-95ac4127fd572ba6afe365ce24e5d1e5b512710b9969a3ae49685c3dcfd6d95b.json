@@ -1,0 +1,32 @@
+{
+  "db_name": "SQLite",
+  "query": "SELECT name, created, contents FROM experiments ORDER BY created DESC",
+  "describe": {
+    "columns": [
+      {
+        "name": "name",
+        "ordinal": 0,
+        "type_info": "Text"
+      },
+      {
+        "name": "created",
+        "ordinal": 1,
+        "type_info": "Text"
+      },
+      {
+        "name": "contents",
+        "ordinal": 2,
+        "type_info": "Text"
+      }
+    ],
+    "parameters": {
+      "Right": 0
+    },
+    "nullable": [
+      false,
+      false,
+      false
+    ]
+  },
+  "hash": "95ac4127fd572ba6afe365ce24e5d1e5b512710b9969a3ae49685c3dcfd6d95b"
+}
