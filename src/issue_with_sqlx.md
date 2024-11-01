@@ -133,6 +133,16 @@ so we can run `DATABASE_URL="sqlite://temp/grid_search.db" cargo sqlx prepare` f
 
 [that fixed the warnings and compilation errors]
 
+### Opening the actual database file
+
+```sh
+cd ~/Library/Application\ Support/com.github.dezoito.gridsearch
+open -a "DB Browser for SQLite" grid_search.db
+
+# or
+open -a "DB Browser for SQLite" ~/Library/Application\ Support/com.github.dezoito.gridsearch/grid_search.db
+```
+
 REFS
 https://tauritutorials.com/blog/building-a-todo-app-in-tauri-with-sqlite-and-sqlx
 
