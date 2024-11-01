@@ -122,6 +122,9 @@ SQLX_OFFLINE=true cargo build --release
 
 ---
 
+The actual database file created by the app is saved at
+~/Library/Application Support/com.github.dezoito.gridsearch/
+
 Created a temp db file at
 
 temp/grid_search.db
