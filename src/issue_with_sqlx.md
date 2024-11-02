@@ -149,3 +149,7 @@ https://tauritutorials.com/blog/building-a-todo-app-in-tauri-with-sqlite-and-sql
 https://users.rust-lang.org/t/help-needed-with-sqlx-query-macro-and-database-url-in-a-rust-discord-bot/103914
 
 https://github.com/launchbadge/sqlx/tree/main/sqlx-cli#readme
+
+https://www.shuttle.dev/blog/2023/10/04/sql-in-rust
+
+https://www.youtube.com/watch?v=TCERYbgvbq0&t=511s
