@@ -32,6 +32,7 @@ use std::{
 use thiserror::Error;
 use url::{ParseError, Url};
 
+use sqlx::Error as SqlxError;
 use tokio::time::{sleep, Duration};
 
 #[derive(Debug, Serialize, Deserialize, Clone)]
@@ -80,6 +81,10 @@ pub enum Error {
 
     #[error(transparent)]
     SerdeJson(#[from] serde_json::Error),
+
+    // New variant for database errors
+    #[error(transparent)]
+    Database(#[from] SqlxError),
 
     // New variant for string-related errors
     #[error("String error: {0}")]

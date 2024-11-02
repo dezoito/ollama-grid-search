@@ -1,8 +1,8 @@
-use std::fs;
-
-// use crate::db::DatabaseState;
+use crate::db::DatabaseState;
 use reqwest::Client;
+use serde::Serialize;
 use serde_json::json;
+use std::fs;
 // use std::{fs, time::SystemTime};
 use tokio::time::{self, Duration};
 
@@ -18,6 +18,66 @@ use ollama_rs::{
     },
     Ollama,
 };
+
+use sqlx::prelude::*;
+// use uuid::Uuid;
+
+#[derive(Debug, FromRow, Serialize)]
+pub struct Prompt {
+    pub uuid: String,
+    pub name: String,
+    pub slug: String,
+    pub prompt: String,
+    pub date_created: i64,  // Unix timestamp
+    pub last_modified: i64, // Unix timestamp
+    pub is_active: bool,
+    pub notes: Option<String>,
+}
+
+#[tauri::command]
+pub async fn get_prompts(
+    state: tauri::State<'_, DatabaseState>,
+    is_active: Option<bool>,
+) -> Result<Vec<Prompt>, Error> {
+    // Prepare the base query string
+    let base_query = r#"
+        SELECT
+            uuid,
+            name,
+            slug,
+            prompt,
+            date_created,
+            last_modified,
+            is_active,
+            notes
+        FROM prompts
+    "#;
+
+    // Modify the query conditionally based on `is_active`
+    let query = if let Some(active) = is_active {
+        format!("{} WHERE is_active = ?", base_query)
+    } else {
+        base_query.to_string()
+    };
+
+    // Execute the query
+    let mut query = sqlx::query_as::<_, Prompt>(&query);
+    if let Some(active) = is_active {
+        query = query.bind(active);
+    }
+
+    let prompts = query.fetch_all(&state.0).await?;
+
+    println!("Retrieved {} prompts:", prompts.len());
+    for prompt in prompts.iter() {
+        println!(
+            "  UUID: {:?}, Name: {}, Active: {}",
+            prompt.uuid, prompt.name, prompt.is_active
+        );
+    }
+
+    Ok(prompts)
+}
 
 #[tauri::command]
 pub async fn get_models(config: IDefaultConfigs) -> Result<Vec<String>, Error> {

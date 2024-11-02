@@ -3,7 +3,7 @@
 -- Version: 20241101000000
 -- Create the prompts table
 CREATE TABLE prompts (
-    uuid BLOB PRIMARY KEY,
+    uuid TEXT NOT NULL PRIMARY KEY,
     name TEXT NOT NULL UNIQUE,
     slug TEXT NOT NULL UNIQUE,
     prompt TEXT NOT NULL,

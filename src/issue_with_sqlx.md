@@ -125,7 +125,7 @@ SQLX_OFFLINE=true cargo build --release
 The actual database file created by the app is saved at
 ~/Library/Application Support/com.github.dezoito.gridsearch/
 
-Created a temp db file at
+! We need to _copy_ the database file to (whenever changes are made to the schema):
 
 temp/grid_search.db
 
@@ -153,3 +153,7 @@ https://github.com/launchbadge/sqlx/tree/main/sqlx-cli#readme
 https://www.shuttle.dev/blog/2023/10/04/sql-in-rust
 
 https://www.youtube.com/watch?v=TCERYbgvbq0&t=511s
+
+============
+Forget using macros such as query! and quey_as! . just use the non macro functions
+and skip runing `cargo sqlx prepare` and copying db files and all the nonsense
