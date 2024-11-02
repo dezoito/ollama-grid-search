@@ -35,12 +35,8 @@ pub struct Prompt {
 }
 
 #[tauri::command]
-pub async fn get_prompts(
-    state: tauri::State<'_, DatabaseState>,
-    is_active: Option<bool>,
-) -> Result<Vec<Prompt>, Error> {
-    // Prepare the base query string
-    let base_query = r#"
+pub async fn get_all_prompts(state: tauri::State<'_, DatabaseState>) -> Result<Vec<Prompt>, Error> {
+    let stmt = r#"
         SELECT
             uuid,
             name,
@@ -53,26 +49,17 @@ pub async fn get_prompts(
         FROM prompts
     "#;
 
-    // Modify the query conditionally based on `is_active`
-    let query = if let Some(active) = is_active {
-        format!("{} WHERE is_active = ?", base_query)
-    } else {
-        base_query.to_string()
-    };
-
     // Execute the query
-    let mut query = sqlx::query_as::<_, Prompt>(&query);
-    if let Some(active) = is_active {
-        query = query.bind(active);
-    }
+    let query = sqlx::query_as::<_, Prompt>(stmt);
 
-    let prompts = query.fetch_all(&state.0).await?;
+    let pool = &state.0;
+    let prompts = query.fetch_all(pool).await?;
 
     println!("Retrieved {} prompts:", prompts.len());
     for prompt in prompts.iter() {
         println!(
-            "  UUID: {:?}, Name: {}, Active: {}",
-            prompt.uuid, prompt.name, prompt.is_active
+            "  UUID: {:?}, Name: {}, Active: {}, Created: {}",
+            prompt.uuid, prompt.name, prompt.is_active, prompt.date_created
         );
     }
 
