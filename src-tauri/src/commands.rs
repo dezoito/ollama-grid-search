@@ -265,6 +265,9 @@ pub fn get_experiments(app_handle: tauri::AppHandle) -> Result<Vec<ExperimentFil
         .filter_map(Result::ok)
         .filter_map(|entry| {
             let path = entry.path();
+            if path.extension().unwrap_or_default() != "json" {
+                return None;
+            }
             let metadata = fs::metadata(&path).ok()?;
             let created = metadata.created().ok()?;
             let contents = fs::read_to_string(&path).ok()?;
