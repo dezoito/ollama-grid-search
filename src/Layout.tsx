@@ -1,8 +1,9 @@
+import { LogsSelector } from "@/components/Selectors/logs-selector";
+import FormGridParams from "@/components/form-grid-params";
 import { ModeToggle } from "@/components/mode-toggle";
 import GridResultsPane from "@/components/results/grid-results-pane";
 import { SettingsDialog } from "@/components/settings-dialog";
-import FormGridParams from "@/components/form-grid-params";
-import { LogsSelector } from "@/components/Selectors/logs-selector";
+import { PromptArchiveDialog } from "./components/prompt-archive-dialog";
 
 function Layout() {
   return (
@@ -15,6 +16,7 @@ function Layout() {
           </h2>
         </span>
         <nav className="hidden gap-4 md:flex">
+          <PromptArchiveDialog />
           <ModeToggle />
           <LogsSelector />
           <SettingsDialog />
