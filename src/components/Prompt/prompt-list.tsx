@@ -12,9 +12,18 @@ export function PromptList(props: IProps) {
       {prompts.map((prompt: IPrompt) => (
         <li key={prompt.uuid} className="flex items-center">
           <span className="flex-1">{prompt.name}</span>
-          <a href="#" className="text-sm text-blue-500 hover:underline">
-            Edit
-          </a>
+          <div className="flex gap-3">
+            <a
+              href="#"
+              className="text-sm text-blue-500 hover:underline"
+              onClick={() => props.setCurrentPrompt(prompt)}
+            >
+              Edit
+            </a>{" "}
+            <a href="#" className="text-sm text-blue-500 hover:underline">
+              [+]
+            </a>
+          </div>
         </li>
       ))}
     </ul>

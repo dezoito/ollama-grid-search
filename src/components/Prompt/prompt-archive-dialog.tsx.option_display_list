@@ -16,6 +16,8 @@ import { PromptList } from "./prompt-list";
 
 export function PromptArchiveDialog() {
   const [open, setOpen] = useState(false);
+  // Controls whether we display a list of prompts of a CRUD form
+  const [displayList, setDisplayList] = useState(true);
   const [currentPrompt, setCurrentPrompt] = useState<IPrompt | null>(null);
 
   const promptQuery = useQuery<IPrompt[]>({
@@ -40,38 +42,24 @@ export function PromptArchiveDialog() {
           <DialogHeader className="border-b px-6 py-4 dark:border-gray-800">
             <DialogTitle>Prompt Archive</DialogTitle>
             <DialogDescription>
-              <div className="flex gap-4">
-                <div>Manage your collection of prompts.</div>
-                <div
-                  onClick={() => {
-                    setCurrentPrompt(null);
-                  }}
-                >
-                  Add new prompt
-                </div>
-              </div>
+              Manage your collection of prompts.
             </DialogDescription>
           </DialogHeader>
 
           {/* Main Content Area */}
-          <div className="flex gap-4 overflow-y-auto p-6">
+          <div className="flex-1 overflow-y-auto p-6">
             {/* Content here */}
-            <div className="w-[400px]">
-              {/* Left Column Content */}
-              {promptQuery.data && (
+
+            {displayList ? (
+              promptQuery.data && (
                 <PromptList
                   prompts={promptQuery.data}
                   setCurrentPrompt={setCurrentPrompt}
                 />
-              )}
-            </div>
-            <div className="flex-1">
-              {/* Right Column Content */}
-              <>FORM GOES HERE</>
-              <pre>
-                {currentPrompt && <>{JSON.stringify(currentPrompt, null, 2)}</>}
-              </pre>
-            </div>
+              )
+            ) : (
+              <>Handle a form here</>
+            )}
           </div>
 
           {/* Footer */}

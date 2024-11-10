@@ -47,6 +47,7 @@ pub async fn get_all_prompts(state: tauri::State<'_, DatabaseState>) -> Result<V
             is_active,
             notes
         FROM prompts
+        ORDER BY name ASC
     "#;
 
     // Execute the query
