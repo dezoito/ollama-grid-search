@@ -3,7 +3,7 @@ import FormGridParams from "@/components/form-grid-params";
 import { ModeToggle } from "@/components/mode-toggle";
 import GridResultsPane from "@/components/results/grid-results-pane";
 import { SettingsDialog } from "@/components/settings-dialog";
-import { PromptArchiveDialog } from "./components/prompt-archive-dialog";
+import { PromptArchiveDialog } from "@/components/Prompt/prompt-archive-dialog";
 
 function Layout() {
   return (
