@@ -123,8 +123,8 @@ https://github.com/tauri-apps/plugins-workspace/tree/v1/plugins/single-instance
 
 ---
 
-- On README, for development add not on running
-  cargo install sqlx-cli --feature sqlite
+- Use tauri-specta to export TS types from the rust structs
+  https://github.com/specta-rs/tauri-specta/tree/v1.0.2
 
 - Add CI checks for typescript code (ESLint?)
 - Build options straight from config: https://github.com/pepperoni21/ollama-rs/blob/master/examples/options_from_json.rs

@@ -80,3 +80,14 @@ export interface IExperimentFile {
   };
   contents: string;
 }
+
+export interface IPrompt {
+  uuid: string;
+  name: string;
+  slug: string;
+  prompt: string;
+  date_created: number; // Unix timestamp
+  last_modified: number; // Unix timestamp
+  is_active: boolean;
+  notes?: string;
+}

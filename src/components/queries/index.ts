@@ -1,6 +1,7 @@
 import {
   IDefaultConfigs,
   IExperimentFile,
+  IPrompt,
   IResponsePayload,
   TParamIteration,
 } from "@/Interfaces";
@@ -33,6 +34,16 @@ export async function get_inference(
 export async function get_models(config: IDefaultConfigs): Promise<string[]> {
   const models = await invoke<string[]>("get_models", { config: config });
   return models;
+}
+
+/**
+ * Retrieves all prompts.
+ *
+ * @return {Promise<Prompt[]>} a promise that resolves to an array of Prompt objects
+ */
+export async function get_all_prompts(): Promise<IPrompt[]> {
+  const prompts = await invoke<IPrompt[]>("get_all_prompts");
+  return prompts;
 }
 
 /**
