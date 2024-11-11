@@ -164,6 +164,7 @@ export default function IterationResult(props: IProps) {
                       navigator.clipboard.writeText(query.data.response);
 
                       toast({
+                        variant: "success",
                         title: "Inferred text copied to clipboard.",
                         duration: 2500,
                       });

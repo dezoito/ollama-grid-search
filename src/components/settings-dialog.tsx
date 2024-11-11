@@ -107,6 +107,7 @@ export function SettingsDialog() {
     setOpen(false);
 
     toast({
+      variant: "success",
       title: "Settings updated.",
       duration: 2500,
     });

@@ -1,23 +1,8 @@
 import { formValuesAtom } from "@/Atoms";
-import PromptSelector from "@/components/Selectors/PromptSelector";
-import { useConfirm } from "@/components/ui/alert-dialog-provider";
-import { Input } from "@/components/ui/input";
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipTrigger,
-} from "@/components/ui/tooltip";
-import { isCommaDelimitedList } from "@/lib";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { InfoCircledIcon } from "@radix-ui/react-icons";
-import { useIsFetching, useQueryClient } from "@tanstack/react-query";
-import { useAtom } from "jotai";
-import { useEffect } from "react";
-import { useForm } from "react-hook-form";
-import { v4 as uuidv4 } from "uuid";
-import z from "zod";
 import ModelSelector from "@/components/Selectors/ModelSelector";
+import PromptSelector from "@/components/Selectors/PromptSelector";
 import SystemPromptSelector from "@/components/Selectors/SystemPromptSelector";
+import { useConfirm } from "@/components/ui/alert-dialog-provider";
 import { Button } from "@/components/ui/button";
 import {
   Form,
@@ -28,8 +13,23 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
 import Spinner from "@/components/ui/spinner";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 import { useToast } from "@/components/ui/use-toast";
+import { isCommaDelimitedList } from "@/lib";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { InfoCircledIcon } from "@radix-ui/react-icons";
+import { useIsFetching, useQueryClient } from "@tanstack/react-query";
+import { useAtom } from "jotai";
+import { useEffect } from "react";
+import { useForm } from "react-hook-form";
+import { v4 as uuidv4 } from "uuid";
+import z from "zod";
 
 const validateNumberOrArray =
   (inputType: "float" | "int") => (value: string | number) => {
@@ -205,7 +205,6 @@ export default function FormGridParams() {
   });
 
   // Updates form values when the user clones an experiment
-  //TODO: Handle prompt fields not displaying updated info
   useEffect(() => {
     form.reset({
       // experiment_uuid: formValues.experiment_uuid,
@@ -245,6 +244,7 @@ export default function FormGridParams() {
     });
 
     toast({
+      variant: "info",
       title: "Running experiment.",
       duration: 2500,
     });

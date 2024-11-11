@@ -9,7 +9,7 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-import { ArchiveIcon } from "@radix-ui/react-icons";
+import { ArchiveIcon, PlusIcon } from "@radix-ui/react-icons";
 import { useQuery } from "@tanstack/react-query";
 import { useState } from "react";
 import { PromptList } from "./prompt-list";
@@ -40,15 +40,18 @@ export function PromptArchiveDialog() {
           <DialogHeader className="border-b px-6 py-4 dark:border-gray-800">
             <DialogTitle>Prompt Archive</DialogTitle>
             <DialogDescription>
-              <div className="flex gap-4">
-                <div>Manage your collection of prompts.</div>
-                <div
-                  onClick={() => {
-                    setCurrentPrompt(null);
-                  }}
+              <div className="flex w-full items-center justify-center gap-4">
+                <div className="w-full">Manage your collection of prompts.</div>
+
+                <Button
+                  variant="secondary"
+                  size="sm"
+                  type="button"
+                  onClick={() => setCurrentPrompt(null)}
                 >
-                  Add new prompt
-                </div>
+                  <PlusIcon className="mr-1 h-4 w-4" />
+                  Create a new Prompt
+                </Button>
               </div>
             </DialogDescription>
           </DialogHeader>
@@ -61,6 +64,7 @@ export function PromptArchiveDialog() {
               {promptQuery.data && (
                 <PromptList
                   prompts={promptQuery.data}
+                  currentPrompt={currentPrompt}
                   setCurrentPrompt={setCurrentPrompt}
                 />
               )}
