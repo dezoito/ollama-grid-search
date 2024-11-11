@@ -19,7 +19,7 @@ export function PromptList(props: IProps) {
     console.log("prompt to be added", prompt);
     toast({
       variant: "success",
-      title: "Prompt added.",
+      title: "Prompt added to experiment.",
       duration: 2000,
     });
   };
@@ -40,7 +40,7 @@ export function PromptList(props: IProps) {
           <div className="flex gap-3">
             <Tooltip>
               <TooltipTrigger asChild>
-                <Button variant="transparentDark" size="icon">
+                <Button variant="ghost" size="icon">
                   <FilePlusIcon
                     className="h-5 w-5"
                     onClick={() => addPromptToExperiment(prompt)}

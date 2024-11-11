@@ -52,7 +52,7 @@ const toastVariants = cva(
         error:
           "border-red-500 bg-red-100 text-red-900 dark:bg-red-900 dark:text-red-100",
         warning:
-          "border-yellow-500 bg-yellow-100 text-yellow-900 dark:bg-yellow-900 dark:text-yellow-100",
+          "border-orange-500 bg-orange-100 text-orange-900 dark:bg-orange-900 dark:text-orange-100",
         info: "border-blue-500 bg-blue-100 text-blue-900 dark:bg-blue-900 dark:text-blue-100",
       },
     },

@@ -184,7 +184,7 @@ export function LogsSelector() {
         fileName: fileName,
       });
       toast({
-        variant: "destructive",
+        variant: "warning",
         title: "The selected experiments have been deleted.",
         duration: 2500,
       });
