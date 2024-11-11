@@ -12,6 +12,7 @@ import {
 import { ArchiveIcon, PlusIcon } from "@radix-ui/react-icons";
 import { useQuery } from "@tanstack/react-query";
 import { useState } from "react";
+import { PromptArchiveForm } from "./promp-archive-form";
 import { PromptList } from "./prompt-list";
 
 export function PromptArchiveDialog() {
@@ -71,10 +72,7 @@ export function PromptArchiveDialog() {
             </div>
             <div className="flex-1">
               {/* Right Column Content */}
-              <>FORM GOES HERE</>
-              <pre>
-                {currentPrompt && <>{JSON.stringify(currentPrompt, null, 2)}</>}
-              </pre>
+              <PromptArchiveForm currentPrompt={currentPrompt} />
             </div>
           </div>
 
