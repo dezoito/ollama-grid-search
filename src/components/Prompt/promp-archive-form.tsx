@@ -13,7 +13,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import z from "zod";
-import { Switch } from "../ui/switch";
+// import { Switch } from "../ui/switch";
 
 interface IProps {
   currentPrompt: IPrompt | null;
@@ -21,17 +21,22 @@ interface IProps {
 
 export function PromptArchiveForm(props: IProps) {
   const { currentPrompt } = props;
-  const [initialValues, setInitialValues] = useState<
-    z.infer<typeof FormSchema>
-  >({
+
+  // default values for new prompt
+  const defaultInitialValues = {
     uuid: "",
     name: "",
     slug: "",
     prompt: "",
     notes: "",
-    is_active: true,
-    date_created: 0,
-    last_modified: 0,
+    // is_active: true,
+    // date_created: 0,
+    // last_modified: 0,
+  };
+  const [initialValues, setInitialValues] = useState<
+    z.infer<typeof FormSchema>
+  >({
+    ...defaultInitialValues,
   });
 
   const FormSchema = z.object({
@@ -40,9 +45,9 @@ export function PromptArchiveForm(props: IProps) {
     slug: z.string().max(50).min(1),
     prompt: z.string().min(1),
     notes: z.string().optional(),
-    is_active: z.boolean().default(true),
-    date_created: z.number().optional(),
-    last_modified: z.number().optional(),
+    // is_active: z.boolean().default(true),
+    // date_created: z.number().optional(),
+    // last_modified: z.number().optional(),
   });
 
   const form = useForm<z.infer<typeof FormSchema>>({
@@ -58,34 +63,20 @@ export function PromptArchiveForm(props: IProps) {
         slug: currentPrompt.slug,
         prompt: currentPrompt.prompt,
         notes: currentPrompt.notes || "",
-        is_active: currentPrompt.is_active,
-        date_created: currentPrompt.date_created,
-        last_modified: currentPrompt.last_modified,
+        // is_active: currentPrompt.is_active,
+        // date_created: currentPrompt.date_created,
+        // last_modified: currentPrompt.last_modified,
       });
       form.reset(initialValues);
     } else {
       setInitialValues({
-        uuid: "",
-        name: "",
-        slug: "",
-        prompt: "",
-        notes: "",
-        is_active: true,
-        date_created: 0,
-        last_modified: 0,
+        ...defaultInitialValues,
       });
       form.reset({
-        uuid: "",
-        name: "",
-        slug: "",
-        prompt: "",
-        notes: "",
-        is_active: true,
-        date_created: 0,
-        last_modified: 0,
+        ...defaultInitialValues,
       });
     }
-  }, [currentPrompt, form, initialValues]);
+  }, [currentPrompt, form]); //initialValues
 
   function onSubmit(data: z.infer<typeof FormSchema>) {
     console.log(data);
@@ -157,7 +148,7 @@ export function PromptArchiveForm(props: IProps) {
             )}
           />
         </div>
-        <div className="flex flex-col gap-4">
+        {/* <div className="flex flex-col gap-4">
           <FormField
             control={form.control}
             name="is_active"
@@ -176,7 +167,7 @@ export function PromptArchiveForm(props: IProps) {
               </FormItem>
             )}
           />
-        </div>
+        </div> */}
       </form>
     </Form>
   );
