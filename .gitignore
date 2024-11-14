@@ -24,3 +24,5 @@ node_modules/
 **/node_modules/
 scratc
 
+# Apple crap
+.DS_STORE
