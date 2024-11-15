@@ -41,8 +41,10 @@ export function PromptArchiveDialog() {
           <DialogHeader className="border-b px-6 py-4 dark:border-gray-800">
             <DialogTitle>Prompt Archive</DialogTitle>
             <DialogDescription>
-              <div className="flex w-full items-center justify-center gap-4">
-                <div className="w-full">Manage your collection of prompts.</div>
+              <span className="flex w-full items-center justify-center gap-4">
+                <span className="w-full">
+                  Manage your collection of prompts.
+                </span>
 
                 <Button
                   variant="secondary"
@@ -53,7 +55,7 @@ export function PromptArchiveDialog() {
                   <PlusIcon className="mr-1 h-4 w-4" />
                   Create a new Prompt
                 </Button>
-              </div>
+              </span>
             </DialogDescription>
           </DialogHeader>
 
@@ -72,7 +74,10 @@ export function PromptArchiveDialog() {
             </div>
             <div className="flex-1">
               {/* Right Column Content */}
-              <PromptArchiveForm currentPrompt={currentPrompt} />
+              <PromptArchiveForm
+                currentPrompt={currentPrompt}
+                setOpen={setOpen}
+              />
             </div>
           </div>
 

@@ -2,6 +2,7 @@ import { IPrompt } from "@/Interfaces";
 import {
   Form,
   FormControl,
+  FormDescription,
   FormField,
   FormItem,
   FormLabel,
@@ -13,9 +14,12 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import z from "zod";
+import { Button } from "../ui/button";
+import { useToast } from "../ui/use-toast";
 
 interface IProps {
   currentPrompt: IPrompt | null;
+  setOpen: (open: boolean) => void;
 }
 
 const DEFAULT_VALUES = {
@@ -23,11 +27,12 @@ const DEFAULT_VALUES = {
   name: "",
   slug: "",
   prompt: "",
-  notes: "",
+  // notes: "",
 };
 
 export function PromptArchiveForm(props: IProps) {
-  const { currentPrompt } = props;
+  const { currentPrompt, setOpen } = props;
+  const { toast } = useToast();
   const [initialValues, setInitialValues] =
     useState<z.infer<typeof FormSchema>>(DEFAULT_VALUES);
 
@@ -36,7 +41,7 @@ export function PromptArchiveForm(props: IProps) {
     name: z.string().max(50).min(1),
     slug: z.string().max(50).min(1),
     prompt: z.string().min(1),
-    notes: z.string().optional(),
+    // notes: z.string().optional(),
   });
 
   const form = useForm<z.infer<typeof FormSchema>>({
@@ -51,7 +56,7 @@ export function PromptArchiveForm(props: IProps) {
         name: currentPrompt.name,
         slug: currentPrompt.slug,
         prompt: currentPrompt.prompt,
-        notes: currentPrompt.notes || "",
+        // notes: currentPrompt.notes || "",
       });
     } else {
       setInitialValues(DEFAULT_VALUES);
@@ -64,7 +69,14 @@ export function PromptArchiveForm(props: IProps) {
 
   function onSubmit(data: z.infer<typeof FormSchema>) {
     console.log(data);
+
+    toast({
+      variant: "success",
+      title: "Saved changes.",
+      duration: 2500,
+    });
   }
+
   return (
     <Form {...form}>
       <form
@@ -77,7 +89,7 @@ export function PromptArchiveForm(props: IProps) {
             name="name"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Name</FormLabel>
+                <FormLabel className="font-bold">Name</FormLabel>
                 <FormControl>
                   <Input {...field} />
                 </FormControl>
@@ -92,10 +104,20 @@ export function PromptArchiveForm(props: IProps) {
             name="slug"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Slug</FormLabel>
-                <FormControl>
-                  <Input {...field} />
-                </FormControl>
+                <FormLabel className="font-bold">Slash Command</FormLabel>
+                <div className="relative mt-1 flex items-center">
+                  <span className="absolute left-2 font-bold text-gray-500">
+                    /
+                  </span>
+                  <FormControl>
+                    <Input {...field} className="pl-6" />
+                  </FormControl>
+                </div>
+
+                <FormDescription>
+                  You can type "/" and the command above to autofill prompt
+                  inputs.
+                </FormDescription>
                 <FormMessage />
               </FormItem>
             )}
@@ -107,31 +129,40 @@ export function PromptArchiveForm(props: IProps) {
             name="prompt"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Prompt</FormLabel>
+                <FormLabel className="font-bold">Prompt Text</FormLabel>
                 <FormControl>
-                  <Textarea {...field} rows={5} />
+                  <Textarea {...field} rows={8} />
                 </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-        </div>
-        <div className="flex flex-col gap-4">
-          <FormField
-            control={form.control}
-            name="notes"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Notes</FormLabel>
-                <FormControl>
-                  <Textarea {...field} rows={3} />
-                </FormControl>
+                <FormDescription>
+                  (Variable support will be added in the future.)
+                </FormDescription>
                 <FormMessage />
               </FormItem>
             )}
           />
         </div>
       </form>
+
+      {/* Buttons to save and cancel */}
+      <div className="mt-2 flex justify-end space-x-2">
+        <Button
+          type="button"
+          variant="default"
+          onClick={form.handleSubmit(onSubmit)} //Bypasses ShadCN form on modal bug
+        >
+          Save Prompt
+        </Button>
+
+        <Button
+          type="button"
+          variant="ghost"
+          onClick={async () => {
+            setOpen(false);
+          }}
+        >
+          Cancel
+        </Button>
+      </div>
     </Form>
   );
 }
