@@ -27,8 +27,8 @@ export function PromptList(props: IProps) {
   if (prompts.length === 0) {
     return (
       <div className="text-gray-500 dark:text-gray-400">
-        There are no prompts in the database. Please create a new prompt to get
-        started.
+        <div>There are no prompts in the database.</div>
+        <div>Please create a new prompt to get started.</div>
       </div>
     );
   }

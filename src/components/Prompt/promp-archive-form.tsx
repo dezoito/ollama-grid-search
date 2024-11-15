@@ -11,9 +11,11 @@ import {
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useQueryClient } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import z from "zod";
+import { useConfirm } from "../ui/alert-dialog-provider";
 import { Button } from "../ui/button";
 import { useToast } from "../ui/use-toast";
 
@@ -30,8 +32,10 @@ const DEFAULT_VALUES = {
 };
 
 export function PromptArchiveForm(props: IProps) {
-  const { currentPrompt, setOpen } = props;
   const { toast } = useToast();
+  const confirm = useConfirm();
+  const queryClient = useQueryClient();
+  const { currentPrompt, setOpen } = props;
   const [initialValues, setInitialValues] =
     useState<z.infer<typeof FormSchema>>(DEFAULT_VALUES);
 
@@ -141,7 +145,7 @@ export function PromptArchiveForm(props: IProps) {
       </form>
 
       {/* Buttons to save and cancel */}
-      <div className="mt-2 flex justify-end space-x-2">
+      <div className="mt-5 flex justify-end space-x-2">
         <Button
           type="button"
           variant="default"
@@ -151,6 +155,7 @@ export function PromptArchiveForm(props: IProps) {
         </Button>
 
         <Button
+          className="ml-5"
           type="button"
           variant="ghost"
           onClick={async () => {
@@ -158,6 +163,29 @@ export function PromptArchiveForm(props: IProps) {
           }}
         >
           Cancel
+        </Button>
+
+        <Button
+          className="ml-10"
+          type="button"
+          variant="destructive"
+          onClick={async () => {
+            if (
+              await confirm({
+                title: "Sanity Check",
+                body: "Are you sure you want to do that?",
+                cancelButton: "Cancel",
+                actionButton: "Stop!",
+              })
+            ) {
+              //TODO: add code to delete the current prompt
+              queryClient.refetchQueries({
+                queryKey: ["get_all_prompts"],
+              });
+            }
+          }}
+        >
+          Delete
         </Button>
       </div>
     </Form>
