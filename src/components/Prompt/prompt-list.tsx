@@ -24,6 +24,15 @@ export function PromptList(props: IProps) {
     });
   };
 
+  if (prompts.length === 0) {
+    return (
+      <div className="text-gray-500 dark:text-gray-400">
+        There are no prompts in the database. Please create a new prompt to get
+        started.
+      </div>
+    );
+  }
+
   return (
     <ul className="space-y-2">
       {prompts.map((prompt: IPrompt) => (

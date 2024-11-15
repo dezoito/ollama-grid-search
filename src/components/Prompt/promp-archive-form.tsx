@@ -27,7 +27,6 @@ const DEFAULT_VALUES = {
   name: "",
   slug: "",
   prompt: "",
-  // notes: "",
 };
 
 export function PromptArchiveForm(props: IProps) {
@@ -41,7 +40,6 @@ export function PromptArchiveForm(props: IProps) {
     name: z.string().max(50).min(1),
     slug: z.string().max(50).min(1),
     prompt: z.string().min(1),
-    // notes: z.string().optional(),
   });
 
   const form = useForm<z.infer<typeof FormSchema>>({
@@ -56,7 +54,6 @@ export function PromptArchiveForm(props: IProps) {
         name: currentPrompt.name,
         slug: currentPrompt.slug,
         prompt: currentPrompt.prompt,
-        // notes: currentPrompt.notes || "",
       });
     } else {
       setInitialValues(DEFAULT_VALUES);
@@ -72,7 +69,7 @@ export function PromptArchiveForm(props: IProps) {
 
     toast({
       variant: "success",
-      title: "Saved changes.",
+      title: "Prompt saved.",
       duration: 2500,
     });
   }

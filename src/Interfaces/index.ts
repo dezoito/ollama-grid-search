@@ -88,6 +88,4 @@ export interface IPrompt {
   prompt: string;
   date_created?: number; // Unix timestamp
   last_modified?: number; // Unix timestamp
-  is_active?: boolean;
-  notes?: string;
 }

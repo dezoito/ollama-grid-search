@@ -30,8 +30,6 @@ pub struct Prompt {
     pub prompt: String,
     pub date_created: i64,  // Unix timestamp
     pub last_modified: i64, // Unix timestamp
-    pub is_active: bool,
-    pub notes: Option<String>,
 }
 
 #[tauri::command]
@@ -43,9 +41,7 @@ pub async fn get_all_prompts(state: tauri::State<'_, DatabaseState>) -> Result<V
             slug,
             prompt,
             date_created,
-            last_modified,
-            is_active,
-            notes
+            last_modified
         FROM prompts
         ORDER BY name ASC
     "#;
@@ -59,8 +55,8 @@ pub async fn get_all_prompts(state: tauri::State<'_, DatabaseState>) -> Result<V
     println!("Retrieved {} prompts:", prompts.len());
     for prompt in prompts.iter() {
         println!(
-            "  UUID: {:?}, Name: {}, Active: {}, Created: {}",
-            prompt.uuid, prompt.name, prompt.is_active, prompt.date_created
+            "  UUID: {:?}, Name: {}, Created: {}",
+            prompt.uuid, prompt.name, prompt.date_created
         );
     }
 

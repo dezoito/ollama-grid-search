@@ -9,8 +9,6 @@ CREATE TABLE prompts (
     prompt TEXT NOT NULL,
     date_created INTEGER NOT NULL DEFAULT (unixepoch('now')),
     last_modified INTEGER NOT NULL DEFAULT (unixepoch('now')),
-    is_active BOOLEAN NOT NULL DEFAULT TRUE,
-    notes TEXT,
     -- Add constraints to ensure data integrity
     CHECK (length(name) > 0),
     CHECK (length(slug) > 0),
@@ -36,5 +34,5 @@ END;
 CREATE INDEX idx_prompts_date_created ON prompts(date_created);
 
 CREATE INDEX idx_prompts_name ON prompts(name);
+CREATE INDEX idx_prompts_slug ON prompts(slug);
 
-CREATE INDEX idx_prompts_is_active ON prompts(is_active);
