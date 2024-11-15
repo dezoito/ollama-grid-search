@@ -48,6 +48,8 @@ export function PromptArchiveForm(props: IProps) {
     prompt: z.string().min(1),
   });
 
+  //TODO: add validation rules for slug and to avoid duplicate slugs and names
+
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
     defaultValues: initialValues,
