@@ -76,6 +76,7 @@ export function PromptArchiveDialog() {
               {/* Right Column Content */}
               <PromptArchiveForm
                 currentPrompt={currentPrompt}
+                setCurrentPrompt={setCurrentPrompt}
                 setOpen={setOpen}
               />
             </div>

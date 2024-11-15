@@ -21,6 +21,7 @@ import { useToast } from "../ui/use-toast";
 
 interface IProps {
   currentPrompt: IPrompt | null;
+  setCurrentPrompt: (prompt: IPrompt | null) => void;
   setOpen: (open: boolean) => void;
 }
 
@@ -32,10 +33,11 @@ const DEFAULT_VALUES = {
 };
 
 export function PromptArchiveForm(props: IProps) {
+  const { currentPrompt, setOpen, setCurrentPrompt } = props;
   const { toast } = useToast();
   const confirm = useConfirm();
   const queryClient = useQueryClient();
-  const { currentPrompt, setOpen } = props;
+
   const [initialValues, setInitialValues] =
     useState<z.infer<typeof FormSchema>>(DEFAULT_VALUES);
 
@@ -76,6 +78,30 @@ export function PromptArchiveForm(props: IProps) {
       title: "Prompt saved.",
       duration: 2500,
     });
+  }
+
+  async function deletePrompt(uuid: string) {
+    console.log("deleting prompt", uuid);
+    if (
+      await confirm({
+        title: "Sanity Check",
+        body: "Are you sure you want to do that?",
+        cancelButton: "Cancel",
+        actionButton: "Delete!",
+      })
+    ) {
+      //TODO: add mutation to delete the current prompt
+      setCurrentPrompt(null);
+
+      toast({
+        variant: "success",
+        title: "Prompt Deleted.",
+        duration: 2500,
+      });
+      queryClient.refetchQueries({
+        queryKey: ["get_all_prompts"],
+      });
+    }
   }
 
   return (
@@ -165,28 +191,16 @@ export function PromptArchiveForm(props: IProps) {
           Cancel
         </Button>
 
-        <Button
-          className="ml-10"
-          type="button"
-          variant="destructive"
-          onClick={async () => {
-            if (
-              await confirm({
-                title: "Sanity Check",
-                body: "Are you sure you want to do that?",
-                cancelButton: "Cancel",
-                actionButton: "Stop!",
-              })
-            ) {
-              //TODO: add code to delete the current prompt
-              queryClient.refetchQueries({
-                queryKey: ["get_all_prompts"],
-              });
-            }
-          }}
-        >
-          Delete
-        </Button>
+        {currentPrompt && (
+          <Button
+            className="ml-10"
+            type="button"
+            variant="destructive"
+            onClick={async () => await deletePrompt(currentPrompt.uuid)}
+          >
+            Delete
+          </Button>
+        )}
       </div>
     </Form>
   );
