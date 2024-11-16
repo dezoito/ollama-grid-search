@@ -1,9 +1,9 @@
+import { PromptArchiveDialog } from "@/components/Prompt/prompt-archive-dialog";
 import { LogsSelector } from "@/components/Selectors/logs-selector";
 import FormGridParams from "@/components/form-grid-params";
 import { ModeToggle } from "@/components/mode-toggle";
 import GridResultsPane from "@/components/results/grid-results-pane";
 import { SettingsDialog } from "@/components/settings-dialog";
-import { PromptArchiveDialog } from "@/components/Prompt/prompt-archive-dialog";
 
 function Layout() {
   return (
@@ -24,12 +24,12 @@ function Layout() {
       </header>
       <div className="flex flex-1 overflow-hidden">
         {/* sidebar */}
-        <div className="w-[480px] gap-6 overflow-y-auto border-r border-gray-200 p-4 dark:border-gray-800">
+        <div className="w-[483px] gap-6 border-r border-gray-200 p-4 dark:border-gray-800">
           <FormGridParams />
         </div>
 
         {/* main div */}
-        <main className="m-4 flex-1 overflow-y-auto py-0">
+        <main className="m-4 flex-1 py-0">
           <div className="text-gray-500 dark:text-gray-400">
             <GridResultsPane />
           </div>

@@ -31,6 +31,7 @@ import { useAtom } from "jotai";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import z from "zod";
+import { ScrollArea } from "./ui/scroll-area";
 import { Switch } from "./ui/switch";
 
 export function SettingsDialog() {
@@ -142,135 +143,139 @@ export function SettingsDialog() {
              */}
 
             {/* we need to set a max-height on this div for overflow to work */}
-            <div className="grid max-h-[500px] gap-6 overflow-y-auto px-4 py-4">
-              <div>
-                <FormField
-                  control={form.control}
-                  name="hide_model_names"
-                  render={({ field }) => (
-                    <FormItem className="flex flex-row items-center justify-between">
-                      <div className="space-y-0.5">
-                        <FormLabel>Hide Model Names</FormLabel>
+            <ScrollArea className="h-[500px]">
+              <div className="grid max-h-[500px] gap-6 px-4 py-4">
+                <div>
+                  <FormField
+                    control={form.control}
+                    name="hide_model_names"
+                    render={({ field }) => (
+                      <FormItem className="flex flex-row items-center justify-between">
+                        <div className="space-y-0.5">
+                          <FormLabel>Hide Model Names</FormLabel>
+                          <FormDescription>
+                            Hides model names in results to prevent human biases
+                            in evaluations.{" "}
+                            <p>
+                              (They are still shown in inspections and logs)
+                            </p>
+                          </FormDescription>
+                        </div>
+                        <FormControl>
+                          <Switch
+                            checked={field.value}
+                            onCheckedChange={field.onChange}
+                          />
+                        </FormControl>
+                      </FormItem>
+                    )}
+                  />
+                </div>
+                {/* end switch */}
+                <div className="flex flex-col gap-4">
+                  <FormField
+                    control={form.control}
+                    name="server_url"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Ollama Server URL</FormLabel>
+                        <FormControl>
+                          <Input {...field} />
+                        </FormControl>
                         <FormDescription>
-                          Hides model names in results to prevent human biases
-                          in evaluations.{" "}
-                          <p>(They are still shown in inspections and logs)</p>
+                          URL for your Ollama server
                         </FormDescription>
-                      </div>
-                      <FormControl>
-                        <Switch
-                          checked={field.value}
-                          onCheckedChange={field.onChange}
-                        />
-                      </FormControl>
-                    </FormItem>
-                  )}
-                />
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                </div>
+                <div className="flex flex-col gap-4">
+                  <FormField
+                    control={form.control}
+                    name="request_timeout"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Request Timeout (secs)</FormLabel>
+                        <FormControl>
+                          <Input {...field} />
+                        </FormControl>
+                        <FormDescription>
+                          The timeout in seconds for each inference request.
+                        </FormDescription>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                </div>
+                <div className="flex flex-col gap-4">
+                  <FormField
+                    control={form.control}
+                    name="concurrent_inferences"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Concurrent Inferences</FormLabel>
+                        <FormControl>
+                          <Input {...field} />
+                        </FormControl>
+                        <FormDescription>
+                          Number of concurrent inference requests sent to the
+                          server (max. 5)
+                        </FormDescription>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                </div>
+                <div className="flex flex-col gap-4">
+                  <FormField
+                    control={form.control}
+                    name="system_prompt"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>System Prompt</FormLabel>
+                        <FormControl>
+                          <Textarea {...field} rows={2} />
+                        </FormControl>
+                        <FormDescription>
+                          Optional: Override your models' default system prompt.
+                        </FormDescription>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                </div>
+                <div className="flex flex-col gap-4">
+                  <FormField
+                    control={form.control}
+                    name="default_options"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Default Options</FormLabel>
+                        <FormControl>
+                          <Textarea {...field} rows={5} />
+                        </FormControl>
+                        <FormDescription>
+                          Override Ollama's default model options (
+                          <a
+                            target="_blank"
+                            href="https://github.com/ollama/ollama/blob/main/docs/modelfile.md#valid-parameters-and-values"
+                          >
+                            <u>Docs</u>
+                          </a>
+                          ) .
+                          <p>
+                            Adding new options may cause issues with inference.
+                            Be careful.
+                          </p>
+                        </FormDescription>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                </div>
               </div>
-              {/* end switch */}
-              <div className="flex flex-col gap-4">
-                <FormField
-                  control={form.control}
-                  name="server_url"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Ollama Server URL</FormLabel>
-                      <FormControl>
-                        <Input {...field} />
-                      </FormControl>
-                      <FormDescription>
-                        URL for your Ollama server
-                      </FormDescription>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-              </div>
-              <div className="flex flex-col gap-4">
-                <FormField
-                  control={form.control}
-                  name="request_timeout"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Request Timeout (secs)</FormLabel>
-                      <FormControl>
-                        <Input {...field} />
-                      </FormControl>
-                      <FormDescription>
-                        The timeout in seconds for each inference request.
-                      </FormDescription>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-              </div>
-              <div className="flex flex-col gap-4">
-                <FormField
-                  control={form.control}
-                  name="concurrent_inferences"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Concurrent Inferences</FormLabel>
-                      <FormControl>
-                        <Input {...field} />
-                      </FormControl>
-                      <FormDescription>
-                        Number of concurrent inference requests sent to the
-                        server (max. 5)
-                      </FormDescription>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-              </div>
-              <div className="flex flex-col gap-4">
-                <FormField
-                  control={form.control}
-                  name="system_prompt"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>System Prompt</FormLabel>
-                      <FormControl>
-                        <Textarea {...field} rows={2} />
-                      </FormControl>
-                      <FormDescription>
-                        Optional: Override your models' default system prompt.
-                      </FormDescription>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-              </div>
-              <div className="flex flex-col gap-4">
-                <FormField
-                  control={form.control}
-                  name="default_options"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Default Options</FormLabel>
-                      <FormControl>
-                        <Textarea {...field} rows={5} />
-                      </FormControl>
-                      <FormDescription>
-                        Override Ollama's default model options (
-                        <a
-                          target="_blank"
-                          href="https://github.com/ollama/ollama/blob/main/docs/modelfile.md#valid-parameters-and-values"
-                        >
-                          <u>Docs</u>
-                        </a>
-                        ) .
-                        <p>
-                          Adding new options may cause issues with inference. Be
-                          careful.
-                        </p>
-                      </FormDescription>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-              </div>
-            </div>
+            </ScrollArea>
             <DialogFooter>
               <div className="flex w-full items-center justify-around">
                 <Button type="submit">Save changes</Button>

@@ -60,7 +60,7 @@ export function PromptArchiveDialog() {
           </DialogHeader>
 
           {/* Main Content Area */}
-          <div className="flex gap-4 overflow-y-auto p-6">
+          <div className="flex gap-4 p-6">
             {/* Content here */}
             <div className="w-[400px]">
               {/* Left Column Content */}

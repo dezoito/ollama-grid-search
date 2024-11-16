@@ -1,6 +1,7 @@
 import { IPrompt } from "@/Interfaces";
 import { FilePlusIcon } from "@radix-ui/react-icons";
 import { Button } from "../ui/button";
+import { ScrollArea } from "../ui/scroll-area";
 import { Tooltip, TooltipContent, TooltipTrigger } from "../ui/tooltip";
 import { useToast } from "../ui/use-toast";
 
@@ -34,7 +35,7 @@ export function PromptList(props: IProps) {
   }
 
   return (
-    <ul className="space-y-2">
+    <ScrollArea className="h-[calc(100vh-200px)] space-y-2 ">
       {prompts.map((prompt: IPrompt) => (
         <div
           key={prompt.uuid}
@@ -63,6 +64,6 @@ export function PromptList(props: IProps) {
           </div>
         </div>
       ))}
-    </ul>
+    </ScrollArea>
   );
 }

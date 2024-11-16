@@ -8,6 +8,7 @@ import { useEffect, useState } from "react";
 import { get_inference } from "../queries";
 import { Button } from "../ui/button";
 import { Label } from "../ui/label";
+import { ScrollArea } from "../ui/scroll-area";
 import { Separator } from "../ui/separator";
 import { Switch } from "../ui/switch";
 import IterationResult from "./iteration-result";
@@ -189,26 +190,28 @@ export default function GridResultsPane() {
         </div>
       </div>
 
-      <div id="results-list" className="my-4 overflow-y-auto py-2">
-        {/* <pre>{JSON.stringify(iterations, null, 2)}</pre> */}
-        {/* map iterations, not results.. use cached query inside component */}
-        {iterations.map((iteration: TParamIteration, idx: number) => (
-          <div key={idx}>
-            <IterationResult
-              iterationIndex={idx}
-              totalIterations={iterations.length}
-              params={iteration}
-              expandParams={expandParams}
-              expandMetadata={expandMetadata}
-              hideModelNames={hideModelNames}
-              borderStyle={
-                borderStyles[
-                  formValues.models.indexOf(iteration.model) % numStyles
-                ]
-              }
-            />
-          </div>
-        ))}
+      <div id="results-list" className="mb-2 py-2">
+        <ScrollArea className="h-[calc(100vh-250px)]">
+          {/* <pre>{JSON.stringify(iterations, null, 2)}</pre> */}
+          {/* map iterations, not results.. use cached query inside component */}
+          {iterations.map((iteration: TParamIteration, idx: number) => (
+            <div key={idx}>
+              <IterationResult
+                iterationIndex={idx}
+                totalIterations={iterations.length}
+                params={iteration}
+                expandParams={expandParams}
+                expandMetadata={expandMetadata}
+                hideModelNames={hideModelNames}
+                borderStyle={
+                  borderStyles[
+                    formValues.models.indexOf(iteration.model) % numStyles
+                  ]
+                }
+              />
+            </div>
+          ))}
+        </ScrollArea>
       </div>
     </div>
   );
