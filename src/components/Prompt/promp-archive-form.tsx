@@ -11,10 +11,11 @@ import {
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useQueryClient } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import z from "zod";
+import { delete_prompt } from "../queries";
 import { useConfirm } from "../ui/alert-dialog-provider";
 import { Button } from "../ui/button";
 import { useToast } from "../ui/use-toast";
@@ -82,8 +83,34 @@ export function PromptArchiveForm(props: IProps) {
     });
   }
 
+  // Delete mutation
+  const deleteMutation = useMutation({
+    mutationFn: (uuid: string) => delete_prompt(uuid),
+    onSuccess: () => {
+      setCurrentPrompt(null);
+      toast({
+        variant: "success",
+        title: "Prompt Deleted.",
+        duration: 2500,
+      });
+      queryClient.invalidateQueries({
+        queryKey: ["get_all_prompts"],
+      });
+    },
+    onError: (error) => {
+      toast({
+        variant: "destructive",
+        title: "Error deleting prompt",
+        description:
+          error instanceof Error
+            ? error.message
+            : "An unexpected error occurred",
+        duration: 3500,
+      });
+    },
+  });
+
   async function deletePrompt(uuid: string) {
-    console.log("deleting prompt", uuid);
     if (
       await confirm({
         title: "Sanity Check",
@@ -92,18 +119,7 @@ export function PromptArchiveForm(props: IProps) {
         actionButton: "Delete!",
       })
     ) {
-      //TODO: add mutation to delete the current prompt
-
-      setCurrentPrompt(null);
-
-      toast({
-        variant: "success",
-        title: "Prompt Deleted.",
-        duration: 2500,
-      });
-      queryClient.refetchQueries({
-        queryKey: ["get_all_prompts"],
-      });
+      deleteMutation.mutate(uuid);
     }
   }
 
