@@ -8,6 +8,51 @@ import {
 import { invoke } from "@tauri-apps/api/tauri";
 
 /**
+ * Creates a prompt in the database.
+ *
+ * @param {IPrompt} prompt - The prompt to create.
+ * @return {Promise<void | Error>} The result of the operation. If successful,
+ * the promise resolves to `void`. If an error occurs, the promise rejects with
+ * an `Error` object.
+ */
+export async function create_prompt(prompt: IPrompt): Promise<void | Error> {
+  const createOp = await invoke<void | Error>("create_prompt", {
+    prompt,
+  });
+  return createOp;
+}
+
+/**
+ * Updates a prompt in the database.
+ *
+ * @param {IPrompt} prompt - The prompt to update.
+ * @return {Promise<void | Error>} The result of the operation. If successful,
+ * the promise resolves to `void`. If an error occurs, the promise rejects with
+ * an `Error` object.
+ */
+export async function update_prompt(prompt: IPrompt): Promise<void | Error> {
+  const updateOp = await invoke<void | Error>("update_prompt", {
+    prompt,
+  });
+  return updateOp;
+}
+
+/**
+ * Deletes a prompt in the database.
+ *
+ * @param {string} uuid - The UUID of the prompt to delete.
+ * @return {Promise<void | Error>} The result of the operation. If successful,
+ * the promise resolves to `void`. If an error occurs, the promise rejects with
+ * an `Error` object.
+ */
+export async function delete_prompt(uuid: string): Promise<void | Error> {
+  const deleteOp = await invoke<void | Error>("delete_prompt", {
+    uuid,
+  });
+  return deleteOp;
+}
+
+/**
  * Retrieves an inference using the provided configuration and parameters.
  *
  * @param {IDefaultConfigs} config - The default configurations for the inference.
