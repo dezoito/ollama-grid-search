@@ -156,7 +156,11 @@ export function PromptArchiveForm(props: IProps) {
                     /
                   </span>
                   <FormControl>
-                    <Input {...field} className="pl-6" />
+                    <Input
+                      {...field}
+                      className="pl-6"
+                      disabled={currentPrompt !== null}
+                    />
                   </FormControl>
                 </div>
 

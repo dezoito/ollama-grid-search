@@ -124,13 +124,7 @@ pub async fn get_all_prompts(state: tauri::State<'_, DatabaseState>) -> Result<V
     let pool = &state.0;
     let prompts = query.fetch_all(pool).await?;
 
-    println!("Retrieved {} prompts:", prompts.len());
-    for prompt in prompts.iter() {
-        println!(
-            "  UUID: {:?}, Name: {}, Created: {}",
-            prompt.uuid, prompt.name, prompt.date_created
-        );
-    }
+    println!("\nRetrieved {} prompts:", prompts.len());
 
     Ok(prompts)
 }
