@@ -93,6 +93,7 @@ export function PromptArchiveForm(props: IProps) {
       })
     ) {
       //TODO: add mutation to delete the current prompt
+
       setCurrentPrompt(null);
 
       toast({
@@ -183,25 +184,26 @@ export function PromptArchiveForm(props: IProps) {
         </Button>
 
         <Button
-          className="ml-5"
           type="button"
-          variant="ghost"
+          variant="default"
           onClick={async () => {
             setOpen(false);
           }}
         >
-          Cancel
+          Close
         </Button>
 
         {currentPrompt && (
-          <Button
-            className="ml-10"
-            type="button"
-            variant="destructive"
-            onClick={async () => await deletePrompt(currentPrompt.uuid)}
-          >
-            Delete
-          </Button>
+          <div>
+            <span className="mx-5"></span>
+            <Button
+              type="button"
+              variant="destructive"
+              onClick={async () => await deletePrompt(currentPrompt.uuid)}
+            >
+              Delete
+            </Button>
+          </div>
         )}
       </div>
     </Form>
