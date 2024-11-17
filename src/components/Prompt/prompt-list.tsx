@@ -40,14 +40,19 @@ export function PromptList(props: IProps) {
         <div
           key={prompt.uuid}
           onClick={() => setCurrentPrompt(prompt)}
-          className={`flex cursor-pointer items-center rounded p-1 hover:cursor-pointer ${
+          className={`mb-2 flex cursor-pointer items-center rounded p-2 hover:cursor-pointer ${
             currentPrompt && prompt.uuid === currentPrompt.uuid
               ? "bg-gray-100 dark:bg-gray-800"
               : ""
           }`}
         >
-          <span className="flex-1">{prompt.name}</span>
-          <div className="flex gap-3">
+          <div className="flex flex-col">
+            <span className="flex-1">{prompt.name}</span>
+            <span className="text-xs text-gray-500 dark:text-gray-400">
+              /{prompt.slug}
+            </span>
+          </div>
+          <div className="ml-auto">
             <Tooltip>
               <TooltipTrigger asChild>
                 <Button variant="ghost" size="icon">

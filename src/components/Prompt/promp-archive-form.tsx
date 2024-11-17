@@ -158,15 +158,15 @@ export function PromptArchiveForm(props: IProps) {
                   <FormControl>
                     <Input
                       {...field}
-                      className="pl-6"
+                      className="pl-4"
                       disabled={currentPrompt !== null}
                     />
                   </FormControl>
                 </div>
 
                 <FormDescription>
-                  You can type "/" and the command above to autofill prompt
-                  inputs.
+                  Typing "/" in a prompt input will display a list of commands
+                  to autofill the field.
                 </FormDescription>
                 <FormMessage />
               </FormItem>
