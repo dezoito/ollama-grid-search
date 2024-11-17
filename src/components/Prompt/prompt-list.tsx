@@ -1,3 +1,4 @@
+import React, { useEffect, useRef } from "react";
 import { IPrompt } from "@/Interfaces";
 import { FilePlusIcon } from "@radix-ui/react-icons";
 import { Button } from "../ui/button";
@@ -14,6 +15,8 @@ interface IProps {
 export function PromptList(props: IProps) {
   const { prompts, currentPrompt, setCurrentPrompt } = props;
   const { toast } = useToast();
+  const scrollAreaRef = useRef<HTMLDivElement>(null);
+  const promptRefs = useRef<{ [key: string]: HTMLDivElement | null }>({});
 
   const addPromptToExperiment = (prompt: IPrompt) => {
     //TODO: Implement this
@@ -25,6 +28,30 @@ export function PromptList(props: IProps) {
     });
   };
 
+  useEffect(() => {
+    if (!scrollAreaRef.current) return;
+
+    // Find the actual scrollable viewport within the ScrollArea
+    const viewport = scrollAreaRef.current.querySelector(
+      "[data-radix-scroll-area-viewport]",
+    );
+    if (!viewport) return;
+
+    if (!currentPrompt) {
+      // Scroll to top when currentPrompt is null
+      viewport.scrollTop = 0;
+    } else {
+      // Scroll to the selected prompt element
+      const selectedElement = promptRefs.current[currentPrompt.uuid];
+      if (selectedElement) {
+        selectedElement.scrollIntoView({
+          behavior: "smooth",
+          block: "nearest",
+        });
+      }
+    }
+  }, [currentPrompt, prompts]);
+
   if (prompts.length === 0) {
     return (
       <div className="text-gray-500 dark:text-gray-400">
@@ -35,10 +62,11 @@ export function PromptList(props: IProps) {
   }
 
   return (
-    <ScrollArea className="h-[calc(100vh-200px)] space-y-2 ">
+    <ScrollArea className="h-[calc(100vh-200px)] space-y-2" ref={scrollAreaRef}>
       {prompts.map((prompt: IPrompt) => (
         <div
           key={prompt.uuid}
+          ref={(el) => (promptRefs.current[prompt.uuid] = el)}
           onClick={() => setCurrentPrompt(prompt)}
           className={`mb-2 flex cursor-pointer items-center rounded p-2 hover:cursor-pointer ${
             currentPrompt && prompt.uuid === currentPrompt.uuid
@@ -72,3 +100,5 @@ export function PromptList(props: IProps) {
     </ScrollArea>
   );
 }
+
+export default PromptList;

@@ -43,7 +43,8 @@ export function PromptArchiveDialog() {
             <DialogDescription>
               <span className="flex w-full items-center justify-center gap-4">
                 <span className="w-full">
-                  Manage your collection of prompts.
+                  Manage your collection of prompts (
+                  {promptQuery.data && promptQuery.data.length} in collection).
                 </span>
 
                 <Button
