@@ -60,9 +60,8 @@ export function PromptArchiveForm(props: IProps) {
   // Create mutation
   const createMutation = useMutation({
     mutationFn: (prompt: IPrompt) => create_prompt(prompt),
-    onSuccess: () => {
-      // setCurrentPrompt(null);
-      // setOpen(false);
+    onSuccess: (_, variables) => {
+      setCurrentPrompt(variables);
       toast({
         variant: "success",
         title: "Prompt created successfully",
@@ -76,7 +75,6 @@ export function PromptArchiveForm(props: IProps) {
 
     onError: (error) => {
       console.error(error);
-
       toast({
         variant: "destructive",
         title: "Error creating prompt",
@@ -156,18 +154,12 @@ export function PromptArchiveForm(props: IProps) {
   }, [initialValues, form]);
 
   function onSubmit(data: z.infer<typeof FormSchema>) {
-    console.log(data);
-
-    const promptData = {
-      ...data,
-      uuid: data.uuid || uuidv4(),
-    };
-
     // If we are creating a new promp, define its uuid
     // then call the correct mutation
-    (data.uuid ? updateMutation : createMutation).mutate(promptData);
-
-    setCurrentPrompt(promptData);
+    (data.uuid ? updateMutation : createMutation).mutate({
+      ...data,
+      uuid: data.uuid || uuidv4(),
+    });
   }
 
   async function deletePrompt(uuid: string) {
