@@ -17,7 +17,7 @@ import { invoke } from "@tauri-apps/api/tauri";
  */
 export async function create_prompt(prompt: IPrompt): Promise<void | Error> {
   const createOp = await invoke<void | Error>("create_prompt", {
-    prompt,
+    input: prompt,
   });
   return createOp;
 }
@@ -32,7 +32,7 @@ export async function create_prompt(prompt: IPrompt): Promise<void | Error> {
  */
 export async function update_prompt(prompt: IPrompt): Promise<void | Error> {
   const updateOp = await invoke<void | Error>("update_prompt", {
-    prompt,
+    input: prompt,
   });
   return updateOp;
 }

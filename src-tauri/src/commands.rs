@@ -117,7 +117,7 @@ pub async fn get_all_prompts(state: tauri::State<'_, DatabaseState>) -> Result<V
             date_created,
             last_modified
         FROM prompts
-        ORDER BY name ASC
+        ORDER BY lower(name) ASC
     "#;
 
     let query = sqlx::query_as::<_, Prompt>(stmt);

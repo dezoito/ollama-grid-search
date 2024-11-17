@@ -14,8 +14,9 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
+import { v4 as uuidv4 } from "uuid";
 import z from "zod";
-import { delete_prompt } from "../queries";
+import { create_prompt, delete_prompt, update_prompt } from "../queries";
 import { useConfirm } from "../ui/alert-dialog-provider";
 import { Button } from "../ui/button";
 import { useToast } from "../ui/use-toast";
@@ -56,6 +57,87 @@ export function PromptArchiveForm(props: IProps) {
     defaultValues: initialValues,
   });
 
+  // Create mutation
+  const createMutation = useMutation({
+    mutationFn: (prompt: IPrompt) => create_prompt(prompt),
+    onSuccess: () => {
+      // setCurrentPrompt(null);
+      // setOpen(false);
+      toast({
+        variant: "success",
+        title: "Prompt created successfully",
+        duration: 2500,
+      });
+      queryClient.refetchQueries({
+        queryKey: ["get_all_prompts"],
+        exact: true,
+      });
+    },
+
+    onError: (error) => {
+      console.error(error);
+
+      toast({
+        variant: "destructive",
+        title: "Error creating prompt",
+        description: error.toString(),
+        duration: 3500,
+      });
+    },
+  });
+
+  // Update mutation
+  const updateMutation = useMutation({
+    mutationFn: (prompt: IPrompt) => update_prompt(prompt),
+    onSuccess: () => {
+      // setCurrentPrompt(null);
+      // setOpen(false);
+      toast({
+        variant: "success",
+        title: "Prompt updated successfully",
+        duration: 2500,
+      });
+      queryClient.refetchQueries({
+        queryKey: ["get_all_prompts"],
+        exact: true,
+      });
+    },
+    onError: (error) => {
+      console.error(error);
+      toast({
+        variant: "destructive",
+        title: "Error updating prompt",
+        description: error.toString(),
+        duration: 3500,
+      });
+    },
+  });
+
+  // Delete mutation
+  const deleteMutation = useMutation({
+    mutationFn: (uuid: string) => delete_prompt(uuid),
+    onSuccess: () => {
+      setCurrentPrompt(null);
+      toast({
+        variant: "success",
+        title: "Prompt Deleted.",
+        duration: 2500,
+      });
+      queryClient.refetchQueries({
+        queryKey: ["get_all_prompts"],
+        exact: true,
+      });
+    },
+    onError: (error) => {
+      toast({
+        variant: "destructive",
+        title: "Error deleting prompt",
+        description: error.toString(),
+        duration: 3500,
+      });
+    },
+  });
+
   useEffect(() => {
     if (currentPrompt) {
       setInitialValues({
@@ -76,39 +158,17 @@ export function PromptArchiveForm(props: IProps) {
   function onSubmit(data: z.infer<typeof FormSchema>) {
     console.log(data);
 
-    toast({
-      variant: "success",
-      title: "Prompt saved.",
-      duration: 2500,
-    });
-  }
+    const promptData = {
+      ...data,
+      uuid: data.uuid || uuidv4(),
+    };
 
-  // Delete mutation
-  const deleteMutation = useMutation({
-    mutationFn: (uuid: string) => delete_prompt(uuid),
-    onSuccess: () => {
-      setCurrentPrompt(null);
-      toast({
-        variant: "success",
-        title: "Prompt Deleted.",
-        duration: 2500,
-      });
-      queryClient.invalidateQueries({
-        queryKey: ["get_all_prompts"],
-      });
-    },
-    onError: (error) => {
-      toast({
-        variant: "destructive",
-        title: "Error deleting prompt",
-        description:
-          error instanceof Error
-            ? error.message
-            : "An unexpected error occurred",
-        duration: 3500,
-      });
-    },
-  });
+    // If we are creating a new promp, define its uuid
+    // then call the correct mutation
+    (data.uuid ? updateMutation : createMutation).mutate(promptData);
+
+    setCurrentPrompt(promptData);
+  }
 
   async function deletePrompt(uuid: string) {
     if (
