@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from "react";
+import { useEffect, useRef } from "react";
 import { IPrompt } from "@/Interfaces";
 import { FilePlusIcon } from "@radix-ui/react-icons";
 import { Button } from "../ui/button";
