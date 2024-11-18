@@ -21,7 +21,8 @@ pub async fn get_models(config: IDefaultConfigs) -> Result<Vec<String>, Error> {
     println!("Fetching models from {}", &host_url);
     let ollama = Ollama::new(host_url, port);
     let models = ollama.list_local_models().await?;
-
+    // * Can't filter out embeding models since the model family
+    // * is not returned by ollama-rs
     let model_list: Vec<String> = models.into_iter().map(|model| model.name).collect();
     Ok(model_list)
 }
