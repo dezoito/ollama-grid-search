@@ -1,6 +1,8 @@
-import { useEffect, useRef } from "react";
+import { formValuesAtom } from "@/Atoms";
 import { IPrompt } from "@/Interfaces";
 import { FilePlusIcon } from "@radix-ui/react-icons";
+import { useAtom } from "jotai";
+import { useEffect, useRef } from "react";
 import { Button } from "../ui/button";
 import { ScrollArea } from "../ui/scroll-area";
 import { Tooltip, TooltipContent, TooltipTrigger } from "../ui/tooltip";
@@ -17,10 +19,14 @@ export function PromptList(props: IProps) {
   const { toast } = useToast();
   const scrollAreaRef = useRef<HTMLDivElement>(null);
   const promptRefs = useRef<{ [key: string]: HTMLDivElement | null }>({});
+  const [formValues, setFormValues] = useAtom(formValuesAtom);
 
   const addPromptToExperiment = (prompt: IPrompt) => {
-    //TODO: Implement this
-    console.log("prompt to be added", prompt);
+    setFormValues({
+      ...formValues,
+      prompts: [...formValues.prompts, prompt.prompt],
+    });
+
     toast({
       variant: "success",
       title: "Prompt added to experiment.",
