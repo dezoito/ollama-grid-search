@@ -203,14 +203,19 @@ export function PromptArchiveForm(props: IProps) {
                 <FormControl>
                   <Input
                     {...field}
-                    onChange={(e) => {
-                      field.onChange(e);
-                      // Only update slug if this is a new prompt
-                      if (!currentPrompt) {
-                        const newSlug = generateSlug(e.target.value);
-                        form.setValue("slug", newSlug);
+                    onChangeCapture={(e) => {
+                      // field.onChange(e);
+                      // Only update slug if this is a new prompt and name changes
+                      if (
+                        !currentPrompt &&
+                        e.currentTarget.value !== field.value
+                      ) {
+                        const newSlug = generateSlug(e.currentTarget.value);
+                        form.setValue("slug", newSlug); // Set slug only when name changes
                       }
                     }}
+                    autoCapitalize="none"
+                    autoComplete="off"
                     maxLength={50}
                   />
                 </FormControl>
@@ -236,6 +241,14 @@ export function PromptArchiveForm(props: IProps) {
                       className="pl-4"
                       disabled={currentPrompt !== null}
                       maxLength={50}
+                      autoCapitalize="none"
+                      autoComplete="off"
+                      // Tries to ensure MacOS doesn't autofuck and capitalize
+                      onChangeCapture={(e) => {
+                        e.currentTarget.value = generateSlug(
+                          e.currentTarget.value,
+                        );
+                      }}
                     />
                   </FormControl>
                 </div>
