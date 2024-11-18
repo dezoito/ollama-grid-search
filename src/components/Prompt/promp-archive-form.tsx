@@ -204,14 +204,13 @@ export function PromptArchiveForm(props: IProps) {
                   <Input
                     {...field}
                     onChangeCapture={(e) => {
-                      // field.onChange(e);
                       // Only update slug if this is a new prompt and name changes
                       if (
                         !currentPrompt &&
                         e.currentTarget.value !== field.value
                       ) {
                         const newSlug = generateSlug(e.currentTarget.value);
-                        form.setValue("slug", newSlug); // Set slug only when name changes
+                        form.setValue("slug", newSlug);
                       }
                     }}
                     autoCapitalize="none"
