@@ -46,16 +46,31 @@ export function PromptArchiveForm(props: IProps) {
   const FormSchema = z.object({
     uuid: z.string().optional(),
     name: z.string().max(50).min(1),
-    slug: z.string().max(50).min(1),
+    slug: z
+      .string()
+      .max(50)
+      .min(1)
+      .regex(
+        /^[a-z0-9-]+$/,
+        "Make sure your command contains only lowercase letters, numbers, and hyphens",
+      ),
     prompt: z.string().min(1),
   });
-
-  //TODO: add validation rules for slug and to avoid duplicate slugs and names
 
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
     defaultValues: initialValues,
   });
+
+  // Function to generate slug from name
+  const generateSlug = (name: string) => {
+    return name
+      .toLowerCase()
+      .replace(/[^a-z0-9\s-]/g, "") // Remove special characters except spaces and hyphens
+      .replace(/\s+/g, "-") // Replace spaces with hyphens
+      .replace(/-+/g, "-") // Replace multiple hyphens with single hyphen
+      .trim(); // Remove leading/trailing spaces
+  };
 
   // Create mutation
   const createMutation = useMutation({
@@ -72,7 +87,6 @@ export function PromptArchiveForm(props: IProps) {
         exact: true,
       });
     },
-
     onError: (error) => {
       console.error(error);
       toast({
@@ -88,8 +102,6 @@ export function PromptArchiveForm(props: IProps) {
   const updateMutation = useMutation({
     mutationFn: (prompt: IPrompt) => update_prompt(prompt),
     onSuccess: () => {
-      // setCurrentPrompt(null);
-      // setOpen(false);
       toast({
         variant: "success",
         title: "Prompt updated successfully",
@@ -189,7 +201,18 @@ export function PromptArchiveForm(props: IProps) {
               <FormItem>
                 <FormLabel className="font-bold">Name</FormLabel>
                 <FormControl>
-                  <Input {...field} />
+                  <Input
+                    {...field}
+                    onChange={(e) => {
+                      field.onChange(e);
+                      // Only update slug if this is a new prompt
+                      if (!currentPrompt) {
+                        const newSlug = generateSlug(e.target.value);
+                        form.setValue("slug", newSlug);
+                      }
+                    }}
+                    maxLength={50}
+                  />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -212,13 +235,14 @@ export function PromptArchiveForm(props: IProps) {
                       {...field}
                       className="pl-4"
                       disabled={currentPrompt !== null}
+                      maxLength={50}
                     />
                   </FormControl>
                 </div>
-
                 <FormDescription>
                   Typing "/" in a prompt input will display a list of commands
-                  to autofill the field.
+                  to autofill the field.<br></br>A command can only contain
+                  lowercase letters, numbers, and hyphens
                 </FormDescription>
                 <FormMessage />
               </FormItem>
@@ -243,41 +267,40 @@ export function PromptArchiveForm(props: IProps) {
             )}
           />
         </div>
+
+        <div className="mt-5 flex justify-end space-x-2">
+          <Button
+            type="button"
+            variant="default"
+            onClick={form.handleSubmit(onSubmit)}
+          >
+            Save Prompt
+          </Button>
+
+          <Button
+            type="button"
+            variant="default"
+            onClick={() => setOpen(false)}
+          >
+            Close
+          </Button>
+
+          {currentPrompt && (
+            <div>
+              <span className="mx-5"></span>
+              <Button
+                type="button"
+                variant="destructive"
+                onClick={async () => await deletePrompt(currentPrompt.uuid)}
+              >
+                Delete
+              </Button>
+            </div>
+          )}
+        </div>
       </form>
-
-      {/* Buttons to save and cancel */}
-      <div className="mt-5 flex justify-end space-x-2">
-        <Button
-          type="button"
-          variant="default"
-          onClick={form.handleSubmit(onSubmit)} //Bypasses ShadCN form on modal bug
-        >
-          Save Prompt
-        </Button>
-
-        <Button
-          type="button"
-          variant="default"
-          onClick={async () => {
-            setOpen(false);
-          }}
-        >
-          Close
-        </Button>
-
-        {currentPrompt && (
-          <div>
-            <span className="mx-5"></span>
-            <Button
-              type="button"
-              variant="destructive"
-              onClick={async () => await deletePrompt(currentPrompt.uuid)}
-            >
-              Delete
-            </Button>
-          </div>
-        )}
-      </div>
     </Form>
   );
 }
+
+export default PromptArchiveForm;
