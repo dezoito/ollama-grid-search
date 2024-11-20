@@ -40,7 +40,6 @@ function Autocomplete({ trigger, index, onSelect }: AutocompleteProps) {
     refetchInterval: 1000 * 30 * 1,
     refetchOnWindowFocus: "always",
     staleTime: 0,
-    // cacheTime: 0,
   });
 
   React.useEffect(() => {
@@ -79,11 +78,19 @@ function PromptSelector({ form }: IProps) {
   const [showAutocomplete, setShowAutocomplete] = React.useState(false);
   const [currentIndex, setCurrentIndex] = React.useState(0);
 
-  const handleChange = (
+  const handlePromptChange = (
     e: React.ChangeEvent<HTMLTextAreaElement>,
     index: number,
   ) => {
-    form.setValue(`prompts.${index}`, e.target.value);
+    const value = e.target.value;
+
+    // Update form value
+    form.setValue(`prompts.${index}`, value);
+
+    // Check for autocomplete trigger
+    const shouldShowAutocomplete = value.startsWith("/");
+    setShowAutocomplete(shouldShowAutocomplete);
+    setCurrentIndex(index);
   };
 
   return (
@@ -100,72 +107,61 @@ function PromptSelector({ form }: IProps) {
               key={field.id}
               control={form.control}
               name={`prompts.${index}`}
-              render={({ field }) => {
-                const handleInputChange = (
-                  e: any,
-                  value: string,
-                  index: number,
-                ) => {
-                  field.onChange(value);
-                  setShowAutocomplete(value.startsWith("/"));
-                  setCurrentIndex(index);
-                  handleChange(e, index);
-                };
-                return (
-                  <FormItem>
-                    <FormLabel className="flex flex-row items-center justify-between font-bold">
-                      Prompt {fields.length > 1 && (index + 1).toString()}
-                      <div>
-                        <PromptDialog
-                          content={field.value}
-                          handleChange={handleChange}
-                          idx={index}
-                          fieldName={`prompts.${index}`}
-                          fieldLabel="prompt"
-                        />
-                        {fields.length > 1 && (
-                          <Button
-                            variant="destructiveGhost"
-                            size="sm"
-                            type="button"
-                            onClick={() => remove(index)}
-                          >
-                            <Tooltip>
-                              <TooltipTrigger asChild>
-                                <TrashIcon className="h-4 w-4" />
-                              </TooltipTrigger>
-                              <TooltipContent>Delete prompt</TooltipContent>
-                            </Tooltip>
-                          </Button>
-                        )}
-                      </div>
-                    </FormLabel>
-                    <FormControl>
-                      <>
-                        <Textarea
-                          {...field}
-                          className="flex-1"
-                          rows={4}
-                          onChange={(e) =>
-                            handleInputChange(e, e.target.value, index)
-                          }
-                        />
-                        <Autocomplete
-                          trigger={showAutocomplete && currentIndex === index}
-                          index={index}
-                          onSelect={(value) => {
-                            field.onChange(value);
-                            setShowAutocomplete(false);
-                          }}
-                        />
-                      </>
-                    </FormControl>
-                    <FormDescription>
-                      The prompt you want to test
-                    </FormDescription>
-                  </FormItem>
-                );
-              }}
+              render={({ field: fieldProps }) => (
+                <FormItem>
+                  <FormLabel className="flex flex-row items-center justify-between font-bold">
+                    Prompt {fields.length > 1 && (index + 1).toString()}
+                    <div>
+                      <PromptDialog
+                        content={fieldProps.value}
+                        handleChange={(e) => handlePromptChange(e, index)}
+                        idx={index}
+                        fieldName={`prompts.${index}`}
+                        fieldLabel="prompt"
+                      />
+                      {fields.length > 1 && (
+                        <Button
+                          variant="destructiveGhost"
+                          size="sm"
+                          type="button"
+                          onClick={() => remove(index)}
+                        >
+                          <Tooltip>
+                            <TooltipTrigger asChild>
+                              <TrashIcon className="h-4 w-4" />
+                            </TooltipTrigger>
+                            <TooltipContent>Delete prompt</TooltipContent>
+                          </Tooltip>
+                        </Button>
+                      )}
+                    </div>
+                  </FormLabel>
+                  <FormControl>
+                    <>
+                      <Textarea
+                        {...fieldProps}
+                        className="flex-1"
+                        rows={4}
+                        onChange={(e) => {
+                          fieldProps.onChange(e);
+                          handlePromptChange(e, index);
+                        }}
+                        placeholder="Type '/' to search prompts..."
+                      />
+                      <Autocomplete
+                        trigger={showAutocomplete && currentIndex === index}
+                        index={index}
+                        onSelect={(value) => {
+                          fieldProps.onChange(value);
+                          form.setValue(`prompts.${index}`, value);
+                          setShowAutocomplete(false);
+                        }}
+                      />
+                    </>
+                  </FormControl>
+                  <FormDescription></FormDescription>
+                </FormItem>
+              )}
             />
           ))}
 
