@@ -17,6 +17,9 @@ import {
 } from "@/components/ui/tooltip";
 import * as React from "react";
 import { useFieldArray } from "react-hook-form";
+import { useQuery } from "@tanstack/react-query";
+import { IPrompt } from "@/Interfaces";
+import { get_all_prompts } from "../queries";
 
 interface IProps {
   form: any;
@@ -26,6 +29,15 @@ function PromptSelector({ form }: IProps) {
   const { fields, append, remove } = useFieldArray({
     control: form.control,
     name: "prompts",
+  });
+
+  const promptQuery = useQuery<IPrompt[]>({
+    queryKey: ["get_all_prompts"],
+    queryFn: (): Promise<IPrompt[]> => get_all_prompts(),
+    refetchInterval: 1000 * 30 * 1,
+    refetchOnWindowFocus: "always",
+    staleTime: 0,
+    // cacheTime: 0,
   });
 
   const handleChange = (
