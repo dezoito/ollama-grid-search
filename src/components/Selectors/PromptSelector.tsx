@@ -1,4 +1,3 @@
-import { IPrompt } from "@/Interfaces";
 import { PromptDialog } from "@/components/prompt-dialog";
 import { Button } from "@/components/ui/button";
 import {
@@ -16,57 +15,12 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip";
 import { TrashIcon } from "@radix-ui/react-icons";
-import { useQuery } from "@tanstack/react-query";
 import * as React from "react";
 import { useFieldArray } from "react-hook-form";
-import { get_all_prompts } from "../queries";
+import { Autocomplete } from "./autocomplete";
 
 interface IProps {
   form: any;
-}
-
-interface AutocompleteProps {
-  trigger: boolean;
-  index: number;
-  onSelect: (value: string) => void;
-}
-
-function Autocomplete({ trigger, index, onSelect }: AutocompleteProps) {
-  const [filteredPrompts, setFilteredPrompts] = React.useState<IPrompt[]>([]);
-
-  const promptQuery = useQuery<IPrompt[]>({
-    queryKey: ["get_all_prompts"],
-    queryFn: (): Promise<IPrompt[]> => get_all_prompts(),
-    refetchInterval: 1000 * 30 * 1,
-    refetchOnWindowFocus: "always",
-    staleTime: 0,
-  });
-
-  React.useEffect(() => {
-    if (trigger) {
-      setFilteredPrompts(promptQuery.data || []);
-    } else {
-      setFilteredPrompts([]);
-    }
-  }, [trigger, promptQuery.data]);
-
-  return (
-    <div className="relative" id={`autocomplete-${index}`}>
-      {filteredPrompts.length > 0 && (
-        <div className="absolute z-10 mt-1 max-h-40 overflow-auto rounded border bg-white shadow">
-          {filteredPrompts.map((prompt) => (
-            <div
-              key={prompt.slug}
-              className="p-2 last:cursor-pointer hover:bg-gray-100 dark:bg-gray-800"
-              onClick={() => onSelect(prompt.prompt)}
-            >
-              <strong>{prompt.slug}</strong> - {prompt.name}
-            </div>
-          ))}
-        </div>
-      )}
-    </div>
-  );
 }
 
 function PromptSelector({ form }: IProps) {

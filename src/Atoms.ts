@@ -86,7 +86,7 @@ export const formValuesAtom = atom(
       return {
         experiment_uuid: "",
         models: [],
-        prompts: ["Write a short sentence."],
+        prompts: [""],
         system_prompt: config.system_prompt,
         temperatureList: [config.default_options.temperature],
         repeatPenaltyList: [config.default_options.repeat_penalty],
