@@ -105,6 +105,7 @@ function PromptSelector({ form }: IProps) {
                       <Autocomplete
                         trigger={showAutocomplete && currentIndex === index}
                         index={index}
+                        inputText={fieldProps.value}
                         onSelect={(value) => {
                           fieldProps.onChange(value);
                           form.setValue(`prompts.${index}`, value);

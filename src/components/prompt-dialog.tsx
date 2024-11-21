@@ -125,6 +125,7 @@ export function PromptDialog(props: IProps) {
                       <Autocomplete
                         trigger={showAutocomplete}
                         index={idx}
+                        inputText={localContent}
                         onSelect={(value) => {
                           const syntheticEvent = {
                             target: { value, name: fieldName },
