@@ -28,6 +28,7 @@ import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useHotkeys } from "react-hotkeys-hook";
 import z from "zod";
+import { Autocomplete } from "./Selectors/autocomplete";
 
 interface IProps {
   content: string;
@@ -44,6 +45,7 @@ export function PromptDialog(props: IProps) {
   const { content, handleChange, idx, fieldName, fieldLabel } = props;
   const [open, setOpen] = useState(false);
   const [localContent, setLocalContent] = useState(content);
+  const [showAutocomplete, setShowAutocomplete] = useState(false);
 
   useEffect(() => {
     setLocalContent(content);
@@ -70,15 +72,14 @@ export function PromptDialog(props: IProps) {
   });
 
   const handleLocalChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-    setLocalContent(e.target.value);
+    const value = e.target.value;
+    setLocalContent(value);
     handleChange(e, idx);
-  };
 
-  /*  
-      ! Undocumented behaviour
-      - Form has to wrap the entire dialog
-      - form has to be inside DialogContent
-  */
+    // Check for autocomplete trigger
+    const shouldShowAutocomplete = value.startsWith("/");
+    setShowAutocomplete(shouldShowAutocomplete);
+  };
 
   return (
     <Form {...form}>
@@ -113,12 +114,28 @@ export function PromptDialog(props: IProps) {
                     </span>
                   </FormLabel>
                   <FormControl>
-                    <Textarea
-                      rows={18}
-                      cols={100}
-                      value={localContent}
-                      onChange={handleLocalChange}
-                    />
+                    <div className="relative">
+                      <Textarea
+                        rows={15}
+                        cols={100}
+                        value={localContent}
+                        onChange={handleLocalChange}
+                        placeholder="Type '/' to search prompts..."
+                      />
+                      <Autocomplete
+                        trigger={showAutocomplete}
+                        index={idx}
+                        onSelect={(value) => {
+                          const syntheticEvent = {
+                            target: { value, name: fieldName },
+                          } as React.ChangeEvent<HTMLTextAreaElement>;
+
+                          setLocalContent(value);
+                          handleChange(syntheticEvent, idx);
+                          setShowAutocomplete(false);
+                        }}
+                      />
+                    </div>
                   </FormControl>
                   <FormMessage />
                 </FormItem>
