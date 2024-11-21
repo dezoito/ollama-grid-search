@@ -14,10 +14,12 @@ import {
   TooltipContent,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
-import { TrashIcon } from "@radix-ui/react-icons";
+import { PlusIcon, TrashIcon } from "@radix-ui/react-icons";
 import * as React from "react";
-import { useFieldArray } from "react-hook-form";
+import { useFieldArray, useFormState } from "react-hook-form";
 import { Autocomplete } from "./autocomplete";
+import { z } from "zod";
+import { ParamsFormSchema } from "../form-grid-params";
 
 interface IProps {
   form: any;
@@ -27,6 +29,11 @@ function PromptSelector({ form }: IProps) {
   const { fields, append, remove } = useFieldArray({
     control: form.control,
     name: "prompts",
+  });
+
+  // Explicitly type the errors
+  const { errors } = useFormState<z.infer<typeof ParamsFormSchema>>({
+    control: form.control,
   });
 
   const [showAutocomplete, setShowAutocomplete] = React.useState(false);
@@ -114,12 +121,18 @@ function PromptSelector({ form }: IProps) {
                       />
                     </>
                   </FormControl>
-                  <FormDescription></FormDescription>
+                  {/* Specific error message for each prompt */}
+                  {errors.prompts &&
+                    Array.isArray(errors.prompts) &&
+                    errors.prompts[index]?.message && (
+                      <FormMessage>{errors.prompts[index].message}</FormMessage>
+                    )}
                 </FormItem>
               )}
             />
           ))}
 
+          {/* Global form message for prompts array */}
           <FormMessage />
           {fields.length === 1 && (
             <FormDescription>
@@ -131,7 +144,9 @@ function PromptSelector({ form }: IProps) {
             size="sm"
             type="button"
             onClick={() => append("")}
+            className="flex items-center gap-1"
           >
+            <PlusIcon className="h-4 w-4" />
             Add Another Prompt
           </Button>
         </FormItem>

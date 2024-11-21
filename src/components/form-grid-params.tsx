@@ -65,9 +65,15 @@ export const ParamsFormSchema = z.object({
   models: z.string().array().nonempty({
     message: "Select at least 1 model.",
   }),
-  prompts: z.string().array().nonempty({
-    message: "Select at least 1 prompt.",
-  }),
+  prompts: z
+    .string()
+    .array()
+    .nonempty({
+      message: "Create at least 1 prompt.",
+    })
+    .refine((arr) => !arr.some((val) => val.trim() === ""), {
+      message: "All prompts must have content.",
+    }),
   system_prompt: z.string(),
   generations: z.coerce.number().int().min(1),
   temperatureList: z.custom(
