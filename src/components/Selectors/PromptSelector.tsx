@@ -6,7 +6,6 @@ import {
   FormField,
   FormItem,
   FormLabel,
-  FormMessage,
 } from "@/components/ui/form";
 import { Textarea } from "@/components/ui/textarea";
 import {
@@ -18,8 +17,6 @@ import { PlusIcon, TrashIcon } from "@radix-ui/react-icons";
 import * as React from "react";
 import { useFieldArray, useFormState } from "react-hook-form";
 import { Autocomplete } from "./autocomplete";
-import { z } from "zod";
-import { ParamsFormSchema } from "../form-grid-params";
 
 interface IProps {
   form: any;
@@ -31,10 +28,20 @@ function PromptSelector({ form }: IProps) {
     name: "prompts",
   });
 
-  // Explicitly type the errors
-  const { errors } = useFormState<z.infer<typeof ParamsFormSchema>>({
+  // Get the form state to access errors
+  const { errors } = useFormState({
     control: form.control,
   });
+
+  const handleAppendPrompt = () => {
+    append(""); // Ensure an empty string is passed
+    form.setValue(`prompts.${fields.length}`, ""); // Explicitly set the new field's value
+  };
+
+  // Debug logging for errors
+  React.useEffect(() => {
+    console.log("Prompt Selector Errors:", JSON.stringify(errors, null, 2));
+  }, [errors]);
 
   const [showAutocomplete, setShowAutocomplete] = React.useState(false);
   const [currentIndex, setCurrentIndex] = React.useState(0);
@@ -47,6 +54,8 @@ function PromptSelector({ form }: IProps) {
 
     // Update form value
     form.setValue(`prompts.${index}`, value);
+    // Updates validation check to clear errors
+    form.trigger();
 
     // Check for autocomplete trigger
     const shouldShowAutocomplete = value.startsWith("/");
@@ -63,6 +72,12 @@ function PromptSelector({ form }: IProps) {
           <FormLabel className="flex flex-row items-center justify-between text-base font-bold">
             Prompts
           </FormLabel>
+          {/* Global error message */}
+          {errors.prompts && typeof errors.prompts === "object" && (
+            <div className="text-red-500 dark:text-red-900">
+              <>{errors.prompts.root?.message}</>
+            </div>
+          )}
           {fields.map((field, index) => (
             <FormField
               key={field.id}
@@ -121,19 +136,11 @@ function PromptSelector({ form }: IProps) {
                       />
                     </>
                   </FormControl>
-                  {/* Specific error message for each prompt */}
-                  {errors.prompts &&
-                    Array.isArray(errors.prompts) &&
-                    errors.prompts[index]?.message && (
-                      <FormMessage>{errors.prompts[index].message}</FormMessage>
-                    )}
                 </FormItem>
               )}
             />
           ))}
 
-          {/* Global form message for prompts array */}
-          <FormMessage />
           {fields.length === 1 && (
             <FormDescription>
               Add another prompt to test multiple prompts.
@@ -143,7 +150,7 @@ function PromptSelector({ form }: IProps) {
             variant="secondary"
             size="sm"
             type="button"
-            onClick={() => append("")}
+            onClick={handleAppendPrompt}
             className="flex items-center gap-1"
           >
             <PlusIcon className="h-4 w-4" />
