@@ -7,6 +7,7 @@ import {
   Command,
   CommandEmpty,
   CommandGroup,
+  CommandInput,
   CommandItem,
   CommandList,
 } from "../ui/command";
@@ -62,6 +63,7 @@ export function Autocomplete({
     <div className="relative" id={`autocomplete-${index}`}>
       {filteredPrompts.length > 0 && (
         <Command ref={commandRef} className="focus:outline-none">
+          <CommandInput className="h-9" placeholder="Filter" />
           <CommandEmpty>No prompts found.</CommandEmpty>
           <CommandList>
             <CommandGroup>
