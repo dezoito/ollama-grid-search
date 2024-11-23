@@ -3,6 +3,7 @@ import * as React from "react";
 import { get_all_prompts } from "../queries";
 
 import { IPrompt } from "@/Interfaces";
+import { ScrollArea } from "../ui/scroll-area";
 
 export interface IProps {
   trigger: boolean;
@@ -48,9 +49,9 @@ export function Autocomplete({
   }
 
   return (
-    <div className="relative w-full" id={`autocomplete-${index}`}>
+    <div className="absolute w-full" id={`autocomplete-${index}`}>
       {filteredPrompts.length > 0 && (
-        <div className="absolute z-10 mt-1 max-h-40 w-full overflow-auto rounded border bg-white shadow dark:bg-gray-900">
+        <ScrollArea className="absolute z-10 mt-1 h-32 max-h-32 w-full rounded border bg-white shadow dark:bg-gray-900">
           {filteredPrompts.map((prompt) => (
             <div
               key={prompt.slug}
@@ -63,7 +64,7 @@ export function Autocomplete({
               </div>
             </div>
           ))}
-        </div>
+        </ScrollArea>
       )}
     </div>
   );
