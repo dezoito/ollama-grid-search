@@ -75,11 +75,14 @@ export function PromptArchiveDialog() {
             </div>
             <div className="flex-1">
               {/* Right Column Content */}
-              <PromptArchiveForm
-                currentPrompt={currentPrompt}
-                setCurrentPrompt={setCurrentPrompt}
-                setOpen={setOpen}
-              />
+              {promptQuery.data && (
+                <PromptArchiveForm
+                  prompts={promptQuery.data}
+                  currentPrompt={currentPrompt}
+                  setCurrentPrompt={setCurrentPrompt}
+                  setOpen={setOpen}
+                />
+              )}
             </div>
           </div>
 

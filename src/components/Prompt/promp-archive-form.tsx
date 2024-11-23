@@ -22,6 +22,7 @@ import { Button } from "../ui/button";
 import { useToast } from "../ui/use-toast";
 
 interface IProps {
+  prompts: IPrompt[];
   currentPrompt: IPrompt | null;
   setCurrentPrompt: (prompt: IPrompt | null) => void;
   setOpen: (open: boolean) => void;
@@ -35,7 +36,7 @@ const DEFAULT_VALUES = {
 };
 
 export function PromptArchiveForm(props: IProps) {
-  const { currentPrompt, setOpen, setCurrentPrompt } = props;
+  const { prompts, currentPrompt, setOpen, setCurrentPrompt } = props;
   const { toast } = useToast();
   const confirm = useConfirm();
   const queryClient = useQueryClient();
@@ -45,7 +46,20 @@ export function PromptArchiveForm(props: IProps) {
 
   const FormSchema = z.object({
     uuid: z.string().optional(),
-    name: z.string().max(50).min(1),
+    name: z
+      .string()
+      .max(50)
+      .min(1)
+      .refine((name) => {
+        // If editing an existing prompt, allow its current name
+        if (currentPrompt && name === currentPrompt.name) {
+          return true;
+        }
+        // Check if the name is unique among all other prompts
+        return !prompts.some(
+          (prompt) => prompt.name.toLowerCase() === name.toLowerCase(),
+        );
+      }, "A prompt with this name already exists"),
     slug: z
       .string()
       .max(50)
@@ -53,7 +67,17 @@ export function PromptArchiveForm(props: IProps) {
       .regex(
         /^[a-z0-9-]+$/,
         "Make sure your command contains only lowercase letters, numbers, and hyphens",
-      ),
+      )
+      .refine((slug) => {
+        // If editing an existing prompt, allow its current slug
+        if (currentPrompt && slug === currentPrompt.slug) {
+          return true;
+        }
+        // Check if the slug is unique among all other prompts
+        return !prompts.some(
+          (prompt) => prompt.slug.toLowerCase() === slug.toLowerCase(),
+        );
+      }, "A slash command with this name already exists"),
     prompt: z.string().min(1),
   });
 
@@ -253,8 +277,11 @@ export function PromptArchiveForm(props: IProps) {
                 </div>
                 <FormDescription>
                   Typing "/" in a prompt input will display a list of commands
-                  to autofill the field.<br></br>A command can only contain
-                  lowercase letters, numbers, and hyphens
+                  to autofill the field.
+                  {/* <p>
+                    A command can only contain lowercase letters, numbers, and
+                    hyphens.
+                  </p> */}
                 </FormDescription>
                 <FormMessage />
               </FormItem>
@@ -269,7 +296,7 @@ export function PromptArchiveForm(props: IProps) {
               <FormItem>
                 <FormLabel className="font-bold">Prompt Text</FormLabel>
                 <FormControl>
-                  <Textarea {...field} rows={8} />
+                  <Textarea {...field} rows={7} />
                 </FormControl>
                 <FormDescription>
                   (Variable support will be added in the future.)
