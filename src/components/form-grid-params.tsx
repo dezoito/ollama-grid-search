@@ -257,6 +257,10 @@ export default function FormGridParams() {
     });
   }
 
+  useEffect(() => {
+    form.trigger();
+  }, [form]);
+
   return (
     <ScrollArea className="h-screen p-3">
       <div className="relative mb-12 flex min-h-screen flex-col">

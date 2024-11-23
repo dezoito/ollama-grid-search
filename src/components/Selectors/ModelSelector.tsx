@@ -106,13 +106,16 @@ function ModelSelector(props: IProps) {
                               <Checkbox
                                 checked={field.value?.includes(option)}
                                 onCheckedChange={(checked: boolean) => {
-                                  return checked
-                                    ? field.onChange([...field.value, option])
-                                    : field.onChange(
-                                        field.value?.filter(
-                                          (value: string) => value !== option,
-                                        ),
-                                      );
+                                  if (checked) {
+                                    field.onChange([...field.value, option]);
+                                  } else {
+                                    field.onChange(
+                                      field.value?.filter(
+                                        (value: string) => value !== option,
+                                      ),
+                                    );
+                                  }
+                                  form.trigger();
                                 }}
                               />
                             </FormControl>
