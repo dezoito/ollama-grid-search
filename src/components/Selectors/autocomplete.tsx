@@ -48,16 +48,19 @@ export function Autocomplete({
   }
 
   return (
-    <div className="relative" id={`autocomplete-${index}`}>
+    <div className="relative w-full" id={`autocomplete-${index}`}>
       {filteredPrompts.length > 0 && (
-        <div className="absolute z-10 mt-1 max-h-40 overflow-auto rounded border bg-white shadow">
+        <div className="absolute z-10 mt-1 max-h-40 w-full overflow-auto rounded border bg-white shadow dark:bg-gray-900">
           {filteredPrompts.map((prompt) => (
             <div
               key={prompt.slug}
-              className="p-2 last:cursor-pointer hover:bg-gray-100 dark:bg-gray-800"
+              className="cursor-pointer p-2 hover:bg-gray-100  hover:dark:bg-gray-700"
               onClick={() => onSelect(prompt.prompt)}
             >
-              <strong>{prompt.slug}</strong> - {prompt.name}
+              <div className="font-bold">/{prompt.slug}</div>
+              <div className="text-sm text-gray-500 dark:text-gray-200">
+                {prompt.name}
+              </div>
             </div>
           ))}
         </div>
