@@ -1,6 +1,6 @@
 import { formValuesAtom } from "@/Atoms";
 import { IPrompt } from "@/Interfaces";
-import { FilePlusIcon } from "@radix-ui/react-icons";
+import { PlusIcon } from "@radix-ui/react-icons";
 import { useAtom } from "jotai";
 import { useEffect, useRef } from "react";
 import { Button } from "../ui/button";
@@ -82,7 +82,7 @@ export function PromptList(props: IProps) {
         >
           <div className="flex flex-col">
             <span className="flex-1">{prompt.name}</span>
-            <span className="text-xs text-gray-500 dark:text-gray-400">
+            <span className="text-md text-gray-500 dark:text-gray-500">
               /{prompt.slug}
             </span>
           </div>
@@ -90,7 +90,7 @@ export function PromptList(props: IProps) {
             <Tooltip>
               <TooltipTrigger asChild>
                 <Button variant="ghost" size="icon">
-                  <FilePlusIcon
+                  <PlusIcon
                     className="h-5 w-5"
                     onClick={() => addPromptToExperiment(prompt)}
                   />

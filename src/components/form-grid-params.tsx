@@ -262,7 +262,7 @@ export default function FormGridParams() {
   }, [form]);
 
   return (
-    <ScrollArea className="h-screen p-3">
+    <ScrollArea className="h-[calc(100vh-120px)] p-3">
       <div className="relative mb-12 flex min-h-screen flex-col">
         <Form {...form}>
           <form
