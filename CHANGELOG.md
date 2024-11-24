@@ -2,6 +2,21 @@
 
 All notable changes to this project will be documented in this file.
 
+## [Version 0.7.0-rc1] - 2024-11-24
+
+This is a release candidate, and thus not ready for production!
+
+### Added
+
+- Fully functional prompt management UI
+- Prompt inputs can trigger autocomplete by starting with "/"
+- Added SQLite integration for prompt management and other developments
+
+### Changed
+
+- Several small UI improvements (mostly using ScrollAreas instead of overflows
+- Improved validation rules on experiment form
+
 ## [Version 0.6.2] - 2024-10-29
 
 ### Fixed
