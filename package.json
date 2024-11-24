@@ -1,7 +1,7 @@
 {
   "name": "ollama-grid-search",
   "private": true,
-  "version": "0.6.2",
+  "version": "0.7.0-rc1",
   "type": "module",
   "scripts": {
     "dev": "vite",
