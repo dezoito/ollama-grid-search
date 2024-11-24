@@ -1,6 +1,6 @@
 [package]
 name = "grid-search-desktop"
-version = "0.7.0-rc1"
+version = "0.7.0.2"
 description = "A Tauri App to perform Grid Search and A/B testing experiments on LLMs"
 authors = ["dezoito"]
 license = "Whatever is in the repo"
@@ -36,3 +36,6 @@ custom-protocol = ["tauri/custom-protocol"]
 # Speeds up cargo checks and compiling when using sqlx with macros
 [profile.dev.package.sqlx-macros]
 opt-level = 3
+
+[profile.release]
+lto = true
