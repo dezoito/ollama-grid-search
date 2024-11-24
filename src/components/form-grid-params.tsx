@@ -36,7 +36,7 @@ const validateNumberOrArray =
   (inputType: "float" | "int") => (value: string | number) => {
     const stringValue = typeof value === "string" ? value : value.toString();
     if (!isCommaDelimitedList(stringValue)) {
-      console.error("caught invalid list", stringValue);
+      // console.error("caught invalid list", stringValue);
       return false;
     }
     const values = stringValue.split(",");
@@ -251,7 +251,7 @@ export default function FormGridParams() {
     });
 
     toast({
-      variant: "info",
+      // variant: "info",
       title: "Running experiment.",
       duration: 2500,
     });

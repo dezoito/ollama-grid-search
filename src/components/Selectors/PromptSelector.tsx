@@ -75,7 +75,7 @@ function PromptSelector({ form }: IProps) {
           {/* Global error message */}
           {errors.prompts && typeof errors.prompts === "object" && (
             <div className="text-red-500 dark:text-red-900">
-              <>{errors.prompts.root?.message}</>
+              {errors.prompts.root?.message?.toString()}
             </div>
           )}
           {fields.map((field, index) => (

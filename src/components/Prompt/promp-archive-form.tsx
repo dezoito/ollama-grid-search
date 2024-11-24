@@ -112,7 +112,7 @@ export function PromptArchiveForm(props: IProps) {
       });
     },
     onError: (error) => {
-      console.error(error);
+      // console.error(error);
       toast({
         variant: "destructive",
         title: "Error creating prompt",
@@ -137,7 +137,7 @@ export function PromptArchiveForm(props: IProps) {
       });
     },
     onError: (error) => {
-      console.error(error);
+      // console.error(error);
       toast({
         variant: "destructive",
         title: "Error updating prompt",
