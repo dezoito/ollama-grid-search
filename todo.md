@@ -123,6 +123,12 @@ https://github.com/tauri-apps/plugins-workspace/tree/v1/plugins/single-instance
 
 ---
 
+- Test prompt sample migrations
+- Store experiments in the all new shiny DB, instead of files.
+- Diff inference params when displaying results
+- Add variable support when entering prompts
+- Check issue https://github.com/dezoito/ollama-grid-search/issues/47
+
 - User should be able to add the same prompt multiple times (from the library), since these may have different values for variables in the same experiment
 
 - Use tauri-specta to export TS types from the rust structs
@@ -130,8 +136,6 @@ https://github.com/tauri-apps/plugins-workspace/tree/v1/plugins/single-instance
 
 - Add CI checks for typescript code (ESLint?)
 - Build options straight from config: https://github.com/pepperoni21/ollama-rs/blob/master/examples/options_from_json.rs
-
-- Add feature to clear all existing log files.
 
 - Convert code snippets to markdown in responses? (react-markdown didn't work well to filter code)
 - Plan on saving results to SQLite
