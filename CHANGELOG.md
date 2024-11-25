@@ -2,9 +2,7 @@
 
 All notable changes to this project will be documented in this file.
 
-## [Version 0.7.0-rc1] - 2024-11-24
-
-This is a release candidate, and thus not ready for production!
+## [Version 0.7.0] - 2024-11-24
 
 ### Added
 
