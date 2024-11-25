@@ -36,3 +36,7 @@ custom-protocol = ["tauri/custom-protocol"]
 # Speeds up cargo checks and compiling when using sqlx with macros
 [profile.dev.package.sqlx-macros]
 opt-level = 3
+
+[profile.release]
+lto = true
+
