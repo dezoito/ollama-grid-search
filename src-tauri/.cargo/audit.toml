@@ -1,8 +1,0 @@
-[advisories]
-ignore = [
-    "RUSTSEC-2023-0071", # RSA vulnerability
-    "RUSTSEC-2024-0363"  # SQLx vulnerability
-]
-
-[warnings]
-unmaintained = "ignore"
