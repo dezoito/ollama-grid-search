@@ -39,7 +39,3 @@ opt-level = 3
 
 [profile.release]
 lto = true
-
-[advisories]
-RUSTSEC-2023-0071 = "allow" # RSA vulnerability
-RUSTSEC-2024-0363 = "allow" # SQLx vulnerability

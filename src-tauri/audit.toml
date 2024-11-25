@@ -1,0 +1,13 @@
+[advisories]
+ignore = [
+    "RUSTSEC-2023-0071", # RSA vulnerability
+    "RUSTSEC-2024-0363", # SQLx vulnerability
+]
+
+# Optionally, you can also ignore unmaintained warnings
+[unmaintained]
+ignore = [
+    "RUSTSEC-2024-0388", # derivative
+    "RUSTSEC-2024-0384", # instant
+    "RUSTSEC-2024-0370", # proc-macro-error
+]
