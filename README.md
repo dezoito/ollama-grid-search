@@ -50,7 +50,7 @@ Lets define a selection of models, a prompt and some parameter combinations:
 
 [<img src="./screenshots/gridparams-animation.gif?raw=true" alt="gridparams" width="400">](./screenshots/gridparams-animation.gif?raw=true)
 
-The prompt will be submitted once for each of the 2 parameter selected, using the selecteed models to generate a list of responses.
+The prompt will be submitted once for each parameter **value**, for each one of the selected models, generating a set of responses.
 
 
 ## A/B Testing
