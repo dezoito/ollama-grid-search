@@ -11,22 +11,6 @@ Here's what an experiment for a simple prompt, tested on 3 different models, loo
 
 (For a more in-depth look at an evaluation process assisted by this tool, please check https://dezoito.github.io/2023/12/27/rust-ollama-grid-search.html).
 
-
-## Table of Contents
-
-- [Installation](#installation)
-- [Features](#features)
-- [Grid Search Concept](#grid-search-or-something-similar)
-- [A/B Testing](#ab-testing)
-- [Prompt Archive](#prompt-archive)
-- [Experiment Logs](#experiment-logs)
-- [Future Features](#future-features)
-- [Contributing](#contributing)
-- [Development](#development)
-- [Citations](#citations)
-- [Acknowledgements](#thank-you)
-
-
 ## Installation
 
 Check the [releases page](https://github.com/dezoito/ollama-grid-search/releases) for the project, or on the sidebar.
@@ -34,7 +18,7 @@ Check the [releases page](https://github.com/dezoito/ollama-grid-search/releases
 ## Features
 
 - Automatically fetches models from local or remote Ollama servers;
-- Iterates over multiple different models, prompts and parameters to generate inferences;
+- Iterates over different models, prompts and parameters to generate inferences;
 - A/B test different prompts on several models simultaneously;
 - Allows multiple iterations for each combination of parameters;
 - Allows [limited concurrency](https://dezoito.github.io/2024/03/21/react-limited-concurrency.html) **or** synchronous inference calls (to prevent spamming servers);
@@ -45,11 +29,9 @@ Check the [releases page](https://github.com/dezoito/ollama-grid-search/releases
 - Experiments can be inspected in readable views;
 - Re-run past experiments, cloning or modifying the parameters used in the past;
 - Configurable inference timeout;
-- Custom default parameters and system prompts can be defined in settings
-- Fully functional prompt database with examples;
-- Prompts can be selected and "autocompleted" by typing "/" in the inputs
+- Custom default parameters and system prompts can be defined in settings:
 
-
+[<img src="./screenshots/settings.png?raw=true" alt="Settings" width="720">](./screenshots/settings.png?raw=true)
 
 ## Grid Search (or something similar...)
 
@@ -63,6 +45,7 @@ Lets define a selection of models, a prompt and some parameter combinations:
 
 The prompt will be submitted once for each parameter **value**, for each one of the selected models, generating a set of responses.
 
+
 ## A/B Testing
 
 Similarly, you can perform A/B tests by selecting different models and compare results for the same prompt/parameter combination, or test different prompts under similar configurations:
@@ -72,7 +55,6 @@ Similarly, you can perform A/B tests by selecting different models and compare r
 <small>Comparing the results of different prompts for the same model</small>
 
 ## Prompt Archive
-
 You can save and manage your prompts (we want to make prompts compatible with [Open WebUI](https://github.com/open-webui/open-webui))
 
 [<img src="./screenshots/prompt-archive.png?raw=true" alt="Settings" width="720">](./screenshots/prompt-archive.png?raw=true)
@@ -80,6 +62,8 @@ You can save and manage your prompts (we want to make prompts compatible with [O
 You can **autocomplete** prompts by typing "/" (inspired by Open WebUI, as well):
 
 [<img src="./screenshots/autocomplete.gif?raw=true" alt="A/B testing" width="720">](./screenshots/autocomplete.gif?raw=true)
+
+
 
 ## Experiment Logs
 
@@ -90,7 +74,7 @@ You can list, inspect, or download your experiments:
 ## Future Features
 
 - Grading results and filtering by grade
-- Importing, exporting and sharing prompt lists and experiment files.
+- Importing, exporting and sharing prompt lists and experiment parameters.
 
 ## Contributing
 
@@ -122,7 +106,7 @@ cd ollama-grid-search
 
    If you are running VS Code, add this to your `settings.json` file
 
-   ```json
+   ```
    {
       ...
       "rust-analyzer.check.command": "clippy",
