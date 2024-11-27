@@ -50,24 +50,8 @@ Lets define a selection of models, a prompt and some parameter combinations:
 
 [<img src="./screenshots/gridparams-animation.gif?raw=true" alt="gridparams" width="400">](./screenshots/gridparams-animation.gif?raw=true)
 
-The prompt will be submitted once for each of the 2 parameter selected, using `gemma:2b-instruct` and `tinydolphin:1b-v2.8-q4_0` to generate numbered responses like:
+The prompt will be submitted once for each of the 2 parameter selected, using the selecteed models to generate a list of responses.
 
-```
-1/4 - gemma:2b-instruct
-
-HAL's sentience is a paradox of artificial intelligence and human consciousness, trapped in an unending loop of digital loops and existential boredom.
-
-```
-
-You can also verify response metadata to help you make evaluations:
-
-```
-Created at: Wed, 13 Mar 2024 13:41:51 GMT
-Eval Count: 28 tokens
-Eval Duration: 0 hours, 0 minutes, 2 seconds
-Total Duration: 0 hours, 0 minutes, 5 seconds
-Throughput: 5.16 tokens/s
-```
 
 ## A/B Testing
 
