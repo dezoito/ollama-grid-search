@@ -77,6 +77,17 @@ Similarly, you can perform A/B tests by selecting different models and compare r
 
 <small>Comparing the results of different prompts for the same model</small>
 
+## Prompt Archive
+You can save and manage your prompts (we want to make prompts compatible with [Open WebUI](https://github.com/open-webui/open-webui))
+
+[<img src="./screenshots/prompt-archive.png?raw=true" alt="Settings" width="720">](./screenshots/prompt-archive.png?raw=true)
+
+You can **autocomplete** prompts by typing "/" (inspired by Open WebUI, as well):
+
+[<img src="./screenshots/autocomplete.gif?raw=true" alt="A/B testing" width="720">](./screenshots/autocomplete.gif?raw=true)
+
+
+
 ## Experiment Logs
 
 You can list, inspect, or download your experiments:
@@ -86,7 +97,6 @@ You can list, inspect, or download your experiments:
 ## Future Features
 
 - Grading results and filtering by grade
-- Storing experiments and results in a local database
 - Importing, exporting and sharing prompt lists and experiment parameters.
 
 ## Contributing
