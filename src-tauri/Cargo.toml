@@ -33,10 +33,6 @@ sqlx = { version = "0.8.1", features = ["runtime-tokio", "sqlite", "chrono"] }
 # DO NOT REMOVE!!
 custom-protocol = ["tauri/custom-protocol"]
 
-# Speeds up cargo checks and compiling when using sqlx with macros
-[profile.dev.package.sqlx-macros]
-opt-level = 3
-
 [profile.release]
 lto = true
 
