@@ -13,15 +13,15 @@ https://jonaskruckenberg.github.io/tauri-docs-wip/development/inter-process-comm
 
 The Error enum, therefore, has to implement a variant for "OllamaError"
 */
-
-use std::collections::HashMap;
-
 use chrono::Utc;
 use ollama_rs::error::OllamaError;
 use ollama_rs::generation::completion::GenerationResponse;
 use serde::{Deserialize, Serialize};
 use serde_json::json;
 use serde_json::Value;
+use sqlx::Pool;
+use sqlx::Sqlite;
+use std::collections::HashMap;
 use std::fs;
 use std::time::SystemTime;
 use std::{
@@ -32,6 +32,7 @@ use std::{
 use thiserror::Error;
 use url::{ParseError, Url};
 
+use eff_wordlist::short::random_word;
 use sqlx::Error as SqlxError;
 use tokio::time::{sleep, Duration};
 
@@ -68,6 +69,38 @@ pub struct ExperimentFile {
     pub contents: String,
 }
 
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct Experiment {
+    pub id: Option<i64>,
+    pub name: String,
+    pub contents: String,
+    pub experiment_uuid: String,
+    pub is_favorite: bool,
+    pub created: String,
+    pub date_created: Option<i64>,
+}
+
+impl Experiment {
+    /// Create a new experiment
+    pub fn new(
+        name: String,
+        contents: String,
+        experiment_uuid: String,
+        created: String,
+        is_favorite: bool,
+    ) -> Self {
+        Self {
+            id: None, // Will be set by database on insertion
+            name,
+            contents,
+            experiment_uuid,
+            is_favorite,
+            created,
+            date_created: None, // Will be set by database on insertion
+        }
+    }
+}
+
 // Use thiserror::Error to implement serializable errors
 // that are returned by commands
 #[derive(Debug, Error)]
@@ -101,6 +134,16 @@ impl serde::Serialize for Error {
     }
 }
 
+pub fn create_experiment_name() -> String {
+    // uses eff_short_wordlist to create a name
+    // composed of three random words for an experiment
+    let mut word_vec = vec![];
+    for _ in 0..3 {
+        word_vec.push(random_word());
+    }
+    word_vec.join("-")
+}
+
 #[allow(unused)]
 pub async fn wait_and_return(duration_seconds: u64) -> String {
     // Convert seconds to Duration
@@ -129,6 +172,7 @@ pub fn split_host_port(url: &str) -> Result<(String, u16), ParseError> {
 }
 
 pub async fn log_experiment(
+    pool: &Pool<Sqlite>,
     config: &IDefaultConfigs,
     params: &TParamIteration,
     res: &GenerationResponse,
@@ -179,6 +223,26 @@ pub async fn log_experiment(
     serde_json::to_writer_pretty(writer, &log_data)?;
 
     println!("Experiment logged at: {}", log_file_path);
+
+    // Create a database record for the experiment
+    let experiment = Experiment::new(
+        create_experiment_name(),
+        serde_json::to_string(&log_data)?.to_string(),
+        experiment_uuid.to_string(),
+        Utc::now().to_string(),
+        false,
+    );
+
+    // let pool = &state.0;
+    let stmt = "INSERT INTO experiments (name, contents, experiment_uuid, created, is_favorite) VALUES ($1, $2, $3, $4, $5)";
+    sqlx::query(stmt)
+        .bind(experiment.name)
+        .bind(experiment.contents)
+        .bind(experiment.experiment_uuid)
+        .bind(experiment.created)
+        .bind(experiment.is_favorite)
+        .execute(pool)
+        .await?;
 
     Ok(())
 }

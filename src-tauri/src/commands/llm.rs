@@ -1,3 +1,4 @@
+use crate::db::DatabaseState;
 use reqwest::Client;
 use serde_json::json;
 use tokio::time::{self, Duration};
@@ -62,6 +63,7 @@ pub async fn get_ollama_version(config: IDefaultConfigs) -> Result<String, Error
 
 #[tauri::command]
 pub async fn get_inference(
+    state: tauri::State<'_, DatabaseState>,
     config: IDefaultConfigs,
     params: TParamIteration,
     app_handle: tauri::AppHandle,
@@ -189,9 +191,17 @@ pub async fn get_inference(
     let app_data_dir_str = app_data_dir.to_string_lossy();
 
     // Log the experiment if it's successful
+    let pool = &state.0;
     match res {
         Ok(generation_response) => {
-            log_experiment(&config, &params, &generation_response, &app_data_dir_str).await?;
+            log_experiment(
+                pool,
+                &config,
+                &params,
+                &generation_response,
+                &app_data_dir_str,
+            )
+            .await?;
             Ok(generation_response)
         }
         Err(err) => Err(Error::StringError(err.to_string())),
