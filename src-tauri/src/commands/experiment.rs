@@ -1,31 +1,53 @@
 use grid_search_desktop::{Error, ExperimentFile};
 use std::fs;
 
-#[tauri::command]
-pub fn get_experiments(app_handle: tauri::AppHandle) -> Result<Vec<ExperimentFile>, Error> {
-    let binding = app_handle.path_resolver().app_data_dir().unwrap();
-    let app_data_dir = binding.to_str().unwrap();
-    let mut files: Vec<ExperimentFile> = fs::read_dir(app_data_dir)?
-        .filter_map(Result::ok)
-        .filter_map(|entry| {
-            let path = entry.path();
-            if path.extension().unwrap_or_default() != "json" {
-                return None;
-            }
-            let metadata = fs::metadata(&path).ok()?;
-            let created = metadata.created().ok()?;
-            let contents = fs::read_to_string(&path).ok()?;
-            Some(ExperimentFile {
-                name: path.file_name()?.to_string_lossy().into_owned(),
-                created,
-                contents,
-            })
-        })
-        .collect();
+use crate::db::DatabaseState;
 
-    files.sort_by_key(|file| file.created);
-    files.reverse();
-    Ok(files)
+#[tauri::command]
+pub async fn get_experiments(
+    state: tauri::State<'_, DatabaseState>,
+    // app_handle: tauri::AppHandle,
+) -> Result<Vec<ExperimentFile>, Error> {
+    let stmt = r#"
+        SELECT
+            name,
+            created,
+            contents
+        FROM experiments
+        ORDER BY id DESC
+    "#;
+
+    let query = sqlx::query_as::<_, ExperimentFile>(stmt);
+    let pool = &state.0;
+    let experiments = query.fetch_all(pool).await?;
+
+    println!("\nRetrieved {} experiments:", experiments.len());
+    dbg!(&experiments);
+    Ok(experiments)
+
+    // let binding = app_handle.path_resolver().app_data_dir().unwrap();
+    // let app_data_dir = binding.to_str().unwrap();
+    // let mut files: Vec<ExperimentFile> = fs::read_dir(app_data_dir)?
+    //     .filter_map(Result::ok)
+    //     .filter_map(|entry| {
+    //         let path = entry.path();
+    //         if path.extension().unwrap_or_default() != "json" {
+    //             return None;
+    //         }
+    //         let metadata = fs::metadata(&path).ok()?;
+    //         let created = metadata.created().ok()?;
+    //         let contents = fs::read_to_string(&path).ok()?;
+    //         Some(ExperimentFile {
+    //             name: path.file_name()?.to_string_lossy().into_owned(),
+    //             created,
+    //             contents,
+    //         })
+    //     })
+    //     .collect();
+
+    // files.sort_by_key(|file| file.created);
+    // files.reverse();
+    // Ok(files)
 }
 
 // ---

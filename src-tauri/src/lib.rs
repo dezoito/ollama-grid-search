@@ -19,11 +19,12 @@ use ollama_rs::generation::completion::GenerationResponse;
 use serde::{Deserialize, Serialize};
 use serde_json::json;
 use serde_json::Value;
+use sqlx::prelude::FromRow;
 use sqlx::Pool;
 use sqlx::Sqlite;
 use std::collections::HashMap;
 use std::fs;
-use std::time::SystemTime;
+// use std::time::SystemTime;
 use std::{
     fs::File,
     io::{BufReader, BufWriter},
@@ -62,14 +63,14 @@ pub struct IDefaultConfigs {
     pub default_options: HashMap<String, Value>,
 }
 
-#[derive(Debug, Serialize, Deserialize)]
+#[derive(Debug, Serialize, Deserialize, FromRow)]
 pub struct ExperimentFile {
     pub name: String,
-    pub created: SystemTime,
+    pub created: String,
     pub contents: String,
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, FromRow)]
 pub struct Experiment {
     pub id: Option<i64>,
     pub name: String,
