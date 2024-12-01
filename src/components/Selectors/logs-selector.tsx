@@ -2,6 +2,9 @@ import { IExperimentFile, TFormValues } from "@/Interfaces";
 import { Button } from "@/components/ui/button";
 
 import { formValuesAtom } from "@/Atoms";
+import { ExperimentDataDialog } from "@/components/experiment-data-dialog";
+import { get_experiments } from "@/components/queries";
+import { useConfirm } from "@/components/ui/alert-dialog-provider";
 import {
   Sheet,
   SheetClose,
@@ -12,7 +15,7 @@ import {
   SheetTitle,
   SheetTrigger,
 } from "@/components/ui/sheet";
-import { convertEpochToDateTime } from "@/lib";
+import { toast } from "@/components/ui/use-toast";
 import {
   CrossCircledIcon,
   DownloadIcon,
@@ -26,10 +29,6 @@ import { invoke } from "@tauri-apps/api/tauri";
 import { saveAs } from "file-saver";
 import { useAtom } from "jotai";
 import { useState } from "react";
-import { ExperimentDataDialog } from "@/components/experiment-data-dialog";
-import { get_experiments } from "@/components/queries";
-import { useConfirm } from "@/components/ui/alert-dialog-provider";
-import { toast } from "@/components/ui/use-toast";
 
 function processExperimentData(logContent: string): TFormValues {
   const logData = JSON.parse(logContent);
@@ -178,7 +177,7 @@ export function LogsSelector() {
         actionButton: "Delete!",
       })
     ) {
-      console.log("deleteing experiment", fileName);
+      console.log("D eleting experiment", fileName);
 
       await invoke<string>("delete_experiment_files", {
         fileName: fileName,
@@ -248,10 +247,13 @@ export function LogsSelector() {
               >
                 <div className="flex-1 py-1">
                   <div className="text-[14px] font-semibold">
-                    {convertEpochToDateTime(exp.created.secs_since_epoch)}
+                    {exp.name}
+                    {/* {convertEpochToDateTime(exp.created.secs_since_epoch)} */}
                   </div>
 
-                  <div className="pb-1 text-xs text-gray-400">{exp.name}</div>
+                  <div className="pb-1 text-xs text-gray-400">
+                    {exp.created.toString()}
+                  </div>
                 </div>
 
                 {/* Buttons to inspect and download */}
@@ -268,7 +270,9 @@ export function LogsSelector() {
                   <Button
                     variant="ghost"
                     size="icon"
-                    onClick={() => handleDownload(exp.name, exp.contents)}
+                    onClick={() =>
+                      handleDownload(exp.name + ".json", exp.contents)
+                    }
                   >
                     <DownloadIcon className="h-4 w-4" />
                   </Button>
