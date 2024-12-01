@@ -179,6 +179,9 @@ pub async fn log_experiment(
     res: &GenerationResponse,
     app_data_dir: &str,
 ) -> Result<(), Error> {
+    //TODO: rewrite so that... if the experiment does NOT exist, create it as is
+    // if it exists, just update the contents field, adding data from the latest prompt
+    // (eww... this is gross)
     let experiment_uuid = &params.experiment_uuid;
     let log_file_path = format!("{}/{}.json", app_data_dir, experiment_uuid);
 
