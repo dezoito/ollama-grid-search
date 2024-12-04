@@ -12,6 +12,7 @@ struct Payload {
 }
 
 fn main() {
+    // std::env::set_var("NO_PROXY", "127.0.0.1,localhost");
     let builder =
         tauri::Builder::default().plugin(tauri_plugin_single_instance::init(|app, argv, cwd| {
             println!("{}, {argv:?}, {cwd}", app.package_info().name);
