@@ -1,5 +1,5 @@
 import { PromptArchiveDialog } from "@/components/Prompt/prompt-archive-dialog";
-import { LogsSelector } from "@/components/Selectors/logs-selector";
+import { LogsSelector } from "@/components/Selectors/LogSelector";
 import FormGridParams from "@/components/form-grid-params";
 import { ModeToggle } from "@/components/mode-toggle";
 import GridResultsPane from "@/components/results/grid-results-pane";

@@ -10,7 +10,7 @@ import {
 import { ClipboardCopyIcon, ReloadIcon } from "@radix-ui/react-icons";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { useAtom } from "jotai";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { get_inference } from "../queries";
 import { Button } from "../ui/button";
 import { CollapsibleItem } from "../ui/collapsible-item";
@@ -81,6 +81,11 @@ export default function IterationResult(props: IProps) {
 
     setEnabled(false);
   };
+
+  // Updates the list of experiments
+  useEffect(() => {
+    queryClient.refetchQueries({ queryKey: ["get_experiments"] });
+  }, [query.data]);
 
   return (
     <div className="flex flex-row gap-1">

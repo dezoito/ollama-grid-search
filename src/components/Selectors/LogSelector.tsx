@@ -217,7 +217,7 @@ export function LogsSelector() {
             Inspect, re-run, download or delete your experiment files.
           </SheetDescription>
         </SheetHeader>
-        <div id="results" className="h-full w-full gap-8 overflow-y-auto py-6">
+        <div id="results" className="h-full w-full gap-8 py-6">
           {query.isLoading && (
             <div className="py-2">
               <div>Loading...</div>
@@ -239,57 +239,59 @@ export function LogsSelector() {
               </Button>
             </div>
           )}
-          {query.data &&
-            query.data.map((exp: IExperimentFile) => (
-              <div
-                className="my-1 flex items-center gap-2 justify-self-start rounded-sm p-2 transition-colors duration-200 hover:bg-gray-100 dark:hover:bg-gray-800"
-                key={exp.name}
-              >
-                <div className="flex-1 py-1">
-                  <div className="text-[14px] font-semibold">
-                    {exp.name}
-                    {/* {convertEpochToDateTime(exp.created.secs_since_epoch)} */}
+          <div className="max-h-[calc(100vh-200px)] scroll-m-4 overflow-y-auto">
+            {query.data &&
+              query.data.map((exp: IExperimentFile) => (
+                <div
+                  className="my-1 flex items-center gap-2 justify-self-start rounded-sm p-2 transition-colors duration-200 hover:bg-gray-100 dark:hover:bg-gray-800"
+                  key={exp.name}
+                >
+                  <div className="flex-1 py-1">
+                    <div className="text-[14px] font-semibold">
+                      {exp.name}
+                      {/* {convertEpochToDateTime(exp.created.secs_since_epoch)} */}
+                    </div>
+
+                    <div className="pb-1 text-xs text-gray-400">
+                      {exp.created.toString()}
+                    </div>
                   </div>
 
-                  <div className="pb-1 text-xs text-gray-400">
-                    {exp.created.toString()}
+                  {/* Buttons to inspect and download */}
+                  <div>
+                    <ExperimentDataDialog experiment={exp} />
+                    <Button
+                      variant="ghost"
+                      size="icon"
+                      onClick={() => cloneExperiment(exp.contents)}
+                    >
+                      <UpdateIcon className="h-4 w-4" />
+                    </Button>
+
+                    <Button
+                      variant="ghost"
+                      size="icon"
+                      onClick={() =>
+                        handleDownload(exp.name + ".json", exp.contents)
+                      }
+                    >
+                      <DownloadIcon className="h-4 w-4" />
+                    </Button>
+
+                    {/* delete log file */}
+                    <Button
+                      size="icon"
+                      variant="destructiveGhost"
+                      onClick={async () => {
+                        await deleteExperimentFiles(exp.name);
+                      }}
+                    >
+                      <CrossCircledIcon className="h-4 w-4 text-red-500" />
+                    </Button>
                   </div>
                 </div>
-
-                {/* Buttons to inspect and download */}
-                <div>
-                  <ExperimentDataDialog experiment={exp} />
-                  <Button
-                    variant="ghost"
-                    size="icon"
-                    onClick={() => cloneExperiment(exp.contents)}
-                  >
-                    <UpdateIcon className="h-4 w-4" />
-                  </Button>
-
-                  <Button
-                    variant="ghost"
-                    size="icon"
-                    onClick={() =>
-                      handleDownload(exp.name + ".json", exp.contents)
-                    }
-                  >
-                    <DownloadIcon className="h-4 w-4" />
-                  </Button>
-
-                  {/* delete log file */}
-                  <Button
-                    size="icon"
-                    variant="destructiveGhost"
-                    onClick={async () => {
-                      await deleteExperimentFiles(exp.name);
-                    }}
-                  >
-                    <CrossCircledIcon className="h-4 w-4 text-red-500" />
-                  </Button>
-                </div>
-              </div>
-            ))}
+              ))}
+          </div>
           <div>&nbsp;</div>
         </div>
         <SheetFooter>
