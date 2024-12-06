@@ -179,9 +179,6 @@ pub async fn log_experiment(
     res: &GenerationResponse,
     app_data_dir: &str,
 ) -> Result<(), Error> {
-    //TODO: rewrite so that... if the experiment does NOT exist, create it as is
-    // if it exists, just update the contents field, adding data from the latest prompt
-    // (eww... this is gross)
     let experiment_uuid = &params.experiment_uuid;
     let log_file_path = format!("{}/{}.json", app_data_dir, experiment_uuid);
 
@@ -197,7 +194,6 @@ pub async fn log_experiment(
         serde_json::from_reader(reader)?
     } else {
         // Create new log data
-        // Log version does NOT have to match the app version
         json!({
             "experiment_uuid": experiment_uuid,
             "datetime": Utc::now().to_string(),
@@ -214,7 +210,7 @@ pub async fn log_experiment(
     });
 
     if let Some(inferences) = log_data["inferences"].as_array_mut() {
-        inferences.push(inference_entry);
+        inferences.push(inference_entry.clone());
     } else {
         return Err(Error::StringError(
             "Failed to access inferences array".to_string(),
@@ -228,25 +224,72 @@ pub async fn log_experiment(
 
     println!("Experiment logged at: {}", log_file_path);
 
-    // Create a database record for the experiment
-    let experiment = Experiment::new(
-        create_experiment_name(),
-        serde_json::to_string(&log_data)?.to_string(),
-        experiment_uuid.to_string(),
-        Utc::now().to_string(),
-        false,
-    );
+    // query the database to see if the experiment already exists
+    let stmt = "SELECT * FROM experiments WHERE experiment_uuid = $1";
 
-    // let pool = &state.0;
-    let stmt = "INSERT INTO experiments (name, contents, experiment_uuid, created, is_favorite) VALUES ($1, $2, $3, $4, $5)";
-    sqlx::query(stmt)
-        .bind(experiment.name)
-        .bind(experiment.contents)
-        .bind(experiment.experiment_uuid)
-        .bind(experiment.created)
-        .bind(experiment.is_favorite)
-        .execute(pool)
-        .await?;
+    // Use a more idiomatic approach to handle the optional result
+    match sqlx::query_as::<_, Experiment>(stmt)
+        .bind(experiment_uuid)
+        .fetch_optional(pool)
+        .await
+        .map_err(Error::Database)?
+    {
+        Some(existing_experiment) => {
+            // Update the existing experiment
+            let mut contents: Value = serde_json::from_str(&existing_experiment.contents)
+                .map_err(|e| Error::StringError(e.to_string()))?;
+
+            contents["inferences"]
+                .as_array_mut()
+                .unwrap()
+                .push(inference_entry);
+
+            let stmt = r#"
+                UPDATE experiments
+                SET contents = $1,
+                WHERE experiment_uuid = $4
+            "#;
+            sqlx::query(stmt)
+                .bind(serde_json::to_string(&contents)?.to_string())
+                .bind(Utc::now().to_string())
+                .execute(pool)
+                .await?;
+        }
+        None => {
+            // Create a new experiment record
+            let experiment = Experiment::new(
+                create_experiment_name(),
+                serde_json::to_string(&log_data)?.to_string(),
+                experiment_uuid.to_string(),
+                Utc::now().to_string(),
+                false,
+            );
+
+            let stmt = r#"
+                INSERT INTO experiments (
+                    name,
+                    contents,
+                    experiment_uuid,
+                    created,
+                    is_favorite
+                ) VALUES (
+                    $1,
+                    $2,
+                    $3,
+                    $4,
+                    $5
+                )
+            "#;
+            sqlx::query(stmt)
+                .bind(experiment.name)
+                .bind(experiment.contents)
+                .bind(experiment.experiment_uuid)
+                .bind(experiment.created)
+                .bind(experiment.is_favorite)
+                .execute(pool)
+                .await?;
+        }
+    }
 
     Ok(())
 }
