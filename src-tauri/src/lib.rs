@@ -246,7 +246,7 @@ pub async fn log_experiment(
 
             let stmt = r#"
                 UPDATE experiments
-                SET contents = $1,
+                SET contents = $1
                 WHERE experiment_uuid = $4
             "#;
             sqlx::query(stmt)
