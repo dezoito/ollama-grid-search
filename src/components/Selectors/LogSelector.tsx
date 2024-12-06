@@ -239,7 +239,7 @@ export function LogsSelector() {
               </Button>
             </div>
           )}
-          <div className="scrollbar scrollbar-track-gray-50 scrollbar-thumb-gray-200 dark:scrollbar-thumb-gray-800 dark:scrollbar-track-gray-900 scrollv max-h-[calc(100vh-200px)] scroll-m-4 overflow-y-auto">
+          <div className="scrollbar scrollbar-track-inherit scrollbar-thumb-gray-200 dark:scrollbar-thumb-gray-800 dark:scrollbar-track-inherit scrollv max-h-[calc(100vh-200px)] scroll-m-4 overflow-y-auto pr-1">
             {query.data &&
               query.data.map((exp: IExperimentFile) => (
                 <div
