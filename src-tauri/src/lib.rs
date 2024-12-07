@@ -23,13 +23,6 @@ use sqlx::prelude::FromRow;
 use sqlx::Pool;
 use sqlx::Sqlite;
 use std::collections::HashMap;
-use std::fs;
-// use std::time::SystemTime;
-use std::{
-    fs::File,
-    io::{BufReader, BufWriter},
-    path::Path,
-};
 use thiserror::Error;
 use url::{ParseError, Url};
 
@@ -177,52 +170,22 @@ pub async fn log_experiment(
     config: &IDefaultConfigs,
     params: &TParamIteration,
     res: &GenerationResponse,
-    app_data_dir: &str,
 ) -> Result<(), Error> {
     let experiment_uuid = &params.experiment_uuid;
-    let log_file_path = format!("{}/{}.json", app_data_dir, experiment_uuid);
 
-    // Create the logs directory if it doesn't exist
-    if !Path::new(&app_data_dir).exists() {
-        fs::create_dir(app_data_dir)?;
-    }
-
-    let mut log_data = if Path::new(&log_file_path).exists() {
-        // Load existing log file
-        let file = File::open(&log_file_path)?;
-        let reader = BufReader::new(file);
-        serde_json::from_reader(reader)?
-    } else {
-        // Create new log data
-        json!({
-            "experiment_uuid": experiment_uuid,
-            "datetime": Utc::now().to_string(),
-            "log_version": "0.5.0",
-            "config": config,
-            "inferences": []
-        })
-    };
-
-    // Add the new inference entry
-    let inference_entry = json!({
-        "parameters": params,
-        "result": res
+    // Create a log data JSON structure
+    let log_data = json!({
+        "experiment_uuid": experiment_uuid,
+        "datetime": Utc::now().to_string(),
+        "log_version": "0.5.0",
+        "config": config,
+        "inferences": [
+            {
+                "parameters": params,
+                "result": res
+            }
+        ]
     });
-
-    if let Some(inferences) = log_data["inferences"].as_array_mut() {
-        inferences.push(inference_entry.clone());
-    } else {
-        return Err(Error::StringError(
-            "Failed to access inferences array".to_string(),
-        ));
-    }
-
-    // Write the updated log data back to the file
-    let file = File::create(&log_file_path)?;
-    let writer = BufWriter::new(file);
-    serde_json::to_writer_pretty(writer, &log_data)?;
-
-    println!("Experiment logged at: {}", log_file_path);
 
     // query the database to see if the experiment already exists
     let stmt = "SELECT * FROM experiments WHERE experiment_uuid = $1";
@@ -239,19 +202,21 @@ pub async fn log_experiment(
             let mut contents: Value = serde_json::from_str(&existing_experiment.contents)
                 .map_err(|e| Error::StringError(e.to_string()))?;
 
-            contents["inferences"]
-                .as_array_mut()
-                .unwrap()
-                .push(inference_entry);
+            contents["inferences"].as_array_mut().unwrap().push(json!({
+                "parameters": params,
+                "result": res
+            }));
 
             let stmt = r#"
                 UPDATE experiments
-                SET contents = $1
-                WHERE experiment_uuid = $4
+                SET contents = $1, created = $2
+                WHERE experiment_uuid = $3
             "#;
+
             sqlx::query(stmt)
                 .bind(serde_json::to_string(&contents)?.to_string())
                 .bind(Utc::now().to_string())
+                .bind(experiment_uuid)
                 .execute(pool)
                 .await?;
         }

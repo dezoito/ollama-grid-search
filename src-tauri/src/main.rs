@@ -50,7 +50,7 @@ fn main() {
         commands::get_inference,
         commands::get_experiments,
         commands::get_ollama_version,
-        commands::delete_experiment_files,
+        commands::delete_experiments,
         commands::get_all_prompts,
         commands::create_prompt,
         commands::update_prompt,

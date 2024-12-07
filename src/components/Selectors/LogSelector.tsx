@@ -168,7 +168,7 @@ export function LogsSelector() {
     setSheetOpen(false);
   }
 
-  async function deleteExperimentFiles(fileName: string) {
+  async function deleteExperiments(experiment_uuid: string) {
     if (
       await confirm({
         title: "Sanity Check",
@@ -177,10 +177,10 @@ export function LogsSelector() {
         actionButton: "Delete!",
       })
     ) {
-      console.log("D eleting experiment", fileName);
+      console.log("Deleting experiment", experiment_uuid);
 
-      await invoke<string>("delete_experiment_files", {
-        fileName: fileName,
+      await invoke<string>("delete_experiments", {
+        uuid: experiment_uuid,
       });
       toast({
         variant: "warning",
@@ -214,7 +214,7 @@ export function LogsSelector() {
         <SheetHeader>
           <SheetTitle className="text-2xl">Experiments</SheetTitle>
           <SheetDescription>
-            Inspect, re-run, download or delete your experiment files.
+            Inspect, re-run, download or delete your experiments.
           </SheetDescription>
         </SheetHeader>
         <div id="results" className="h-full w-full gap-8 py-6">
@@ -230,7 +230,7 @@ export function LogsSelector() {
                 variant="ghost"
                 size="sm"
                 onClick={async () => {
-                  await deleteExperimentFiles("*");
+                  await deleteExperiments("*");
                 }}
                 className="flex items-center space-x-2 text-red-500"
               >
@@ -239,7 +239,7 @@ export function LogsSelector() {
               </Button>
             </div>
           )}
-          <div className="scrollbar scrollbar-track-inherit scrollbar-thumb-gray-200 dark:scrollbar-thumb-gray-800 dark:scrollbar-track-inherit scrollv max-h-[calc(100vh-200px)] scroll-m-4 overflow-y-auto pr-1">
+          <div className="scrollv max-h-[calc(100vh-200px)] scroll-m-4 overflow-y-auto pr-1 scrollbar scrollbar-track-inherit scrollbar-thumb-gray-200 dark:scrollbar-track-inherit dark:scrollbar-thumb-gray-800">
             {query.data &&
               query.data.map((exp: IExperimentFile) => (
                 <div
@@ -283,7 +283,9 @@ export function LogsSelector() {
                       size="icon"
                       variant="destructiveGhost"
                       onClick={async () => {
-                        await deleteExperimentFiles(exp.name);
+                        await deleteExperiments(
+                          JSON.parse(exp.contents).experiment_uuid,
+                        );
                       }}
                     >
                       <CrossCircledIcon className="h-4 w-4 text-red-500" />

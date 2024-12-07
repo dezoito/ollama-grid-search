@@ -182,26 +182,13 @@ pub async fn get_inference(
     dbg!(&res);
     println!("---------------------------------------------");
 
-    // sets the base path for storing logs
-    // see https://github.com/tauri-apps/tauri/discussions/5557
-    let app_data_dir = app_handle
-        .path_resolver()
-        .app_data_dir()
-        .unwrap_or_else(|| panic!("Failed to get application data directory"));
-    let app_data_dir_str = app_data_dir.to_string_lossy();
+    
 
     // Log the experiment if it's successful
     let pool = &state.0;
     match res {
         Ok(generation_response) => {
-            log_experiment(
-                pool,
-                &config,
-                &params,
-                &generation_response,
-                &app_data_dir_str,
-            )
-            .await?;
+            log_experiment(pool, &config, &params, &generation_response).await?;
             Ok(generation_response)
         }
         Err(err) => Err(Error::StringError(err.to_string())),
