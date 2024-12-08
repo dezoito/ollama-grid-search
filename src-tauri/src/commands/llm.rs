@@ -66,7 +66,6 @@ pub async fn get_inference(
     state: tauri::State<'_, DatabaseState>,
     config: IDefaultConfigs,
     params: TParamIteration,
-    app_handle: tauri::AppHandle,
 ) -> Result<GenerationResponse, Error> {
     // println!("----------------------------------------------------------");
     // println!("Config and Params");
@@ -181,8 +180,6 @@ pub async fn get_inference(
     println!("---------------------------------------------");
     dbg!(&res);
     println!("---------------------------------------------");
-
-    
 
     // Log the experiment if it's successful
     let pool = &state.0;
