@@ -13,7 +13,7 @@ edition = "2021"
 tauri-build = { version = "1.5", features = [] }
 
 [dependencies]
-tauri = { version = "1.6", features = [ "fs-all", "dialog-all", "shell-open"] }
+tauri = { version = "1.6", features = [ "path-all", "fs-all", "dialog-all", "shell-open"] }
 serde = { version = "1.0", features = ["derive"] }
 serde_json = "1.0"
 anyhow = "1.0.79"
@@ -27,6 +27,7 @@ ollama-rs = { version = "0.2.0", default-features = false, features = ["rustls"]
 chrono = "0.4.38"
 reqwest = {version = "0.12.4", features = ["blocking", "json", "rustls-tls"], default-features = false  }
 sqlx = { version = "0.8.1", features = ["runtime-tokio", "sqlite", "chrono"] }
+eff-wordlist = "1.0.3"
 
 [features]
 # this feature is used for production builds or when `devPath` points to the filesystem

@@ -2,6 +2,9 @@ import { IExperimentFile, TFormValues } from "@/Interfaces";
 import { Button } from "@/components/ui/button";
 
 import { formValuesAtom } from "@/Atoms";
+import { ExperimentDataDialog } from "@/components/experiment-data-dialog";
+import { get_experiments } from "@/components/queries";
+import { useConfirm } from "@/components/ui/alert-dialog-provider";
 import {
   Sheet,
   SheetClose,
@@ -12,7 +15,7 @@ import {
   SheetTitle,
   SheetTrigger,
 } from "@/components/ui/sheet";
-import { convertEpochToDateTime } from "@/lib";
+import { toast } from "@/components/ui/use-toast";
 import {
   CrossCircledIcon,
   DownloadIcon,
@@ -26,10 +29,6 @@ import { invoke } from "@tauri-apps/api/tauri";
 import { saveAs } from "file-saver";
 import { useAtom } from "jotai";
 import { useState } from "react";
-import { ExperimentDataDialog } from "@/components/experiment-data-dialog";
-import { get_experiments } from "@/components/queries";
-import { useConfirm } from "@/components/ui/alert-dialog-provider";
-import { toast } from "@/components/ui/use-toast";
 
 function processExperimentData(logContent: string): TFormValues {
   const logData = JSON.parse(logContent);
@@ -169,7 +168,7 @@ export function LogsSelector() {
     setSheetOpen(false);
   }
 
-  async function deleteExperimentFiles(fileName: string) {
+  async function deleteExperiments(experiment_uuid: string) {
     if (
       await confirm({
         title: "Sanity Check",
@@ -178,10 +177,10 @@ export function LogsSelector() {
         actionButton: "Delete!",
       })
     ) {
-      console.log("deleteing experiment", fileName);
+      console.log("Deleting experiment", experiment_uuid);
 
-      await invoke<string>("delete_experiment_files", {
-        fileName: fileName,
+      await invoke<string>("delete_experiments", {
+        uuid: experiment_uuid,
       });
       toast({
         variant: "warning",
@@ -215,10 +214,10 @@ export function LogsSelector() {
         <SheetHeader>
           <SheetTitle className="text-2xl">Experiments</SheetTitle>
           <SheetDescription>
-            Inspect, re-run, download or delete your experiment files.
+            Inspect, re-run, download or delete your experiments.
           </SheetDescription>
         </SheetHeader>
-        <div id="results" className="h-full w-full gap-8 overflow-y-auto py-6">
+        <div id="results" className="h-full w-full gap-8 py-6">
           {query.isLoading && (
             <div className="py-2">
               <div>Loading...</div>
@@ -231,7 +230,7 @@ export function LogsSelector() {
                 variant="ghost"
                 size="sm"
                 onClick={async () => {
-                  await deleteExperimentFiles("*");
+                  await deleteExperiments("*");
                 }}
                 className="flex items-center space-x-2 text-red-500"
               >
@@ -240,52 +239,61 @@ export function LogsSelector() {
               </Button>
             </div>
           )}
-          {query.data &&
-            query.data.map((exp: IExperimentFile) => (
-              <div
-                className="my-1 flex items-center gap-2 justify-self-start rounded-sm p-2 transition-colors duration-200 hover:bg-gray-100 dark:hover:bg-gray-800"
-                key={exp.name}
-              >
-                <div className="flex-1 py-1">
-                  <div className="text-[14px] font-semibold">
-                    {convertEpochToDateTime(exp.created.secs_since_epoch)}
+          <div className="scrollv max-h-[calc(100vh-200px)] scroll-m-4 overflow-y-auto pr-1 scrollbar scrollbar-track-inherit scrollbar-thumb-gray-200 dark:scrollbar-track-inherit dark:scrollbar-thumb-gray-800">
+            {query.data &&
+              query.data.map((exp: IExperimentFile) => (
+                <div
+                  className="my-1 flex items-center gap-2 justify-self-start rounded-sm p-2 transition-colors duration-200 hover:bg-gray-100 dark:hover:bg-gray-800"
+                  key={exp.name}
+                >
+                  <div className="flex-1 py-1">
+                    <div className="text-[14px] font-semibold">
+                      {exp.name}
+                      {/* {convertEpochToDateTime(exp.created.secs_since_epoch)} */}
+                    </div>
+
+                    <div className="pb-1 text-xs text-gray-400">
+                      {exp.created.toString()}
+                    </div>
                   </div>
 
-                  <div className="pb-1 text-xs text-gray-400">{exp.name}</div>
+                  {/* Buttons to inspect and download */}
+                  <div>
+                    <ExperimentDataDialog experiment={exp} />
+                    <Button
+                      variant="ghost"
+                      size="icon"
+                      onClick={() => cloneExperiment(exp.contents)}
+                    >
+                      <UpdateIcon className="h-4 w-4" />
+                    </Button>
+
+                    <Button
+                      variant="ghost"
+                      size="icon"
+                      onClick={() =>
+                        handleDownload(exp.name + ".json", exp.contents)
+                      }
+                    >
+                      <DownloadIcon className="h-4 w-4" />
+                    </Button>
+
+                    {/* delete log file */}
+                    <Button
+                      size="icon"
+                      variant="destructiveGhost"
+                      onClick={async () => {
+                        await deleteExperiments(
+                          JSON.parse(exp.contents).experiment_uuid,
+                        );
+                      }}
+                    >
+                      <CrossCircledIcon className="h-4 w-4 text-red-500" />
+                    </Button>
+                  </div>
                 </div>
-
-                {/* Buttons to inspect and download */}
-                <div>
-                  <ExperimentDataDialog experiment={exp} />
-                  <Button
-                    variant="ghost"
-                    size="icon"
-                    onClick={() => cloneExperiment(exp.contents)}
-                  >
-                    <UpdateIcon className="h-4 w-4" />
-                  </Button>
-
-                  <Button
-                    variant="ghost"
-                    size="icon"
-                    onClick={() => handleDownload(exp.name, exp.contents)}
-                  >
-                    <DownloadIcon className="h-4 w-4" />
-                  </Button>
-
-                  {/* delete log file */}
-                  <Button
-                    size="icon"
-                    variant="destructiveGhost"
-                    onClick={async () => {
-                      await deleteExperimentFiles(exp.name);
-                    }}
-                  >
-                    <CrossCircledIcon className="h-4 w-4 text-red-500" />
-                  </Button>
-                </div>
-              </div>
-            ))}
+              ))}
+          </div>
           <div>&nbsp;</div>
         </div>
         <SheetFooter>

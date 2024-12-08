@@ -157,3 +157,10 @@ https://www.youtube.com/watch?v=TCERYbgvbq0&t=511s
 ============
 Forget using macros such as query! and quey_as! . just use the non macro functions
 and skip runing `cargo sqlx prepare` and copying db files and all the nonsense
+
+=================
+When inserting experiments into the DB
+1- we really should separate an experiment from its generations
+2- we are not going to do it, though, but we must check if an experiment exists before trying to add a generation to its `contents` field!!!!
+
+3- (we also have to handle deleting existing experiments now)

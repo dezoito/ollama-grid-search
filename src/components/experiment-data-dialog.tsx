@@ -11,13 +11,12 @@ import {
 
 import { IExperimentFile } from "@/Interfaces";
 import {
-  convertEpochToDateTime,
   convertNanosecondsToTime,
-  convertToUTCString,
   formatInterval,
   tokensPerSecond,
 } from "@/lib";
 import { useState } from "react";
+import { convertToUTCString } from "../lib/index";
 import { Separator } from "./ui/separator";
 
 interface IProps {
@@ -38,7 +37,7 @@ export function ExperimentDataDialog(props: IProps) {
       </DialogTrigger>
       <DialogContent className="sm:max-w-[700px]">
         <DialogHeader>
-          <DialogTitle>Experiment Data</DialogTitle>
+          <DialogTitle>Experiment: {experiment.name}</DialogTitle>
           {/* <DialogDescription>
             {convertEpochToDateTime(experiment.created.secs_since_epoch)}
           </DialogDescription> */}
@@ -49,11 +48,8 @@ export function ExperimentDataDialog(props: IProps) {
           <div className="text-sm">
             <div className="font-bold">Metadata</div>
             <div className="flex flex-col gap-2 px-2">
-              <div>ID: {experiment.name.slice(0, -5)}</div>
-              <div>
-                Date:{" "}
-                {convertEpochToDateTime(experiment.created.secs_since_epoch)}
-              </div>
+              <div>ID: {JSON.parse(experiment.contents).experiment_uuid}</div>
+              <div>Date: {experiment.created.toString()}</div>
             </div>
           </div>
 
