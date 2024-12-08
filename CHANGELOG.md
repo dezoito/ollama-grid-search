@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file.
 
+## [Version 0.8.0] - 2024-12-08
+
+### Changed
+
+- Experiments are stored in a database. File system is not used anymore
+- Minor UI improvements in the Experiment selecion UI
+
 ## [Version 0.7.0] - 2024-11-24
 
 ### Added

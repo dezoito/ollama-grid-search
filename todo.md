@@ -121,10 +121,19 @@ https://github.com/tauri-apps/plugins-workspace/tree/v1/plugins/single-instance
 --- v0.6.2
 [ok] - The "refetch" button must be shown when there was an error in the inference call.
 
+--- v0.7.0
+[ok] - Connect app with SQLite DB for prompts and experiments
+[ok] - Add prompt archive/library
+[ok] - Prompt inputs can trigger autocomplete by starting with "/"
+
+--- v0.8.0
+[ok] - Store experiments in DB
+[ok] - Rewrite experiment UI so that it uses the DB records, instead of files
+[ok] - Uses Custom scrollbar in LogSelector
+
+
 ---
 
-- Test prompt sample migrations
-- Store experiments in the all new shiny DB, instead of files.
 - Diff inference params when displaying results
 - Add variable support when entering prompts
 - Check issue https://github.com/dezoito/ollama-grid-search/issues/47
@@ -138,8 +147,6 @@ https://github.com/tauri-apps/plugins-workspace/tree/v1/plugins/single-instance
 - Build options straight from config: https://github.com/pepperoni21/ollama-rs/blob/master/examples/options_from_json.rs
 
 - Convert code snippets to markdown in responses? (react-markdown didn't work well to filter code)
-- Plan on saving results to SQLite
-- Add a "default prompt" setting to settings?
 
 - Add a way to filter visible results by params, or length or throughput?
 
