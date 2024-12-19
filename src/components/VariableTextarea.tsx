@@ -27,7 +27,6 @@ export function VariableTextArea({
 
   // Find all variables in the text
   const findVariables = (text: string) => {
-    // const regex = /\[{1}([^\]]+)\]/g;
     const regex = /\[(\w+)\]/g;
     const variables: Array<{
       start: number;
