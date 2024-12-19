@@ -12,8 +12,7 @@ All notable changes to this project will be documented in this file.
 
 ### Changed
 
-- Several small UI improvements (mostly using ScrollAreas instead of overflows
-- Improved validation rules on experiment form
+- Several small UI improvements (mostly using ScrollAreas instead of overflows - Improved validation rules on experiment form
 
 ## [Version 0.6.2] - 2024-10-29
 
