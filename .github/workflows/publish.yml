@@ -18,8 +18,8 @@ jobs:
         include:
           - platform: "macos-latest" # for Arm based macs (M1 and above).
             args: "--target aarch64-apple-darwin"
-          # - platform: "macos-13" # for Intel based macs.
-          #   args: "--target x86_64-apple-darwin"
+          - platform: "macos-13" # for Intel based macs.
+            args: "--target x86_64-apple-darwin"
           - platform: "ubuntu-22.04" # for Linux
             args: ""
           - platform: "windows-latest" # for Windows
