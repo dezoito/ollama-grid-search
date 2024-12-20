@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file.
 
+## [Version 0.8.0] - 2024-12-20
+
+### Added
+
+- Support for navigating over [variable] placeholders in prompts, to paste input.
+- Tooltips in upper menu corners
+
+### Changed
+
+- Renamed components that had stupid names.
+- Removed MacOS 12 from the supported OSes when building releases (blame GH Actions)
+
 ## [Version 0.7.0] - 2024-11-24
 
 ### Added
