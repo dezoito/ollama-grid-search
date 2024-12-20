@@ -29,6 +29,7 @@ import { invoke } from "@tauri-apps/api/tauri";
 import { saveAs } from "file-saver";
 import { useAtom } from "jotai";
 import { useState } from "react";
+import { Tooltip, TooltipContent, TooltipTrigger } from "../ui/tooltip";
 
 function processExperimentData(logContent: string): TFormValues {
   const logData = JSON.parse(logContent);
@@ -197,19 +198,24 @@ export function ExperimentSelector() {
 
   return (
     <Sheet open={sheetOpen} onOpenChange={setSheetOpen}>
-      <SheetTrigger asChild>
-        <Button
-          variant="transparentDark"
-          size="icon"
-          onClick={() =>
-            queryClient.refetchQueries({
-              queryKey: ["get_experiments"],
-            })
-          }
-        >
-          <FileTextIcon className="h-5 w-5" />
-        </Button>
-      </SheetTrigger>
+      <Tooltip>
+        <TooltipTrigger asChild>
+          <SheetTrigger asChild>
+            <Button
+              variant="transparentDark"
+              size="icon"
+              onClick={() =>
+                queryClient.refetchQueries({
+                  queryKey: ["get_experiments"],
+                })
+              }
+            >
+              <FileTextIcon className="h-5 w-5" />
+            </Button>
+          </SheetTrigger>
+        </TooltipTrigger>
+        <TooltipContent sideOffset={5}>Saved experiments</TooltipContent>
+      </Tooltip>
 
       <SheetContent className="w-[510px] sm:max-w-none">
         <SheetHeader>
