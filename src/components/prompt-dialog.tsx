@@ -26,7 +26,7 @@ import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useHotkeys } from "react-hotkeys-hook";
 import z from "zod";
-import { VariableTextArea } from "./VariableTextarea";
+import { PromptTextArea } from "./prompt-textarea";
 
 interface IProps {
   content: string;
@@ -110,7 +110,7 @@ export function PromptDialog(props: IProps) {
                     </span>
                   </FormLabel>
                   <FormControl>
-                    <VariableTextArea
+                    <PromptTextArea
                       value={localContent}
                       onChange={handleLocalChange}
                       rows={15}

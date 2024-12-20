@@ -1,9 +1,9 @@
 import { Textarea } from "@/components/ui/textarea";
 import React, { useEffect, useRef, useState } from "react";
-import { Autocomplete } from "./Selectors/autocomplete";
 import { useHotkeys } from "react-hotkeys-hook";
+import { Autocomplete } from "./Selectors/autocomplete";
 
-interface VariableTextAreaProps {
+interface IProps {
   value: string;
   onChange: (value: string) => void;
   className?: string;
@@ -11,13 +11,14 @@ interface VariableTextAreaProps {
   placeholder?: string;
 }
 
-export function VariableTextArea({
-  value,
-  onChange,
-  className = "",
-  rows = 4,
-  placeholder = "Type '/' to search prompts...",
-}: VariableTextAreaProps) {
+export function PromptTextArea(props: IProps) {
+  const {
+    value,
+    onChange,
+    className = "",
+    rows = 4,
+    placeholder = "Type '/' to search prompts...",
+  } = props;
   const [showAutocomplete, setShowAutocomplete] = useState(false);
   const [selectedVariable, setSelectedVariable] = useState<{
     start: number;
@@ -49,15 +50,24 @@ export function VariableTextArea({
   // Select the next variable after the given position
   const selectNextVariable = (afterPosition: number) => {
     const variables = findVariables(value);
+    if (variables.length === 0) {
+      setSelectedVariable(null);
+      return;
+    }
+
+    // Find the next variable after the current position
     const nextVariable = variables.find((v) => v.start > afterPosition);
 
-    if (nextVariable && textareaRef.current) {
+    // If no next variable is found, circle back to the first one
+    const variableToSelect = nextVariable || variables[0];
+
+    if (variableToSelect && textareaRef.current) {
       textareaRef.current.focus();
       textareaRef.current.setSelectionRange(
-        nextVariable.start,
-        nextVariable.end,
+        variableToSelect.start,
+        variableToSelect.end,
       );
-      setSelectedVariable(nextVariable);
+      setSelectedVariable(variableToSelect);
     } else {
       setSelectedVariable(null);
     }
@@ -66,8 +76,7 @@ export function VariableTextArea({
   // Handle tab key to jump to next variable
   useHotkeys(
     "tab",
-    (e) => {
-      // e.preventDefault(); // Prevent default tab behavior
+    () => {
       const currentPosition = textareaRef.current?.selectionStart || -1;
       selectNextVariable(currentPosition);
     },

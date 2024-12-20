@@ -15,7 +15,7 @@ import {
 import { PlusIcon, TrashIcon } from "@radix-ui/react-icons";
 import * as React from "react";
 import { useFieldArray, useFormState } from "react-hook-form";
-import { VariableTextArea } from "../VariableTextarea";
+import { PromptTextArea } from "../prompt-textarea";
 
 interface IProps {
   form: any;
@@ -96,7 +96,7 @@ function PromptSelector({ form }: IProps) {
                     </div>
                   </FormLabel>
                   <FormControl>
-                    <VariableTextArea
+                    <PromptTextArea
                       value={fieldProps.value}
                       onChange={(value) => {
                         fieldProps.onChange(value);
