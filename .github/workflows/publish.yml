@@ -1,8 +1,5 @@
 name: "publish"
 
-permissions:
-  contents: write
-
 # This will trigger the action on each push to the `release` branch.
 on:
   push:
