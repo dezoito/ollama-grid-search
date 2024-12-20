@@ -1,6 +1,7 @@
 import { Textarea } from "@/components/ui/textarea";
 import React, { useEffect, useRef, useState } from "react";
 import { Autocomplete } from "./Selectors/autocomplete";
+import { useHotkeys } from "react-hotkeys-hook";
 
 interface VariableTextAreaProps {
   value: string;
@@ -61,6 +62,20 @@ export function VariableTextArea({
       setSelectedVariable(null);
     }
   };
+
+  // Handle tab key to jump to next variable
+  useHotkeys(
+    "tab",
+    (e) => {
+      // e.preventDefault(); // Prevent default tab behavior
+      const currentPosition = textareaRef.current?.selectionStart || -1;
+      selectNextVariable(currentPosition);
+    },
+    {
+      enableOnFormTags: ["TEXTAREA"],
+      preventDefault: true,
+    },
+  );
 
   // Handle paste events
   const handlePaste = (e: React.ClipboardEvent<HTMLTextAreaElement>) => {
