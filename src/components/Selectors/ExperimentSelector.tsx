@@ -144,7 +144,7 @@ const handleDownload = async (
   }
 };
 
-export function LogsSelector() {
+export function ExperimentSelector() {
   const queryClient = useQueryClient();
   const [_, setFormValues] = useAtom(formValuesAtom);
   const [sheetOpen, setSheetOpen] = useState(false);
@@ -210,6 +210,7 @@ export function LogsSelector() {
           <FileTextIcon className="h-5 w-5" />
         </Button>
       </SheetTrigger>
+
       <SheetContent className="w-[510px] sm:max-w-none">
         <SheetHeader>
           <SheetTitle className="text-2xl">Experiments</SheetTitle>

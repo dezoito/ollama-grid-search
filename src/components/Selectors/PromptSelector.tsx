@@ -13,7 +13,6 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip";
 import { PlusIcon, TrashIcon } from "@radix-ui/react-icons";
-import * as React from "react";
 import { useFieldArray, useFormState } from "react-hook-form";
 import { PromptTextArea } from "../prompt-textarea";
 
@@ -35,10 +34,6 @@ function PromptSelector({ form }: IProps) {
     append("");
     form.setValue(`prompts.${fields.length}`, "");
   };
-
-  React.useEffect(() => {
-    console.log("Prompt Selector Errors:", JSON.stringify(errors, null, 2));
-  }, [errors]);
 
   const handlePromptChange = (value: string, index: number) => {
     form.setValue(`prompts.${index}`, value);

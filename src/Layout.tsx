@@ -1,5 +1,5 @@
 import { PromptArchiveDialog } from "@/components/Prompt/prompt-archive-dialog";
-import { LogsSelector } from "@/components/Selectors/LogSelector";
+import { ExperimentSelector } from "@/components/Selectors/ExperimentSelector";
 import FormGridParams from "@/components/form-grid-params";
 import { ModeToggle } from "@/components/mode-toggle";
 import GridResultsPane from "@/components/results/grid-results-pane";
@@ -18,7 +18,7 @@ function Layout() {
         <nav className="hidden gap-4 md:flex">
           <PromptArchiveDialog />
           <ModeToggle />
-          <LogsSelector />
+          <ExperimentSelector />
           <SettingsDialog />
         </nav>
       </header>
