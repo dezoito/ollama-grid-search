@@ -2,6 +2,26 @@
 
 All notable changes to this project will be documented in this file.
 
+## [Version 0.9.0] - 2024-12-20
+
+### Added
+
+- Support for navigating over [variable] placeholders in prompts, to paste input.
+- Tooltips in upper menu corners.
+
+### Changed
+
+- Renamed components that had stupid names.
+- Removed MacOS 12 from the supported OSes when building releases (blame GH Actions).
+- Experimentally added support for MacOS 13.
+
+## [Version 0.8.0] - 2024-12-08
+
+### Changed
+
+- Experiments are stored in a database. File system is not used anymore.
+- Minor UI improvements in the Experiment selecion UI.
+
 ## [Version 0.7.0] - 2024-11-24
 
 ### Added
@@ -12,8 +32,7 @@ All notable changes to this project will be documented in this file.
 
 ### Changed
 
-- Several small UI improvements (mostly using ScrollAreas instead of overflows
-- Improved validation rules on experiment form
+- Several small UI improvements (mostly using ScrollAreas instead of overflows - Improved validation rules on experiment form
 
 ## [Version 0.6.2] - 2024-10-29
 

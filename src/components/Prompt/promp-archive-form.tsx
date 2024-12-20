@@ -299,7 +299,8 @@ export function PromptArchiveForm(props: IProps) {
                   <Textarea {...field} rows={7} />
                 </FormControl>
                 <FormDescription>
-                  (Variable support will be added in the future.)
+                  You can define variables by enclosing them in square brackets,
+                  like <b>[input]</b> or <b>[var]</b>.
                 </FormDescription>
                 <FormMessage />
               </FormItem>

@@ -1,6 +1,6 @@
 [package]
 name = "grid-search-desktop"
-version = "0.7.0"
+version = "0.9.0"
 description = "A Tauri App to perform Grid Search and A/B testing experiments on LLMs"
 authors = ["dezoito"]
 license = "Whatever is in the repo"
@@ -34,6 +34,6 @@ eff-wordlist = "1.0.3"
 # DO NOT REMOVE!!
 custom-protocol = ["tauri/custom-protocol"]
 
-[profile.release]
-lto = true
+# [profile.release]
+# lto = true
 

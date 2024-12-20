@@ -2,7 +2,7 @@ export default function Tutorial() {
   return (
     <div className="flex flex-col gap-8 px-4">
       <div className="flex flex-col gap-3">
-        <div className="text-3xl font-bold">Grid Search</div>
+        <div className="text-2xl font-bold">Grid Search</div>
         <div>
           Grid search refers to systematically exploring different combinations
           of parameters within predefined ranges to optimize model performance.
@@ -19,7 +19,7 @@ export default function Tutorial() {
         </div>
       </div>
       <div className="flex flex-col gap-3">
-        <div className="text-3xl font-bold">A/B Testing</div>
+        <div className="text-2xl font-bold">A/B Testing</div>
         <div>
           A/B testing involves comparing the performance of different models
           when making inferences on the same parameters or data.
@@ -30,7 +30,7 @@ export default function Tutorial() {
         </div>
       </div>
       <div className="flex flex-col gap-3">
-        <div className="text-3xl font-bold">Experiment History</div>
+        <div className="text-2xl font-bold">Experiment History</div>
 
         <div>
           You can visualize past experiments, export them in JSON format, or

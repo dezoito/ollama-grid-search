@@ -33,6 +33,7 @@ import { useForm } from "react-hook-form";
 import z from "zod";
 import { ScrollArea } from "./ui/scroll-area";
 import { Switch } from "./ui/switch";
+import { Tooltip, TooltipContent, TooltipTrigger } from "./ui/tooltip";
 
 export function SettingsDialog() {
   const { toast } = useToast();
@@ -122,11 +123,16 @@ export function SettingsDialog() {
   return (
     <Form {...form}>
       <Dialog open={open} onOpenChange={setOpen}>
-        <DialogTrigger asChild>
-          <Button variant="transparentDark" size="icon">
-            <GearIcon className="h-5 w-5" />
-          </Button>
-        </DialogTrigger>
+        <Tooltip>
+          <TooltipTrigger asChild>
+            <DialogTrigger asChild>
+              <Button variant="transparentDark" size="icon">
+                <GearIcon className="h-5 w-5" />
+              </Button>
+            </DialogTrigger>
+          </TooltipTrigger>
+          <TooltipContent>Settings</TooltipContent>
+        </Tooltip>
         <DialogContent className="sm:max-w-[425px]">
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
             <DialogHeader>

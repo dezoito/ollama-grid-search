@@ -12,6 +12,7 @@ import {
 import { ArchiveIcon, PlusIcon } from "@radix-ui/react-icons";
 import { useQuery } from "@tanstack/react-query";
 import { useState } from "react";
+import { Tooltip, TooltipContent, TooltipTrigger } from "../ui/tooltip";
 import { PromptArchiveForm } from "./promp-archive-form";
 import { PromptList } from "./prompt-list";
 
@@ -30,11 +31,17 @@ export function PromptArchiveDialog() {
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
-      <DialogTrigger asChild>
-        <Button variant="transparentDark" size="icon">
-          <ArchiveIcon className="h-5 w-5" />
-        </Button>
-      </DialogTrigger>
+      <Tooltip>
+        <TooltipTrigger asChild>
+          <DialogTrigger asChild>
+            <Button variant="transparentDark" size="icon">
+              <ArchiveIcon className="h-5 w-5" />
+            </Button>
+          </DialogTrigger>
+        </TooltipTrigger>
+        <TooltipContent>Manage Prompts</TooltipContent>
+      </Tooltip>
+
       <DialogContent className="fixed left-2.5 right-2.5 top-5 h-[calc(100vh-30px)] w-[calc(100vw-20px)] max-w-none translate-x-0 translate-y-0">
         <div className="flex h-full flex-col">
           {/* Header */}
