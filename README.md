@@ -1,6 +1,5 @@
 # Ollama Grid Search: Instantly Evaluate Multiple LLMs and Prompts.
 
-
 This project automates the process of selecting the best models, prompts, or inference parameters for a given use-case, allowing you to iterate over their combinations and to visually inspect the results.
 
 It assumes [Ollama](https://www.ollama.ai) is installed and serving endpoints, either in `localhost` or in a remote server.
@@ -10,7 +9,6 @@ Here's what an experiment for a simple prompt, tested on 3 different models, loo
 [<img src="./screenshots/main.png?raw=true" alt="Main Screenshot" width="720">](./screenshots/main.png?raw=true)
 
 (For a more in-depth look at an evaluation process assisted by this tool, please check https://dezoito.github.io/2023/12/27/rust-ollama-grid-search.html).
-
 
 ## Table of Contents
 
@@ -25,7 +23,6 @@ Here's what an experiment for a simple prompt, tested on 3 different models, loo
 - [Development](#development)
 - [Citations](#citations)
 - [Acknowledgements](#thank-you)
-
 
 ## Installation
 
@@ -48,8 +45,6 @@ Check the [releases page](https://github.com/dezoito/ollama-grid-search/releases
 - Custom default parameters and system prompts can be defined in settings
 - Fully functional prompt database with examples;
 - Prompts can be selected and "autocompleted" by typing "/" in the inputs
-
-
 
 ## Grid Search (or something similar...)
 
@@ -100,43 +95,7 @@ You can list, inspect, or download your experiments:
 
 ## Development
 
-1. Make sure you have Rust installed.
-
-2. Clone the repository (or a fork)
-
-```sh
-git clone https://github.com/dezoito/ollama-grid-search.git
-cd ollama-grid-search
-```
-
-3. Install the frontend dependencies.
-
-   ```sh
-   cd <project root>
-   # I'm using bun to manage dependencies,
-   # but feel free to use yarn or npm
-   bun install
-   ```
-
-4. Make sure `rust-analyzer` is configured to run `Clippy` when checking code.
-
-   If you are running VS Code, add this to your `settings.json` file
-
-   ```json
-   {
-      ...
-      "rust-analyzer.check.command": "clippy",
-   }
-   ```
-
-   (or, better yet, just use the settings file provided with the code)
-
-5. Run the app in development mode
-   ```sh
-   cd <project root>/
-   bun tauri dev
-   ```
-6. Go grab a cup of coffee because this may take a while.
+The [development notes](./docs/DEVELOPMENT.md) provide setup instructions, sequence diagrams, and workflow charts that should make it easier to understand the project and get started.
 
 ## Citations
 

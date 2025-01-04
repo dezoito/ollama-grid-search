@@ -1,0 +1,41 @@
+flowchart TD
+    Start([Start App]) --> Settings["Load Settings\n(from LocalStorage)"]
+    Settings --> Models["Fetch Available Models\nfrom Ollama Server"]
+    
+    subgraph Setup ["Experiment Setup"]
+        Models --> SelectModels["Select Models\nfrom Available List"]
+        SelectModels --> EnterPrompts["Enter Prompts\n(Multiple Allowed)"]
+        EnterPrompts --> ConfigureParams["Configure Parameters\n- Temperature\n- Top K/P\n- Repeat Penalty\n- etc."]
+        ConfigureParams --> SetGenerations["Set Number of\nGenerations"]
+    end
+
+    Setup --> ValidateForm{"Form Valid?"}
+    ValidateForm -->|No| ShowErrors["Show Validation\nErrors"]
+    ShowErrors --> Setup
+    
+    ValidateForm -->|Yes| GenerateMatrix["Generate Parameter\nCombination Matrix"]
+    
+    subgraph Execution ["Experiment Execution"]
+        GenerateMatrix --> ConcurrentCheck{"Under Concurrent\nLimit?"}
+        ConcurrentCheck -->|Yes| SendRequest["Send Inference\nRequest to Ollama"]
+        SendRequest --> WaitResponse{"Response\nReceived?"}
+        WaitResponse -->|Timeout| ShowError["Show Error\n(Allow Retry)"]
+        WaitResponse -->|Success| DisplayResult["Display Result"]
+        DisplayResult --> UpdateProgress["Update Progress"]
+        ShowError --> RetryOption{"Retry?"}
+        RetryOption -->|Yes| SendRequest
+        RetryOption -->|No| UpdateProgress
+        UpdateProgress --> MoreIterations{"More\nIterations?"}
+        MoreIterations -->|Yes| ConcurrentCheck
+    end
+    
+    MoreIterations -->|No| Complete([Experiment Complete])
+    
+    subgraph UI ["UI Controls"]
+        Complete --> Options["Available Actions"]
+        Options --> StopExp["Stop Experiment"]
+        Options --> HideModels["Hide Model Names"]
+        Options --> ExpandParams["Expand Parameters"]
+        Options --> ExpandMeta["Expand Metadata"]
+        Options --> CopyResult["Copy Results"]
+    end
