@@ -57,12 +57,12 @@ This is mostly focused on the React code, which drives the flow and interactions
 
 ### App Workflow
 
-[<img src="./app-workflow.png?raw=true" alt="App Workflow" width="720">](https://github.com/dezoito/ollama-grid-search/blob/main/docs/app-workflow.png?raw=true)
+[<img src="./app-workflow.png?raw=true" alt="App Workflow" width="720">](./app-workflow.png)
 You can access the [mermaid file](./app-workflow.mermaid) for this workflow in the `./docs` folder.
 
 ### Sequence Diagram
 
-[<img src="./sequence-diagram.png?raw=true" alt="Sequence Diagram" width="720">](https://github.com/dezoito/ollama-grid-search/blob/main/docs/sequence-diagram.png?raw=true)
+[<img src="./sequence-diagram.png?raw=true" alt="Sequence Diagram" width="720">](./sequence-diagram.png)
 
 ## Database Migrations
 
