@@ -1,1 +1,1 @@
-Code of conducts are stupid.
+Codes of conduct are stupid.
