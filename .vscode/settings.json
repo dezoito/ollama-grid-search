@@ -1,7 +1,4 @@
 {
-  "workbench.colorCustomizations": {
-    "titleBar.activeBackground": "#ee610f"
-  },
   "rust-analyzer.linkedProjects": [
     "./src-tauri/Cargo.toml",
     "./old/Cargo.toml"
@@ -15,4 +12,24 @@
   // Ignore @tailwind warnings
   "css.lint.unknownAtRules": "ignore",
   "editor.fontSize": 14,
+  "workbench.colorCustomizations": {
+    "activityBar.activeBackground": "#e94f40",
+    "activityBar.background": "#e94f40",
+    "activityBar.foreground": "#e7e7e7",
+    "activityBar.inactiveForeground": "#e7e7e799",
+    "activityBarBadge.background": "#1ae52c",
+    "activityBarBadge.foreground": "#15202b",
+    "commandCenter.border": "#e7e7e799",
+    "sash.hoverBorder": "#e94f40",
+    "statusBar.background": "#dd2b19",
+    "statusBar.foreground": "#e7e7e7",
+    "statusBarItem.hoverBackground": "#e94f40",
+    "statusBarItem.remoteBackground": "#dd2b19",
+    "statusBarItem.remoteForeground": "#e7e7e7",
+    "titleBar.activeBackground": "#dd2b19",
+    "titleBar.activeForeground": "#e7e7e7",
+    "titleBar.inactiveBackground": "#dd2b1999",
+    "titleBar.inactiveForeground": "#e7e7e799"
+  },
+  "peacock.color": "#dd2b19",
 }
