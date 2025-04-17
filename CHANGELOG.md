@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file.
 
+## [Version 0.9.1] - 2025-04-17
+
+### Changed
+
+- Bumps ollama-rs to versoin 0.3.0
+
 ## [Version 0.9.0] - 2024-12-20
 
 ### Added

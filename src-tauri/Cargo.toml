@@ -1,6 +1,6 @@
 [package]
 name = "grid-search-desktop"
-version = "0.9.0"
+version = "0.9.1"
 description = "A Tauri App to perform Grid Search and A/B testing experiments on LLMs"
 authors = ["dezoito"]
 license = "Whatever is in the repo"
