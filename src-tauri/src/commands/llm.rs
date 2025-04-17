@@ -10,9 +10,9 @@ use grid_search_desktop::{
 use ollama_rs::{
     generation::{
         completion::{request::GenerationRequest, GenerationResponse},
-        options::GenerationOptions,
         // parameters::KeepAlive,
     },
+    models::ModelOptions,
     Ollama,
 };
 
@@ -78,7 +78,7 @@ pub async fn get_inference(
 
     // Build generation options object
     // First the ones that are default values set in "settings"
-    let mut options_builder = GenerationOptions::default();
+    let mut options_builder = ModelOptions::default();
 
     for &option_name in &[
         "num_ctx",
@@ -95,7 +95,7 @@ pub async fn get_inference(
                         .to_string()
                         .parse::<u32>()
                         .expect("Failed to parse num_ctx as u32");
-                    options_builder = options_builder.num_ctx(parsed_value);
+                    options_builder = options_builder.num_ctx(parsed_value.into());
                 }
                 "num_gqa" => {
                     let parsed_value = value

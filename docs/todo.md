@@ -6,7 +6,6 @@
 - Add CI checks for typescript code (ESLint?)
 
 - Convert code snippets to markdown in responses? (react-markdown didn't work well to filter code)
-- Plan on saving results to SQLite
 - Add a "default prompt" setting to settings?
 
 - Add a way to filter visible results by params, or length or throughput?
