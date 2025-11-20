@@ -7,7 +7,7 @@
   },
   "package": {
     "productName": "ollama-grid-search",
-    "version": "0.9.0"
+    "version": "0.9.2"
   },
   "tauri": {
     "allowlist": {
@@ -58,7 +58,7 @@
         "exceptionDomain": "",
         "frameworks": [],
         "providerShortName": null,
-        "signingIdentity": null
+        "signingIdentity": "-"
       }
     },
     "security": {
