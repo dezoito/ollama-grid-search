@@ -2,6 +2,19 @@
 
 All notable changes to this project will be documented in this file.
 
+## [Version 0.9.2] - 2025-11-20
+
+### Changed
+
+- Bumps ollama-rs to versoin 0.3.3
+- Attempts to fix damaged .dmg files generated during release github action
+
+## [Version 0.9.1] - 2025-04-17
+
+### Changed
+
+- Bumps ollama-rs to versoin 0.3.0
+
 ## [Version 0.9.0] - 2024-12-20
 
 ### Added
