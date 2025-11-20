@@ -28,6 +28,18 @@ Here's what an experiment for a simple prompt, tested on 3 different models, loo
 
 Check the [releases page](https://github.com/dezoito/ollama-grid-search/releases) for the project, or on the sidebar.
 
+### macOS Installation (Apple Silicon)
+
+For Apple Silicon (M1/M2/M3/M4) Macs, the application uses ad-hoc code signing (a free alternative to paid Apple Developer certificates). When first launching the app:
+
+1. Download the `.dmg` file for your architecture (aarch64 for Apple Silicon)
+2. Open the DMG and drag the app to Applications
+3. **Right-click** (or Control+click) the application and select **"Open"**
+4. Click **"Open"** in the security dialog that appears
+5. The app will now launch normally (subsequent launches can use double-click)
+
+This is necessary because the app is not notarized with a paid Apple Developer account. The app is safe to use - this is standard for open-source macOS applications distributed outside the App Store.
+
 ## Features
 
 - Automatically fetches models from local or remote Ollama servers;
