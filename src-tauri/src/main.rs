@@ -4,6 +4,7 @@
 use tauri::Manager;
 mod commands;
 mod db;
+mod ollama_types;
 // Used in the single-instance plugin
 #[derive(Clone, serde::Serialize)]
 struct Payload {

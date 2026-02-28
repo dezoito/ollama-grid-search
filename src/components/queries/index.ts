@@ -74,10 +74,11 @@ export async function get_inference(
  * Retrieves models using the provided configuration.
  *
  * @param {IDefaultConfigs} config - the default configurations
+ * @param {boolean} localOnly - whether to filter out cloud models (default: true)
  * @return {Promise<string[]>} a promise that resolves to an array of strings representing the models
  */
-export async function get_models(config: IDefaultConfigs): Promise<string[]> {
-  const models = await invoke<string[]>("get_models", { config: config });
+export async function get_models(config: IDefaultConfigs, localOnly: boolean = true): Promise<string[]> {
+  const models = await invoke<string[]>("get_models", { config: config, localOnly: localOnly });
   return models;
 }
 

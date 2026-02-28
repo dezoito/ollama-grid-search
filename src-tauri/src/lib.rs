@@ -30,6 +30,8 @@ use eff_wordlist::short::random_word;
 use sqlx::Error as SqlxError;
 use tokio::time::{sleep, Duration};
 
+pub mod ollama_types;
+
 #[derive(Debug, Serialize, Deserialize, Clone)]
 pub struct TParamIteration {
     pub experiment_uuid: String,

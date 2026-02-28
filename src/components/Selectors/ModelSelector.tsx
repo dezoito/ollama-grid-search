@@ -33,7 +33,7 @@ function ModelSelector(props: IProps) {
   // a new config when it is changed in settings
   const query = useQuery<string[]>({
     queryKey: ["get_models", config],
-    queryFn: (): Promise<string[]> => get_models(config),
+    queryFn: (): Promise<string[]> => get_models(config, true), // Filter to local models only
     refetchOnWindowFocus: "always",
     refetchInterval: 1000 * 30,
     staleTime: 0,

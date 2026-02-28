@@ -17,14 +17,57 @@ use ollama_rs::{
 };
 
 #[tauri::command]
-pub async fn get_models(config: IDefaultConfigs) -> Result<Vec<String>, Error> {
-    let (host_url, port) = split_host_port(&config.server_url).unwrap();
-    println!("Fetching models from {}", &host_url);
-    let ollama = Ollama::new(host_url, port);
-    let models = ollama.list_local_models().await?;
-    // * Can't filter out embeding models since the model family
-    // * is not returned by ollama-rs
-    let model_list: Vec<String> = models.into_iter().map(|model| model.name).collect();
+pub async fn get_models(config: IDefaultConfigs, local_only: bool) -> Result<Vec<String>, Error> {
+    let mut server = config.server_url.clone();
+    if server.ends_with('/') {
+        server.pop();
+    }
+    let url = format!("{}/api/tags", server);
+    println!("Fetching models from {}", &url);
+
+    let timeout = Duration::from_secs(config.request_timeout);
+    let client = Client::new();
+
+    let response = client
+        .get(url)
+        .timeout(timeout)
+        .send()
+        .await
+        .map_err(|err| {
+            let err_str = format!("Model list request failed: {}", err);
+            Error::StringError(err_str)
+        })?;
+
+    let models_response: grid_search_desktop::ollama_types::ListLocalModelsResponse = response
+        .json()
+        .await
+        .map_err(|err| {
+            let err_str = format!("Failed to parse models response: {}", err);
+            Error::StringError(err_str)
+        })?;
+
+    let model_list: Vec<String> = models_response.models
+        .into_iter()
+        .filter(|model| {
+            // Optionally filter out cloud models
+            if local_only && model.remote_model.is_some() {
+                return false;
+            }
+
+            // Always exclude embedding models (bert family)
+            if let Some(ref details) = model.details {
+                if let Some(ref family) = details.family {
+                    if family.contains("bert") {
+                        return false;
+                    }
+                }
+            }
+
+            true
+        })
+        .map(|model| model.name)
+        .collect();
+
     Ok(model_list)
 }
 
