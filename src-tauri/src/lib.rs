@@ -14,8 +14,6 @@ https://jonaskruckenberg.github.io/tauri-docs-wip/development/inter-process-comm
 The Error enum, therefore, has to implement a variant for "OllamaError"
 */
 use chrono::Utc;
-use ollama_rs::error::OllamaError;
-use ollama_rs::generation::completion::GenerationResponse;
 use serde::{Deserialize, Serialize};
 use serde_json::json;
 use serde_json::Value;
@@ -106,8 +104,7 @@ pub enum Error {
     Io(#[from] std::io::Error),
 
     #[error(transparent)]
-    // #[error("Error from Ollama")]
-    Ollama(#[from] OllamaError),
+    Ollama(#[from] crate::ollama_types::OllamaError),
 
     #[error(transparent)]
     SerdeJson(#[from] serde_json::Error),
@@ -172,7 +169,7 @@ pub async fn log_experiment(
     pool: &Pool<Sqlite>,
     config: &IDefaultConfigs,
     params: &TParamIteration,
-    res: &GenerationResponse,
+    res: &crate::ollama_types::GenerationResponse,
 ) -> Result<(), Error> {
     let experiment_uuid = &params.experiment_uuid;
 
