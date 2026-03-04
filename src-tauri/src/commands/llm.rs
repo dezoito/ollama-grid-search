@@ -49,8 +49,8 @@ pub async fn get_models(config: IDefaultConfigs, local_only: bool) -> Result<Vec
     let model_list: Vec<String> = models_response.models
         .into_iter()
         .filter(|model| {
-            // Optionally filter out cloud models
-            if local_only && model.remote_model.is_some() {
+            // Optionally filter out cloud models using the helper method
+            if local_only && model.is_cloud() {
                 return false;
             }
 
@@ -138,7 +138,7 @@ pub async fn get_inference(
                         .to_string()
                         .parse::<u64>()
                         .expect("Failed to parse num_ctx as u64");
-                    options_builder = options_builder.num_ctx(parsed_value.into());
+                    options_builder = options_builder.num_ctx(parsed_value);
                 }
                 "num_gqa" => {
                     let parsed_value = value

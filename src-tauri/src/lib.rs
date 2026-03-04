@@ -31,6 +31,7 @@ use sqlx::Error as SqlxError;
 use tokio::time::{sleep, Duration};
 
 pub mod ollama_types;
+pub use ollama_types::*;
 
 #[derive(Debug, Serialize, Deserialize, Clone)]
 pub struct TParamIteration {
