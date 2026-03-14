@@ -8,6 +8,8 @@ Here's what an experiment for a simple prompt, tested on 3 different models, loo
 
 [<img src="./screenshots/main.png?raw=true" alt="Main Screenshot" width="720">](./screenshots/main.png?raw=true)
 
+**[Website](https://github.com/dezoito/ollama-grid-search) · [macOS](https://github.com/dezoito/ollama-grid-search/releases/latest) · [Windows](https://github.com/dezoito/ollama-grid-search/releases/latest) · [Linux](https://github.com/dezoito/ollama-grid-search/releases/latest) · [All Releases](https://github.com/dezoito/ollama-grid-search/releases)**
+
 (For a more in-depth look at an evaluation process assisted by this tool, please check https://dezoito.github.io/2023/12/27/rust-ollama-grid-search.html).
 
 ## Table of Contents
