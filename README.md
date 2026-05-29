@@ -111,6 +111,10 @@ You can list, inspect, or download your experiments:
 
 The [development notes](./docs/DEVELOPMENT.md) provide setup instructions, sequence diagrams, and workflow charts that should make it easier to understand the project and get started.
 
+## Related projects
+
+Also building with local LLMs? You might find my other project useful: **[markitdown-api](https://github.com/dezoito/markitdown-api)** - a lightweight, Dockerized FastAPI server that wraps Microsoft's MarkItDown to convert files (PDF, Word, Excel, and more) into clean Markdown for RAG and LLM pipelines (perfect for air-gapped systems).
+
 ## Citations
 
 The following works and theses have cited this repository:
