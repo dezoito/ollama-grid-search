@@ -15,6 +15,7 @@ Here's what an experiment for a simple prompt, tested on 3 different models, loo
 ## Table of Contents
 
 - [Installation](#installation)
+- [Using with llmman](#using-with-llmman)
 - [Features](#features)
 - [Grid Search Concept](#grid-search-or-something-similar)
 - [A/B Testing](#ab-testing)
@@ -41,6 +42,18 @@ For Apple Silicon (M1/M2/M3/M4) Macs, the application uses ad-hoc code signing (
 5. The app will now launch normally (subsequent launches can use double-click)
 
 This is necessary because the app is not notarized with a paid Apple Developer account. The app is safe to use - this is standard for open-source macOS applications distributed outside the App Store.
+
+## Using with llmman
+
+[llmman](https://github.com/llmmanorg/llmman) is a local model runner that serves the Ollama API (alongside OpenAI- and Anthropic-compatible ones) on port 17434. Since it exposes the same `/api/tags`, `/api/generate` and `/api/version` endpoints this app relies on, it works as a drop-in replacement for Ollama:
+
+```sh
+curl -fsSL https://raw.githubusercontent.com/llmmanorg/llmman/main/install.sh | sh
+llmman pull gemma4
+llmman serve
+```
+
+Then open **Settings** and set the **Ollama Server URL** to `http://localhost:17434`. Models pulled with llmman will be listed and can be selected for experiments as usual.
 
 ## Features
 
